@@ -14,26 +14,26 @@ return [
       'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
       'level' => Logger::DEBUG,
     ],
-    'db' => [
-      'driver' => 'mysql',
-      'host' => 'localhost',
-      'username' => 'root',
-      'database' => 'test',
-      'password' => '',
-      'charset' => 'utf8mb4',
-      'collation' => 'utf8mb4_unicode_ci',
-      'flags' => [
-        // Turn off persistent connections
-        PDO::ATTR_PERSISTENT => false,
-        // Enable exceptions
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        // Emulate prepared statements
-        PDO::ATTR_EMULATE_PREPARES => true,
-        // Set default fetch mode to array
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        // Set character set
-        PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci'
-      ],
+    'doctrine' => [
+      // if true, metadata caching is forcefully disabled
+      'dev_mode' => true,
+
+      // path where the compiled metadata info will be cached
+      // make sure the path exists and it is writable
+      'cache_dir' => getcwd() . '/var/doctrine',
+
+      // you should add any other path containing annotated entity classes
+      'metadata_dirs' => [getcwd() . '/src/Domain/Models'],
+
+      'connection' => [
+        'driver' => 'pdo_mysql',
+        'host' => 'localhost',
+        'port' => 3306,
+        'dbname' => 'backoffice',
+        'user' => 'root',
+        'password' => 'mithrandir99',
+        'charset' => 'utf-8'
+      ]
     ]
   ],
   // ErrorMiddleware::class => function (ContainerInterface $container) {
