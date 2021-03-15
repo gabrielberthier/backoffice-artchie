@@ -1,13 +1,13 @@
 {
     "name": "slim/slim-skeleton",
-    "description": "A Slim Framework skeleton application for rapid development",
+    "description": "ARTCHIE's backend",
     "keywords": [
         "microframework",
         "rest",
         "router",
         "psr7"
     ],
-    "homepage": "http://github.com/slimphp/Slim-Skeleton",
+    "homepage": "https://github.com/gabrielberthier/backoffice-artchie",
     "license": "MIT",
     "authors": [
         {
