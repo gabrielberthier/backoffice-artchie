@@ -14,26 +14,27 @@ use Psr\Container\ContainerInterface;
 return function (ContainerBuilder $containerBuilder) {
   $containerBuilder->addDefinitions([
     EntityManager::class => function (ContainerInterface $container): EntityManager {
+      $settings = $container->get('settings');
       $config = Setup::createAnnotationMetadataConfiguration(
-        $container->get('settings')['doctrine']['metadata_dirs'],
-        $container->get('settings')['doctrine']['dev_mode']
+        $settings['doctrine']['metadata_dirs'],
+        $settings['doctrine']['dev_mode']
       );
 
       $config->setMetadataDriverImpl(
         new AnnotationDriver(
           new AnnotationReader,
-          $container->get('settings')['doctrine']['metadata_dirs']
+          $settings['doctrine']['metadata_dirs']
         )
       );
 
       $config->setMetadataCacheImpl(
         new FilesystemCache(
-          $container->get('settings')['doctrine']['cache_dir']
+          $settings['doctrine']['cache_dir']
         )
       );
 
       return EntityManager::create(
-        $container->get('settings')['doctrine']['connection'],
+        $settings['doctrine']['connection'],
         $config
       );
     },
