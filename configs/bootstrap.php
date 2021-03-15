@@ -7,8 +7,13 @@ use App\Application\Handlers\ShutdownHandler;
 use Psr\Log\LoggerInterface;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
+use Symfony\Component\Dotenv\Dotenv;
 
+// Set the environment
+$dotenv = new Dotenv();
+$dotenv->load(__DIR__ . '/../.env');
 
+// Get the container
 $container = require __DIR__ . "/container-setup.php";
 
 // Instantiate the app

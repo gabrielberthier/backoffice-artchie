@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use DI\ContainerBuilder;
 use Exception;
 use PHPUnit\Framework\TestCase as PHPUnit_TestCase;
 use Psr\Http\Message\ServerRequestInterface as Request;

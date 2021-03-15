@@ -36,16 +36,4 @@ return [
       ]
     ]
   ],
-  // ErrorMiddleware::class => function (ContainerInterface $container) {
-  //   $app = $container->get(App::class);
-  //   $settings = $container->get('settings')['error'];
-
-  //   return new ErrorMiddleware(
-  //     $app->getCallableResolver(),
-  //     $app->getResponseFactory(),
-  //     (bool)$settings['display_error_details'],
-  //     (bool)$settings['log_errors'],
-  //     (bool)$settings['log_error_details']
-  //   );
-  // },
 ];
