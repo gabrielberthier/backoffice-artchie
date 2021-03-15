@@ -32,7 +32,7 @@ return [
         'dbname' => 'backoffice',
         'user' => 'root',
         'password' => 'mithrandir99',
-        'charset' => 'utf-8'
+        'charset' => 'utf8mb4'
       ]
     ]
   ],

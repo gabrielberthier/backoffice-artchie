@@ -1,16 +1,17 @@
 <?php
 
 // cli-config.php
+declare(strict_types=1);
 
+use DI\Container;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
-use Slim\App;
-use Slim\Container;
 
-/** @var App $container */
-$app = require_once __DIR__ . '/configs/bootstrap.php';
+require __DIR__ . '/vendor/autoload.php';
+
+$container = require __DIR__ . "/configs/container-setup.php";
 
 /** @var Container $container */
-$container = $app->getContainer();
 $em = $container->get(EntityManager::class);
+
 return ConsoleRunner::createHelperSet($em);

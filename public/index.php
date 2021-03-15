@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use App\Application\ResponseEmitter\ResponseEmitter;
 
+require __DIR__ . '/../vendor/autoload.php';
+
 $app = require __DIR__ . '/../configs/bootstrap.php';
 
 // Run App & Emit Response

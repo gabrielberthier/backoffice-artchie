@@ -15,26 +15,28 @@ return function (ContainerBuilder $containerBuilder) {
   $containerBuilder->addDefinitions([
     EntityManager::class => function (ContainerInterface $container): EntityManager {
       $settings = $container->get('settings');
+      $doctrine = $settings['doctrine'];
+
       $config = Setup::createAnnotationMetadataConfiguration(
-        $settings['doctrine']['metadata_dirs'],
-        $settings['doctrine']['dev_mode']
+        $doctrine['metadata_dirs'],
+        $doctrine['dev_mode']
       );
 
       $config->setMetadataDriverImpl(
         new AnnotationDriver(
           new AnnotationReader,
-          $settings['doctrine']['metadata_dirs']
+          $doctrine['metadata_dirs']
         )
       );
 
       $config->setMetadataCacheImpl(
         new FilesystemCache(
-          $settings['doctrine']['cache_dir']
+          $doctrine['cache_dir']
         )
       );
 
       return EntityManager::create(
-        $settings['doctrine']['connection'],
+        $doctrine['connection'],
         $config
       );
     },

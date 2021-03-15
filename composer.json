@@ -11,24 +11,20 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Josh Lockhart",
-            "email": "info@joshlockhart.com",
+            "name": "Gabriel Berthier",
+            "email": "gabriel.berthier@acad.ifma.edu.br",
             "homepage": "http://www.joshlockhart.com/"
-        },
-        {
-            "name": "Pierre Berube",
-            "email": "pierre@lgse.com",
-            "homepage": "http://www.lgse.com/"
         }
     ],
     "require": {
-        "php": ">=7.1",
+        "php": ">=7.4",
         "ext-json": "*",
         "doctrine/orm": "^2.8",
         "monolog/monolog": ">=2.0",
         "php-di/php-di": "^6.0",
         "slim/psr7": ">=1.0",
-        "slim/slim": "^4.7"
+        "slim/slim": "^4.7",
+        "symfony/dotenv": "^5.2"
     },
     "require-dev": {
         "phpspec/prophecy-phpunit": "^2.0",
