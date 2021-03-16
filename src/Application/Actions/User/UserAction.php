@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Application\Actions\User;
@@ -9,10 +10,7 @@ use Psr\Log\LoggerInterface;
 
 abstract class UserAction extends Action
 {
-    /**
-     * @var UserRepository
-     */
-    protected $userRepository;
+    protected UserRepository $userRepository;
 
     /**
      * @param LoggerInterface $logger
