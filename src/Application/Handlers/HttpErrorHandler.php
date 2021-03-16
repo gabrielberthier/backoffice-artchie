@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Application\Handlers;
@@ -35,19 +36,17 @@ class HttpErrorHandler extends SlimErrorHandler
             $statusCode = $exception->getCode();
             $error->setDescription($exception->getMessage());
 
-            if ($exception instanceof HttpNotFoundException) {
-                $error->setType(ActionError::RESOURCE_NOT_FOUND);
-            } elseif ($exception instanceof HttpMethodNotAllowedException) {
-                $error->setType(ActionError::NOT_ALLOWED);
-            } elseif ($exception instanceof HttpUnauthorizedException) {
-                $error->setType(ActionError::UNAUTHENTICATED);
-            } elseif ($exception instanceof HttpForbiddenException) {
-                $error->setType(ActionError::INSUFFICIENT_PRIVILEGES);
-            } elseif ($exception instanceof HttpBadRequestException) {
-                $error->setType(ActionError::BAD_REQUEST);
-            } elseif ($exception instanceof HttpNotImplementedException) {
-                $error->setType(ActionError::NOT_IMPLEMENTED);
-            }
+            $errorType = match (true) {
+                $exception instanceof HttpNotFoundException => ActionError::RESOURCE_NOT_FOUND,
+                $exception instanceof HttpMethodNotAllowedException => ActionError::NOT_ALLOWED,
+                $exception instanceof HttpUnauthorizedException => ActionError::UNAUTHENTICATED,
+                $exception instanceof HttpForbiddenException => ActionError::INSUFFICIENT_PRIVILEGES,
+                $exception instanceof HttpBadRequestException => ActionError::BAD_REQUEST,
+                $exception instanceof HttpNotImplementedException => ActionError::NOT_IMPLEMENTED,
+                default => ActionError::SERVER_ERROR,
+            };
+
+            $error->setType($errorType);
         }
 
         if (
