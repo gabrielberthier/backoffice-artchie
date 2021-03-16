@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Application\Handlers\HttpErrorHandler;
-use App\Application\Handlers\ShutdownHandler;
+use App\Presentation\Handlers\HttpErrorHandler;
+use App\Presentation\Handlers\ShutdownHandler;
 use Psr\Log\LoggerInterface;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;

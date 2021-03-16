@@ -21,6 +21,10 @@ $dependencies($containerBuilder);
 $repositories = require __DIR__ . '/../app/repositories.php';
 $repositories($containerBuilder);
 
+// Set up services
+$services = require __DIR__ . '/../app/services.php';
+$services($containerBuilder);
+
 // Enable ORM
 $ormMaker = require __DIR__ . "/../app/database-setup.php";
 $ormMaker($containerBuilder);
