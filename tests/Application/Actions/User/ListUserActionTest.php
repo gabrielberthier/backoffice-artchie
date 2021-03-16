@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Application\Actions\User;
 
-use App\Application\Actions\ActionPayload;
-use App\Domain\User\UserRepository;
-use App\Domain\User\User;
+use App\Domain\Models\User;
+use App\Domain\Repositories\UserRepository;
+use App\Presentation\Actions\Protocols\ActionPayload;
 use DI\Container;
 use Tests\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exception;
+namespace App\Presentation\Errors;
 
 use RuntimeException;
 use Throwable;

@@ -1,31 +1,20 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App\Domain\User;
+namespace App\Domain\Models;
 
 use JsonSerializable;
 
 class User implements JsonSerializable
 {
-    /**
-     * @var int|null
-     */
-    private $id;
+    private ?int $id;
 
-    /**
-     * @var string
-     */
-    private $username;
+    private string $username;
 
-    /**
-     * @var string
-     */
-    private $firstName;
+    private string $firstName;
 
-    /**
-     * @var string
-     */
-    private $lastName;
+    private string $lastName;
 
     /**
      * @param int|null  $id
