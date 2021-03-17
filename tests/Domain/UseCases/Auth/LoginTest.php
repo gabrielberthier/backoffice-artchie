@@ -41,4 +41,12 @@ class LoginTest extends TestCase
         $accountStub = makeAccountStub();
         $loginService->auth($accountStub);
     }
+
+    // Test should throw error if no account is found
+
+    // Test compare account hash
+
+    // Test should throw if password provided differs from retrieved by repository
+
+    // Test success return TokenLoginResponse
 }

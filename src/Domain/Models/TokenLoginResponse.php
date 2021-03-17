@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace App\Domain\Models;
 
 use JsonSerializable;
-use \Ramsey\Uuid\UuidInterface;
 
-
-class JwtResponse implements JsonSerializable
+class TokenLoginResponse implements JsonSerializable
 {
 
     /**
