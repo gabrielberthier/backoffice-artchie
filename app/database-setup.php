@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Tools\Setup;
 use Psr\Container\ContainerInterface;
 
-\Doctrine\DBAL\Types\Type::addType('uuid', 'Ramsey\Uuid\Doctrine\UuidType');
+
 
 return function (ContainerBuilder $containerBuilder) {
   $containerBuilder->addDefinitions([

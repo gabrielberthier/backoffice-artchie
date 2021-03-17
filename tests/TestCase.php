@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests;
 
 use Exception;
+use PHPUnit\Framework\MockObject\Rule\AnyInvokedCount;
 use PHPUnit\Framework\TestCase as PHPUnit_TestCase;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
@@ -64,5 +65,12 @@ class TestCase extends PHPUnit_TestCase
         }
 
         return new SlimRequest($method, $uri, $h, $cookies, $serverParams, $stream);
+    }
+
+    protected function spyOn(string $className, string $method): AnyInvokedCount
+    {
+        $mock = $this->getMockBuilder($className)->getMock();
+        $mock->expects($spy = $this->any())->method($method);
+        return $spy;
     }
 }

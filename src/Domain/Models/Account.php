@@ -15,24 +15,26 @@ class Account implements JsonSerializable
 {
 
   /**
-   * @param UuidInterface  $id
+   * @param UuidInterface|null  $id
+   * @param string    $email
    * @param string    $username
-   * @param string    $firstName
-   * @param string    $lastName
+   * @param string    $password
+   * @param string|null    $role
    */
   public function __construct(
-    private UuidInterface $id,
+    private ?UuidInterface $id = null,
     private string $email,
     private string $username,
     private string $password,
-    private ?string $role
+    private ?string $role = 'common'
   ) {
   }
 
   /**
+   *
    * @return int|null
    */
-  public function getId(): UuidInterface
+  public function getId(): UuidInterface | null
   {
     return $this->id;
   }
@@ -48,17 +50,17 @@ class Account implements JsonSerializable
   /**
    * @return string
    */
-  public function getFirstName(): string
+  public function getEmail(): string
   {
-    return $this->firstName;
+    return $this->email;
   }
 
   /**
    * @return string
    */
-  public function getLastName(): string
+  public function getPassword(): string
   {
-    return $this->lastName;
+    return $this->password;
   }
 
   /**
@@ -76,10 +78,10 @@ class Account implements JsonSerializable
   {
     return [
       'id' => $this->id,
+      'email' => $this->email,
       'username' => $this->username,
-      'firstName' => $this->firstName,
-      'lastName' => $this->lastName,
-      'role' => $this->role
+      'password' => $this->password,
+      'role' => $this->rolee
     ];
   }
 }
