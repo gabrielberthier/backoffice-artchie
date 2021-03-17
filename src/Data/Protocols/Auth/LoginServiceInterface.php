@@ -2,7 +2,7 @@
 
 namespace App\Data\Protocols\Auth;
 
-use App\Domain\Models\Account;
+use App\Domain\Models\DTO\Credentials;
 use App\Domain\Models\TokenLoginResponse;
 
 interface LoginServiceInterface
@@ -10,5 +10,5 @@ interface LoginServiceInterface
     /**
      * @todo Receive Account and return TokenLoginResponse
      */
-    public function auth(Account $account): TokenLoginResponse;
+    public function auth(Credentials $account): TokenLoginResponse;
 }

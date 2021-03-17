@@ -3,7 +3,8 @@
 namespace App\Data\UseCases\Authentication;
 
 use App\Data\Protocols\Auth\LoginServiceInterface;
-use App\Domain\Models\Account;
+use App\Domain\Exceptions\NoAccountFoundException;
+use App\Domain\Models\DTO\Credentials;
 use App\Domain\Models\TokenLoginResponse;
 use App\Domain\Repositories\AccountRepository;
 
@@ -13,9 +14,12 @@ class Login implements LoginServiceInterface
     {
         $this->accountRepository = $accountRepository;
     }
-    public function auth(Account $account): TokenLoginResponse
+    public function auth(Credentials $account): TokenLoginResponse
     {
-        $this->accountRepository->findByMail($account->getEmail());
+        $account = $this->accountRepository->findByMail($account->getEmail());
+        if (!$account) {
+            throw new NoAccountFoundException();
+        }
         return new TokenLoginResponse('', '');
     }
 }

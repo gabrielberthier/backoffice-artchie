@@ -9,7 +9,7 @@ use App\Domain\Models\Account;
 interface AccountRepository
 {
     /**
-     * @return Account
+     * @return Account|null
      */
-    public function findByMail(string $mail): Account;
+    public function findByMail(string $mail): ?Account;
 }
