@@ -10,5 +10,5 @@ interface LoginServiceInterface
     /**
      * @todo Receive Account and return TokenLoginResponse
      */
-    public function auth(Credentials $account): TokenLoginResponse;
+    public function auth(Credentials $credentials): TokenLoginResponse;
 }

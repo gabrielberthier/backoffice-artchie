@@ -16,12 +16,31 @@ use Prophecy\PhpUnit\ProphecyTrait;
 use Tests\TestCase;
 
 
+class SutTypes
+{
+    public LoginServiceInterface $sut;
+
+    public function __construct(
+        public $repository,
+        public $comparer,
+    ) {
+        $this->sut = new Login($repository, $comparer);
+    }
+}
 
 
 
 class LoginTest extends TestCase
 {
     use ProphecyTrait;
+
+    private SutTypes $sut;
+
+    protected function setUp(): void
+    {
+        $this->sut = new SutTypes($this->mockRepository(), $this->makeComparer());
+    }
+
 
     function makeCredentials()
     {
@@ -31,11 +50,14 @@ class LoginTest extends TestCase
     /**
      * 
      * @param AccountRepository $repository
+     * @param ComparerInterface $comparer
+     * 
+     * @return LoginServiceInterface
      *
      */
-    function makeService($repository): LoginServiceInterface
+    function makeService($repository, $comparer): LoginServiceInterface
     {
-        return new Login($repository);
+        return new Login($repository, $comparer);
     }
 
     /**
@@ -62,12 +84,13 @@ class LoginTest extends TestCase
         $mock = $this->getMockBuilder(ComparerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
+        return $mock;
     }
 
     public function testShouldCallRepositoryWithCorrectEmail()
     {
-        $mock = $this->mockRepository();
-        $loginService = $this->makeService($mock);
+        $mock = $this->sut->repository;
+        $loginService = $this->sut->sut;
         $mock->expects($this->once())->method('findByMail')->with('@mail.com')->willReturn(new Account(null, '', '', ''));
         $accountStub = $this->makeCredentials();
         $loginService->auth($accountStub);
@@ -80,8 +103,8 @@ class LoginTest extends TestCase
     public function testShouldThrowErrorIfNoAccountIsFound()
     {
         $this->expectException(NoAccountFoundException::class);
-        $mock = $this->mockRepository();
-        $loginService =  $this->makeService($mock);
+        $mock = $this->sut->repository;
+        $loginService =  $this->sut->sut;
         $mock->expects($this->once())->method('findByMail')->willReturn(null);
         $accountStub = $this->makeCredentials();
         $loginService->auth($accountStub);
@@ -90,9 +113,17 @@ class LoginTest extends TestCase
     // Test compare account hash
     public function testShouldCallHashComparerWithCorrectValues()
     {
-        $mock = $this->makeComparer();
-        $credentials = $this->makeCredentials();
-        $mock->expects($this->once())->method("compare")->with("password");
+        $mock = $this->sut->comparer;
+        $credentialsStub = $this->makeCredentials();
+        $mock->expects($this->once())
+            ->method("compare")
+            ->with('password', 'hashed_password');
+        $repository = $this->sut->repository;
+        $repository->method('findByMail')->willReturn(
+            new Account(password: 'hashed_password', email: 'mail.com', username: 'user')
+        );
+        $loginService =  $this->sut->sut;
+        $loginService->auth($credentialsStub);
     }
 
     // Test should throw if password provided differs from retrieved by repository
