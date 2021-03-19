@@ -4,6 +4,7 @@ namespace App\Data\UseCases\Authentication;
 
 use App\Data\Protocols\Auth\LoginServiceInterface;
 use App\Data\Protocols\Cryptography\ComparerInterface;
+use App\Data\UseCases\Authentication\Errors\IncorrectPasswordException;
 use App\Domain\Exceptions\NoAccountFoundException;
 use App\Domain\Models\DTO\Credentials;
 use App\Domain\Models\TokenLoginResponse;
@@ -19,10 +20,13 @@ class Login implements LoginServiceInterface
     public function auth(Credentials $credentials): TokenLoginResponse
     {
         $account = $this->accountRepository->findByMail($credentials->getEmail());
-        if (!$account) {
-            throw new NoAccountFoundException();
+        if ($account) {
+            $passwordsMatch = $this->hashComparer->compare($credentials->getPassword(), $account->getPassword());
+            if ($passwordsMatch) {
+                return new TokenLoginResponse('', '');
+            }
+            throw new IncorrectPasswordException();
         }
-        $this->hashComparer->compare($credentials->getPassword(), $account->getPassword());
-        return new TokenLoginResponse('', '');
+        throw new NoAccountFoundException();
     }
 }

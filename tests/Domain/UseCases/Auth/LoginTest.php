@@ -6,25 +6,29 @@ namespace Tests\Domain\UseCases\Auth;
 
 use App\Data\Protocols\Auth\LoginServiceInterface;
 use App\Data\Protocols\Cryptography\ComparerInterface;
+use App\Data\UseCases\Authentication\Errors\IncorrectPasswordException;
 use App\Data\UseCases\Authentication\Login;
 use App\Domain\Exceptions\NoAccountFoundException;
 use App\Domain\Models\Account;
 use App\Domain\Models\DTO\Credentials;
+use App\Domain\Models\TokenLoginResponse;
 use App\Domain\Repositories\AccountRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Tests\TestCase;
 
+use function PHPUnit\Framework\assertThat;
+use function PHPUnit\Framework\assertTrue;
 
 class SutTypes
 {
-    public LoginServiceInterface $sut;
+    public LoginServiceInterface $service;
 
     public function __construct(
         public $repository,
         public $comparer,
     ) {
-        $this->sut = new Login($repository, $comparer);
+        $this->service = new Login($repository, $comparer);
     }
 }
 
@@ -84,13 +88,14 @@ class LoginTest extends TestCase
         $mock = $this->getMockBuilder(ComparerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
+        $mock->method('compare')->willReturn(true);
         return $mock;
     }
 
     public function testShouldCallRepositoryWithCorrectEmail()
     {
         $mock = $this->sut->repository;
-        $loginService = $this->sut->sut;
+        $loginService = $this->sut->service;
         $mock->expects($this->once())->method('findByMail')->with('@mail.com')->willReturn(new Account(null, '', '', ''));
         $accountStub = $this->makeCredentials();
         $loginService->auth($accountStub);
@@ -104,7 +109,7 @@ class LoginTest extends TestCase
     {
         $this->expectException(NoAccountFoundException::class);
         $mock = $this->sut->repository;
-        $loginService =  $this->sut->sut;
+        $loginService =  $this->sut->service;
         $mock->expects($this->once())->method('findByMail')->willReturn(null);
         $accountStub = $this->makeCredentials();
         $loginService->auth($accountStub);
@@ -122,11 +127,44 @@ class LoginTest extends TestCase
         $repository->method('findByMail')->willReturn(
             new Account(password: 'hashed_password', email: 'mail.com', username: 'user')
         );
-        $loginService =  $this->sut->sut;
+        $loginService =  $this->sut->service;
         $loginService->auth($credentialsStub);
     }
 
     // Test should throw if password provided differs from retrieved by repository
+    public function testShouldThrowIfPasswordDiffersFromRetrievedOne()
+    {
+        $repository = $this->mockRepository();
+        $repository->method('findByMail')->willReturn(
+            new Account(password: 'hashed_password', email: 'mail.com', username: 'user')
+        );
+
+        $this->expectException(IncorrectPasswordException::class);
+        /**
+         * @var MockObject
+         */
+        $mock = $this->getMockBuilder(ComparerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $mock->expects($this->once())->method('compare')->willReturn(false);
+
+        $loginService = $this->makeService($repository, $mock);
+
+        $credentialsStub = $this->makeCredentials();
+        $loginService->auth($credentialsStub);
+    }
 
     // Test success return TokenLoginResponse
+
+    public function testSuccessCase()
+    {
+        $sut = $this->sut->service;
+        $repository = $this->sut->repository;
+        $repository->method('findByMail')->willReturn(
+            new Account(password: 'hashed_password', email: 'mail.com', username: 'user')
+        );
+        $credentialsStub = $this->makeCredentials();
+        $response = $sut->auth($credentialsStub);
+        assertTrue($response instanceof TokenLoginResponse);
+    }
 }
