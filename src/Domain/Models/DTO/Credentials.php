@@ -25,6 +25,7 @@ class Credentials implements JsonSerializable
     private string $email,
     private string $username,
     private string $password,
+    private string $role = ''
   ) {
   }
 
@@ -66,11 +67,11 @@ class Credentials implements JsonSerializable
   public function jsonSerialize()
   {
     return [
-      'id' => $this->id,
+      'id' => $this->id ?? '',
       'email' => $this->email,
       'username' => $this->username,
       'password' => $this->password,
-      'role' => $this->rolee
+      'role' => $this->role
     ];
   }
 }

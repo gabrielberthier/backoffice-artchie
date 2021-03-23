@@ -2,43 +2,37 @@
 
 declare(strict_types=1);
 
-namespace Tests\Application\Actions\User;
+namespace App\Presentation\Actions\Auth;
 
-use App\Domain\Models\User;
-use App\Domain\Repositories\UserRepository;
-use App\Presentation\Actions\Protocols\ActionPayload;
-use DI\Container;
-use Tests\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
+use App\Data\Protocols\Auth\LoginServiceInterface;
+use App\Domain\Models\DTO\Credentials;
+use App\Presentation\Actions\Protocols\Action;
+use Psr\Http\Message\ResponseInterface as Response;
 
-class LoginController extends TestCase
+class LoginController extends Action
 {
-    use ProphecyTrait;
+    private Credentials $credentials;
 
-    public function testAction()
+    public function __construct(private LoginServiceInterface $loginService)
     {
-        $app = $this->getAppInstance();
+    }
 
-        /** @var Container $container */
-        $container = $app->getContainer();
+    public function action(): Response
+    {
 
-        $user = new User(1, 'bill.gates', 'Bill', 'Gates');
+        [
+            'email' => $email,
+            'username' => $username,
+            'password' => $password
+        ] = $this->request->getParsedBody();
 
-        $userRepositoryProphecy = $this->prophesize(UserRepository::class);
-        $userRepositoryProphecy
-            ->findAll()
-            ->willReturn([$user])
-            ->shouldBeCalledOnce();
+        $this->credentials = new Credentials($email, $username, $password);
+        $this->loginService->auth($this->credentials);
+        return $this->response;
+    }
 
-        $container->set(UserRepository::class, $userRepositoryProphecy->reveal());
-
-        $request = $this->createRequest('GET', '/users');
-        $response = $app->handle($request);
-
-        $payload = (string) $response->getBody();
-        $expectedPayload = new ActionPayload(200, [$user]);
-        $serializedPayload = json_encode($expectedPayload, JSON_PRETTY_PRINT);
-
-        $this->assertEquals($serializedPayload, $payload);
+    public function getCredentials()
+    {
+        return $this->credentials;
     }
 }

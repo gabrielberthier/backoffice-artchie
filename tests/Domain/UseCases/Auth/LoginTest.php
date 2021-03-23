@@ -17,7 +17,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Tests\TestCase;
 
-use function PHPUnit\Framework\assertThat;
 use function PHPUnit\Framework\assertTrue;
 
 class SutTypes
