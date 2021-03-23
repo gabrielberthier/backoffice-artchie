@@ -9,6 +9,8 @@ use App\Domain\Models\DTO\Credentials;
 use App\Presentation\Actions\Protocols\Action;
 use Psr\Http\Message\ResponseInterface as Response;
 
+use function PHPUnit\Framework\isEmpty;
+
 class LoginController extends Action
 {
     private Credentials $credentials;
@@ -19,20 +21,16 @@ class LoginController extends Action
 
     public function action(): Response
     {
-
         [
             'email' => $email,
             'username' => $username,
             'password' => $password
         ] = $this->request->getParsedBody();
+        if (empty($username) || empty($email))
+            $this->response = $this->response->withStatus(401);
 
         $this->credentials = new Credentials($email, $username, $password);
         $this->loginService->auth($this->credentials);
         return $this->response;
-    }
-
-    public function getCredentials()
-    {
-        return $this->credentials;
     }
 }

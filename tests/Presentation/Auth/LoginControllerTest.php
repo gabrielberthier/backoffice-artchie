@@ -6,12 +6,11 @@ namespace Tests\Presentation\Auth;
 
 use App\Data\Protocols\Auth\LoginServiceInterface;
 use App\Domain\Models\DTO\Credentials;
-use App\Presentation\Actions\Auth\LoginController;
 use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Slim\Psr7\Response;
 
+use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertNotNull;
 
 class LoginControllerTest extends TestCase
@@ -52,13 +51,27 @@ class LoginControllerTest extends TestCase
         $request = $this->createRequest('POST', '/auth/login');
         $request->getBody()->write(json_encode($credentials));
         $request->getBody()->rewind();
-        $response = $app->handle($request);
-
-        $payload = (string) $response->getBody();
-        assertNotNull($payload);
+        $app->handle($request);
     }
 
-    // public function testShouldReturn400IfNoUsernameIsProvided()
-    // {
-    // }
+    public function testShouldReturn401IfNoUsernameOrEmailIsProvided()
+    {
+        $credentials = new Credentials('email', '', 'pass');
+
+        $app = $this->getAppInstance();
+
+        /** @var Container $container */
+        $container = $app->getContainer();
+
+        $service = $this->createMockService();
+
+        $container->set(LoginServiceInterface::class, $service);
+
+        $request = $this->createRequest('POST', '/auth/login');
+        $request->getBody()->write(json_encode($credentials));
+        $request->getBody()->rewind();
+        $response = $app->handle($request);
+        $code = $response->getStatusCode();
+        assertEquals($code, 401);
+    }
 }
