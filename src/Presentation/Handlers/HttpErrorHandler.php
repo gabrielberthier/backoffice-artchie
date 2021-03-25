@@ -17,6 +17,7 @@ use Slim\Exception\HttpNotImplementedException;
 use Slim\Exception\HttpUnauthorizedException;
 use Slim\Handlers\ErrorHandler as SlimErrorHandler;
 use Throwable;
+use UnprocessableEntityException;
 
 class HttpErrorHandler extends SlimErrorHandler
 {
@@ -40,6 +41,7 @@ class HttpErrorHandler extends SlimErrorHandler
                 $exception instanceof HttpNotFoundException => ActionError::RESOURCE_NOT_FOUND,
                 $exception instanceof HttpMethodNotAllowedException => ActionError::NOT_ALLOWED,
                 $exception instanceof HttpUnauthorizedException => ActionError::UNAUTHENTICATED,
+                $exception instanceof UnprocessableEntityException => ActionError::UNPROCESSABLE_ENTITY,
                 $exception instanceof HttpForbiddenException => ActionError::INSUFFICIENT_PRIVILEGES,
                 $exception instanceof HttpBadRequestException => ActionError::BAD_REQUEST,
                 $exception instanceof HttpNotImplementedException => ActionError::NOT_IMPLEMENTED,

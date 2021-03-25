@@ -2,17 +2,19 @@
 
 namespace App\Presentation\Errors;
 
-use RuntimeException;
-use Throwable;
+use UnprocessableEntityException;
 
-final class ValidationException extends RuntimeException
+final class ValidationException extends UnprocessableEntityException
 {
     public function __construct(
         protected $message,
         private array $errors = [],
-        protected $code = 422,
-        protected ?Throwable $previous = null
     ) {
+        $text = 'List of errors: ';
+        foreach ($this->errors as $value) {
+            $text .= "\n{$value}";
+        }
+        $this->setDescription($text);
     }
 
     public function getErrors(): array
