@@ -4,17 +4,19 @@ declare(strict_types=1);
 
 namespace Tests\Application\Actions\User;
 
-use App\Presentation\Actions\Protocols\ActionError;
-use App\Presentation\Actions\Protocols\ActionPayload;
-use App\Presentation\Handlers\HttpErrorHandler;
+use App\Domain\Exceptions\UserNotFoundException;
 use App\Domain\Models\User;
 use App\Domain\Repositories\UserRepository;
-use App\Domain\Exceptions\UserNotFoundException;
+use App\Presentation\Actions\Protocols\ActionError;
+use App\Presentation\Actions\Protocols\ActionPayload;
 use DI\Container;
-use Slim\Middleware\ErrorMiddleware;
-use Tests\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class ViewUserActionTest extends TestCase
 {
     use ProphecyTrait;
@@ -32,7 +34,8 @@ class ViewUserActionTest extends TestCase
         $userRepositoryProphecy
             ->findUserOfId(1)
             ->willReturn($user)
-            ->shouldBeCalledOnce();
+            ->shouldBeCalledOnce()
+        ;
 
         $container->set(UserRepository::class, $userRepositoryProphecy->reveal());
 
@@ -59,7 +62,8 @@ class ViewUserActionTest extends TestCase
         $userRepositoryProphecy
             ->findUserOfId(1)
             ->willThrow(new UserNotFoundException())
-            ->shouldBeCalledOnce();
+            ->shouldBeCalledOnce()
+        ;
 
         $container->set(UserRepository::class, $userRepositoryProphecy->reveal());
 

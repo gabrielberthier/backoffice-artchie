@@ -37,7 +37,8 @@
   "php.suggest.basic": false,
   "editor.quickSuggestions": { "comments": true },
   "[php]": {
-    "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
+    "editor.defaultFormatter": "junstyle.php-cs-fixer",
+    "editor.formatOnSave": true
   },
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -47,7 +48,8 @@
   },
   "liveServer.settings.donotShowInfoMsg": true,
   "workbench.iconTheme": "material-icon-theme",
-  "workbench.colorTheme": "Atom One Dark",
+  "workbench.colorTheme": "Ayu Light",
+  "php-cs-fixer.rules": "@PhpCsFixer",
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
@@ -55,9 +57,10 @@
     "**/CVS": true,
     "**/.DS_Store": true,
     "**/tools": true,
-    "**/vendor": true,
     "**/var": true,
     "**/logs": true,
     "**/node_modules/**": true  
-  }
+  },
+  "php-cs-fixer.executablePath": "${extensionPath}/php-cs-fixer.phar",
+  "php-cs-fixer.lastDownload": 1616714580373
 }
