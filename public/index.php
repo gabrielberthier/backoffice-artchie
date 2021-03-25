@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Application\ResponseEmitter\ResponseEmitter;
+
+use App\Presentation\ResponseEmitter\ResponseEmitter;
 
 require __DIR__ . '/../vendor/autoload.php';
 

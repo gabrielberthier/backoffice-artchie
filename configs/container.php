@@ -3,8 +3,6 @@
 declare(strict_types=1);
 
 use Monolog\Logger;
-use Psr\Container\ContainerInterface;
-use Slim\Middleware\ErrorMiddleware;
 
 return [
   'settings' => [
