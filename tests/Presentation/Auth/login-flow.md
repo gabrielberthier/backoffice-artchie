@@ -17,6 +17,5 @@ Flux
       - No
         - send 401
 - Else
-  - Has empty data: yes -> 400
-  - Return 422 with reasons case error is mistake (i.e. wrong email, password does not contemplait rules)
+  - Return 400 with reasons case error is mistake (i.e. wrong email, password does not contemplate rules, empty data)
   
