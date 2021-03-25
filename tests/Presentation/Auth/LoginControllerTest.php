@@ -6,29 +6,31 @@ namespace Tests\Presentation\Auth;
 
 use App\Data\Protocols\Auth\LoginServiceInterface;
 use App\Domain\Models\DTO\Credentials;
-use PHPUnit\Framework\MockObject\MockObject;
-use Tests\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
-
 use function PHPUnit\Framework\assertEquals;
-use function PHPUnit\Framework\assertNotNull;
+use PHPUnit\Framework\MockObject\MockObject;
+use Prophecy\PhpUnit\ProphecyTrait;
+use Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class LoginControllerTest extends TestCase
 {
     use ProphecyTrait;
 
     /**
-     * Create a mocked login service
+     * Create a mocked login service.
      *
-     * @return MockObject 
+     * @return MockObject
      */
-    function createMockService()
+    public function createMockService()
     {
-        $mock = $this->getMockBuilder(LoginServiceInterface::class)
+        return $this->getMockBuilder(LoginServiceInterface::class)
             ->onlyMethods(['auth'])
             ->disableOriginalConstructor()
-            ->getMock();
-        return $mock;
+            ->getMock()
+        ;
     }
 
     public function testShouldCallAuthenticationWithCorrectValues()
@@ -73,5 +75,7 @@ class LoginControllerTest extends TestCase
         assertEquals($code, 401);
     }
 
-    public function 
+    public function test()
+    {
+    }
 }
