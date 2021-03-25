@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use App\Presentation\Handlers\HttpErrorHandler;
 use Exception;
 use PHPUnit\Framework\MockObject\Rule\AnyInvokedCount;
 use PHPUnit\Framework\TestCase as PHPUnit_TestCase;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 use Slim\Factory\AppFactory;
+use Slim\Middleware\ErrorMiddleware;
 use Slim\Psr7\Factory\StreamFactory;
 use Slim\Psr7\Headers;
 use Slim\Psr7\Request as SlimRequest;
@@ -75,5 +77,17 @@ class TestCase extends PHPUnit_TestCase
         $mock = $this->getMockBuilder($className)->getMock();
         $mock->expects($spy = $this->any())->method($method);
         return $spy;
+    }
+
+    protected function setUpErrorHandler(App $app)
+    {
+        $callableResolver = $app->getCallableResolver();
+        $responseFactory = $app->getResponseFactory();
+
+        $errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
+        $errorMiddleware = new ErrorMiddleware($callableResolver, $responseFactory, true, false, false);
+        $errorMiddleware->setDefaultErrorHandler($errorHandler);
+
+        $app->add($errorMiddleware);
     }
 }
