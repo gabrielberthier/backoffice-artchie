@@ -31,8 +31,6 @@ class LoginControllerTest extends TestCase
         return $mock;
     }
 
-
-
     public function testShouldCallAuthenticationWithCorrectValues()
     {
         $credentials = new Credentials('any_mail.com', 'username', 'pass');
@@ -74,4 +72,6 @@ class LoginControllerTest extends TestCase
         $code = $response->getStatusCode();
         assertEquals($code, 401);
     }
+
+    public function 
 }

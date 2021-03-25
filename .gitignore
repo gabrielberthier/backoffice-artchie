@@ -5,3 +5,4 @@
 !/logs/README.md
 *.cache
 .env
+/tools/**/vendor
