@@ -54,7 +54,7 @@ class LoginControllerTest extends TestCase
         $app->handle($request);
     }
 
-    public function testShouldReturn401IfNoUsernameOrEmailIsProvided()
+    public function testShouldReturn400IfNoUsernameOrEmailIsProvided()
     {
         $credentials = new Credentials('email', '', 'pass');
 
@@ -72,10 +72,10 @@ class LoginControllerTest extends TestCase
         $request->getBody()->rewind();
         $response = $app->handle($request);
         $code = $response->getStatusCode();
-        assertEquals($code, 401);
+        assertEquals($code, 400);
     }
 
-    public function test()
+    public function testShould()
     {
     }
 }

@@ -6,3 +6,5 @@
 *.cache
 .env
 /tools/**/vendor
+/.phpunit.cache
+.phpunit.result.cache
