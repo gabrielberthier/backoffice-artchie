@@ -6,9 +6,10 @@ namespace Tests\Presentation\Auth;
 
 use App\Data\Protocols\Auth\LoginServiceInterface;
 use App\Domain\Models\DTO\Credentials;
+use App\Presentation\Actions\Protocols\ActionError;
+use App\Presentation\Actions\Protocols\ActionPayload;
 use Exception;
 use function PHPUnit\Framework\assertEquals;
-use function PHPUnit\Framework\assertTrue;
 use PHPUnit\Framework\MockObject\MockObject;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\RequestInterface;
@@ -64,15 +65,38 @@ class LoginControllerTest extends TestCase
         assertEquals($code, 400);
     }
 
-    public function testShould()
+    /**
+     * Undocumented function.
+     */
+    public function testShouldReturn400WithInvalidEmail()
     {
-        // $response = $controller($request);
-        // /*
-        //  * Internally processes this $request
-        //  * Validate it
-        //  * And maybe throw an error
-        //  */
-        assertTrue(true);
+        $app = $this->getAppInstance();
+
+        /** @var Container $container */
+        $container = $app->getContainer();
+
+        $service = $this->createMockService();
+
+        $container->set(LoginServiceInterface::class, $service);
+
+        $request = $this->constructPostRequest(
+            new Credentials('email', 'username', 'pass'),
+            'POST',
+            '/auth/login'
+        );
+        /*
+         * Internally processes this $request
+         * Validate it
+         * And maybe throw an error
+         */
+        $response = $app->handle($request);
+
+        $payload = (string) $response->getBody();
+        $expectedError = new ActionError(ActionError::BAD_REQUEST, 'Email is invalid');
+        $expectedPayload = new ActionPayload(statusCode: 400, error: $expectedError);
+        $serializedPayload = json_encode($expectedPayload, JSON_PRETTY_PRINT);
+
+        $this->assertEquals($serializedPayload, $payload);
     }
 
     /**
