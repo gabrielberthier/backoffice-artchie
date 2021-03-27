@@ -6,9 +6,13 @@ namespace Tests\Presentation\Auth;
 
 use App\Data\Protocols\Auth\LoginServiceInterface;
 use App\Domain\Models\DTO\Credentials;
+use Exception;
 use function PHPUnit\Framework\assertEquals;
+use function PHPUnit\Framework\assertTrue;
 use PHPUnit\Framework\MockObject\MockObject;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Psr\Http\Message\RequestInterface;
+use Tests\Builders\Request\RequestBuilder;
 use Tests\TestCase;
 
 /**
@@ -18,20 +22,6 @@ use Tests\TestCase;
 class LoginControllerTest extends TestCase
 {
     use ProphecyTrait;
-
-    /**
-     * Create a mocked login service.
-     *
-     * @return MockObject
-     */
-    public function createMockService()
-    {
-        return $this->getMockBuilder(LoginServiceInterface::class)
-            ->onlyMethods(['auth'])
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
-    }
 
     public function testShouldCallAuthenticationWithCorrectValues()
     {
@@ -67,9 +57,8 @@ class LoginControllerTest extends TestCase
 
         $container->set(LoginServiceInterface::class, $service);
 
-        $request = $this->createRequest('POST', '/auth/login');
-        $request->getBody()->write(json_encode($credentials));
-        $request->getBody()->rewind();
+        $request = $this->constructPostRequest($credentials, 'POST', '/auth/login');
+
         $response = $app->handle($request);
         $code = $response->getStatusCode();
         assertEquals($code, 400);
@@ -77,5 +66,55 @@ class LoginControllerTest extends TestCase
 
     public function testShould()
     {
+        // $response = $controller($request);
+        // /*
+        //  * Internally processes this $request
+        //  * Validate it
+        //  * And maybe throw an error
+        //  */
+        assertTrue(true);
+    }
+
+    /**
+     * Create a mocked login service.
+     *
+     * @return MockObject
+     */
+    private function createMockService()
+    {
+        return $this->getMockBuilder(LoginServiceInterface::class)
+            ->onlyMethods(['auth'])
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+    }
+
+    private function constructPostRequest(
+        Credentials $credentials,
+        string $method,
+        string $path,
+        array $headers = null,
+        array $serverParams = null,
+        array $cookies = null
+    ): RequestInterface {
+        if ((!$method) || !$path) {
+            throw new Exception('Unable to create request');
+        }
+        $requestBuilder = new RequestBuilder($method, $path);
+        if ($headers) {
+            $requestBuilder->withHeaders($headers);
+        }
+        if ($serverParams) {
+            $requestBuilder->withServerParam($serverParams);
+        }
+        if ($cookies) {
+            $requestBuilder->withCookies($cookies);
+        }
+
+        $request = $requestBuilder->build();
+        $request->getBody()->write(json_encode($credentials));
+        $request->getBody()->rewind();
+
+        return $request;
     }
 }

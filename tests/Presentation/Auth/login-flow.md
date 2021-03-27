@@ -1,13 +1,26 @@
-# What to do?
+# Login authentication flux?
 
 ---
 
-- get request -> validate JWT
-  - isValid JWT?
-    - get resource + 200
-  - else
-    - get HttpOnly refresh token
-    - isValid
-      - generate new jwt token and send it in header + 200
-    - else
-      - send error + 401
+Funcionamento
+: Login
+
+- Recebe data input
+- Valida os dados
+- Se a validação passar:
+  - Pegar usuário do banco utilizando email ou username
+  - Se o usuário existir:
+    - Comparar senha provida pelo banco
+    - Se as senhas são compatíveis:
+      - Retorna JWT
+      - Retorna Refresh Token HTTPOnly
+      - Retorna 200
+    - Senão:
+      - Retorna erro (PasswordsNotMatch)
+      - Retorna 401
+  - Senão:
+    - Retorna erro (UserNotFound)
+    - Retorno 401
+- Senão:
+  - Retorna erros de validação (1..n)
+  - Retorna 400
