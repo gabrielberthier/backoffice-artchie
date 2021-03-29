@@ -9,6 +9,7 @@ use App\Domain\Models\DTO\Credentials;
 use App\Presentation\Actions\Protocols\Action;
 use App\Presentation\Protocols\Validation;
 use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Exception\HttpBadRequestException;
 
 class LoginController extends Action
 {
@@ -32,12 +33,14 @@ class LoginController extends Action
             $this->response = $this->response->withStatus(400);
         }
 
-        $this->validate($this->request->getParsedBody());
+        if ($this->validate($this->request->getParsedBody())) {
+            $this->credentials = new Credentials($email, $username, $password);
+            $this->loginService->auth($this->credentials);
 
-        $this->credentials = new Credentials($email, $username, $password);
-        $this->loginService->auth($this->credentials);
+            return $this->response;
+        }
 
-        return $this->response;
+        throw new HttpBadRequestException($this->request, 'Invalid email');
     }
 
     protected function validate(null | array | object $body)
