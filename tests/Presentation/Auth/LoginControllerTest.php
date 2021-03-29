@@ -8,11 +8,16 @@ use App\Data\Protocols\Auth\LoginServiceInterface;
 use App\Domain\Models\DTO\Credentials;
 use App\Presentation\Actions\Protocols\ActionError;
 use App\Presentation\Actions\Protocols\ActionPayload;
+use App\Presentation\Helpers\Validation\ValidationError;
+use App\Presentation\Protocols\Validation;
+use Exception;
 use function PHPUnit\Framework\assertEquals;
 use PHPUnit\Framework\MockObject\MockObject;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\App;
+use Tests\Builders\Request\RequestBuilder;
 use Tests\TestCase;
 
 /**
@@ -22,24 +27,23 @@ use Tests\TestCase;
 class LoginControllerTest extends TestCase
 {
     use ProphecyTrait;
+    private App $app;
 
-    public function createMockRequest(string $email, string $username, string $pass): ServerRequestInterface
+    protected function setUp(): void
     {
-        $credentials = new Credentials($email, $username, $pass);
-        $request = $this->createRequest('POST', '/auth/login');
-        $request->getBody()->write(json_encode($credentials));
-        $request->getBody()->rewind();
-
-        return $request;
+        $this->app = $this->getAppInstance();
+        $service = $this->createMockService();
+        $this->autowireContainer(LoginServiceInterface::class, $service);
+        $validator = $this->createValidatorService();
+        $this->autowireContainer(Validation::class, $validator);
     }
 
     public function testShouldCallAuthenticationWithCorrectValues()
     {
         $credentials = new Credentials('any_mail.com', 'username', 'pass');
-        $app = $this->getAppInstance();
 
         /** @var Container $container */
-        $container = $app->getContainer();
+        $container = $this->getContainer();
 
         $service = $this->createMockService();
 
@@ -47,12 +51,12 @@ class LoginControllerTest extends TestCase
 
         $container->set(LoginServiceInterface::class, $service);
 
-        $app->handle($this->createMockRequest('any_mail.com', 'username', 'pass'));
+        $this->app->handle($this->createMockRequest('any_mail.com', 'username', 'pass'));
     }
 
     public function testShouldReturn400IfNoUsernameOrEmailIsProvided()
     {
-        $app = $this->getAppInstance();
+        $app = $this->app;
 
         /** @var Container $container */
         $container = $app->getContainer();
@@ -66,9 +70,9 @@ class LoginControllerTest extends TestCase
         assertEquals($code, 400);
     }
 
-    public function shouldReturn400IfValidationReturnsNotNull()
+    public function shouldReturn400IfValidationThrows()
     {
-        $app = $this->getAppInstance();
+        $app = $this->app;
         $this->setUpErrorHandler($app);
 
         /** @var Container $container */
@@ -77,7 +81,7 @@ class LoginControllerTest extends TestCase
         $validatorProphecy = $this->prophesize(Validator::class);
         $validatorProphecy
             ->validate('any_mail.com', 'username', 'pass')
-            ->willThrow(new InvalidInputParams())
+            ->willReturn(new ValidationError())
             ->shouldBeCalledOnce()
         ;
 
@@ -88,7 +92,7 @@ class LoginControllerTest extends TestCase
         $response = $app->handle($request);
         $payload = (string) $response->getBody();
 
-        $expectedError = new ActionError(ActionError::BAD_REQUEST, '');
+        $expectedError = new ActionError(ActionError::BAD_REQUEST, 'Invalid email');
         $expectedPayload = new ActionPayload(statusCode: 400, error: $expectedError);
         $serializedPayload = json_encode($expectedPayload, JSON_PRETTY_PRINT);
 
@@ -97,7 +101,7 @@ class LoginControllerTest extends TestCase
 
     public function testExpectsThreeErrors()
     {
-        $app = $this->getAppInstance();
+        $app = $this->app;
 
         /** @var Container $container */
         $container = $app->getContainer();
@@ -124,6 +128,36 @@ class LoginControllerTest extends TestCase
         $serializedPayload = json_encode($expectedPayload, JSON_PRETTY_PRINT);
 
         $this->assertEquals($serializedPayload, $payload);
+    }
+
+    private function createValidatorService()
+    {
+        return $this->getMockBuilder(Validation::class)
+            ->onlyMethods(['validate'])
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+    }
+
+    private function getContainer()
+    {
+        return $this->app->getContainer();
+    }
+
+    private function autowireContainer($key, $instance)
+    {
+        $container = $this->app->getContainer();
+        $container->set($key, $instance);
+    }
+
+    private function createMockRequest(string $email, string $username, string $pass): ServerRequestInterface
+    {
+        $credentials = new Credentials($email, $username, $pass);
+        $request = $this->createRequest('POST', '/auth/login');
+        $request->getBody()->write(json_encode($credentials));
+        $request->getBody()->rewind();
+
+        return $request;
     }
 
     /**

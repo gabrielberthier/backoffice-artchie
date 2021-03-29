@@ -1,4 +1,4 @@
-# Login authentication flux?
+# Login authentication flux
 
 Funcionamento
 : Login
