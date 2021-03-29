@@ -27,10 +27,6 @@ abstract class Action
     }
 
     /**
-     * @param Request  $request
-     * @param Response $response
-     * @param array    $args
-     * @return Response
      * @throws HttpNotFoundException
      * @throws HttpBadRequestException
      */
@@ -48,21 +44,21 @@ abstract class Action
     }
 
     /**
-     * @return Response
      * @throws DomainRecordNotFoundException
      * @throws HttpBadRequestException
      */
     abstract protected function action(): Response;
 
     /**
-     * @return array|object
      * @throws HttpBadRequestException
+     *
+     * @return array|object
      */
     protected function getFormData()
     {
         $input = json_decode(file_get_contents('php://input'));
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
+        if (JSON_ERROR_NONE !== json_last_error()) {
             throw new HttpBadRequestException($this->request, 'Malformed JSON input.');
         }
 
@@ -70,9 +66,9 @@ abstract class Action
     }
 
     /**
-     * @param  string $name
-     * @return mixed
      * @throws HttpBadRequestException
+     *
+     * @return mixed
      */
     protected function resolveArg(string $name)
     {
@@ -84,23 +80,20 @@ abstract class Action
     }
 
     /**
-     * @param  array|object|null $data
-     * @return Response
+     * @param null|array|object $data
      */
     protected function respondWithData($data = null): Response
     {
         $payload = new ActionPayload(200, $data);
+
         return $this->respond($payload);
     }
 
-    /**
-     * @param ActionPayload $payload
-     * @return Response
-     */
     protected function respond(ActionPayload $payload): Response
     {
         $json = json_encode($payload, JSON_PRETTY_PRINT);
         $this->response->getBody()->write($json);
+
         return $this->response->withHeader('Content-Type', 'application/json');
     }
 }

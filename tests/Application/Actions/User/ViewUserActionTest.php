@@ -52,7 +52,8 @@ class ViewUserActionTest extends TestCase
     public function testActionThrowsUserNotFoundException()
     {
         $app = $this->getAppInstance();
-        $this->setDefaultErrorHandler($app);
+
+        $this->setUpErrorHandler($app);
 
         /** @var Container $container */
         $container = $app->getContainer();

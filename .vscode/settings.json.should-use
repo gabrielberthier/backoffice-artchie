@@ -1,0 +1,66 @@
+{
+  "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
+  "editor.formatOnSave": true,
+  "[typescript]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescriptreact]": {
+    "editor.formatOnSave": false
+  },
+  "[blade]": {
+    "editor.autoClosingBrackets": "always"
+  },
+  "prettier.eslintIntegration": true,
+  "eslint.autofixOnSave": true,
+  "eslint.validate": ["typescript", "typescriptreact"],
+  "editor.fontFamily": "Fira Code",
+  "editor.fontLigatures": true,
+  "editor.fontWeight": "500",
+  "window.zoomLevel": -1,
+  "emmet.triggerExpansionOnTab": true,
+  "javascript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
+  "editor.fontSize": 15,
+  "terminal.integrated.fontWeight": "500",
+  "terminal.integrated.fontWeightBold": "800",
+  "explorer.confirmDelete": false,
+  "editor.tabSize": 2,
+  "eslint.format.enable": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "editor.minimap.enabled": false,
+  "blade.format.enable": true,
+  "php.suggest.basic": false,
+  "editor.quickSuggestions": { "comments": true },
+  "[php]": {
+    "editor.defaultFormatter": "junstyle.php-cs-fixer",
+    "editor.formatOnSave": true
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "liveServer.settings.donotShowInfoMsg": true,
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.colorTheme": "Ayu Light",
+  "php-cs-fixer.rules": "@PhpCsFixer",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/tools": true,
+    "**/var": true,
+    "**/logs": true,
+    "**/node_modules/**": true  
+  },
+  "php-cs-fixer.executablePath": "${extensionPath}/php-cs-fixer.phar",
+  "php-cs-fixer.lastDownload": 1616714580373
+}

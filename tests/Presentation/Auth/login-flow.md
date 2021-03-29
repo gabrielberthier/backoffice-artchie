@@ -1,21 +1,24 @@
-# What to do?
+# Login authentication flux?
 
-Flux
-: Determine how login works properly
+Funcionamento
+: Login
 
-- Receive user login data (i.e, username, password, email)
-- Validate it
-- If validation works then
-  - Get user from db using username and email (:may throw error)
-  - Has user?
-  - Compare provided password and db hash
-    - Passwords match?
-      - Yes: 
-        - send 200
-        - send jwt
-        - send HttpOnly cookie with refresh-token
-      - No
-        - send 401
-- Else
-  - Return 400 with reasons case error is mistake (i.e. wrong email, password does not contemplate rules, empty data)
-  
+- Recebe data input
+- Valida os dados
+- Se a validação passar:
+  - Pegar usuário do banco utilizando email ou username
+  - Se o usuário existir:
+    - Comparar senha provida pelo banco
+    - Se as senhas são compatíveis:
+      - Retorna JWT
+      - Retorna Refresh Token HTTPOnly
+      - Retorna 200
+    - Senão:
+      - Retorna erro (PasswordsNotMatch)
+      - Retorna 401
+  - Senão:
+    - Retorna erro (UserNotFound)
+    - Retorno 401
+- Senão:
+  - Retorna erros de validação (1..n)
+  - Retorna 400

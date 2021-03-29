@@ -75,13 +75,8 @@ class TestCase extends PHPUnit_TestCase
         return $spy;
     }
 
-    /**
-     * @param App $app
-     */
-    protected function setDefaultErrorHandler($app)
+    protected function setUpErrorHandler(App $app)
     {
-        $app = $this->getAppInstance();
-
         $callableResolver = $app->getCallableResolver();
         $responseFactory = $app->getResponseFactory();
 
