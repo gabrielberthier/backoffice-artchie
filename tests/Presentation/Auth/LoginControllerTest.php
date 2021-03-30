@@ -11,15 +11,11 @@ use App\Presentation\Actions\Protocols\ActionPayload;
 use App\Presentation\Helpers\Validation\ValidationError;
 use App\Presentation\Protocols\Validation;
 use DI\Container;
-use Exception;
 use function PHPUnit\Framework\assertEquals;
 use PHPUnit\Framework\MockObject\MockObject;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\App;
-use Tests\Builders\Request\RequestBuilder;
 use Tests\TestCase;
 
 /**
@@ -84,13 +80,13 @@ class LoginControllerTest extends TestCase
 
         $container->set(LoginServiceInterface::class, $service);
         $request = $this->createMockRequest('any_mail.com', 'username', 'pass');
-        $validatorProphecy = $this->prophesize(Validator::class);
+        $validatorProphecy = $this->prophesize(Validation::class);
         $validatorProphecy
             ->validate(Argument::any())
             ->willReturn(new ValidationError())
             ->shouldBeCalledOnce();
 
-        $container->set(Validator::class, $validatorProphecy->reveal());
+        $container->set(Validation::class, $validatorProphecy->reveal());
 
         $response = $app->handle($request);
         $payload = (string) $response->getBody();

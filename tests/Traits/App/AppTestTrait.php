@@ -4,10 +4,7 @@ namespace Tests\Traits\App;
 
 use DI\Container;
 use JsonException;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\UriInterface;
 use Slim\App;
 
 /**
@@ -15,16 +12,6 @@ use Slim\App;
  */
 trait AppTestTrait
 {
-    /**
-     * @var Container
-     */
-    protected $container;
-
-    /**
-     * @var App
-     */
-    protected $app;
-
     /**
      * Verify that the given array is an exact match for the JSON returned.
      *

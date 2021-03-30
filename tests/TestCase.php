@@ -20,5 +20,13 @@ class TestCase extends PHPUnit_TestCase
 {
     use AppTestTrait, DoublesTrait, ErrorHandlerTrait, InstanceManagerTrait, RequestManagerTrait;
 
-    protected App $app;
+    /**
+     * @var Container
+     */
+    protected $container;
+
+    /**
+     * @var App
+     */
+    protected $app;
 }

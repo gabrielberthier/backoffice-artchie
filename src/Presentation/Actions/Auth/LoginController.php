@@ -33,7 +33,6 @@ class LoginController extends Action
             $this->response = $this->response->withStatus(400);
         }
         $errors = $this->validator->validate($parsedBody);
-        $errors = $this->validator->validate($parsedBody);
 
         if (!($errors)) {
             $credentials = new Credentials($email, $username, $password);
