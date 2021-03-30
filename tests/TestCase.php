@@ -4,18 +4,13 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use App\Presentation\Handlers\HttpErrorHandler;
-use Exception;
-use PHPUnit\Framework\MockObject\Rule\AnyInvokedCount;
 use PHPUnit\Framework\TestCase as PHPUnit_TestCase;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
-use Slim\Factory\AppFactory;
-use Slim\Middleware\ErrorMiddleware;
-use Slim\Psr7\Factory\StreamFactory;
-use Slim\Psr7\Headers;
-use Slim\Psr7\Request as SlimRequest;
-use Slim\Psr7\Uri;
+use Tests\Traits\App\AppTestTrait;
+use Tests\Traits\App\DoublesTrait;
+use Tests\Traits\App\ErrorHandlerTrait;
+use Tests\Traits\App\InstanceManagerTrait;
+use Tests\Traits\App\RequestManagerTrait;
 
 /**
  * @internal
@@ -23,67 +18,7 @@ use Slim\Psr7\Uri;
  */
 class TestCase extends PHPUnit_TestCase
 {
-    /**
-     * @throws Exception
-     */
-    protected function getAppInstance(): App
-    {
-        $container = require __DIR__.'/../configs/container-setup.php';
+    use AppTestTrait, DoublesTrait, ErrorHandlerTrait, InstanceManagerTrait, RequestManagerTrait;
 
-        // Instantiate the app
-        AppFactory::setContainer($container);
-        $app = AppFactory::create();
-
-        // Register middleware
-        $middleware = require __DIR__.'/../app/middleware.php';
-        $middleware($app);
-
-        // Register routes
-        $routes = require __DIR__.'/../app/routes.php';
-        $routes($app);
-
-        return $app;
-    }
-
-    protected function createRequest(
-        string $method,
-        string $path,
-        array $headers = [
-            'HTTP_ACCEPT' => 'application/json',
-            'Content-Type' => 'application/json',
-        ],
-        array $serverParams = [],
-        array $cookies = []
-    ): Request {
-        $uri = new Uri('', '', 80, $path);
-        $handle = fopen('php://temp', 'w+');
-        $stream = (new StreamFactory())->createStreamFromResource($handle);
-
-        $h = new Headers();
-        foreach ($headers as $name => $value) {
-            $h->addHeader($name, $value);
-        }
-
-        return new SlimRequest($method, $uri, $h, $cookies, $serverParams, $stream);
-    }
-
-    protected function spyOn(string $className, string $method): AnyInvokedCount
-    {
-        $mock = $this->getMockBuilder($className)->getMock();
-        $mock->expects($spy = $this->any())->method($method);
-
-        return $spy;
-    }
-
-    protected function setUpErrorHandler(App $app)
-    {
-        $callableResolver = $app->getCallableResolver();
-        $responseFactory = $app->getResponseFactory();
-
-        $errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
-        $errorMiddleware = new ErrorMiddleware($callableResolver, $responseFactory, true, false, false);
-        $errorMiddleware->setDefaultErrorHandler($errorHandler);
-
-        $app->add($errorMiddleware);
-    }
+    protected App $app;
 }

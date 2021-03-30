@@ -29,7 +29,6 @@ use Tests\TestCase;
 class LoginControllerTest extends TestCase
 {
     use ProphecyTrait;
-    private App $app;
 
     protected function setUp(): void
     {
@@ -89,8 +88,7 @@ class LoginControllerTest extends TestCase
         $validatorProphecy
             ->validate(Argument::any())
             ->willReturn(new ValidationError())
-            ->shouldBeCalledOnce()
-        ;
+            ->shouldBeCalledOnce();
 
         $container->set(Validator::class, $validatorProphecy->reveal());
 
@@ -145,8 +143,7 @@ class LoginControllerTest extends TestCase
         return $this->getMockBuilder(Validation::class)
             ->onlyMethods(['validate'])
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
     }
 
     private function getContainer()
@@ -183,8 +180,7 @@ class LoginControllerTest extends TestCase
         return $this->getMockBuilder(LoginServiceInterface::class)
             ->onlyMethods(['auth'])
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
     }
 
     private function constructPostRequest(
