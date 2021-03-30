@@ -84,10 +84,23 @@ class LoginControllerTest extends TestCase
 
         $container->set(LoginServiceInterface::class, $service);
         $request = $this->createMockRequest('any_mail.com', 'username', 'pass');
+        $invoice = new Invoice();
+        $validator = $this
+        ->getMockBuilder('\Doctrine\ORM\EntityRepository')
+        ->setMethods(['findOneByNextNote'])
+        ->disableOriginalConstructor()
+        ->getMock();
+        $invoiceRepository->expects($this->once())
+        ->method('findOneByNextNote')
+        ->will($this->returnValue($invoice));
+
+        $invoiceRepository->findOneByNextNote();
         $validator = $this->getMockBuilder(Validation::class)
+        ->disableOriginalConstructor()
+        ->disableProxyingToOriginalMethods()
                         ->getMock();
         $errors = new ValidationError('Message', 400);
-        $validator->method('validate')->withAnyParameters()->willReturnReference($errors);
+        $validator->method('validate')->with($this->isType('array'))->willReturn($errors);
 
         $container->set(Validation::class, $validator);
 

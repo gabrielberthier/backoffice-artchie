@@ -28,8 +28,7 @@ class LoginController extends Action
             'username' => $username,
             'password' => $password
         ] = $parsedBody;
-        $errors = ($this->validate($parsedBody));
-        echo $errors;
+        $errors = $this->validator->validate([]);
 
         if (empty($username) || empty($email)) {
             $this->response = $this->response->withStatus(400);
