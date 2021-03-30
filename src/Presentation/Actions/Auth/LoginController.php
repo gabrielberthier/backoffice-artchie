@@ -28,11 +28,12 @@ class LoginController extends Action
             'username' => $username,
             'password' => $password
         ] = $parsedBody;
+        $errors = ($this->validate($parsedBody));
+        echo $errors;
 
         if (empty($username) || empty($email)) {
             $this->response = $this->response->withStatus(400);
         }
-        $errors = $this->validator->validate($parsedBody);
 
         if (!($errors)) {
             $credentials = new Credentials($email, $username, $password);
@@ -46,6 +47,6 @@ class LoginController extends Action
 
     protected function validate(null | array | object $body): ?ValidationError
     {
-        return $this->validator->validate($body);
+        return ($this->validator->validate($body));
     }
 }
