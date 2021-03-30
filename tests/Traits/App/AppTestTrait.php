@@ -26,31 +26,6 @@ trait AppTestTrait
     protected $app;
 
     /**
-     * Create a JSON request.
-     *
-     * @param string              $method The HTTP method
-     * @param string|UriInterface $uri    The URI
-     * @param null|array          $data   The json data
-     */
-    protected function createJsonRequest(
-        string $method,
-        $uri,
-        array $data = null
-    ): ServerRequestInterface {
-        /**
-         * @var RequestInterface
-         */
-        $request = $this->createRequest($method, $uri);
-
-        if ($data !== null) {
-            $request->getBody()->write(json_encode($data));
-            $request->getBody()->rewind();
-        }
-
-        return $request->withHeader('Content-Type', 'application/json');
-    }
-
-    /**
      * Verify that the given array is an exact match for the JSON returned.
      *
      * @param array             $expected The expected array
