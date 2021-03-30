@@ -7,14 +7,13 @@ namespace App\Presentation\Actions\Auth;
 use App\Data\Protocols\Auth\LoginServiceInterface;
 use App\Domain\Models\DTO\Credentials;
 use App\Presentation\Actions\Protocols\Action;
+use App\Presentation\Helpers\Validation\ValidationError;
 use App\Presentation\Protocols\Validation;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Exception\HttpBadRequestException;
 
 class LoginController extends Action
 {
-    private Credentials $credentials;
-
     public function __construct(
         private LoginServiceInterface $loginService,
         private Validation $validator
@@ -23,19 +22,22 @@ class LoginController extends Action
 
     public function action(): Response
     {
+        $parsedBody = $this->request->getParsedBody();
         [
             'email' => $email,
             'username' => $username,
             'password' => $password
-        ] = $this->request->getParsedBody();
+        ] = $parsedBody;
 
         if (empty($username) || empty($email)) {
             $this->response = $this->response->withStatus(400);
         }
+        $errors = $this->validator->validate($parsedBody);
+        $errors = $this->validator->validate($parsedBody);
 
-        if ($this->validate($this->request->getParsedBody())) {
-            $this->credentials = new Credentials($email, $username, $password);
-            $this->loginService->auth($this->credentials);
+        if (!($errors)) {
+            $credentials = new Credentials($email, $username, $password);
+            $this->loginService->auth($credentials);
 
             return $this->response;
         }
@@ -43,8 +45,8 @@ class LoginController extends Action
         throw new HttpBadRequestException($this->request, 'Invalid email');
     }
 
-    protected function validate(null | array | object $body)
+    protected function validate(null | array | object $body): ?ValidationError
     {
-        $this->validator->validate($body);
+        return $this->validator->validate($body);
     }
 }
