@@ -35,7 +35,7 @@ trait RequestManagerTrait
         return new Request($method, $uri, $h, $cookies, $serverParams, $stream);
     }
 
-    private function constructPostRequest(
+    protected function constructPostRequest(
         array | object $data,
         string $method,
         string $path,
