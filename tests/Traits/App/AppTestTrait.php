@@ -3,15 +3,12 @@
 namespace Tests\Traits\App;
 
 use DI\Container;
-use InvalidArgumentException;
 use JsonException;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
 use Slim\App;
-use UnexpectedValueException;
 
 /**
  * App Test Trait.
@@ -67,12 +64,12 @@ trait AppTestTrait
         $this->assertSame($expected, (array) json_decode($actual, true, 512, JSON_THROW_ON_ERROR));
     }
 
-    private function getContainer()
+    protected function getContainer()
     {
         return $this->app->getContainer();
     }
 
-    private function autowireContainer($key, $instance)
+    protected function autowireContainer($key, $instance)
     {
         /**
          * @var Container

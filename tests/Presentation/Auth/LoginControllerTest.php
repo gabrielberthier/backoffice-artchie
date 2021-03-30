@@ -146,20 +146,6 @@ class LoginControllerTest extends TestCase
             ->getMock();
     }
 
-    private function getContainer()
-    {
-        return $this->app->getContainer();
-    }
-
-    private function autowireContainer($key, $instance)
-    {
-        /**
-         * @var Container
-         */
-        $container = $this->app->getContainer();
-        $container->set($key, $instance);
-    }
-
     private function createMockRequest(string $email, string $username, string $pass): ServerRequestInterface
     {
         $credentials = new Credentials($email, $username, $pass);
