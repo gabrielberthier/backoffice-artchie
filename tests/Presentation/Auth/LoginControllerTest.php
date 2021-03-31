@@ -12,17 +12,14 @@ use App\Presentation\Actions\Protocols\ActionPayload;
 use App\Presentation\Helpers\Validation\ValidationError;
 use App\Presentation\Protocols\Validation;
 use DI\Container;
-use Exception;
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertNotNull;
 use PHPUnit\Framework\MockObject\MockObject;
-use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophet;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Psr7\Response;
-use stdClass;
 use Tests\TestCase;
 
 /**
@@ -42,7 +39,6 @@ class LoginControllerTest extends TestCase
         $service = $this->createMockService();
         $this->autowireContainer(LoginServiceInterface::class, $service);
         $validator = $this->createValidatorService();
-        $validator->expects($this->once())->method('validate')->willReturn(null);
         $this->autowireContainer(Validation::class, $validator);
     }
 
@@ -80,7 +76,6 @@ class LoginControllerTest extends TestCase
 
     public function testShouldReturn400IfValidationReturnsError()
     {
-        $this->markTestSkipped('WTF is wrong with phpunit');
         $app = $this->app;
 
         $this->expectException(HttpBadRequestException::class);
@@ -95,11 +90,15 @@ class LoginControllerTest extends TestCase
         $parsedBody = $request->getParsedBody();
 
         $errors = new ValidationError('Message', 400);
+        /**
+         * @var Validation&MockObject
+         */
         $validator = $this->getMockBuilder(Validation::class)->onlyMethods(['validate'])->disableOriginalConstructor()->getMock();
+
         $validator->expects($this->any())
                     ->method('validate')
                     ->with($parsedBody)
-                    ->willReturn(new stdClass());
+                    ->willReturn($errors);
 
         $loginController = new LoginController($container->get(LoginServiceInterface::class), $validator);
 
