@@ -6,6 +6,7 @@ namespace Tests\Presentation\Auth;
 
 use App\Data\Protocols\Auth\LoginServiceInterface;
 use App\Domain\Models\DTO\Credentials;
+use App\Presentation\Actions\Auth\LoginController;
 use App\Presentation\Actions\Protocols\ActionError;
 use App\Presentation\Actions\Protocols\ActionPayload;
 use App\Presentation\Helpers\Validation\ValidationError;
@@ -13,10 +14,14 @@ use App\Presentation\Protocols\Validation;
 use DI\Container;
 use Exception;
 use function PHPUnit\Framework\assertEquals;
+use function PHPUnit\Framework\assertNotNull;
 use PHPUnit\Framework\MockObject\MockObject;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophet;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Exception\HttpBadRequestException;
+use Slim\Psr7\Response;
 use Tests\TestCase;
 
 /**
@@ -27,9 +32,12 @@ class LoginControllerTest extends TestCase
 {
     use ProphecyTrait;
 
+    private $prophet;
+
     protected function setUp(): void
     {
         $this->app = $this->getAppInstance();
+        $this->prophet = new Prophet();
         $service = $this->createMockService();
         $this->autowireContainer(LoginServiceInterface::class, $service);
         $validator = $this->createValidatorService();
@@ -39,7 +47,6 @@ class LoginControllerTest extends TestCase
 
     public function testShouldCallAuthenticationWithCorrectValues()
     {
-        $this->markTestSkipped();
         $credentials = new Credentials('any_mail.com', 'username', 'pass');
 
         /** @var Container $container */
@@ -56,7 +63,6 @@ class LoginControllerTest extends TestCase
 
     public function testShouldReturn400IfNoUsernameOrEmailIsProvided()
     {
-        $this->markTestSkipped();
         $app = $this->app;
 
         /** @var Container $container */
@@ -73,46 +79,27 @@ class LoginControllerTest extends TestCase
 
     public function testShouldReturn400IfValidationReturnsError()
     {
-        $app = $this->getAppInstance();
+        $app = $this->app;
+
+        $this->expectException(HttpBadRequestException::class);
 
         /** @var Container $container */
         $container = $app->getContainer();
 
-        $this->setUpErrorHandler($app);
+        $body = new Credentials('email', 'username', 'pass');
 
-        $service = $this->createMockService();
+        $request = $this->createJsonRequest('POST', '/auth/login', $body);
 
-        $container->set(LoginServiceInterface::class, $service);
-        $request = $this->createMockRequest('any_mail.com', 'username', 'pass');
-        $invoice = new Invoice();
-        $validator = $this
-        ->getMockBuilder('\Doctrine\ORM\EntityRepository')
-        ->setMethods(['findOneByNextNote'])
-        ->disableOriginalConstructor()
-        ->getMock();
-        $invoiceRepository->expects($this->once())
-        ->method('findOneByNextNote')
-        ->will($this->returnValue($invoice));
-
-        $invoiceRepository->findOneByNextNote();
-        $validator = $this->getMockBuilder(Validation::class)
-        ->disableOriginalConstructor()
-        ->disableProxyingToOriginalMethods()
-                        ->getMock();
         $errors = new ValidationError('Message', 400);
-        $validator->method('validate')->with($this->isType('array'))->willReturn($errors);
+        $validator = $this->getMockBuilder(Validation::class)->disableOriginalConstructor()->getMock();
+        $validator->expects($this->once())
+                    ->method('validate')
+                    ->willReturn($this->returnValue($errors));
 
-        $container->set(Validation::class, $validator);
+        $loginController = new LoginController($container->get(LoginServiceInterface::class), $validator);
 
-        $response = $app->handle($request);
-        $payload = (string) $response->getBody();
-
-        $expectedError = new ActionError(ActionError::BAD_REQUEST, 'Invalid email');
-        $expectedPayload = new ActionPayload(statusCode: 400, error: $expectedError);
-        $serializedPayload = json_encode($expectedPayload, JSON_PRETTY_PRINT);
-
-        $this->assertEquals($serializedPayload, $payload);
-        $this->assertEquals(400, $response->getStatusCode());
+        $return = $loginController($request, new Response(), []);
+        assertNotNull($return);
     }
 
     /**

@@ -23,18 +23,19 @@ class LoginController extends Action
     public function action(): Response
     {
         $parsedBody = $this->request->getParsedBody();
+
         [
             'email' => $email,
             'username' => $username,
             'password' => $password
         ] = $parsedBody;
-        $errors = $this->validator->validate([]);
+        $errors = $this->validator->validate($parsedBody);
 
         if (empty($username) || empty($email)) {
             $this->response = $this->response->withStatus(400);
         }
 
-        if (!($errors)) {
+        if ($errors === null) {
             $credentials = new Credentials($email, $username, $password);
             $this->loginService->auth($credentials);
 

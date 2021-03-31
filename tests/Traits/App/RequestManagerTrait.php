@@ -65,9 +65,11 @@ trait RequestManagerTrait
 
     protected function setRequestParsedBody(ServerRequestInterface $request, array | object $data): ServerRequestInterface
     {
-        $request->getBody()->write(json_encode($data));
+        $encodedData = json_encode($data);
+        $request->getBody()->write($encodedData);
         $request->getBody()->rewind();
-        return $request;
+        $requestParsedData = json_decode($encodedData, true);
+        return ($request->withParsedBody($requestParsedData));
     }
 
     /**
@@ -80,7 +82,7 @@ trait RequestManagerTrait
     protected function createJsonRequest(
         string $method,
         $uri,
-        array $data = null
+        array | object $data = null
     ): ServerRequestInterface {
         /**
          * @var RequestInterface
@@ -88,7 +90,7 @@ trait RequestManagerTrait
         $request = $this->createRequest($method, $uri);
 
         if ($data !== null) {
-            $this->setRequestParsedBody($request, $data);
+            $request = $this->setRequestParsedBody($request, $data);
         }
 
         return $request->withHeader('Content-Type', 'application/json');
