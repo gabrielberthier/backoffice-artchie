@@ -22,6 +22,7 @@ use Prophecy\Prophet;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Psr7\Response;
+use stdClass;
 use Tests\TestCase;
 
 /**
@@ -90,11 +91,14 @@ class LoginControllerTest extends TestCase
 
         $request = $this->createJsonRequest('POST', '/auth/login', $body);
 
+        $parsedBody = $request->getParsedBody();
+
         $errors = new ValidationError('Message', 400);
-        $validator = $this->getMockBuilder(Validation::class)->disableOriginalConstructor()->getMock();
-        $validator->expects($this->once())
+        $validator = $this->getMockBuilder(Validation::class)->onlyMethods(['validate'])->disableOriginalConstructor()->getMock();
+        $validator->expects($this->any())
                     ->method('validate')
-                    ->willReturn($this->returnValue($errors));
+                    ->with($parsedBody)
+                    ->willReturn(new stdClass());
 
         $loginController = new LoginController($container->get(LoginServiceInterface::class), $validator);
 
