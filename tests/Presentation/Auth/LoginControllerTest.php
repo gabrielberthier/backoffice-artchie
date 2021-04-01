@@ -6,20 +6,16 @@ namespace Tests\Presentation\Auth;
 
 use App\Data\Protocols\Auth\LoginServiceInterface;
 use App\Domain\Models\DTO\Credentials;
-use App\Presentation\Actions\Auth\LoginController;
 use App\Presentation\Actions\Protocols\ActionError;
 use App\Presentation\Actions\Protocols\ActionPayload;
 use App\Presentation\Helpers\Validation\ValidationError;
 use App\Presentation\Protocols\Validation;
 use DI\Container;
 use function PHPUnit\Framework\assertEquals;
-use function PHPUnit\Framework\assertNotNull;
 use PHPUnit\Framework\MockObject\MockObject;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophet;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Exception\HttpBadRequestException;
-use Slim\Psr7\Response;
 use Tests\TestCase;
 
 /**
@@ -45,30 +41,21 @@ class LoginControllerTest extends TestCase
     public function testShouldCallAuthenticationWithCorrectValues()
     {
         $credentials = new Credentials('any_mail.com', 'username', 'pass');
-
         /** @var Container $container */
         $container = $this->getContainer();
-
         $service = $this->createMockService();
-
         $service->expects($this->once())->method('auth')->with($credentials);
-
         $container->set(LoginServiceInterface::class, $service);
-
         $this->app->handle($this->createMockRequest('any_mail.com', 'username', 'pass'));
     }
 
     public function testShouldReturn400IfNoUsernameOrEmailIsProvided()
     {
         $app = $this->app;
-
         /** @var Container $container */
         $container = $app->getContainer();
-
         $service = $this->createMockService();
-
         $container->set(LoginServiceInterface::class, $service);
-
         $response = $app->handle($this->createMockRequest('email', '', 'pass'));
         $code = $response->getStatusCode();
         assertEquals($code, 400);
@@ -77,33 +64,32 @@ class LoginControllerTest extends TestCase
     public function testShouldReturn400IfValidationReturnsError()
     {
         $app = $this->app;
-
-        $this->expectException(HttpBadRequestException::class);
-
+        $this->setUpErrorHandler($app);
         /** @var Container $container */
         $container = $app->getContainer();
-
         $body = new Credentials('email', 'username', 'pass');
-
         $request = $this->createJsonRequest('POST', '/auth/login', $body);
 
-        $parsedBody = $request->getParsedBody();
-
         $errors = new ValidationError('Message', 400);
-        /**
-         * @var Validation&MockObject
-         */
-        $validator = $this->getMockBuilder(Validation::class)->onlyMethods(['validate'])->disableOriginalConstructor()->getMock();
 
+        $validator = $this->createValidatorService();
         $validator->expects($this->any())
-                    ->method('validate')
-                    ->with($parsedBody)
-                    ->willReturn($errors);
+            ->method('validate')
+            ->willReturn($errors)
+        ;
 
-        $loginController = new LoginController($container->get(LoginServiceInterface::class), $validator);
+        $container->set(Validation::class, $validator);
 
-        $return = $loginController($request, new Response(), []);
-        assertNotNull($return);
+        $response = $app->handle($request);
+
+        $payload = (string) $response->getBody();
+        $expectedError = new ActionError(ActionError::BAD_REQUEST, 'Email is invalid');
+        $expectedPayload = new ActionPayload(statusCode: 400, error: $expectedError);
+        $serializedPayload = json_encode($expectedPayload, JSON_PRETTY_PRINT);
+
+        $this->assertEquals($serializedPayload, $payload);
+
+        assertEquals($response->getStatusCode(), 400);
     }
 
     /**
@@ -111,15 +97,10 @@ class LoginControllerTest extends TestCase
      */
     public function testExpectsThreeErrors()
     {
-        $this->markTestSkipped();
         $app = $this->app;
 
         /** @var Container $container */
         $container = $app->getContainer();
-
-        $service = $this->createMockService();
-
-        $container->set(LoginServiceInterface::class, $service);
 
         $request = $this->constructPostRequest(
             new Credentials('email', 'username', 'pass'),
@@ -146,7 +127,8 @@ class LoginControllerTest extends TestCase
         return $this->getMockBuilder(Validation::class)
             ->onlyMethods(['validate'])
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMock()
+        ;
     }
 
     private function createMockRequest(string $email, string $username, string $pass): ServerRequestInterface
@@ -169,6 +151,7 @@ class LoginControllerTest extends TestCase
         return $this->getMockBuilder(LoginServiceInterface::class)
             ->onlyMethods(['auth'])
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMock()
+        ;
     }
 }

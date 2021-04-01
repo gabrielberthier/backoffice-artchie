@@ -35,18 +35,18 @@ class LoginController extends Action
             $this->response = $this->response->withStatus(400);
         }
 
-        if ($errors === null) {
+        if (null === $errors) {
             $credentials = new Credentials($email, $username, $password);
             $this->loginService->auth($credentials);
 
             return $this->response;
         }
 
-        throw new HttpBadRequestException($this->request, 'Invalid email');
+        throw new HttpBadRequestException($this->request, 'Email is invalid');
     }
 
     protected function validate(null | array | object $body): ?ValidationError
     {
-        return ($this->validator->validate($body));
+        return $this->validator->validate($body);
     }
 }
