@@ -2,27 +2,16 @@
 
 namespace App\Presentation\Helpers\Validation\Validators;
 
-use App\Presentation\Helpers\Validation\ValidationError;
-use App\Presentation\Protocols\Validation;
-
-class CallbackValidationAdapter implements Validation
+class CallbackValidationAdapter extends AbstractValidator
 {
-    public function __construct(private string $field, private $rule, private ?string $message = '')
+    public function __construct(protected string $field, protected $rule, protected ?string $message = null)
     {
     }
 
-    public function validate($input): ?ValidationError
+    protected function makeValidation($subject): bool
     {
-        if (array_key_exists($this->field, $input)) {
-            $subject = $input[$this->field];
-            if (is_callable($this->rule)) {
-                $rule = $this->rule;
-                if ($rule($subject)) {
-                    return null;
-                }
-            }
-        }
+        $rule = $this->rule;
 
-        return new ValidationError($this->message);
+        return is_callable($rule) && $rule($subject);
     }
 }

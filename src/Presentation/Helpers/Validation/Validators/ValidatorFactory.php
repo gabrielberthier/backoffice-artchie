@@ -2,12 +2,11 @@
 
 namespace App\Presentation\Helpers\Validation\Validators;
 
-use App\Presentation\Protocols\Validation;
 use Respect\Validation\Rules\AbstractRule;
 
 class ValidatorFactory
 {
-    public function create(mixed $validation, string $key, ?string $message = null): ?Validation
+    public function create(mixed $validation, string $key, ?string $message = null): ?AbstractValidator
     {
         if ($message) {
             return $this->createWithMessage($validation, $key, $message);
@@ -16,7 +15,7 @@ class ValidatorFactory
         return $this->createWithoutMessage($validation, $key);
     }
 
-    private function createWithMessage(mixed $validation, string $key, string $message): ?Validation
+    private function createWithMessage(mixed $validation, string $key, string $message): ?AbstractValidator
     {
         if ($validation instanceof AbstractRule) {
             return new AwesomeValidationAdapter($key, $validation, $message);
@@ -28,7 +27,7 @@ class ValidatorFactory
         return null;
     }
 
-    private function createWithoutMessage(mixed $validation, string $key): ?Validation
+    private function createWithoutMessage(mixed $validation, string $key): ?AbstractValidator
     {
         if ($validation instanceof AbstractRule) {
             return new AwesomeValidationAdapter($key, $validation);
