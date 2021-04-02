@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Presentation\Actions\Protocols;
 
 use App\Domain\Exceptions\Protocols\DomainRecordNotFoundException;
+use App\Presentation\Helpers\Validation\ValidationFacade;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpNotFoundException;
+use UnprocessableEntityException;
 
 abstract class Action
 {
@@ -37,6 +39,8 @@ abstract class Action
         $this->args = $args;
 
         try {
+            $this->validate($this->request->getParsedBody());
+
             return $this->action();
         } catch (DomainRecordNotFoundException $e) {
             throw new HttpNotFoundException($this->request, $e->getMessage());
@@ -58,7 +62,7 @@ abstract class Action
     {
         $input = json_decode(file_get_contents('php://input'));
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
+        if (JSON_ERROR_NONE !== json_last_error()) {
             throw new HttpBadRequestException($this->request, 'Malformed JSON input.');
         }
 
@@ -95,5 +99,30 @@ abstract class Action
         $this->response->getBody()->write($json);
 
         return $this->response->withHeader('Content-Type', 'application/json');
+    }
+
+    protected function rules(): ?array
+    {
+        return null;
+    }
+
+    protected function messages(): ?array
+    {
+        return null;
+    }
+
+    /**
+     * @throws UnprocessableEntityException
+     */
+    private function validate(null | array | object $body)
+    {
+        $rules = $this->rules ?? [];
+        $messages = $this->messages() ?? [];
+        $validationFacade = new ValidationFacade($rules, $messages);
+        $validator = $validationFacade->createValidations();
+        $result = $validator->validate($body);
+        if ($result) {
+            throw $result;
+        }
     }
 }

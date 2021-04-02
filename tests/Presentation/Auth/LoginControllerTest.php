@@ -8,7 +8,6 @@ use App\Data\Protocols\Auth\LoginServiceInterface;
 use App\Domain\Models\DTO\Credentials;
 use App\Presentation\Actions\Protocols\ActionError;
 use App\Presentation\Actions\Protocols\ActionPayload;
-use App\Presentation\Helpers\Validation\ValidationError;
 use App\Presentation\Protocols\Validation;
 use DI\Container;
 use function PHPUnit\Framework\assertEquals;
@@ -65,20 +64,8 @@ class LoginControllerTest extends TestCase
     {
         $app = $this->app;
         $this->setUpErrorHandler($app);
-        /** @var Container $container */
-        $container = $app->getContainer();
         $body = new Credentials('email', 'username', 'pass');
         $request = $this->createJsonRequest('POST', '/auth/login', $body);
-
-        $errors = new ValidationError('Message', 400);
-
-        $validator = $this->createValidatorService();
-        $validator->expects($this->any())
-            ->method('validate')
-            ->willReturn($errors)
-        ;
-
-        $container->set(Validation::class, $validator);
 
         $response = $app->handle($request);
 

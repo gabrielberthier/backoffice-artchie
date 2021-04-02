@@ -10,7 +10,7 @@ use App\Presentation\Actions\Protocols\Action;
 use App\Presentation\Helpers\Validation\ValidationError;
 use App\Presentation\Protocols\Validation;
 use Psr\Http\Message\ResponseInterface as Response;
-use Slim\Exception\HttpBadRequestException;
+use Respect\Validation\Validator as V;
 
 class LoginController extends Action
 {
@@ -23,26 +23,32 @@ class LoginController extends Action
     public function action(): Response
     {
         $parsedBody = $this->request->getParsedBody();
-
         [
             'email' => $email,
             'username' => $username,
             'password' => $password
         ] = $parsedBody;
-        $errors = $this->validator->validate($parsedBody);
 
-        if (empty($username) || empty($email)) {
-            $this->response = $this->response->withStatus(400);
-        }
+        $credentials = new Credentials($email, $username, $password);
+        $this->loginService->auth($credentials);
 
-        if (null === $errors) {
-            $credentials = new Credentials($email, $username, $password);
-            $this->loginService->auth($credentials);
+        return $this->response;
+    }
 
-            return $this->response;
-        }
+    public function rules(): array
+    {
+        return [
+            'email' => v::email(),
+            'username' => v::alnum(),
+            'password' => fn ($value) => preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[\w$@]{6,}$/m', $value),
+        ];
+    }
 
-        throw new HttpBadRequestException($this->request, 'Email is invalid');
+    public function messages(): array
+    {
+        return [
+            'email' => 'Email not valid',
+        ];
     }
 
     protected function validate(null | array | object $body): ?ValidationError

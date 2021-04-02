@@ -1,29 +1,40 @@
 <?php
 
-use App\Presentation\Helpers\Validation\ValidationError;
+namespace App\Presentation\Helpers\Validation;
+
+use App\Presentation\Helpers\Validation\Validators\ValidationExceptions\ErrorBag;
 use App\Presentation\Protocols\Validation;
 
 class Composite implements Validation
 {
-  /**
-   * @var Validation[]
-   */
-  private array $compositions = [];
+    /**
+     * @var Validation[]
+     */
+    private array $compositions = [];
 
-  public function pushValidation(Validation $validation): self
-  {
-    $compositions[] = $validation;
-    return $this;
-  }
+    private ErrorBag $errorBag;
 
-  public function validate($input): ?ValidationError
-  {
-    foreach ($this->compositions as $validation) {
-      $error = $validation->validate($input);
-      if ($error) {
-        return $error;
-      }
+    public function __construct()
+    {
+        $this->errorBag = new ErrorBag();
     }
-    return null;
-  }
+
+    public function pushValidation(Validation $validation): self
+    {
+        $compositions[] = $validation;
+
+        return $this;
+    }
+
+    public function validate($input): ?ValidationError
+    {
+        foreach ($this->compositions as $validation) {
+            $error = $validation->validate($input);
+            if ($error) {
+                $this->errorBag->push($error);
+            }
+        }
+
+        return $this->errorBag->hasErrors() ? $this->errorBag : null;
+    }
 }
