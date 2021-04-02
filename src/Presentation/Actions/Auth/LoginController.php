@@ -7,16 +7,13 @@ namespace App\Presentation\Actions\Auth;
 use App\Data\Protocols\Auth\LoginServiceInterface;
 use App\Domain\Models\DTO\Credentials;
 use App\Presentation\Actions\Protocols\Action;
-use App\Presentation\Helpers\Validation\ValidationError;
-use App\Presentation\Protocols\Validation;
 use Psr\Http\Message\ResponseInterface as Response;
-use Respect\Validation\Validator as V;
+use Respect\Validation\Validator;
 
 class LoginController extends Action
 {
     public function __construct(
-        private LoginServiceInterface $loginService,
-        private Validation $validator
+        private LoginServiceInterface $loginService
     ) {
     }
 
@@ -35,15 +32,6 @@ class LoginController extends Action
         return $this->response;
     }
 
-    public function rules(): array
-    {
-        return [
-            'email' => v::email(),
-            'username' => v::alnum(),
-            'password' => fn ($value) => preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[\w$@]{6,}$/m', $value),
-        ];
-    }
-
     public function messages(): array
     {
         return [
@@ -51,8 +39,12 @@ class LoginController extends Action
         ];
     }
 
-    protected function validate(null | array | object $body): ?ValidationError
+    protected function rules(): ?array
     {
-        return $this->validator->validate($body);
+        return [
+            'email' => Validator::email(),
+            'username' => Validator::alnum(),
+            'password' => function ($value) { return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[\w$@]{6,}$/m', $value); },
+        ];
     }
 }

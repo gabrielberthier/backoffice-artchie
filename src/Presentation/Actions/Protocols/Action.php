@@ -39,7 +39,10 @@ abstract class Action
         $this->args = $args;
 
         try {
-            $this->validate($this->request->getParsedBody());
+            $parsedBody = $request->getParsedBody();
+            print_r($this->rules());
+
+            $this->validate($parsedBody);
 
             return $this->action();
         } catch (DomainRecordNotFoundException $e) {

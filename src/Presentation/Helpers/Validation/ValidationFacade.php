@@ -17,6 +17,7 @@ class ValidationFacade
     {
         $composite = new Composite();
         $validationRule = null;
+
         foreach ($this->rules as $key => $validation) {
             $message = $messages[$key] ?? '';
             if ($validation instanceof AbstractRule) {
