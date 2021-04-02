@@ -39,7 +39,6 @@ class LoginControllerTest extends TestCase
 
     public function testShouldCallAuthenticationWithCorrectValues()
     {
-        $this->markTestIncomplete();
         $credentials = new Credentials('any_mail.com', 'username', 'pass');
         /** @var Container $container */
         $container = $this->getContainer();
@@ -51,7 +50,6 @@ class LoginControllerTest extends TestCase
 
     public function testShouldReturn400IfNoUsernameOrEmailIsProvided()
     {
-        $this->markTestIncomplete();
         $app = $this->app;
         /** @var Container $container */
         $container = $app->getContainer();
@@ -59,14 +57,14 @@ class LoginControllerTest extends TestCase
         $container->set(LoginServiceInterface::class, $service);
         $response = $app->handle($this->createMockRequest('email', '', 'pass'));
         $code = $response->getStatusCode();
-        assertEquals($code, 400);
+        assertEquals($code, 422);
     }
 
     public function testShouldReturn400IfValidationReturnsError()
     {
         $app = $this->app;
         $this->setUpErrorHandler($app);
-        $body = new Credentials('email', 'username', 'pass');
+        $body = new Credentials('email@gmail.com', 'username', 'pass');
         $request = $this->createJsonRequest('POST', '/auth/login', $body);
 
         $response = $app->handle($request);
@@ -78,7 +76,7 @@ class LoginControllerTest extends TestCase
 
         $this->assertEquals($serializedPayload, $payload);
 
-        assertEquals($response->getStatusCode(), 400);
+        assertEquals($response->getStatusCode(), 422);
     }
 
     /**
@@ -86,14 +84,13 @@ class LoginControllerTest extends TestCase
      */
     public function testExpectsThreeErrors()
     {
-        $this->markTestIncomplete();
         $app = $this->app;
 
         /** @var Container $container */
         $container = $app->getContainer();
 
         $request = $this->constructPostRequest(
-            new Credentials('email', 'username', 'pass'),
+            new Credentials('gnberthier@gmail.com', 'username', 'pass'),
             'POST',
             '/auth/login'
         );
