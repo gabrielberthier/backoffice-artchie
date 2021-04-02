@@ -20,7 +20,7 @@ abstract class AbstractValidator implements Validation
         }
         $message = $this->message ?? "{$this->field} does not match the defined requirements";
 
-        return new ValidationError($message);
+        return (new ValidationError($message))->forField($this->field);
     }
 
     abstract protected function makeValidation($subject): bool;

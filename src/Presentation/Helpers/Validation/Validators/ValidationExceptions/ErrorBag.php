@@ -12,7 +12,7 @@ class ErrorBag extends ValidationError
     public function push(ValidationError $error)
     {
         $this->errors[] = $error;
-        $this->message .= $error->getMessage();
+        $this->message .= "[{$error->getField()}]: {$error->getMessage()}\n";
         echo $error->getMessage();
     }
 
