@@ -5,16 +5,21 @@ declare(strict_types=1);
 namespace App\Presentation\Actions\Protocols;
 
 use App\Domain\Exceptions\Protocols\DomainRecordNotFoundException;
-use App\Presentation\Helpers\Validation\ValidationFacade;
+use App\Presentation\Actions\Protocols\ActionTraits\ParseInputTrait;
+use App\Presentation\Actions\Protocols\ActionTraits\ResponderTrait;
+use App\Presentation\Actions\Protocols\ActionTraits\ValidationTrait;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpNotFoundException;
-use UnprocessableEntityException;
 
 abstract class Action
 {
+    use ValidationTrait;
+    use ParseInputTrait;
+    use ResponderTrait;
+
     protected Request $request;
 
     protected Response $response;
@@ -49,34 +54,11 @@ abstract class Action
         }
     }
 
-    abstract public function rules();
-
-    public function messages()
-    {
-        return null;
-    }
-
     /**
      * @throws DomainRecordNotFoundException
      * @throws HttpBadRequestException
      */
     abstract protected function action(): Response;
-
-    /**
-     * @throws HttpBadRequestException
-     *
-     * @return array|object
-     */
-    protected function getFormData()
-    {
-        $input = json_decode(file_get_contents('php://input'));
-
-        if (JSON_ERROR_NONE !== json_last_error()) {
-            throw new HttpBadRequestException($this->request, 'Malformed JSON input.');
-        }
-
-        return $input;
-    }
 
     /**
      * @throws HttpBadRequestException
@@ -90,39 +72,5 @@ abstract class Action
         }
 
         return $this->args[$name];
-    }
-
-    /**
-     * @param null|array|object $data
-     */
-    protected function respondWithData($data = null): Response
-    {
-        $payload = new ActionPayload(200, $data);
-
-        return $this->respond($payload);
-    }
-
-    protected function respond(ActionPayload $payload): Response
-    {
-        $json = json_encode($payload, JSON_PRETTY_PRINT);
-        $this->response->getBody()->write($json);
-
-        return $this->response->withHeader('Content-Type', 'application/json');
-    }
-
-    /**
-     * @throws UnprocessableEntityException
-     */
-    protected function validate(null | array | object $body)
-    {
-        $rules = $this->rules() ?? [];
-        $messages = $this->messages() ?? [];
-        $validationFacade = new ValidationFacade($rules, $messages);
-        $validator = $validationFacade->createValidations();
-        $result = $validator->validate($body);
-
-        if ($result) {
-            throw $result;
-        }
     }
 }
