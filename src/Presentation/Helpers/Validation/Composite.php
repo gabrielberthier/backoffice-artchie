@@ -21,7 +21,7 @@ class Composite implements Validation
 
     public function pushValidation(Validation $validation): self
     {
-        $compositions[] = $validation;
+        $this->compositions[] = $validation;
 
         return $this;
     }

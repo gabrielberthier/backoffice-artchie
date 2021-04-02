@@ -40,7 +40,6 @@ abstract class Action
 
         try {
             $parsedBody = $request->getParsedBody();
-            print_r($this->rules());
 
             $this->validate($parsedBody);
 
@@ -48,6 +47,13 @@ abstract class Action
         } catch (DomainRecordNotFoundException $e) {
             throw new HttpNotFoundException($this->request, $e->getMessage());
         }
+    }
+
+    abstract public function rules();
+
+    public function messages()
+    {
+        return null;
     }
 
     /**
@@ -104,26 +110,18 @@ abstract class Action
         return $this->response->withHeader('Content-Type', 'application/json');
     }
 
-    protected function rules(): ?array
-    {
-        return null;
-    }
-
-    protected function messages(): ?array
-    {
-        return null;
-    }
-
     /**
      * @throws UnprocessableEntityException
      */
-    private function validate(null | array | object $body)
+    protected function validate(null | array | object $body)
     {
         $rules = $this->rules() ?? [];
+
         $messages = $this->messages() ?? [];
         $validationFacade = new ValidationFacade($rules, $messages);
         $validator = $validationFacade->createValidations();
         $result = $validator->validate($body);
+
         if ($result) {
             throw $result;
         }

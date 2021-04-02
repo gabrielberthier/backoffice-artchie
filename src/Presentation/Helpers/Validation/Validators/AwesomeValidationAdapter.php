@@ -14,9 +14,11 @@ class AwesomeValidationAdapter implements Validation
 
     public function validate($input): ?ValidationError
     {
-        $subject = $input[$this->field];
-        if ($this->rule->validate($subject)) {
-            return null;
+        if (array_key_exists($this->field, $input)) {
+            $subject = $input[$this->field];
+            if ($this->rule->validate($subject)) {
+                return null;
+            }
         }
 
         return new ValidationError($this->message);

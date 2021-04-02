@@ -32,14 +32,14 @@ class LoginController extends Action
         return $this->response;
     }
 
-    public function messages(): array
+    public function messages(): ?array
     {
         return [
             'email' => 'Email not valid',
         ];
     }
 
-    protected function rules(): ?array
+    public function rules(): ?array
     {
         return [
             'email' => Validator::email(),

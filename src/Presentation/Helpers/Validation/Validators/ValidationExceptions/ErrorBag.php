@@ -17,6 +17,6 @@ class ErrorBag extends ValidationError
 
     public function hasErrors(): bool
     {
-        return count($this->errors);
+        return count($this->errors) > 0;
     }
 }

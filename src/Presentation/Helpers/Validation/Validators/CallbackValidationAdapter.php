@@ -13,11 +13,13 @@ class CallbackValidationAdapter implements Validation
 
     public function validate($input): ?ValidationError
     {
-        $subject = $input[$this->field];
-        if (is_callable($this->rule)) {
-            $rule = $this->rule;
-            if ($rule($subject)) {
-                return null;
+        if (array_key_exists($this->field, $input)) {
+            $subject = $input[$this->field];
+            if (is_callable($this->rule)) {
+                $rule = $this->rule;
+                if ($rule($subject)) {
+                    return null;
+                }
             }
         }
 
