@@ -16,10 +16,10 @@ class ValidationFacade
     public function createValidations(): Validation
     {
         $composite = new Composite();
-        $validationRule = null;
 
         foreach ($this->rules as $key => $validation) {
-            $message = $messages[$key] ?? '';
+            $message = $this->messages[$key] ?? '';
+            $validationRule = null;
             if ($validation instanceof AbstractRule) {
                 $validationRule = new AwesomeValidationAdapter($key, $validation, $message);
             } elseif (is_callable($validation)) {

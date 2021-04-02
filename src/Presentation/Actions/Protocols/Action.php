@@ -116,7 +116,6 @@ abstract class Action
     protected function validate(null | array | object $body)
     {
         $rules = $this->rules() ?? [];
-
         $messages = $this->messages() ?? [];
         $validationFacade = new ValidationFacade($rules, $messages);
         $validator = $validationFacade->createValidations();

@@ -13,10 +13,16 @@ class ErrorBag extends ValidationError
     {
         $this->errors[] = $error;
         $this->message .= $error->getMessage();
+        echo $error->getMessage();
     }
 
     public function hasErrors(): bool
     {
         return count($this->errors) > 0;
+    }
+
+    public function getErrors()
+    {
+        return $this->errors;
     }
 }
