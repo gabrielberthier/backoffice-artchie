@@ -2,6 +2,7 @@
 
 namespace App\Presentation\Actions\Protocols\ActionTraits;
 
+use App\Presentation\Actions\Protocols\HttpErrors\UnprocessableEntityException;
 use App\Presentation\Helpers\Validation\ValidationFacade;
 
 trait ValidationTrait
@@ -28,7 +29,7 @@ trait ValidationTrait
         $result = $validator->validate($body);
 
         if ($result) {
-            throw $result;
+            throw new UnprocessableEntityException($this->request, $result->getMessage(), $result);
         }
     }
 }

@@ -17,7 +17,7 @@ use Slim\Exception\HttpNotImplementedException;
 use Slim\Exception\HttpUnauthorizedException;
 use Slim\Handlers\ErrorHandler as SlimErrorHandler;
 use Throwable;
-use UnprocessableEntityException;
+use App\Presentation\Actions\Protocols\HttpErrors\UnprocessableEntityException;
 
 class HttpErrorHandler extends SlimErrorHandler
 {

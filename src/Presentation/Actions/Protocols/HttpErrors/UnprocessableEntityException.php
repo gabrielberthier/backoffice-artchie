@@ -1,6 +1,9 @@
 <?php
 
+namespace App\Presentation\Actions\Protocols\HttpErrors;
+
 use Slim\Exception\HttpSpecializedException;
+use Throwable;
 
 class UnprocessableEntityException extends HttpSpecializedException
 {

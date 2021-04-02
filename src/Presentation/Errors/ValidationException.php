@@ -2,9 +2,9 @@
 
 namespace App\Presentation\Errors;
 
-use UnprocessableEntityException;
+use App\Presentation\Actions\Protocols\HttpErrors\UnprocessableEntityException as HttpErrorsUnprocessableEntityException;
 
-final class ValidationException extends UnprocessableEntityException
+final class ValidationException extends HttpErrorsUnprocessableEntityException
 {
     public function __construct(
         protected $message,
