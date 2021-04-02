@@ -8,7 +8,7 @@ use Respect\Validation\Rules\AbstractRule;
 
 class AwesomeValidationAdapter implements Validation
 {
-    public function __construct(private string $field, private AbstractRule $rule, private string $message = 'TESTE')
+    public function __construct(private string $field, private AbstractRule $rule, private ?string $message = 'TESTE')
     {
     }
 

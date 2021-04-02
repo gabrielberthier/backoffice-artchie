@@ -36,6 +36,7 @@ class LoginController extends Action
     {
         return [
             'email' => 'Email not valid',
+            'password' => 'Password wrong my dude',
         ];
     }
 

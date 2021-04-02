@@ -7,7 +7,7 @@ use App\Presentation\Protocols\Validation;
 
 class CallbackValidationAdapter implements Validation
 {
-    public function __construct(private string $field, private $rule, private string $message)
+    public function __construct(private string $field, private $rule, private ?string $message = '')
     {
     }
 
