@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Presentation\Middleware\SessionMiddleware;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
 use Slim\App;
 use Tuupola\Middleware\JwtAuthentication;
 
@@ -13,6 +14,9 @@ return function (App $app) {
 
     // Add the Slim built-in routing middleware
     $app->addRoutingMiddleware();
+
+    $logger = $app->getContainer()->get(LoggerInterface::class);
+    $secret = getenv('JWT_SECRET') ?? 'any_hash';
 
     /*
      *
@@ -30,10 +34,10 @@ return function (App $app) {
      * "error" => null
      */
     $app->add(new JwtAuthentication([
-        'secret' => getenv('JWT_SECRET'),
+        'secret' => 'test',
         'path' => '/api',
         'ignore' => ['/api/auth', '/admin/ping'],
-        'logger' => $app->getContainer()->get('logger'),
+        'logger' => $logger,
         'before' => function ($request, $arguments) {
             return $request->withAttribute('test', 'test');
         },

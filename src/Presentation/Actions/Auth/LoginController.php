@@ -44,7 +44,7 @@ class LoginController extends Action
     {
         return [
             'email' => Validator::email(),
-            'username' => Validator::alnum(),
+            'username' => Validator::alnum()->noWhitespace()->length(6, 20),
             'password' => function ($value) { return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[\w$@]{6,}$/m', $value); },
         ];
     }

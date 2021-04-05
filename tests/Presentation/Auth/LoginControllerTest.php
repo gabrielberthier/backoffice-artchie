@@ -44,15 +44,16 @@ class LoginControllerTest extends TestCase
         $service = $this->createMockService();
         $service->expects($this->once())->method('auth')->with($this->makeCredentials());
         $container->set(LoginServiceInterface::class, $service);
-        $this->app->handle($this->createMockRequest('any_mail.com', 'username', 'pass'));
+        $this->app->handle($this->createMockRequest('any_mail@gmail.com', 'username', 'Password04'));
     }
 
-    public function testShouldReturn400IfNoUsernameOrEmailIsProvided()
+    public function testShouldReturn422IfNoUsernameOrEmailIsProvided()
     {
         $app = $this->app;
         /** @var Container $container */
         $container = $app->getContainer();
         $service = $this->createMockService();
+        $this->setUpErrorHandler($app);
         $container->set(LoginServiceInterface::class, $service);
         $response = $app->handle($this->createMockRequest('email', '', 'pass'));
         $code = $response->getStatusCode();
@@ -84,9 +85,9 @@ class LoginControllerTest extends TestCase
     public function testExpectsThreeErrors()
     {
         $app = $this->app;
-
+        $this->setUpErrorHandler($app);
         $request = $this->constructPostRequest(
-            new Credentials('gnberthiermail.com', 'username', 'pass'),
+            new Credentials('gnberthiermail.com', 'use', 'pass'),
             'POST',
             '/auth/login'
         );
@@ -98,11 +99,11 @@ class LoginControllerTest extends TestCase
         $response = $app->handle($request);
 
         $payload = (string) $response->getBody();
-        $expectedError = new ActionError(ActionError::BAD_REQUEST, 'Email is invalid');
-        $expectedPayload = new ActionPayload(statusCode: 422, error: $expectedError);
-        $serializedPayload = json_encode($expectedPayload, JSON_PRETTY_PRINT);
+        $payloadDecoded = json_decode($payload);
 
-        $this->assertEquals($serializedPayload, $payload);
+        $errors = explode("\n", $payloadDecoded->error->description);
+
+        $this->assertEquals(count($errors), 3);
     }
 
     private function makeCredentials(): Credentials

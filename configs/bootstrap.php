@@ -11,10 +11,10 @@ use Symfony\Component\Dotenv\Dotenv;
 
 // Set the environment
 $dotenv = new Dotenv();
-$dotenv->load(__DIR__ . '/../.env');
+$dotenv->load(__DIR__.'/../.env');
 
 // Get the container
-$container = require __DIR__ . "/container-setup.php";
+$container = require __DIR__.'/container-setup.php';
 
 // Instantiate the app
 AppFactory::setContainer($container);
@@ -22,11 +22,11 @@ $app = AppFactory::create();
 $callableResolver = $app->getCallableResolver();
 
 // Register middleware
-$middleware = require __DIR__ . '/../app/middleware.php';
+$middleware = require __DIR__.'/../app/middleware.php';
 $middleware($app);
 
 // Register routes
-$routes = require __DIR__ . '/../app/routes.php';
+$routes = require __DIR__.'/../app/routes.php';
 $routes($app);
 
 /** @var bool $displayErrorDetails */
