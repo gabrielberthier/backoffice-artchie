@@ -39,11 +39,10 @@ class LoginControllerTest extends TestCase
 
     public function testShouldCallAuthenticationWithCorrectValues()
     {
-        $credentials = new Credentials('any_mail.com', 'username', 'pass');
         /** @var Container $container */
         $container = $this->getContainer();
         $service = $this->createMockService();
-        $service->expects($this->once())->method('auth')->with($credentials);
+        $service->expects($this->once())->method('auth')->with($this->makeCredentials());
         $container->set(LoginServiceInterface::class, $service);
         $this->app->handle($this->createMockRequest('any_mail.com', 'username', 'pass'));
     }
@@ -64,14 +63,14 @@ class LoginControllerTest extends TestCase
     {
         $app = $this->app;
         $this->setUpErrorHandler($app);
-        $body = new Credentials('email@gmail.com', 'username', 'pass');
+        $body = new Credentials('mike@gmail.com', 'username', 'pass');
         $request = $this->createJsonRequest('POST', '/auth/login', $body);
 
         $response = $app->handle($request);
 
         $payload = (string) $response->getBody();
-        $expectedError = new ActionError(ActionError::BAD_REQUEST, 'Email is invalid');
-        $expectedPayload = new ActionPayload(statusCode: 400, error: $expectedError);
+        $expectedError = new ActionError(ActionError::UNPROCESSABLE_ENTITY, '[password]: Password wrong my dude');
+        $expectedPayload = new ActionPayload(statusCode: 422, error: $expectedError);
         $serializedPayload = json_encode($expectedPayload, JSON_PRETTY_PRINT);
 
         $this->assertEquals($serializedPayload, $payload);
@@ -86,11 +85,8 @@ class LoginControllerTest extends TestCase
     {
         $app = $this->app;
 
-        /** @var Container $container */
-        $container = $app->getContainer();
-
         $request = $this->constructPostRequest(
-            new Credentials('gnberthier@gmail.com', 'username', 'pass'),
+            new Credentials('gnberthiermail.com', 'username', 'pass'),
             'POST',
             '/auth/login'
         );
@@ -103,10 +99,15 @@ class LoginControllerTest extends TestCase
 
         $payload = (string) $response->getBody();
         $expectedError = new ActionError(ActionError::BAD_REQUEST, 'Email is invalid');
-        $expectedPayload = new ActionPayload(statusCode: 400, error: $expectedError);
+        $expectedPayload = new ActionPayload(statusCode: 422, error: $expectedError);
         $serializedPayload = json_encode($expectedPayload, JSON_PRETTY_PRINT);
 
         $this->assertEquals($serializedPayload, $payload);
+    }
+
+    private function makeCredentials(): Credentials
+    {
+        return new Credentials('any_mail@gmail.com', 'username', 'Password04');
     }
 
     private function createValidatorService()

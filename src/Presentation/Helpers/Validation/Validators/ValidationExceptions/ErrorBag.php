@@ -6,14 +6,14 @@ use App\Presentation\Helpers\Validation\ValidationError;
 
 class ErrorBag extends ValidationError
 {
-    public $message = '';
+    private $messages = [];
     private array $errors = [];
 
     public function push(ValidationError $error)
     {
         $this->errors[] = $error;
-        $this->message .= "[{$error->getField()}]: {$error->getMessage()}\n";
-        echo $error->getMessage();
+        $this->messages[] = "[{$error->getField()}]: {$error->getMessage()}";
+        $this->message = join("\n", $this->messages);
     }
 
     public function hasErrors(): bool
