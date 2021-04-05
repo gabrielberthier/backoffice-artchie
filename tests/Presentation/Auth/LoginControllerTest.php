@@ -42,9 +42,15 @@ class LoginControllerTest extends TestCase
         /** @var Container $container */
         $container = $this->getContainer();
         $service = $this->createMockService();
-        $service->expects($this->once())->method('auth')->with($this->makeCredentials());
+        $service->expects($this->once())
+            ->method('auth')
+            ->with($this->makeCredentials())
+        ;
         $container->set(LoginServiceInterface::class, $service);
-        $this->app->handle($this->createMockRequest('any_mail@gmail.com', 'username', 'Password04'));
+        $this
+            ->app
+            ->handle($this->createMockRequest('any_mail@gmail.com', 'username', 'Password04'))
+        ;
     }
 
     public function testShouldReturn422IfNoUsernameOrEmailIsProvided()
@@ -86,22 +92,16 @@ class LoginControllerTest extends TestCase
     {
         $app = $this->app;
         $this->setUpErrorHandler($app);
-        $request = $this->constructPostRequest(
-            new Credentials('gnberthiermail.com', 'use', 'pass'),
-            'POST',
-            '/auth/login'
-        );
-        /*
-         * Internally processes this $request
-         * Validate it
-         * And maybe throw an error
-         */
+        $request = $this->constructPostRequest(new Credentials('gnberthiermail.com', 'use', 'pass'), 'POST', '/auth/login');
+
         $response = $app->handle($request);
 
         $payload = (string) $response->getBody();
         $payloadDecoded = json_decode($payload);
 
-        $errors = explode("\n", $payloadDecoded->error->description);
+        $errors = explode("\n", $payloadDecoded
+            ->error
+            ->description);
 
         $this->assertEquals(count($errors), 3);
     }
@@ -124,8 +124,12 @@ class LoginControllerTest extends TestCase
     {
         $credentials = new Credentials($email, $username, $pass);
         $request = $this->createRequest('POST', '/auth/login');
-        $request->getBody()->write(json_encode($credentials));
-        $request->getBody()->rewind();
+        $request->getBody()
+            ->write(json_encode($credentials))
+        ;
+        $request->getBody()
+            ->rewind()
+        ;
 
         return $request;
     }
