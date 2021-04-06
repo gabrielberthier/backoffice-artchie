@@ -52,6 +52,7 @@ class TokenLoginResponse implements JsonSerializable
             'jti' => $jti,
             'sub' => $this->account->getUsername(),
             'data' => $this->createData(),
+            'iss' => 'ARTCHIE',
         ];
 
         $secret = getenv('JWT_SECRET');
