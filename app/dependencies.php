@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Data\Protocols\Cryptography\ComparerInterface;
+use App\Infrastructure\Cryptography\HashComparer;
 use DI\ContainerBuilder;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -9,6 +11,11 @@ use Monolog\Processor\UidProcessor;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
+/*
+ * Sets infrastructure dependencies
+ *
+ * @param ContainerBuilder $containerBuilder
+ */
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
         LoggerInterface::class => function (ContainerInterface $c) {
@@ -25,5 +32,6 @@ return function (ContainerBuilder $containerBuilder) {
 
             return $logger;
         },
+        ComparerInterface::class => new HashComparer(),
     ]);
 };

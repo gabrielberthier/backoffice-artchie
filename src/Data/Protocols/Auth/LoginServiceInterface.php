@@ -8,7 +8,9 @@ use App\Domain\Models\TokenLoginResponse;
 interface LoginServiceInterface
 {
     /**
-     * @todo Receive Account and return TokenLoginResponse
+     * Receives Account and return TokenLoginResponse.
+     *
+     * @param Credentials
      */
     public function auth(Credentials $credentials): TokenLoginResponse;
 }

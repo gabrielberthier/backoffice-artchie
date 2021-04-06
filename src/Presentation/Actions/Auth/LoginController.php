@@ -29,7 +29,7 @@ class LoginController extends Action
         $credentials = new Credentials($email, $username, $password);
         $this->loginService->auth($credentials);
 
-        return $this->response;
+        return $this->response->withStatus(201);
     }
 
     public function messages(): ?array

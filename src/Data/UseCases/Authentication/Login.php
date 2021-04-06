@@ -17,16 +17,19 @@ class Login implements LoginServiceInterface
         private ComparerInterface $hashComparer
     ) {
     }
+
     public function auth(Credentials $credentials): TokenLoginResponse
     {
         $account = $this->accountRepository->findByMail($credentials->getEmail());
         if ($account) {
             $passwordsMatch = $this->hashComparer->compare($credentials->getPassword(), $account->getPassword());
             if ($passwordsMatch) {
-                return new TokenLoginResponse('', '');
+                return new TokenLoginResponse($account);
             }
+
             throw new IncorrectPasswordException();
         }
+
         throw new NoAccountFoundException();
     }
 }
