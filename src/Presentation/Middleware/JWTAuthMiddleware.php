@@ -6,6 +6,7 @@ namespace App\Presentation\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface as Middleware;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
@@ -53,8 +54,18 @@ class JWTAuthMiddleware implements Middleware
             'path' => '/api',
             'ignore' => ['/api/auth', '/admin/ping'],
             'logger' => $this->logger,
-            'before' => function ($request, $arguments) {
-                return $request->withAttribute('test', 'test');
+            'before' => function (ServerRequestInterface $request, $arguments) {
+                /**
+                 * @todo Check here to verify httpOnly refreshToken
+                 */
+                $cookies = $request->getCookieParams();
+                $refreshToken = $cookies['refresh_token'] ?? null;
+                if ($refreshToken) {
+                    $arguments['refresh_token'] = $refreshToken;
+                    $request = $request->withAttribute('refresh', $refreshToken);
+                }
+
+                return $request;
             },
             'error' => function (?ResponseInterface $response, $arguments) {
                 $data['status'] = 'error';
