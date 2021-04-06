@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 use App\Presentation\Handlers\HttpErrorHandler;
 use App\Presentation\Handlers\ShutdownHandler;
+use Dotenv\Dotenv;
 use Psr\Log\LoggerInterface;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
-use Symfony\Component\Dotenv\Dotenv;
 
 // Set the environment
-$dotenv = new Dotenv();
-$dotenv->load(__DIR__.'/../.env');
+$dotenv = Dotenv::createImmutable(__DIR__.'/../');
+$dotenv->load();
 
 // Get the container
 $container = require __DIR__.'/container-setup.php';

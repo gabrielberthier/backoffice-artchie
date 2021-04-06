@@ -8,9 +8,13 @@ use App\Domain\Models\User;
 use App\Domain\Repositories\UserRepository;
 use App\Presentation\Actions\Protocols\ActionPayload;
 use DI\Container;
-use Tests\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class ListUserActionTest extends TestCase
 {
     use ProphecyTrait;
@@ -28,7 +32,8 @@ class ListUserActionTest extends TestCase
         $userRepositoryProphecy
             ->findAll()
             ->willReturn([$user])
-            ->shouldBeCalledOnce();
+            ->shouldBeCalledOnce()
+        ;
 
         $container->set(UserRepository::class, $userRepositoryProphecy->reveal());
 

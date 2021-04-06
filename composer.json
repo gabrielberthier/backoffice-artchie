@@ -29,7 +29,8 @@
         "slim/psr7": ">=1.0",
         "slim/slim": "^4.7",
         "symfony/dotenv": "^5.2",
-        "tuupola/slim-jwt-auth": "^3.5"
+        "tuupola/slim-jwt-auth": "^3.5",
+        "vlucas/phpdotenv": "^5.3"
     },
     "require-dev": {
         "phpspec/prophecy-phpunit": "^2.0",
