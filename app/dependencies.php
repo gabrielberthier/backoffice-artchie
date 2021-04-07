@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Data\Protocols\Cryptography\ComparerInterface;
 use App\Infrastructure\Cryptography\HashComparer;
+use function DI\autowire;
 use DI\ContainerBuilder;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -32,6 +33,6 @@ return function (ContainerBuilder $containerBuilder) {
 
             return $logger;
         },
-        ComparerInterface::class => new HashComparer(),
+        ComparerInterface::class => autowire(HashComparer::class),
     ]);
 };
