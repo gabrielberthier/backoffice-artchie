@@ -1,2 +1,3 @@
 JWT_SECRET=blablabla
+JWT_SECRET_COOKIE=123456
 environment=dev
