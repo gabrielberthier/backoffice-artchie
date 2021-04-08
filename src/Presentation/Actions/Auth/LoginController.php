@@ -27,9 +27,18 @@ class LoginController extends Action
         ] = $parsedBody;
 
         $credentials = new Credentials($email, $username, $password);
-        $this->loginService->auth($credentials);
+        $tokenize = $this->loginService->auth($credentials);
+        $refreshToken = $tokenize->getRenewToken();
 
-        return $this->response->withStatus(201);
+        setcookie(
+            name: 'refresh-token',
+            value: $refreshToken,
+            expire: time() + 31536000,
+            path: '/',
+            httponly: true
+        );
+
+        return $this->respondWithData($tokenize)->withStatus(201, 'Created token');
     }
 
     public function messages(): ?array
