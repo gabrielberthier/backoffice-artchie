@@ -57,7 +57,7 @@ class JWTAuthMiddleware implements Middleware
         $cookies = $request->getCookieParams();
         $refreshToken = $cookies['refresh_token'] ?? null;
         if ($refreshToken) {
-            $request = $request->withAttribute('refresh', $refreshToken);
+            $request = $request->withAttribute('refresh-token', $refreshToken);
         }
         $this->errorHandler->setRefreshToken($refreshToken);
     }
