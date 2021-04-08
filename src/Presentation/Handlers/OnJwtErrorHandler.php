@@ -10,7 +10,7 @@ use Throwable;
 
 class OnJwtErrorHandler
 {
-    private string $refreshToken;
+    private string $refreshToken = '';
 
     public function __construct(private AccountRepository $repository)
     {
@@ -24,14 +24,11 @@ class OnJwtErrorHandler
         $secretToken = getenv('JWT_SECRET_COOKIE') ?? 'any_secret';
 
         try {
-            $object = JWT::decode($this->refreshToken, $secretToken, ['HS256']);
-            $uuid = $object->data->uuid;
-            $user = $this->repository->findByUUID($uuid);
-            $tokenCreator = new BodyTokenCreator($user);
+            $payload = JWT::decode($this->refreshToken, $secretToken, ['HS256']);
 
-            $data['token'] = $tokenCreator->createToken($secretBody);
+            $data['token'] = $this->retrieveUser($payload, $secretBody);
 
-            return $this->appendToBody($response, 401, $data);
+            return $this->appendToBody($response, 201, $data);
         } catch (Throwable) {
             $data['status'] = 'error';
             $data['message'] = $arguments['message'];
@@ -43,6 +40,15 @@ class OnJwtErrorHandler
     public function setRefreshToken(string $token)
     {
         $this->refreshToken = $token;
+    }
+
+    private function retrieveUser(object $payload, string $secret): string
+    {
+        $uuid = $payload->sub;
+        $user = $this->repository->findByUUID($uuid);
+        $tokenCreator = new BodyTokenCreator($user);
+
+        return $tokenCreator->createToken($secret);
     }
 
     private function appendToBody(ResponseInterface $response, int $status, array $data): ResponseInterface
