@@ -13,11 +13,10 @@ use App\Domain\Models\Account;
 use App\Domain\Models\DTO\Credentials;
 use App\Domain\Models\TokenLoginResponse;
 use App\Domain\Repositories\AccountRepository;
+use function PHPUnit\Framework\assertTrue;
 use PHPUnit\Framework\MockObject\MockObject;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Tests\TestCase;
-
-use function PHPUnit\Framework\assertTrue;
 
 class SutTypes
 {
@@ -31,8 +30,10 @@ class SutTypes
     }
 }
 
-
-
+/**
+ * @internal
+ * @coversNothing
+ */
 class LoginTest extends TestCase
 {
     use ProphecyTrait;
@@ -44,50 +45,47 @@ class LoginTest extends TestCase
         $this->sut = new SutTypes($this->mockRepository(), $this->makeComparer());
     }
 
-
-    function makeCredentials()
+    public function makeCredentials()
     {
         return new Credentials(email: '@mail.com', password: 'password', username: 'chet');
     }
 
     /**
-     * 
      * @param AccountRepository $repository
      * @param ComparerInterface $comparer
-     * 
-     * @return LoginServiceInterface
-     *
      */
-    function makeService($repository, $comparer): LoginServiceInterface
+    public function makeService($repository, $comparer): LoginServiceInterface
     {
         return new Login($repository, $comparer);
     }
 
     /**
-     * Create a mocked repository
-     *
-     * @return MockObject 
-     */
-    function mockRepository()
-    {
-        $mock = $this->getMockBuilder(AccountRepository::class)
-            ->onlyMethods(['findByMail'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        return $mock;
-    }
-
-    /**
-     * Create a mocked comparer object
+     * Create a mocked repository.
      *
      * @return MockObject
      */
-    function makeComparer()
+    public function mockRepository()
+    {
+        return $this->getMockBuilder(AccountRepository::class)
+            ->onlyMethods(['findByMail, findByUUID'])
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+    }
+
+    /**
+     * Create a mocked comparer object.
+     *
+     * @return MockObject
+     */
+    public function makeComparer()
     {
         $mock = $this->getMockBuilder(ComparerInterface::class)
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMock()
+        ;
         $mock->method('compare')->willReturn(true);
+
         return $mock;
     }
 
@@ -101,14 +99,15 @@ class LoginTest extends TestCase
     }
 
     // Test should throw error if no account is found
+
     /**
-     * @expectedException NoAccountFoundException
+     * @expectedException \NoAccountFoundException
      */
     public function testShouldThrowErrorIfNoAccountIsFound()
     {
         $this->expectException(NoAccountFoundException::class);
         $mock = $this->sut->repository;
-        $loginService =  $this->sut->service;
+        $loginService = $this->sut->service;
         $mock->expects($this->once())->method('findByMail')->willReturn(null);
         $accountStub = $this->makeCredentials();
         $loginService->auth($accountStub);
@@ -120,13 +119,14 @@ class LoginTest extends TestCase
         $mock = $this->sut->comparer;
         $credentialsStub = $this->makeCredentials();
         $mock->expects($this->once())
-            ->method("compare")
-            ->with('password', 'hashed_password');
+            ->method('compare')
+            ->with('password', 'hashed_password')
+        ;
         $repository = $this->sut->repository;
         $repository->method('findByMail')->willReturn(
             new Account(password: 'hashed_password', email: 'mail.com', username: 'user')
         );
-        $loginService =  $this->sut->service;
+        $loginService = $this->sut->service;
         $loginService->auth($credentialsStub);
     }
 
@@ -144,7 +144,8 @@ class LoginTest extends TestCase
          */
         $mock = $this->getMockBuilder(ComparerInterface::class)
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMock()
+        ;
         $mock->expects($this->once())->method('compare')->willReturn(false);
 
         $loginService = $this->makeService($repository, $mock);
