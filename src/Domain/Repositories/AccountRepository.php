@@ -8,8 +8,7 @@ use App\Domain\Models\Account;
 
 interface AccountRepository
 {
-    /**
-     * @return Account|null
-     */
     public function findByMail(string $mail): ?Account;
+
+    public function findByUUID(string $uuid): ?Account;
 }

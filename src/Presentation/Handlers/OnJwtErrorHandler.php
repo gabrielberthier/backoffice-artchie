@@ -2,6 +2,7 @@
 
 namespace App\Presentation\Handlers;
 
+use App\Domain\Repositories\AccountRepository;
 use App\Infrastructure\Cryptography\BodyTokenCreator;
 use Firebase\JWT\JWT;
 use Psr\Http\Message\ResponseInterface;
@@ -9,7 +10,9 @@ use Throwable;
 
 class OnJwtErrorHandler
 {
-    public function __construct(private string $refreshToken)
+    private string $refreshToken;
+
+    public function __construct(private AccountRepository $repository)
     {
     }
 
@@ -17,14 +20,15 @@ class OnJwtErrorHandler
     {
         $data['status'] = 'ok';
         $data['message'] = 'token refreshed';
+        $secretBody = getenv('JWT_SECRET') ?? 'any_secret';
+        $secretToken = getenv('JWT_SECRET_COOKIE') ?? 'any_secret';
 
         try {
-            $object = JWT::decode($this->refreshToken, $this->secret, ['HS256']);
+            $object = JWT::decode($this->refreshToken, $secretToken, ['HS256']);
             $uuid = $object->data->uuid;
-            $user = $repository->findAccountByID($uuid);
+            $user = $this->repository->findByUUID($uuid);
             $tokenCreator = new BodyTokenCreator($user);
 
-            $secretBody = getenv('JWT_SECRET') ?? 'any_secret';
             $data['token'] = $tokenCreator->createToken($secretBody);
 
             return $this->appendToBody($response, 401, $data);
@@ -34,6 +38,11 @@ class OnJwtErrorHandler
 
             return $this->appendToBody($response, 401, $data);
         }
+    }
+
+    public function setRefreshToken(string $token)
+    {
+        $this->refreshToken = $token;
     }
 
     private function appendToBody(ResponseInterface $response, int $status, array $data): ResponseInterface

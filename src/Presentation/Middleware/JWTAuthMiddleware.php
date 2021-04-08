@@ -15,13 +15,8 @@ use Tuupola\Middleware\JwtAuthentication;
 
 class JWTAuthMiddleware implements Middleware
 {
-    private string $secret;
-    private ?string $refreshToken = null;
-    private OnJwtErrorHandler $errorHandler;
-
-    public function __construct(private LoggerInterface $logger)
+    public function __construct(private LoggerInterface $logger, private OnJwtErrorHandler $errorHandler)
     {
-        $this->secret = $_ENV['JWT_SECRET'] ?? 'ANY_HASH';
     }
 
     /**
@@ -38,8 +33,10 @@ class JWTAuthMiddleware implements Middleware
 
     private function boot(): JwtAuthentication
     {
+        $secret = $_ENV['JWT_SECRET'] ?? 'ANY_HASH';
+
         return new JwtAuthentication([
-            'secret' => $this->secret,
+            'secret' => $secret,
             'path' => '/api',
             'ignore' => ['/api/auth', '/admin/ping'],
             'logger' => $this->logger,
@@ -60,9 +57,8 @@ class JWTAuthMiddleware implements Middleware
         $cookies = $request->getCookieParams();
         $refreshToken = $cookies['refresh_token'] ?? null;
         if ($refreshToken) {
-            $this->refreshToken = $refreshToken;
-            $request = $request->withAttribute('refresh', $this->refreshToken);
+            $request = $request->withAttribute('refresh', $refreshToken);
         }
-        $this->errorHandler = new OnJwtErrorHandler($refreshToken);
+        $this->errorHandler->setRefreshToken($refreshToken);
     }
 }
