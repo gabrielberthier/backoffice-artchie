@@ -42,7 +42,8 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "src/",
+            "Core\\": "app/"
         },
         "files": [
             "app/helpers.php"
@@ -56,6 +57,7 @@
     "scripts": {
         "start": "php -S localhost:8080 -t public",
         "test": "phpunit",
+        "test:nodebug": "@php -c ./disable-xdebug.ini && phpunit",
         "test:update": "phpunit --migrate-configuration",
         "doctrine": "doctrine"
     }

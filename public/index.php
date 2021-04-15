@@ -2,13 +2,23 @@
 
 declare(strict_types=1);
 
-
 use App\Presentation\ResponseEmitter\ResponseEmitter;
+use Core\Builder\AppBuilderManager;
+use Core\Builder\Factories\ContainerFactory;
+use Core\HTTP\HTTPRequestFactory;
+use Dotenv\Dotenv;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
-$app = require __DIR__ . '/../configs/bootstrap.php';
+// Set the environment
+$dotenv = Dotenv::createImmutable(__DIR__.'/../');
+$dotenv->load();
 
+$appBuilder = new AppBuilderManager(new ContainerFactory());
+
+$request = (new HTTPRequestFactory())->createRequest();
+
+return $appBuilder->build($request);
 // Run App & Emit Response
 $response = $app->handle($request);
 $responseEmitter = new ResponseEmitter();

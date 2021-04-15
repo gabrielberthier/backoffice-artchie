@@ -2,8 +2,10 @@
 
 namespace Tests\Traits\App;
 
+use Core\Builder\AppBuilderManager;
+use Core\Builder\Factories\ContainerFactory;
+use Core\HTTP\HTTPRequestFactory;
 use Slim\App;
-use Slim\Factory\AppFactory;
 
 trait InstanceManagerTrait
 {
@@ -12,20 +14,11 @@ trait InstanceManagerTrait
      */
     protected function getAppInstance(): App
     {
-        $container = require __DIR__ . '/../../../configs/container-setup.php';
+        $containerFactory = new ContainerFactory();
 
-        // Instantiate the app
-        AppFactory::setContainer($container);
-        $app = AppFactory::create();
+        $appBuilder = new AppBuilderManager($containerFactory);
+        $request = new HTTPRequestFactory();
 
-        // Register middleware
-        $middleware = require __DIR__ . '/../../../app/middleware.php';
-        $middleware($app);
-
-        // Register routes
-        $routes = require __DIR__ . '/../../../app/routes.php';
-        $routes($app);
-
-        return $app;
+        return $appBuilder->build($request->createRequest());
     }
 }
