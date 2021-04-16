@@ -17,8 +17,8 @@ class Middleware
 
         // Apply middlewares
         $definitions = ResourceLoader::getResource('middlewares');
-        foreach ($definitions as $middleware) {
-            $app->add($middleware);
+        foreach ($definitions as $middlewareClass) {
+            $app->add($middlewareClass);
         }
     }
 }
