@@ -67,7 +67,6 @@ class LoginTest extends TestCase
     public function mockRepository()
     {
         return $this->getMockBuilder(AccountRepository::class)
-            ->onlyMethods(['findByMail, findByUUID'])
             ->disableOriginalConstructor()
             ->getMock()
         ;

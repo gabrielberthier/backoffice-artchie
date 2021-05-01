@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Infrastructure\Persistence\User;
@@ -16,8 +17,6 @@ class InMemoryUserRepository implements UserRepository
 
     /**
      * InMemoryUserRepository constructor.
-     *
-     * @param array|null $users
      */
     public function __construct(array $users = null)
     {

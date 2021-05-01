@@ -1,0 +1,6 @@
+[2021-05-01T14:39:06.633038+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"3786e4b"}
+[2021-05-01T14:39:06.655572+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"f8f2a50"}
+[2021-05-01T14:40:36.195291+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"2f3d161"}
+[2021-05-01T14:40:36.208659+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"f58e83f"}
+[2021-05-01T14:41:15.843927+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"af8048f"}
+[2021-05-01T14:41:15.858608+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"84f79b0"}

@@ -6,13 +6,12 @@ use App\Presentation\ResponseEmitter\ResponseEmitter;
 use Core\Builder\AppBuilderManager;
 use Core\Builder\Factories\ContainerFactory;
 use Core\HTTP\HTTPRequestFactory;
-use Dotenv\Dotenv;
+use Symfony\Component\Dotenv\Dotenv;
 
 require __DIR__.'/../vendor/autoload.php';
 
-// Set the environment
-$dotenv = Dotenv::createImmutable(__DIR__.'/../');
-$dotenv->load();
+$dotenv = new Dotenv();
+$dotenv->load(__DIR__.'/../.env');
 
 $appBuilder = new AppBuilderManager(new ContainerFactory());
 
