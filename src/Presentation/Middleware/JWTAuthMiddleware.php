@@ -26,7 +26,7 @@ class JWTAuthMiddleware implements Middleware
     {
         $authMiddleware = $this->boot();
 
-        $this->verifyRefreshToken($request);
+        $this->interceptRefreshToken($request);
 
         return $authMiddleware->process($request, $handler);
     }
@@ -52,7 +52,7 @@ class JWTAuthMiddleware implements Middleware
         setcookie($key, '', time() - 3600, '/'); // empty value and old timestamp
     }
 
-    private function verifyRefreshToken(ServerRequestInterface $request): void
+    private function interceptRefreshToken(ServerRequestInterface $request): void
     {
         $cookies = $request->getCookieParams();
         $refreshToken = $cookies['refresh_token'] ?? null;

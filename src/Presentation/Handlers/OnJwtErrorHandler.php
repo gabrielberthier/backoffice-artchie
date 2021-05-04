@@ -11,30 +11,35 @@ use Throwable;
 class OnJwtErrorHandler
 {
     private string $refreshToken = '';
+    private string $secretBody;
+    private string $secretToken;
 
     public function __construct(private AccountRepository $repository)
     {
+        $this->secretBody = $_ENV['JWT_SECRET'] ?? 'any_secret';
+        $this->secretToken = $_ENV['JWT_SECRET_COOKIE'] ?? 'any_secret';
     }
 
     public function __invoke(ResponseInterface $response, $arguments): ResponseInterface
     {
-        $data['status'] = 'ok';
-        $data['message'] = 'token refreshed';
-        $secretBody = getenv('JWT_SECRET') ?? 'any_secret';
-        $secretToken = getenv('JWT_SECRET_COOKIE') ?? 'any_secret';
+        $status = 'ok';
+        $message = 'token refreshed';
+        $statusCode = 201;
+        $data = [];
 
         try {
-            $payload = JWT::decode($this->refreshToken, $secretToken, ['HS256']);
-
-            $data['token'] = $this->retrieveUser($payload, $secretBody);
-
-            return $this->appendToBody($response, 201, $data);
+            $payload = JWT::decode($this->refreshToken, $this->secretToken, ['HS256']);
+            $data['token'] = $this->retrieveUser($payload);
         } catch (Throwable) {
-            $data['status'] = 'error';
-            $data['message'] = $arguments['message'];
-
-            return $this->appendToBody($response, 401, $data);
+            $status = 'error';
+            $message = $arguments['message'];
+            $statusCode = 401;
         }
+
+        $data['status'] = $status;
+        $data['message'] = $message;
+
+        return $this->appendToBody($response, $statusCode, $data);
     }
 
     public function setRefreshToken(string $token)
@@ -42,13 +47,13 @@ class OnJwtErrorHandler
         $this->refreshToken = $token;
     }
 
-    private function retrieveUser(object $payload, string $secret): string
+    private function retrieveUser(object $payload): string
     {
         $uuid = $payload->sub;
         $user = $this->repository->findByUUID($uuid);
         $tokenCreator = new BodyTokenCreator($user);
 
-        return $tokenCreator->createToken($secret);
+        return $tokenCreator->createToken($this->secretBody);
     }
 
     private function appendToBody(ResponseInterface $response, int $status, array $data): ResponseInterface
@@ -56,7 +61,7 @@ class OnJwtErrorHandler
         $adaptedResponse = $response
             ->withHeader('Content-Type', 'application/json')
             ->withStatus($status)
-    ;
+        ;
         $adaptedResponse->getBody()->write(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
 
         return $adaptedResponse;

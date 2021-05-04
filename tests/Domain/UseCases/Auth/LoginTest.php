@@ -24,7 +24,7 @@ class SutTypes
 
     public function __construct(
         public $repository,
-        public $comparer,
+        public $comparer
     ) {
         $this->service = new Login($repository, $comparer);
     }
