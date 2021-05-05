@@ -8,3 +8,5 @@
 [2021-05-04T20:43:05.378705+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"b5f6ce1"}
 [2021-05-04T21:06:56.089692+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"a9f33ff"}
 [2021-05-04T21:06:56.103386+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"8db4940"}
+[2021-05-05T21:59:06.009175+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"a66b587"}
+[2021-05-05T21:59:06.037124+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"8651eed"}

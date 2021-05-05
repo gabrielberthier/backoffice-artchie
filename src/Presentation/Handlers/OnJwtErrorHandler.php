@@ -16,8 +16,8 @@ class OnJwtErrorHandler
 
     public function __construct(private AccountRepository $repository)
     {
-        $this->secretBody = $_ENV['JWT_SECRET'] ?? 'any_secret';
-        $this->secretToken = $_ENV['JWT_SECRET_COOKIE'] ?? 'any_secret';
+        $this->secretBody = $_ENV['JWT_SECRET'];
+        $this->secretToken = $_ENV['JWT_SECRET_COOKIE'];
     }
 
     public function __invoke(ResponseInterface $response, $arguments): ResponseInterface

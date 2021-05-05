@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Middleware;
 
+use App\Infrastructure\Cryptography\Exceptions\AppHasNoDefinedSecrets;
 use App\Presentation\Handlers\OnJwtErrorHandler;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface;
@@ -24,6 +25,8 @@ class JWTAuthMiddleware implements Middleware
      */
     public function process(Request $request, RequestHandler $handler): Response
     {
+        $this->grantHasSecrets();
+
         $authMiddleware = $this->boot();
 
         $this->interceptRefreshToken($request);
@@ -31,9 +34,19 @@ class JWTAuthMiddleware implements Middleware
         return $authMiddleware->process($request, $handler);
     }
 
+    private function grantHasSecrets()
+    {
+        $shouldHave = ['JWT_SECRET', 'JWT_SECRET_COOKIE'];
+        foreach ($shouldHave as $field) {
+            if (!array_key_exists($field, $_ENV)) {
+                throw new AppHasNoDefinedSecrets($field);
+            }
+        }
+    }
+
     private function boot(): JwtAuthentication
     {
-        $secret = $_ENV['JWT_SECRET'] ?? 'ANY_HASH';
+        $secret = $_ENV['JWT_SECRET'];
 
         return new JwtAuthentication([
             'secret' => $secret,
