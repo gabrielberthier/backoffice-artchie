@@ -23,4 +23,12 @@ class DoctrineAccountRepository implements AccountRepository
     {
         return null;
     }
+
+    public function insert(Account $account): bool
+    {
+        $this->em->persist($account);
+        $this->em->flush();
+
+        return true;
+    }
 }

@@ -11,4 +11,6 @@ interface AccountRepository
     public function findByMail(string $mail): ?Account;
 
     public function findByUUID(string $uuid): ?Account;
+
+    public function insert(Account $account): bool;
 }

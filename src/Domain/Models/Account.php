@@ -26,19 +26,37 @@ class Account implements JsonSerializable
     private ?UuidInterface $id;
 
     /**
-     * @param string      $email
-     * @param string      $username
-     * @param string      $password
-     * @param null|string $role
+     * @ORM\Column(type="string")
      */
+    private string $email;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private string $username;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private string $password;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private ?string $role = 'common';
+
     public function __construct(
         ?UuidInterface $id = null,
-        private string $email,
-        private string $username,
-        private string $password,
-        private ?string $role = 'common'
+        string $email,
+        string $username,
+        string $password,
+        ?string $role = 'common'
     ) {
         $this->id = $id;
+        $this->email = $email;
+        $this->username = $username;
+        $this->password = $password;
+        $this->role = $role;
     }
 
     public function getId(): UuidInterface | null
@@ -64,6 +82,62 @@ class Account implements JsonSerializable
     public function getRole(): ?string
     {
         return $this->role;
+    }
+
+    /**
+     * Set the value of username.
+     *
+     * @param mixed $username
+     *
+     * @return self
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of password.
+     *
+     * @param mixed $password
+     *
+     * @return self
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of role.
+     *
+     * @param mixed $role
+     *
+     * @return self
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of email.
+     *
+     * @param mixed $email
+     *
+     * @return self
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
     }
 
     /**

@@ -31,15 +31,19 @@ return [
             )
         );
 
-        Type::addType('uuid', 'Ramsey\Uuid\Doctrine\UuidType');
-        Type::addType('uuid_binary', 'Ramsey\Uuid\Doctrine\UuidBinaryType');
-
         $entityManager = EntityManager::create(
             $doctrine['connection'],
             $config
         );
 
-        $entityManager->getConnection()->getDatabasePlatform()->registerDoctrineTypeMapping('uuid_binary', 'binary');
+        if (!Type::hasType('uuid')) {
+            Type::addType('uuid', 'Ramsey\Uuid\Doctrine\UuidType');
+        }
+
+        if (!Type::hasType('uuid_binary')) {
+            Type::addType('uuid_binary', 'Ramsey\Uuid\Doctrine\UuidBinaryType');
+            $entityManager->getConnection()->getDatabasePlatform()->registerDoctrineTypeMapping('uuid_binary', 'binary');
+        }
 
         return $entityManager;
     },
