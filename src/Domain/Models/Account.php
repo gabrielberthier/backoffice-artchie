@@ -6,6 +6,7 @@ namespace App\Domain\Models;
 
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Ramsey\Uuid\UuidInterface;
 
 /**
@@ -14,25 +15,32 @@ use Ramsey\Uuid\UuidInterface;
  */
 class Account implements JsonSerializable
 {
+    /*
+    * @var \Ramsey\Uuid\UuidInterface
+    *
+    * @ORM\Id
+    * @ORM\Column(type="uuid_binary")
+    * @ORM\GeneratedValue(strategy="CUSTOM")
+    * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+    */
+    private ?UuidInterface $id;
+
     /**
-     * @param null|UuidInterface $id
-     * @param string             $email
-     * @param string             $username
-     * @param string             $password
-     * @param null|string        $role
+     * @param string      $email
+     * @param string      $username
+     * @param string      $password
+     * @param null|string $role
      */
     public function __construct(
-        private ?UuidInterface $id = null,
+        ?UuidInterface $id = null,
         private string $email,
         private string $username,
         private string $password,
         private ?string $role = 'common'
     ) {
+        $this->id = $id;
     }
 
-    /**
-     * @return int|UuidInterface
-     */
     public function getId(): UuidInterface | null
     {
         return $this->id;
