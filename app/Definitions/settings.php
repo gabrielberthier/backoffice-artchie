@@ -27,7 +27,7 @@ return [
                 'driver' => 'pdo_mysql',
                 'host' => 'localhost',
                 'port' => 3306,
-                'dbname' => 'backoffice',
+                'dbname' => 'backofficeapi',
                 'user' => 'root',
                 'password' => 'mithrandir99',
                 'charset' => 'utf8mb4',

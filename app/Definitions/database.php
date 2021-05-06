@@ -31,14 +31,14 @@ return [
             )
         );
 
+        if (!Type::hasType('uuid')) {
+            Type::addType('uuid', 'Ramsey\Uuid\Doctrine\UuidType');
+        }
+
         $entityManager = EntityManager::create(
             $doctrine['connection'],
             $config
         );
-
-        if (!Type::hasType('uuid')) {
-            Type::addType('uuid', 'Ramsey\Uuid\Doctrine\UuidType');
-        }
 
         if (!Type::hasType('uuid_binary')) {
             Type::addType('uuid_binary', 'Ramsey\Uuid\Doctrine\UuidBinaryType');

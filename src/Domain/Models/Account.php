@@ -15,15 +15,15 @@ use Ramsey\Uuid\UuidInterface;
  */
 class Account implements JsonSerializable
 {
-    /*
-    * @var \Ramsey\Uuid\UuidInterface
-    *
-    * @ORM\Id
-    * @ORM\Column(type="uuid_binary")
-    * @ORM\GeneratedValue(strategy="CUSTOM")
-    * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-    */
-    private ?UuidInterface $id;
+    /**
+     * @var \Ramsey\Uuid\UuidInterface
+     *
+     * @ORM\Id
+     * @ORM\Column(type="uuid_binary", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     */
+    protected $id;
 
     /**
      * @ORM\Column(type="string")
