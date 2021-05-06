@@ -1,3 +1,3 @@
-JWT_SECRET=blablabla
-JWT_SECRET_COOKIE=123456
-environment=dev
+MODE=development
+JWT_SECRET=VSOvm2ozkdWsiEqPow1umhfFGMYptCWEtBme24QyS52vDo7wl34ZzMk8ttjbU8m
+JWT_SECRET_COOKIE=secretcookie

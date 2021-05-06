@@ -17,7 +17,7 @@ $appBuilder = new AppBuilderManager(new ContainerFactory());
 
 $request = (new HTTPRequestFactory())->createRequest();
 
-return $appBuilder->build($request);
+$app = $appBuilder->build($request);
 // Run App & Emit Response
 $response = $app->handle($request);
 $responseEmitter = new ResponseEmitter();

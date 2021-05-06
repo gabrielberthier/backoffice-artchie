@@ -3,15 +3,16 @@
 // cli-config.php
 declare(strict_types=1);
 
-use DI\Container;
+use Core\Builder\Factories\ContainerFactory;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__.'/vendor/autoload.php';
 
-$container = require __DIR__ . "/configs/container-setup.php";
+$containerFactory = new ContainerFactory();
 
-/** @var Container $container */
+$container = $containerFactory->get();
+
 $em = $container->get(EntityManager::class);
 
 return ConsoleRunner::createHelperSet($em);
