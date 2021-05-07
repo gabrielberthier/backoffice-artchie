@@ -10,7 +10,7 @@ abstract class AbstractProvider implements AppProviderInterface
     public function __construct()
     {
         if (!isset($this->target)) {
-            throw new LogicException(get_class($this).' must have a $tablename');
+            throw new LogicException(get_class($this).' must have a $target name');
         }
     }
 
