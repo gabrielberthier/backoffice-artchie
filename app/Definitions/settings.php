@@ -23,15 +23,7 @@ return [
             // you should add any other path containing annotated entity classes
             'metadata_dirs' => [getcwd().'/src/Domain/Models'],
 
-            'connection' => [
-                'driver' => 'pdo_mysql',
-                'host' => 'localhost',
-                'port' => 3306,
-                'dbname' => 'backofficeapi',
-                'user' => 'root',
-                'password' => 'mithrandir99',
-                'charset' => 'utf8mb4',
-            ],
+            'connection' => require __DIR__.'./connection.php',
         ],
     ],
 ];
