@@ -6,7 +6,7 @@ namespace App\Domain\Models;
 
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
-use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
@@ -16,18 +16,20 @@ use Ramsey\Uuid\UuidInterface;
 class Account implements JsonSerializable
 {
     /**
+     * @var int
+     *
      * @ORM\Id
-     * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
     protected $id;
 
     /**
-     * @var \Ramsey\Uuid\UuidInterface
+     * The internal primary identity key.
      *
+     * @var UuidInterface
+     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      * @ORM\Column(type="uuid_binary", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      */
     private $uuid;
 
@@ -52,17 +54,24 @@ class Account implements JsonSerializable
     private ?string $role = 'common';
 
     public function __construct(
-        ?UuidInterface $id = null,
+        ?int $id = null,
         string $email,
         string $username,
         string $password,
-        ?string $role = 'common'
+        ?string $role = 'common',
+        ?UuidInterface $uuid = null
     ) {
         $this->id = $id;
         $this->email = $email;
         $this->username = $username;
         $this->password = $password;
         $this->role = $role;
+        $this->uuid = $uuid ?? Uuid::uuid4();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     public function getUuid(): UuidInterface | null
@@ -158,5 +167,19 @@ class Account implements JsonSerializable
             'password' => $this->password,
             'role' => $this->rolee,
         ];
+    }
+
+    /**
+     * Set the value of uuid.
+     *
+     * @param mixed $uuid
+     *
+     * @return self
+     */
+    public function setUuid($uuid)
+    {
+        $this->uuid = $uuid;
+
+        return $this;
     }
 }

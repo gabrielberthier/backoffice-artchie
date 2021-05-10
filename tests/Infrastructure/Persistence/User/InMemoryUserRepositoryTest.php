@@ -9,6 +9,10 @@ use App\Domain\Models\User;
 use App\Infrastructure\Persistence\User\InMemoryUserRepository;
 use Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class InMemoryUserRepositoryTest extends TestCase
 {
     public function testFindAll()
