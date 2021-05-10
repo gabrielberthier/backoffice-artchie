@@ -7,7 +7,7 @@ use Core\Builder\Factories\ContainerFactory;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 
-require __DIR__.'/vendor/autoload.php';
+require __DIR__.'/configs/bootstrap.php';
 
 $containerFactory = new ContainerFactory();
 

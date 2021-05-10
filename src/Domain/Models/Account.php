@@ -16,17 +16,23 @@ use Ramsey\Uuid\UuidInterface;
 class Account implements JsonSerializable
 {
     /**
-     * @var \Ramsey\Uuid\UuidInterface
-     *
      * @ORM\Id
-     * @ORM\Column(type="uuid_binary", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     protected $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @var \Ramsey\Uuid\UuidInterface
+     *
+     * @ORM\Column(type="uuid_binary", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     */
+    private $uuid;
+
+    /**
+     * @ORM\Column(type="string", unique=true, nullable=false)
      */
     private string $email;
 
@@ -59,9 +65,9 @@ class Account implements JsonSerializable
         $this->role = $role;
     }
 
-    public function getId(): UuidInterface | null
+    public function getUuid(): UuidInterface | null
     {
-        return $this->id;
+        return $this->uuid;
     }
 
     public function getUsername(): string
