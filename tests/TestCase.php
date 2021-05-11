@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests;
 
 use PHPUnit\Framework\TestCase as PHPUnit_TestCase;
+use Psr\Container\ContainerInterface;
 use Slim\App;
 use Tests\Traits\App\AppTestTrait;
 use Tests\Traits\App\DoublesTrait;
@@ -18,12 +19,16 @@ use Tests\Traits\App\RequestManagerTrait;
  */
 class TestCase extends PHPUnit_TestCase
 {
-    use AppTestTrait, DoublesTrait, ErrorHandlerTrait, InstanceManagerTrait, RequestManagerTrait;
+    use AppTestTrait;
+    use DoublesTrait;
+    use ErrorHandlerTrait;
+    use InstanceManagerTrait;
+    use RequestManagerTrait;
 
     /**
      * @var Container
      */
-    protected $container;
+    protected ContainerInterface $container;
 
     /**
      * @var App

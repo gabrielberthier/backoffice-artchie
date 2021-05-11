@@ -6,7 +6,6 @@ use DI\Container;
 use JsonException;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
-use Slim\App;
 
 /**
  * App Test Trait.
@@ -32,7 +31,7 @@ trait AppTestTrait
      */
     protected function getContainer(): ContainerInterface
     {
-        return $this->app->getContainer();
+        return $this->container;
     }
 
     protected function autowireContainer($key, $instance)

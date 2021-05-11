@@ -9,7 +9,16 @@ use Core\HTTP\HTTPRequestFactory;
 
 require __DIR__.'/../configs/bootstrap.php';
 
-$appBuilder = new AppBuilderManager(new ContainerFactory());
+$containerFactory = new ContainerFactory();
+
+$containerFactory
+// Set to true in production
+    ->enableCompilation(false)
+// Make use of annotations in classes
+    ->withAnnotations()
+;
+
+$appBuilder = new AppBuilderManager($containerFactory->get());
 
 $request = (new HTTPRequestFactory())->createRequest();
 

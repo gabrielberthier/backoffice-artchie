@@ -3,7 +3,6 @@
 namespace Core\Builder;
 
 use App\Presentation\Handlers\HttpErrorHandler;
-use Core\Builder\Factories\ContainerFactory;
 use Core\Builder\Factories\ErrorFactory;
 use Core\Builder\Factories\ShutdownHandlerFactory;
 use Core\HTTP\Middlewares\Middleware;
@@ -26,16 +25,9 @@ class AppBuilderManager
 
     private bool $enableShutdownHandler = true;
 
-    public function __construct(private ContainerFactory $containerFactory)
+    public function __construct(ContainerInterface $containerInterface)
     {
-        $this->container = $this
-            ->containerFactory
-            // Set to true in production
-            ->enableCompilation(false)
-            // Make use of annotations in classes
-            ->withAnnotations()
-            ->get()
-        ;
+        $this->container = $containerInterface;
 
         $this->displayErrors = $this->container->get('settings')['displayErrorDetails'];
 

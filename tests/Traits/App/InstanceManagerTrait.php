@@ -5,6 +5,7 @@ namespace Tests\Traits\App;
 use Core\Builder\AppBuilderManager;
 use Core\Builder\Factories\ContainerFactory;
 use Core\HTTP\HTTPRequestFactory;
+use Psr\Container\ContainerInterface;
 use Slim\App;
 
 trait InstanceManagerTrait
@@ -12,13 +13,27 @@ trait InstanceManagerTrait
     /**
      * @throws Exception
      */
-    protected function getAppInstance(): App
+    final protected function getAppInstance(): App
     {
-        $containerFactory = new ContainerFactory();
-
-        $appBuilder = new AppBuilderManager($containerFactory);
+        $appBuilder = new AppBuilderManager($this->setUpContainer());
         $request = new HTTPRequestFactory();
 
         return $appBuilder->build($request->createRequest());
+    }
+
+    final protected function setUpContainer(): ContainerInterface
+    {
+        $containerFactory = new ContainerFactory();
+
+        $containerFactory
+            // Set to true in production
+            ->enableCompilation(false)
+            // Make use of annotations in classes
+            ->withAnnotations()
+        ;
+
+        $this->container = $containerFactory->get();
+
+        return $this->container;
     }
 }
