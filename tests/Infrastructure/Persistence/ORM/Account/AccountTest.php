@@ -7,6 +7,7 @@ namespace Tests\Infrastructure\Persistence\User;
 use App\Domain\Models\Account;
 use App\Domain\Repositories\AccountRepository;
 use DI\Container;
+use Doctrine\ORM\EntityManager;
 use Tests\TestCase;
 
 /**
@@ -15,18 +16,34 @@ use Tests\TestCase;
  */
 class AccountTest extends TestCase
 {
+    private AccountRepository $repository;
+
     public function setUp(): void
     {
-        $this->app = $this->getAppInstance();
+        $this->getAppInstance();
+        /** @var Container $container */
+        $container = $this->getContainer();
+        // @var AccountRepository
+        $this->repository = $container->get(AccountRepository::class);
+    }
+
+    protected function tearDown(): void
+    {
+        /** @var Container $container */
+        $container = $this->getContainer();
+        /** @var EntityManager */
+        $entityManager = $container->get(EntityManager::class);
+        $collection = $entityManager->getRepository(Account::class)->findAll();
+        foreach ($collection as $c) {
+            $entityManager->remove($c);
+        }
+        $entityManager->flush();
+        $entityManager->clear();
     }
 
     public function testShouldInsertAccount()
     {
-        /** @var Container $container */
-        $container = $this->getContainer();
-        /** @var AccountRepository */
-        $repository = $container->get(AccountRepository::class);
         $account = new Account(email: 'mail.com', username: 'user', password: 'pass');
-        $repository->insert($account);
+        $this->repository->insert($account);
     }
 }

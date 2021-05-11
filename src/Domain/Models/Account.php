@@ -27,11 +27,10 @@ class Account implements JsonSerializable
     /**
      * The internal primary identity key.
      *
-     * @var UuidInterface
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      * @ORM\Column(type="uuid_binary", unique=true)
      */
-    private $uuid;
+    private UuidInterface $uuid;
 
     /**
      * @ORM\Column(type="string", unique=true, nullable=false)
@@ -74,7 +73,7 @@ class Account implements JsonSerializable
         return $this->id;
     }
 
-    public function getUuid(): UuidInterface | null
+    public function getUuid(): UuidInterface
     {
         return $this->uuid;
     }

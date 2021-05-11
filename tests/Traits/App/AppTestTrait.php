@@ -4,6 +4,7 @@ namespace Tests\Traits\App;
 
 use DI\Container;
 use JsonException;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\App;
 
@@ -26,7 +27,10 @@ trait AppTestTrait
         $this->assertSame($expected, (array) json_decode($actual, true, 512, JSON_THROW_ON_ERROR));
     }
 
-    protected function getContainer()
+    /**
+     * Gets the used container.
+     */
+    protected function getContainer(): ContainerInterface
     {
         return $this->app->getContainer();
     }

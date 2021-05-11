@@ -6,11 +6,11 @@ use App\Data\Protocols\Cryptography\TokenGeneratorInterface;
 use DateInterval;
 use DateTime;
 use Firebase\JWT\JWT;
-use Ramsey\Uuid\Rfc4122\UuidInterface;
+use Ramsey\Uuid\UuidInterface;
 
 class CookieTokenCreator implements TokenGeneratorInterface
 {
-    public function __construct(private ?UuidInterface $uuid)
+    public function __construct(private UuidInterface $uuid)
     {
     }
 
