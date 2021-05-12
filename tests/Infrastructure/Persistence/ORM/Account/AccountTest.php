@@ -23,6 +23,7 @@ class AccountTest extends TestCase
     {
         $this->getAppInstance();
         $container = $this->getContainer();
+        $this->createDatabase();
 
         $this->repository = $container->get(AccountRepository::class);
         $this->entityManager = $container->get(EntityManager::class);

@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase as PHPUnit_TestCase;
 use Psr\Container\ContainerInterface;
 use Slim\App;
 use Tests\Traits\App\AppTestTrait;
+use Tests\Traits\App\DatabaseManagerTrait;
 use Tests\Traits\App\DoublesTrait;
 use Tests\Traits\App\ErrorHandlerTrait;
 use Tests\Traits\App\InstanceManagerTrait;
@@ -24,6 +25,7 @@ class TestCase extends PHPUnit_TestCase
     use ErrorHandlerTrait;
     use InstanceManagerTrait;
     use RequestManagerTrait;
+    use DatabaseManagerTrait;
 
     /**
      * @var Container
