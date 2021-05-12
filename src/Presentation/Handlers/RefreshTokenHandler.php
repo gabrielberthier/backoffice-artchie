@@ -8,7 +8,12 @@ use Firebase\JWT\JWT;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
-class OnJwtErrorHandler
+/**
+ * @docs This class is called once the validation of a user's JWT throws invalid.
+ * Then, this class instance is responsible to verify the user's refresh token existence and
+ * forge a new JWT in case the Refresh Token exists.
+ */
+class RefreshTokenHandler
 {
     private string $refreshToken = '';
     private string $secretBody;

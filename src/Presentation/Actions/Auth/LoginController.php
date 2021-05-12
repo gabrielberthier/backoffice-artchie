@@ -33,12 +33,12 @@ class LoginController extends Action
         setcookie(
             name: 'refresh-token',
             value: $refreshToken,
-            expire: time() + 31536000,
+            expires_or_options: time() + 31536000,
             path: '/',
             httponly: true
         );
 
-        return $this->respondWithData($tokenize)->withStatus(201, 'Created token');
+        return $this->respondWithData($tokenize->getToken())->withStatus(201, 'Created token');
     }
 
     public function messages(): ?array

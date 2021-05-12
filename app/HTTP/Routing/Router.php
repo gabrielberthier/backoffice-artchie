@@ -30,5 +30,13 @@ class Router
         $app->group('/auth', function (Group $group) {
             $group->post('/login', LoginController::class);
         });
+
+        $app->group('/api', function (Group $group) {
+            $group->get('/test-auth', function (Request $request, Response $response, array $args): Response {
+                $response->getBody()->write('IHA');
+
+                return $response;
+            });
+        });
     }
 }

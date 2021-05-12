@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Middleware;
 
 use App\Infrastructure\Cryptography\Exceptions\AppHasNoDefinedSecrets;
-use App\Presentation\Handlers\OnJwtErrorHandler;
+use App\Presentation\Handlers\RefreshTokenHandler;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -16,7 +16,7 @@ use Tuupola\Middleware\JwtAuthentication;
 
 class JWTAuthMiddleware implements Middleware
 {
-    public function __construct(private LoggerInterface $logger, private OnJwtErrorHandler $errorHandler)
+    public function __construct(private LoggerInterface $logger, private RefreshTokenHandler $refreshTokenHandler)
     {
     }
 
@@ -53,8 +53,9 @@ class JWTAuthMiddleware implements Middleware
             'path' => '/api',
             'ignore' => ['/api/auth', '/admin/ping'],
             'logger' => $this->logger,
-            'error' => $this->errorHandler,
+            'error' => $this->refreshTokenHandler,
             'relaxed' => ['localhost', 'dev.example.com'],
+            'secure' => false,
         ]);
     }
 
@@ -71,7 +72,7 @@ class JWTAuthMiddleware implements Middleware
         $refreshToken = $cookies['refresh_token'] ?? null;
         if (is_string($refreshToken)) {
             $request = $request->withAttribute('refresh-token', $refreshToken);
-            $this->errorHandler->setRefreshToken($refreshToken);
+            $this->refreshTokenHandler->setRefreshToken($refreshToken);
         }
     }
 }

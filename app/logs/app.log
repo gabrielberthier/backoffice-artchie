@@ -123,3 +123,34 @@
 [2021-05-12T00:44:39.098526+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"e8d64bf"}
 [2021-05-12T00:45:30.086329+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"1dfc0cc"}
 [2021-05-12T00:45:30.096795+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"0a7d5d9"}
+[2021-05-12T00:53:23.567586+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"fa6756b"}
+[2021-05-12T00:53:23.578122+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"cc3e06b"}
+[2021-05-12T01:00:48.186650+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"4b92349"}
+[2021-05-12T01:00:48.199583+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"92e684d"}
+[2021-05-12T01:01:41.211791+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"93bd53f"}
+[2021-05-12T01:01:41.222790+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"038d03d"}
+[2021-05-12T01:02:36.145660+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"578efcf"}
+[2021-05-12T01:02:36.156842+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"85ae107"}
+[2021-05-12T01:03:06.183670+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"28c38be"}
+[2021-05-12T01:03:06.199159+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"fac23be"}
+[2021-05-12T01:09:52.507172+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"2fe02a5"}
+[2021-05-12T01:09:52.517717+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"5e8033c"}
+[2021-05-12T01:11:16.780042+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"c5cc002"}
+[2021-05-12T01:11:16.791636+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"5b4edae"}
+[2021-05-12T01:11:40.899734+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"bb0aa7d"}
+[2021-05-12T01:11:40.910691+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"8ff2758"}
+[2021-05-12T01:17:07.015239+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"69caa2d"}
+[2021-05-12T01:17:07.026092+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"975e47f"}
+[2021-05-12T01:18:30.885460+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"e400fe9"}
+[2021-05-12T01:18:30.898148+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"5c157dd"}
+[2021-05-12T01:19:22.005458+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"10e8fba"}
+[2021-05-12T01:19:22.016779+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"eb66b6d"}
+[2021-05-12T01:20:22.689284+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"ba52daa"}
+[2021-05-12T01:20:22.700755+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"289906e"}
+[2021-05-12T01:20:22.866473+00:00] slim-app.WARNING: Token not found [] {"uid":"a72336a"}
+[2021-05-12T01:23:31.705019+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"48dd3c0"}
+[2021-05-12T01:23:31.716800+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"ffdc64c"}
+[2021-05-12T01:23:31.864870+00:00] slim-app.WARNING: Token not found [] {"uid":"a9ff5c2"}
+[2021-05-12T01:25:04.809127+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"483ebbc"}
+[2021-05-12T01:25:04.820765+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"fb8655d"}
+[2021-05-12T01:25:04.994088+00:00] slim-app.WARNING: Token not found [] {"uid":"062ef3c"}
