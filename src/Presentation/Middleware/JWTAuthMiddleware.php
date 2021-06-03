@@ -16,8 +16,10 @@ use Tuupola\Middleware\JwtAuthentication;
 
 class JWTAuthMiddleware implements Middleware
 {
-    public function __construct(private LoggerInterface $logger, private RefreshTokenHandler $refreshTokenHandler)
-    {
+    public function __construct(
+        private LoggerInterface $logger,
+        private RefreshTokenHandler $refreshTokenHandler
+    ) {
     }
 
     /**
@@ -57,13 +59,6 @@ class JWTAuthMiddleware implements Middleware
             'relaxed' => ['localhost', 'dev.example.com'],
             'secure' => false,
         ]);
-    }
-
-    private function destroyJWT(): void
-    {
-        $key = 'refresh_token';
-        unset($_COOKIE[$key]);
-        setcookie($key, '', time() - 3600, '/'); // empty value and old timestamp
     }
 
     private function interceptRefreshToken(ServerRequestInterface $request): void

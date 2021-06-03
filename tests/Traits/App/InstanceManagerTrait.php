@@ -10,18 +10,47 @@ use Slim\App;
 
 trait InstanceManagerTrait
 {
+    protected static ?ContainerInterface $container = null;
+    protected App $app;
+
     /**
      * @throws Exception
      */
     final protected function getAppInstance(): App
     {
-        $appBuilder = new AppBuilderManager($this->setUpContainer());
+        $appBuilder = new AppBuilderManager($this->getContainer());
         $request = new HTTPRequestFactory();
 
         return $appBuilder->build($request->createRequest());
     }
 
-    final protected function setUpContainer(): ContainerInterface
+    final protected function createAppInstance()
+    {
+        $appBuilder = new AppBuilderManager($this->getContainer(true));
+        $request = new HTTPRequestFactory();
+
+        return $appBuilder->build($request->createRequest());
+    }
+
+    protected function getContainer(bool $forceUpdate = false): ContainerInterface
+    {
+        if (null === self::$container || $forceUpdate) {
+            self::$container = $this->setUpContainer();
+        }
+
+        return self::$container;
+    }
+
+    protected function autowireContainer($key, $instance)
+    {
+        /**
+         * @var Container
+         */
+        $container = $this->getContainer();
+        $container->set($key, $instance);
+    }
+
+    private function setUpContainer(): ContainerInterface
     {
         $containerFactory = new ContainerFactory();
 
@@ -32,8 +61,6 @@ trait InstanceManagerTrait
             ->withAnnotations()
         ;
 
-        $this->container = $containerFactory->get();
-
-        return $this->container;
+        return $containerFactory->get();
     }
 }

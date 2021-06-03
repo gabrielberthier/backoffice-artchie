@@ -41,9 +41,7 @@ class AuthMiddlewareTest extends TestCase
         $app = $this->app;
         $this->setUpErrorHandler($app);
         $response = $app->handle($this->createMockRequest());
-        $payload = (string) $response->getBody();
 
-        echo $payload;
         assertNotNull($response);
         assertSame(401, $response->getStatusCode());
     }

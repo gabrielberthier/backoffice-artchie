@@ -19,12 +19,20 @@ class AccountTest extends TestCase
     private AccountRepository $repository;
     private EntityManager $entityManager;
 
+    public static function setUpBeforeClass(): void
+    {
+        self::createDatabase();
+    }
+
+    public static function tearDownAfterClass(): void
+    {
+        self::truncateDatabase();
+    }
+
     public function setUp(): void
     {
         $this->getAppInstance();
         $container = $this->getContainer();
-        $this->createDatabase();
-
         $this->repository = $container->get(AccountRepository::class);
         $this->entityManager = $container->get(EntityManager::class);
     }

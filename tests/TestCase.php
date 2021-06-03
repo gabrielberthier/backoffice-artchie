@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\SchemaTool;
 use PHPUnit\Framework\TestCase as PHPUnit_TestCase;
-use Psr\Container\ContainerInterface;
-use Slim\App;
 use Tests\Traits\App\AppTestTrait;
-use Tests\Traits\App\DatabaseManagerTrait;
 use Tests\Traits\App\DoublesTrait;
 use Tests\Traits\App\ErrorHandlerTrait;
 use Tests\Traits\App\InstanceManagerTrait;
@@ -25,15 +24,25 @@ class TestCase extends PHPUnit_TestCase
     use ErrorHandlerTrait;
     use InstanceManagerTrait;
     use RequestManagerTrait;
-    use DatabaseManagerTrait;
 
-    /**
-     * @var Container
-     */
-    protected ContainerInterface $container;
+    public static function createDatabase()
+    {
+        /** @var ContainerInterface */
+        $container = self::$container;
+        /** @var EntityManager */
+        $entityManager = $container->get(EntityManager::class);
+        $metadatas = $entityManager->getMetadataFactory()->getAllMetadata();
+        $schemaTool = new SchemaTool($entityManager);
+        $schemaTool->updateSchema($metadatas);
+    }
 
-    /**
-     * @var App
-     */
-    protected $app;
+    final public static function truncateDatabase()
+    {
+        /** @var ContainerInterface */
+        $container = self::$container;
+        /** @var EntityManager */
+        $entityManager = $container->get(EntityManager::class);
+        $schemaTool = new SchemaTool($entityManager);
+        $schemaTool->dropDatabase();
+    }
 }

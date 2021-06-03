@@ -21,7 +21,7 @@ class ListUserActionTest extends TestCase
 
     public function testAction()
     {
-        $app = $this->getAppInstance();
+        $app = $this->createAppInstance();
 
         /** @var Container $container */
         $container = $app->getContainer();

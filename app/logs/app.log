@@ -160,3 +160,12 @@
 [2021-05-12T12:31:32.414799+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"db4ab16"}
 [2021-05-12T12:31:32.419251+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"d18df69"}
 [2021-05-12T12:31:32.496402+00:00] slim-app.WARNING: Token not found [] {"uid":"738ca10"}
+[2021-05-25T00:15:17.202165+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"f27ddb4"}
+[2021-05-25T00:15:17.213107+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"64d192f"}
+[2021-05-25T00:15:17.379171+00:00] slim-app.WARNING: Token not found [] {"uid":"c1e5637"}
+[2021-06-03T19:22:30.712163+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"7acf336"}
+[2021-06-03T19:22:30.731788+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"ed9a3c9"}
+[2021-06-03T19:22:31.026122+00:00] slim-app.WARNING: Token not found [] {"uid":"bcfaf41"}
+[2021-06-03T19:25:47.275574+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"a6db08a"}
+[2021-06-03T19:25:47.288585+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"d64fdcc"}
+[2021-06-03T19:25:47.445348+00:00] slim-app.WARNING: Token not found [] {"uid":"dec887f"}
