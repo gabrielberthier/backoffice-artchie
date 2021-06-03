@@ -7,6 +7,7 @@ namespace Tests\Presentation\Auth;
 use App\Domain\Repositories\AccountRepository;
 use App\Presentation\Handlers\RefreshTokenHandler;
 use App\Presentation\Middleware\JWTAuthMiddleware;
+use DI\Container;
 use function PHPUnit\Framework\assertNotNull;
 use function PHPUnit\Framework\assertSame;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -44,6 +45,38 @@ class AuthMiddlewareTest extends TestCase
 
         assertNotNull($response);
         assertSame(401, $response->getStatusCode());
+    }
+
+    public function testShouldInterceptHttpCookieRefresh()
+    {
+        $app = $this->createAppInstance();
+
+        $this->setUpErrorHandler($app);
+        $request = $this->createMockRequest();
+
+        $tokenValue = 'any_value';
+
+        $request = $request->withCookieParams(['refresh_token' => $tokenValue]);
+
+        $mockJwtRefreshHandler = $this->getMockBuilder(RefreshTokenHandler::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+        $mockJwtRefreshHandler->expects($this->once())
+            ->method('setRefreshToken')
+            ->with($tokenValue)
+        ;
+
+        /**
+         * @var Container
+         */
+        $container = $this->getContainer();
+
+        $container->set(RefreshTokenHandler::class, $mockJwtRefreshHandler);
+
+        $response = $app->handle($request);
+
+        assertNotNull($response);
     }
 
     private function createMockRequest(): ServerRequestInterface
