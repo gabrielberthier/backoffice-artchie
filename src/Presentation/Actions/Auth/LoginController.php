@@ -37,7 +37,7 @@ class LoginController extends Action
             httponly: true
         );
 
-        return $this->respondWithData($tokenize->getToken())->withStatus(201, 'Created token');
+        return $this->respondWithData(['token' => $tokenize->getToken()])->withStatus(201, 'Created token');
     }
 
     public function messages(): ?array

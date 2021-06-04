@@ -54,11 +54,11 @@ class Account implements JsonSerializable
      */
     private ?string $role = 'common';
 
-    /** @Column(type="datetime", name="created_at") */
+    /** @ORM\Column(type="datetime", name="created_at") */
     private DateTime $createdAt;
 
     /**
-     * @Column(type="datetime", name="created_at")
+     * @ORM\Column(type="datetime", name="updated_at")
      */
     private DateTime $updated;
 
@@ -76,6 +76,8 @@ class Account implements JsonSerializable
         $this->password = $password;
         $this->role = $role;
         $this->uuid = $uuid ?? Uuid::uuid4();
+        $this->createdAt = new DateTime();
+        $this->updated = new DateTime();
     }
 
     /**

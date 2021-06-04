@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Actions\Auth;
 
 use App\Data\Protocols\Auth\SignUpServiceInterface;
+use App\Data\Protocols\Cryptography\HasherInterface;
 use App\Domain\Models\Account;
 use App\Presentation\Actions\Protocols\Action;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -13,31 +14,42 @@ use Respect\Validation\Validator;
 class SignUpController extends Action
 {
     public function __construct(
-        private SignUpServiceInterface $service
+        private SignUpServiceInterface $service,
+        private HasherInterface $hasherInterface
     ) {
     }
 
     public function action(): Response
     {
-        $parsedBody = $this->request->getParsedBody();
-        [
+        try {
+            $parsedBody = $this->request->getParsedBody();
+            [
             'email' => $email,
             'username' => $username,
             'password' => $password,
         ] = $parsedBody;
 
-        $tokenize = $this->service->register(new Account(email: $email, username: $username, password: $password));
-        $refreshToken = $tokenize->getRenewToken();
+            $password = $this->hasherInterface->hash($password);
+            $tokenize = $this->service->register(new Account(email: $email, username: $username, password: $password));
+            $refreshToken = $tokenize->getRenewToken();
 
-        setcookie(
-            name: REFRESH_TOKEN,
-            value: $refreshToken,
-            expires_or_options: time() + 31536000,
-            path: '/',
-            httponly: true
-        );
+            setcookie(
+                name: REFRESH_TOKEN,
+                value: $refreshToken,
+                expires_or_options: time() + 31536000,
+                path: '/',
+                httponly: true
+            );
 
-        return $this->respondWithData($tokenize->getToken())->withStatus(201, 'Created token');
+            return $this
+                ->respondWithData(['token' => $tokenize->getToken()])
+                ->withStatus(201, 'Created token')
+        ;
+        } catch (\Throwable $th) {
+            return $this->respondWithData(['error' => $th])
+                ->withStatus(401, 'Created token')
+            ;
+        }
     }
 
     public function messages(): ?array
@@ -46,7 +58,7 @@ class SignUpController extends Action
             'email' => 'Email not valid',
             'username' => 'A valid username must be provided',
             'password' => 'Password wrong my dude',
-            'password_confirmation' => 'Password confirmation doesn\'t match.',
+            'passwordConfirmation' => 'Password confirmation doesn\'t match.',
         ];
     }
 

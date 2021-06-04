@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Core\HTTP\Routing;
 
 use App\Presentation\Actions\Auth\LoginController;
+use App\Presentation\Actions\Auth\SignUpController;
 use App\Presentation\Actions\User\ListUsersAction;
 use App\Presentation\Actions\User\ViewUserAction;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -29,6 +30,7 @@ class Router
 
         $app->group('/auth', function (Group $group) {
             $group->post('/login', LoginController::class);
+            $group->post('/signup', SignUpController::class);
         });
 
         $app->group('/api', function (Group $group) {

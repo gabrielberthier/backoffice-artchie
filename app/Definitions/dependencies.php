@@ -3,7 +3,9 @@
 declare(strict_types=1);
 
 use App\Data\Protocols\Cryptography\ComparerInterface;
+use App\Data\Protocols\Cryptography\HasherInterface;
 use App\Infrastructure\Cryptography\HashComparer;
+use App\Infrastructure\Cryptography\HashCreator;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
@@ -31,4 +33,5 @@ return [
         return $logger;
     },
     ComparerInterface::class => new HashComparer(),
+    HasherInterface::class => new HashCreator(),
 ];
