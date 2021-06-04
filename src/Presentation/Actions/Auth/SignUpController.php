@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Presentation\Actions\Auth;
 
-use App\Data\Protocols\Auth\LoginServiceInterface;
-use App\Domain\Models\DTO\Credentials;
+use App\Data\Protocols\Auth\SignUpServiceInterface;
+use App\Domain\Models\Account;
 use App\Presentation\Actions\Protocols\Action;
 use Psr\Http\Message\ResponseInterface as Response;
 use Respect\Validation\Validator;
@@ -13,7 +13,7 @@ use Respect\Validation\Validator;
 class SignUpController extends Action
 {
     public function __construct(
-        private LoginServiceInterface $loginService
+        private SignUpServiceInterface $service
     ) {
     }
 
@@ -23,11 +23,10 @@ class SignUpController extends Action
         [
             'email' => $email,
             'username' => $username,
-            'password' => $password
+            'password' => $password,
         ] = $parsedBody;
 
-        $credentials = new Credentials($email, $username, $password);
-        $tokenize = $this->loginService->auth($credentials);
+        $tokenize = $this->service->register(new Account(email: $email, username: $username, password: $password));
         $refreshToken = $tokenize->getRenewToken();
 
         setcookie(
@@ -45,16 +44,22 @@ class SignUpController extends Action
     {
         return [
             'email' => 'Email not valid',
+            'username' => 'A valid username must be provided',
             'password' => 'Password wrong my dude',
+            'password_confirmation' => 'Password confirmation doesn\'t match.',
         ];
     }
 
     public function rules(): ?array
     {
+        $parsedBody = $this->request->getParsedBody();
+        $password = $parsedBody['password'];
+
         return [
             'email' => Validator::email(),
             'username' => Validator::alnum()->noWhitespace()->length(6, 20),
             'password' => function ($value) { return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[\w$@]{6,}$/m', $value); },
+            'passwordConfirmation' => fn ($value) => $value === $password,
         ];
     }
 }

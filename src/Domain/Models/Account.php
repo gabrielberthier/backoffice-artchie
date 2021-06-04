@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Models;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 use Ramsey\Uuid\Uuid;
@@ -11,6 +12,7 @@ use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="accounts")
  */
 class Account implements JsonSerializable
@@ -52,6 +54,14 @@ class Account implements JsonSerializable
      */
     private ?string $role = 'common';
 
+    /** @Column(type="datetime", name="created_at") */
+    private DateTime $createdAt;
+
+    /**
+     * @Column(type="datetime", name="created_at")
+     */
+    private DateTime $updated;
+
     public function __construct(
         ?int $id = null,
         string $email,
@@ -66,6 +76,24 @@ class Account implements JsonSerializable
         $this->password = $password;
         $this->role = $role;
         $this->uuid = $uuid ?? Uuid::uuid4();
+    }
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps(): void
+    {
+        $this->setUpdated(new DateTime('now'));
+        if (null === $this->getCreatedAt()) {
+            $this->setCreatedAt(new DateTime('now'));
+        }
+    }
+
+    public function setUpdated(DateTime $dateTime)
+    {
+        // WILL be saved in the database
+        $this->updated = $dateTime;
     }
 
     public function getId(): ?int
@@ -164,7 +192,9 @@ class Account implements JsonSerializable
             'email' => $this->email,
             'username' => $this->username,
             'password' => $this->password,
-            'role' => $this->rolee,
+            'role' => $this->role,
+            'created_at' => $this->createdAt,
+            'updated' => $this->updated,
         ];
     }
 
@@ -180,5 +210,35 @@ class Account implements JsonSerializable
         $this->uuid = $uuid;
 
         return $this;
+    }
+
+    /**
+     * Get the value of createdAt.
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set the value of createdAt.
+     *
+     * @param mixed $createdAt
+     *
+     * @return self
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of updated.
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
     }
 }
