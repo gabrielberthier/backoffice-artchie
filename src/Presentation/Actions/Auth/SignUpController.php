@@ -30,7 +30,8 @@ class SignUpController extends Action
         ] = $parsedBody;
 
             $password = $this->hasherInterface->hash($password);
-            $tokenize = $this->service->register(new Account(email: $email, username: $username, password: $password));
+            $account = new Account(email: $email, username: $username, password: $password);
+            $tokenize = $this->service->register($account);
             $refreshToken = $tokenize->getRenewToken();
 
             setcookie(
