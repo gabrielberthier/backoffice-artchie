@@ -5,33 +5,17 @@ declare(strict_types=1);
 namespace App\Domain\Models\DTO;
 
 use JsonSerializable;
-use Ramsey\Uuid\UuidInterface;
 
 class Credentials implements JsonSerializable
 {
-    /**
-     * @param null|UuidInterface $id
-     * @param string             $email
-     * @param string             $username
-     * @param string             $password
-     * @param null|string        $role
-     */
+    private string $email;
+    private string $username;
+
     public function __construct(
-        private string $email,
-        private string $username,
+        private string $access,
         private string $password,
         private string $role = ''
     ) {
-    }
-
-    public function getUsername(): string
-    {
-        return $this->username;
-    }
-
-    public function getEmail(): string
-    {
-        return $this->email;
     }
 
     public function getPassword(): string
@@ -44,15 +28,18 @@ class Credentials implements JsonSerializable
         return $this->role;
     }
 
+    public function getAccess()
+    {
+        return $this->access;
+    }
+
     /**
      * @return array
      */
     public function jsonSerialize()
     {
         return [
-            'id' => $this->id ?? '',
-            'email' => $this->email,
-            'username' => $this->username,
+            'access' => $this->getAccess(),
             'password' => $this->password,
             'role' => $this->role,
         ];

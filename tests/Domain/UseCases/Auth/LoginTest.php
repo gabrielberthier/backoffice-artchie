@@ -47,7 +47,7 @@ class LoginTest extends TestCase
 
     public function makeCredentials()
     {
-        return new Credentials(email: '@mail.com', password: 'password', username: 'chet');
+        return new Credentials(access: '@mail.com', password: 'password');
     }
 
     /**
@@ -92,7 +92,7 @@ class LoginTest extends TestCase
     {
         $mock = $this->sut->repository;
         $loginService = $this->sut->service;
-        $mock->expects($this->once())->method('findByMail')->with('@mail.com')->willReturn(new Account(null, '', '', ''));
+        $mock->expects($this->once())->method('findByAccess')->with('@mail.com')->willReturn(new Account(null, '', '', ''));
         $accountStub = $this->makeCredentials();
         $loginService->auth($accountStub);
     }
@@ -107,7 +107,7 @@ class LoginTest extends TestCase
         $this->expectException(NoAccountFoundException::class);
         $mock = $this->sut->repository;
         $loginService = $this->sut->service;
-        $mock->expects($this->once())->method('findByMail')->willReturn(null);
+        $mock->expects($this->once())->method('findByAccess')->willReturn(null);
         $accountStub = $this->makeCredentials();
         $loginService->auth($accountStub);
     }
@@ -122,7 +122,7 @@ class LoginTest extends TestCase
             ->with('password', 'hashed_password')
         ;
         $repository = $this->sut->repository;
-        $repository->method('findByMail')->willReturn(
+        $repository->method('findByAccess')->willReturn(
             new Account(password: 'hashed_password', email: 'mail.com', username: 'user')
         );
         $loginService = $this->sut->service;
@@ -133,7 +133,7 @@ class LoginTest extends TestCase
     public function testShouldThrowIfPasswordDiffersFromRetrievedOne()
     {
         $repository = $this->mockRepository();
-        $repository->method('findByMail')->willReturn(
+        $repository->method('findByAccess')->willReturn(
             new Account(password: 'hashed_password', email: 'mail.com', username: 'user')
         );
 
@@ -159,7 +159,7 @@ class LoginTest extends TestCase
     {
         $sut = $this->sut->service;
         $repository = $this->sut->repository;
-        $repository->method('findByMail')->willReturn(
+        $repository->method('findByAccess')->willReturn(
             new Account(password: 'hashed_password', email: 'mail.com', username: 'user')
         );
         $credentialsStub = $this->makeCredentials();

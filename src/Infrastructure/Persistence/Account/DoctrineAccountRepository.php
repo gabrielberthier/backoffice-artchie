@@ -12,6 +12,13 @@ class DoctrineAccountRepository implements AccountRepository
     {
     }
 
+    public function findByAccess(string $access): ?Account
+    {
+        $findBy = filter_var($access, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        return $this->em->getRepository(Account::class)->findOneBy([$findBy => $access]);
+    }
+
     public function findByMail(string $mail): ?Account
     {
         return $this->em->getRepository(Account::class)->findOneBy(['email' => $mail]);

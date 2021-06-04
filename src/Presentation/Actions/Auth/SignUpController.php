@@ -10,7 +10,7 @@ use App\Presentation\Actions\Protocols\Action;
 use Psr\Http\Message\ResponseInterface as Response;
 use Respect\Validation\Validator;
 
-class LoginController extends Action
+class SignUpController extends Action
 {
     public function __construct(
         private LoginServiceInterface $loginService
@@ -21,11 +21,12 @@ class LoginController extends Action
     {
         $parsedBody = $this->request->getParsedBody();
         [
-            'access' => $access,
+            'email' => $email,
+            'username' => $username,
             'password' => $password
         ] = $parsedBody;
 
-        $credentials = new Credentials($access, $password);
+        $credentials = new Credentials($email, $username, $password);
         $tokenize = $this->loginService->auth($credentials);
         $refreshToken = $tokenize->getRenewToken();
 
@@ -43,7 +44,7 @@ class LoginController extends Action
     public function messages(): ?array
     {
         return [
-            'access' => 'Email or username is not valid',
+            'email' => 'Email not valid',
             'password' => 'Password wrong my dude',
         ];
     }
@@ -51,10 +52,8 @@ class LoginController extends Action
     public function rules(): ?array
     {
         return [
-            'access' => Validator::anyOf(
-                Validator::email(),
-                Validator::alnum()->noWhitespace()->length(6, 20)
-            ),
+            'email' => Validator::email(),
+            'username' => Validator::alnum()->noWhitespace()->length(6, 20),
             'password' => function ($value) { return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[\w$@]{6,}$/m', $value); },
         ];
     }

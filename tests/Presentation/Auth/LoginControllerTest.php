@@ -49,28 +49,15 @@ class LoginControllerTest extends TestCase
         $container->set(LoginServiceInterface::class, $service);
         $this
             ->app
-            ->handle($this->createMockRequest('any_mail@gmail.com', 'username', 'Password04'))
+            ->handle($this->createMockRequest('any_mail@gmail.com', 'Password04'))
         ;
-    }
-
-    public function testShouldReturn422IfNoUsernameOrEmailIsProvided()
-    {
-        $app = $this->app;
-        /** @var Container $container */
-        $container = $app->getContainer();
-        $service = $this->createMockService();
-        $this->setUpErrorHandler($app);
-        $container->set(LoginServiceInterface::class, $service);
-        $response = $app->handle($this->createMockRequest('email', '', 'pass'));
-        $code = $response->getStatusCode();
-        assertEquals($code, 422);
     }
 
     public function testShouldReturn400IfValidationReturnsError()
     {
         $app = $this->app;
         $this->setUpErrorHandler($app);
-        $body = new Credentials('mike@gmail.com', 'username', 'pass');
+        $body = new Credentials('mike@gmail.com', 'pass');
         $request = $this->createJsonRequest('POST', '/auth/login', $body);
 
         $response = $app->handle($request);
@@ -92,7 +79,7 @@ class LoginControllerTest extends TestCase
     {
         $app = $this->app;
         $this->setUpErrorHandler($app);
-        $request = $this->constructPostRequest(new Credentials('gnberthiermail.com', 'use', 'pass'), 'POST', '/auth/login');
+        $request = $this->constructPostRequest(new Credentials('gnberthiermail.com', 'pass'), 'POST', '/auth/login');
 
         $response = $app->handle($request);
 
@@ -103,12 +90,12 @@ class LoginControllerTest extends TestCase
             ->error
             ->description);
 
-        $this->assertEquals(count($errors), 3);
+        $this->assertEquals(count($errors), 2);
     }
 
     private function makeCredentials(): Credentials
     {
-        return new Credentials('any_mail@gmail.com', 'username', 'Password04');
+        return new Credentials('any_mail@gmail.com', 'Password04');
     }
 
     private function createValidatorService()
@@ -120,9 +107,9 @@ class LoginControllerTest extends TestCase
         ;
     }
 
-    private function createMockRequest(string $email, string $username, string $pass): ServerRequestInterface
+    private function createMockRequest(string $access, string $pass): ServerRequestInterface
     {
-        $credentials = new Credentials($email, $username, $pass);
+        $credentials = new Credentials($access, $pass);
         $request = $this->createRequest('POST', '/auth/login');
         $request->getBody()
             ->write(json_encode($credentials))
