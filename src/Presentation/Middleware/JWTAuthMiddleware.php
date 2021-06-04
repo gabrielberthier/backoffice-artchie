@@ -64,7 +64,7 @@ class JWTAuthMiddleware implements Middleware
     private function interceptRefreshToken(ServerRequestInterface $request): void
     {
         $cookies = $request->getCookieParams();
-        $refreshToken = $cookies['refresh_token'] ?? null;
+        $refreshToken = $cookies['refresh-token'] ?? null;
         if (is_string($refreshToken)) {
             $request = $request->withAttribute('refresh-token', $refreshToken);
             $this->refreshTokenHandler->setRefreshToken($refreshToken);

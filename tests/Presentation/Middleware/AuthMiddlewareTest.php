@@ -56,7 +56,7 @@ class AuthMiddlewareTest extends TestCase
 
         $tokenValue = 'any_value';
 
-        $request = $request->withCookieParams(['refresh_token' => $tokenValue]);
+        $request = $request->withCookieParams(['refresh-token' => $tokenValue]);
 
         $mockJwtRefreshHandler = $this->getMockBuilder(RefreshTokenHandler::class)
             ->disableOriginalConstructor()
