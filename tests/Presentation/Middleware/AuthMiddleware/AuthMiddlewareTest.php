@@ -16,9 +16,31 @@ class AuthMiddlewareTest extends TestCase
 {
     use ProphecyTrait;
     use RefreshTokenTestTrait;
+    use BearerTestTrait;
+
+    public function setUp(): void
+    {
+        $this->app = $this->createAppInstance();
+        $this->setUpErrorHandler($this->app);
+    }
 
     private function createMockRequest(): ServerRequestInterface
     {
         return $this->createRequest('GET', '/api/test-auth');
+    }
+
+    private function createRequestWithAuthentication(string $token)
+    {
+        $bearer = 'Bearer '.$token;
+
+        return $this->createRequest(
+            'GET',
+            '/api/test-auth',
+            [
+                'HTTP_ACCEPT' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => $bearer,
+            ],
+        );
     }
 }

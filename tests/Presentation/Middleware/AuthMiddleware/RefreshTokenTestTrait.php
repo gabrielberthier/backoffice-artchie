@@ -18,9 +18,7 @@ trait RefreshTokenTestTrait
 {
     public function testShouldCallErrorOnJWTErrorHandlerWhenNoRefreshTokenIsProvided()
     {
-        $app = $this->createAppInstance();
-        $this->setUpErrorHandler($app);
-        $response = $app->handle($this->createMockRequest());
+        $response = $this->app->handle($this->createMockRequest());
 
         assertNotNull($response);
         assertSame(401, $response->getStatusCode());
@@ -28,9 +26,6 @@ trait RefreshTokenTestTrait
 
     public function testShouldInterceptHttpCookieRefresh()
     {
-        $app = $this->createAppInstance();
-
-        $this->setUpErrorHandler($app);
         $request = $this->createMockRequest();
 
         $tokenValue = 'any_value';
@@ -53,16 +48,14 @@ trait RefreshTokenTestTrait
 
         $container->set(RefreshTokenHandler::class, $mockJwtRefreshHandler);
 
-        $response = $app->handle($request);
+        $response = $this->app->handle($request);
 
         assertNotNull($response);
     }
 
     public function testShouldReturnNewJtwCaseRefreshIsSet()
     {
-        $app = $this->createAppInstance();
         self::createDatabase();
-        $this->setUpErrorHandler($app);
 
         $account = new Account(email: 'mail.com', username: 'user', password: 'pass');
         $repository = $this->getContainer()->get(AccountRepository::class);
@@ -77,7 +70,7 @@ trait RefreshTokenTestTrait
         /**
          * @var ResponseInterface
          */
-        $response = $app->handle($request);
+        $response = $this->app->handle($request);
 
         assertTrue($response->hasHeader('X-RENEW-TOKEN'));
         assertNotNull($response);
