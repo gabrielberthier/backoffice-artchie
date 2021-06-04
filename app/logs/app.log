@@ -213,3 +213,7 @@
 [2021-06-03T22:49:13.923216+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"c766bb5"}
 [2021-06-03T22:49:14.266870+00:00] slim-app.WARNING: Token not found [] {"uid":"1c7c816"}
 [2021-06-03T22:49:14.276593+00:00] slim-app.WARNING: Token not found [] {"uid":"7d5751a"}
+[2021-06-04T13:59:13.332695+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"15e318a"}
+[2021-06-04T13:59:13.347951+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"3167e67"}
+[2021-06-04T13:59:13.618873+00:00] slim-app.WARNING: Token not found [] {"uid":"dc16507"}
+[2021-06-04T13:59:13.625584+00:00] slim-app.WARNING: Token not found [] {"uid":"7de8ce5"}

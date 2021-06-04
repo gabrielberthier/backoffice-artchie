@@ -31,7 +31,7 @@ class LoginController extends Action
         $refreshToken = $tokenize->getRenewToken();
 
         setcookie(
-            name: 'refresh-token',
+            name: REFRESH_TOKEN,
             value: $refreshToken,
             expires_or_options: time() + 31536000,
             path: '/',

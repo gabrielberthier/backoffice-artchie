@@ -1,5 +1,8 @@
 <?php
 
+define('REFRESH_TOKEN', 'refresh-token');
+define('JWT_NAME', 'jwt-token');
+
 /**
  * Redirect to a new page.
  *
