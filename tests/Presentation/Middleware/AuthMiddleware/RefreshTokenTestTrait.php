@@ -8,6 +8,8 @@ use App\Infrastructure\Cryptography\CookieTokenCreator;
 use App\Presentation\Handlers\RefreshTokenHandler;
 use function PHPUnit\Framework\assertNotNull;
 use function PHPUnit\Framework\assertSame;
+use function PHPUnit\Framework\assertTrue;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Tests only methods based on refresh token.
@@ -16,7 +18,7 @@ trait RefreshTokenTestTrait
 {
     public function testShouldCallErrorOnJWTErrorHandlerWhenNoRefreshTokenIsProvided()
     {
-        $app = $this->app;
+        $app = $this->createAppInstance();
         $this->setUpErrorHandler($app);
         $response = $app->handle($this->createMockRequest());
 
@@ -72,10 +74,15 @@ trait RefreshTokenTestTrait
         $request = $this->createMockRequest();
         $request = $request->withCookieParams([REFRESH_TOKEN => $cookie]);
 
+        /**
+         * @var ResponseInterface
+         */
         $response = $app->handle($request);
 
+        assertTrue($response->hasHeader('X-RENEW-TOKEN'));
         assertNotNull($response);
         assertSame(201, $response->getStatusCode());
+
         self::truncateDatabase();
     }
 }

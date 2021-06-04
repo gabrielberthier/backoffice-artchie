@@ -34,7 +34,8 @@ class RefreshTokenHandler
 
         try {
             $payload = JWT::decode($this->refreshToken, $this->secretToken, ['HS256']);
-            $data['token'] = $this->createBodyToken($payload);
+            $token = $this->createRenewToken($payload);
+            $response = $response->withHeader('X-RENEW-TOKEN', $token);
         } catch (Throwable $ex) {
             $status = 'error';
             $message = $arguments['message'];
@@ -52,7 +53,7 @@ class RefreshTokenHandler
         $this->refreshToken = $token;
     }
 
-    private function createBodyToken(object $payload): string
+    private function createRenewToken(object $payload): string
     {
         $uuid = $payload->sub;
         $user = $this->repository->findByUUID($uuid);
@@ -67,6 +68,7 @@ class RefreshTokenHandler
             ->withHeader('Content-Type', 'application/json')
             ->withStatus($status)
         ;
+
         $adaptedResponse->getBody()->write(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
 
         return $adaptedResponse;

@@ -35,7 +35,7 @@ class BodyTokenCreator implements TokenGeneratorInterface
     private function createData(): array
     {
         $email = $this->account->getEmail();
-        $uuid = $this->account->getId();
+        $uuid = $this->account->getUuid();
         $role = $this->account->getRole();
         $username = $this->account->getUsername();
 
