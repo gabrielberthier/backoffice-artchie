@@ -14,14 +14,12 @@ class DoctrineAccountRepository implements AccountRepository
 
     public function findByMail(string $mail): ?Account
     {
-        $this->em->getRepository(Account::class)->findAll();
-
-        return null;
+        return $this->em->getRepository(Account::class)->findOneBy(['email' => $mail]);
     }
 
     public function findByUUID(string $uuid): ?Account
     {
-        return null;
+        return $this->em->getRepository(Account::class)->findOneBy(['uuid' => $uuid]);
     }
 
     public function insert(Account $account): bool

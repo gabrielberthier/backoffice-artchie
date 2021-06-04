@@ -1,42 +1,19 @@
 <?php
 
-declare(strict_types=1);
+namespace Tests\Presentation\Middleware\AuthMiddleware;
 
-namespace Tests\Presentation\Auth;
-
+use App\Domain\Models\Account;
 use App\Domain\Repositories\AccountRepository;
+use App\Infrastructure\Cryptography\CookieTokenCreator;
 use App\Presentation\Handlers\RefreshTokenHandler;
-use App\Presentation\Middleware\JWTAuthMiddleware;
-use DI\Container;
 use function PHPUnit\Framework\assertNotNull;
 use function PHPUnit\Framework\assertSame;
-use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophet;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Log\LoggerInterface;
-use Tests\TestCase;
 
 /**
- * @internal
- * @coversNothing
+ * Tests only methods based on refresh token.
  */
-class AuthMiddlewareTest extends TestCase
+trait RefreshTokenTestTrait
 {
-    use ProphecyTrait;
-
-    private $prophet;
-
-    private JWTAuthMiddleware $sut;
-
-    protected function setUp(): void
-    {
-        $this->app = $this->getAppInstance();
-        $this->prophet = new Prophet();
-        $container = $this->getContainer();
-        $jwtErrorHandler = new RefreshTokenHandler($container->get(AccountRepository::class));
-        $this->sut = new JWTAuthMiddleware($container->get(LoggerInterface::class), $jwtErrorHandler);
-    }
-
     public function testShouldCallErrorOnJWTErrorHandlerWhenNoRefreshTokenIsProvided()
     {
         $app = $this->app;
@@ -81,16 +58,24 @@ class AuthMiddlewareTest extends TestCase
 
     public function testShouldReturnNewJtwCaseRefreshIsSet()
     {
-        $app = $this->app;
+        $app = $this->createAppInstance();
+        self::createDatabase();
         $this->setUpErrorHandler($app);
-        $response = $app->handle($this->createMockRequest());
+
+        $account = new Account(email: 'mail.com', username: 'user', password: 'pass');
+        $repository = $this->getContainer()->get(AccountRepository::class);
+        $repository->insert($account);
+
+        $cookieCreator = new CookieTokenCreator($account->getUuid());
+        $cookie = $cookieCreator->createToken($_ENV['JWT_SECRET_COOKIE']);
+
+        $request = $this->createMockRequest();
+        $request = $request->withCookieParams([REFRESH_TOKEN => $cookie]);
+
+        $response = $app->handle($request);
 
         assertNotNull($response);
-        assertSame(401, $response->getStatusCode());
-    }
-
-    private function createMockRequest(): ServerRequestInterface
-    {
-        return $this->createRequest('GET', '/api/test-auth');
+        assertSame(201, $response->getStatusCode());
+        self::truncateDatabase();
     }
 }

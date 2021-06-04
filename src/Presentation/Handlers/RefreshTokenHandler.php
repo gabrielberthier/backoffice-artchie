@@ -35,7 +35,7 @@ class RefreshTokenHandler
         try {
             $payload = JWT::decode($this->refreshToken, $this->secretToken, ['HS256']);
             $data['token'] = $this->createBodyToken($payload);
-        } catch (Throwable) {
+        } catch (Throwable $ex) {
             $status = 'error';
             $message = $arguments['message'];
             $statusCode = 401;
