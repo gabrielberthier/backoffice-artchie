@@ -79,6 +79,16 @@ class AuthMiddlewareTest extends TestCase
         assertNotNull($response);
     }
 
+    public function testShouldReturnNewJtwCaseRefreshIsSet()
+    {
+        $app = $this->app;
+        $this->setUpErrorHandler($app);
+        $response = $app->handle($this->createMockRequest());
+
+        assertNotNull($response);
+        assertSame(401, $response->getStatusCode());
+    }
+
     private function createMockRequest(): ServerRequestInterface
     {
         return $this->createRequest('GET', '/api/test-auth');

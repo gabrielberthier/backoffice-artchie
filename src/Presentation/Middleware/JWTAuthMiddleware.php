@@ -49,6 +49,7 @@ class JWTAuthMiddleware implements Middleware
     private function boot(): JwtAuthentication
     {
         $secret = $_ENV['JWT_SECRET'];
+        $shouldBeSecure = 'PRODUCTION' === $_ENV['MODE'];
 
         return new JwtAuthentication([
             'secret' => $secret,
@@ -57,7 +58,7 @@ class JWTAuthMiddleware implements Middleware
             'logger' => $this->logger,
             'error' => $this->refreshTokenHandler,
             'relaxed' => ['localhost', 'dev.example.com'],
-            'secure' => false,
+            'secure' => $shouldBeSecure,
         ]);
     }
 
