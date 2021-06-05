@@ -6,7 +6,7 @@ use App\Data\Protocols\Auth\SignUpServiceInterface;
 use App\Domain\Models\Account;
 use App\Domain\Models\TokenLoginResponse;
 use App\Domain\Repositories\AccountRepository;
-use DomainException;
+use Exception;
 
 class SignUp implements SignUpServiceInterface
 {
@@ -21,6 +21,6 @@ class SignUp implements SignUpServiceInterface
             return new TokenLoginResponse($account);
         }
 
-        throw new DomainException("One error occured while saving user's data");
+        throw new Exception("One error occured while saving user's data");
     }
 }

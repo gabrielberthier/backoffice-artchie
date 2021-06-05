@@ -8,6 +8,7 @@ use App\Data\Protocols\Auth\SignUpServiceInterface;
 use App\Data\Protocols\Cryptography\HasherInterface;
 use App\Domain\Models\Account;
 use App\Presentation\Actions\Protocols\Action;
+use App\Presentation\Actions\Protocols\ActionPayload;
 use Psr\Http\Message\ResponseInterface as Response;
 use Respect\Validation\Validator;
 
@@ -47,9 +48,7 @@ class SignUpController extends Action
                 ->withStatus(201, 'Created token')
         ;
         } catch (\Throwable $th) {
-            return $this->respondWithData(['error' => $th])
-                ->withStatus(401, 'Created token')
-            ;
+            return $this->respond(new ActionPayload(401, ['Error' => 'O nome de usuário ou email escolhido já foi utilizado']))->withStatus(401);
         }
     }
 
