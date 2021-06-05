@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Core\HTTP\Routing;
 
 use App\Presentation\Actions\Auth\LoginController;
+use App\Presentation\Actions\Auth\LogoutController;
 use App\Presentation\Actions\Auth\SignUpController;
+use App\Presentation\Actions\Home\HomeController;
 use App\Presentation\Actions\User\ListUsersAction;
 use App\Presentation\Actions\User\ViewUserAction;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -18,7 +20,7 @@ class Router
     public static function run(App $app)
     {
         $app->get('/', function (Request $request, Response $response) {
-            $response->getBody()->write('Hello world!');
+            $response->getBody()->write('Welcome to Artchie\'s');
 
             return $response;
         });
@@ -31,10 +33,13 @@ class Router
         $app->group('/auth', function (Group $group) {
             $group->post('/login', LoginController::class);
             $group->post('/signup', SignUpController::class);
+            $group->get('/logout', LogoutController::class);
         });
 
         $app->group('/api', function (Group $group) {
-            $group->get('/test-auth', function (Request $request, Response $response, array $args): Response {
+            $group->get('/', HomeController::class);
+
+            $group->get('/test-auth', function (Request $request, Response $response): Response {
                 $response->getBody()->write('IHA');
 
                 return $response;

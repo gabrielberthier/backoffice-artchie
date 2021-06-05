@@ -27,25 +27,22 @@ class RefreshTokenHandler
 
     public function __invoke(ResponseInterface $response, $arguments): ResponseInterface
     {
-        $status = 'ok';
-        $message = 'token refreshed';
         $statusCode = 201;
-        $data = [];
 
         try {
             $payload = JWT::decode($this->refreshToken, $this->secretToken, ['HS256']);
             $token = $this->createRenewToken($payload);
             $response = $response->withHeader('X-RENEW-TOKEN', $token);
-        } catch (Throwable $ex) {
-            $status = 'error';
-            $message = $arguments['message'];
+        } catch (Throwable) {
             $statusCode = 401;
+            $status = 'error';
+            $message = 'You are not logged to access this resource';
+            $data = ['status' => $status, 'message' => $message];
+
+            $response->getBody()->write(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
         }
 
-        $data['status'] = $status;
-        $data['message'] = $message;
-
-        return $this->appendToBody($response, $statusCode, $data);
+        return $response->withStatus($statusCode)->withHeader('Content-Type', 'application/json');
     }
 
     public function setRefreshToken(string $token)
@@ -60,17 +57,5 @@ class RefreshTokenHandler
         $tokenCreator = new BodyTokenCreator($user);
 
         return $tokenCreator->createToken($this->secretBody);
-    }
-
-    private function appendToBody(ResponseInterface $response, int $status, array $data): ResponseInterface
-    {
-        $adaptedResponse = $response
-            ->withHeader('Content-Type', 'application/json')
-            ->withStatus($status)
-        ;
-
-        $adaptedResponse->getBody()->write(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
-
-        return $adaptedResponse;
     }
 }
