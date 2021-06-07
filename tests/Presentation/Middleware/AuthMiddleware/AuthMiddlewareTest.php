@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Presentation\Middleware\AuthMiddleware;
 
 use Prophecy\PhpUnit\ProphecyTrait;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Tests\TestCase;
 
@@ -21,6 +23,13 @@ class AuthMiddlewareTest extends TestCase
     public function setUp(): void
     {
         $this->app = $this->createAppInstance();
+        $this->app->group('/api', function ($group) {
+            $group->get('/test-auth', function (RequestInterface $request, ResponseInterface $response): ResponseInterface {
+                $response->getBody()->write('Works');
+
+                return $response;
+            });
+        });
         $this->setUpErrorHandler($this->app);
     }
 

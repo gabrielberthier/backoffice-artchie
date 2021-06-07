@@ -20,7 +20,7 @@ class Router
     public static function run(App $app)
     {
         $app->get('/', function (Request $request, Response $response) {
-            $response->getBody()->write('Welcome to Artchie\'s');
+            $response->getBody()->write('Welcome to ARtchie\'s');
 
             return $response;
         });
@@ -38,12 +38,6 @@ class Router
 
         $app->group('/api', function (Group $group) {
             $group->get('/', HomeController::class);
-
-            $group->get('/test-auth', function (Request $request, Response $response): Response {
-                $response->getBody()->write('IHA');
-
-                return $response;
-            });
         });
     }
 }
