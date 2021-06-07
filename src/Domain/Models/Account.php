@@ -30,8 +30,6 @@ class Account implements JsonSerializable
      * The internal primary identity key.
      *
      * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
     private UuidInterface $uuid;
 
