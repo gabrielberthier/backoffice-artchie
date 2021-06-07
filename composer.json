@@ -59,6 +59,9 @@
         "test": "phpunit",
         "test:nodebug": "@php -c ./disable-xdebug.ini && phpunit",
         "test:update": "phpunit --migrate-configuration",
-        "doctrine": "doctrine"
+        "doctrine": "doctrine",
+        "doctrine:create-db": "doctrine orm:schema-tool:create",
+        "doctrine:update-db": "doctrine orm:schema-tool:update",
+        "doctrine:drop-db": "doctrine orm:schema-tool:drop --force"
     }
 }

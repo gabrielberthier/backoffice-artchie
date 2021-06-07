@@ -24,6 +24,7 @@ trait ValidationTrait
     {
         $rules = $this->rules() ?? [];
         $messages = $this->messages() ?? [];
+        $body = $body ?? [];
         $validationFacade = new ValidationFacade($rules, $messages);
         $validator = $validationFacade->createValidations();
         $result = $validator->validate($body);

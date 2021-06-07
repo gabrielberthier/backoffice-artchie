@@ -65,7 +65,7 @@ class SignUpController extends Action
     public function rules(): ?array
     {
         $parsedBody = $this->request->getParsedBody();
-        $password = $parsedBody['password'];
+        $password = $parsedBody['password'] ?? '';
 
         return [
             'email' => Validator::email(),
