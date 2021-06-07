@@ -3,6 +3,16 @@
 $mode = $_ENV['MODE'] ?? '';
 
 $scanDatabaseValues = function () use ($mode) {
+    $prefix = '';
+
+    if ('DEV' === $mode) {
+        $prefix = 'dev-';
+    }
+
+    if (isset($_ENV[$prefix.'DATABASE_URL'])) {
+        return ['url' => $_ENV[$prefix.'DATABASE_URL']];
+    }
+
     $databaseSettings = [
         'driver',
         'host',
@@ -13,11 +23,6 @@ $scanDatabaseValues = function () use ($mode) {
         'charset', ];
 
     $connectionArray = [];
-    $prefix = '';
-
-    if ('DEV' === $mode) {
-        $prefix = 'dev';
-    }
 
     foreach ($databaseSettings as $value) {
         $connectionArray[$value] = $_ENV[$prefix.$value];
