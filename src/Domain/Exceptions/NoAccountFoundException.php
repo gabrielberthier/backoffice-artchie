@@ -11,10 +11,10 @@ use Slim\Exception\HttpNotFoundException;
 
 class NoAccountFoundException extends DomainRecordNotFoundException
 {
-    private $message = 'The account you requested does not exist.';
-
     public function wire(ServerRequestInterface $request): HttpException
     {
-        return new HttpNotFoundException($request, $this->message);
+        $message = 'The account you requested does not exist.';
+
+        return new HttpNotFoundException($request, $message);
     }
 }
