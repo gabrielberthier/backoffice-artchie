@@ -561,3 +561,5 @@
 [2021-06-07T22:29:46.595778+00:00] slim-app.WARNING: Token not found [] {"uid":"714c244"}
 [2021-06-07T22:29:46.609242+00:00] slim-app.WARNING: Token not found [] {"uid":"3ee0e27"}
 [2021-06-07T22:29:46.620271+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"81daf1f"}
+[2021-06-07T23:55:49.355650+00:00] slim-app.INFO: User of id `2` was viewed. [] {"uid":"c600542"}
+[2021-06-07T23:55:55.412458+00:00] slim-app.ERROR: The user you requested does not exist. [] {"uid":"28544a9"}

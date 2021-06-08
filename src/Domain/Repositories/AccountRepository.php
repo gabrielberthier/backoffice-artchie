@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Repositories;
 
+use App\Domain\Exceptions\Account\UserAlreadyRegisteredException;
 use App\Domain\Models\Account;
 
 interface AccountRepository
@@ -14,5 +15,10 @@ interface AccountRepository
 
     public function findByUUID(string $uuid): ?Account;
 
+    /**
+     * Inserts a user account.
+     *
+     * @throws UserAlreadyRegisteredException
+     */
     public function insert(Account $account): bool;
 }

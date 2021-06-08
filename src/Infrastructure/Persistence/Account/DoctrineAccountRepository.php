@@ -2,8 +2,10 @@
 
 namespace App\Infrastructure\Persistence\Account;
 
+use App\Domain\Exceptions\Account\UserAlreadyRegisteredException;
 use App\Domain\Models\Account;
 use App\Domain\Repositories\AccountRepository;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
 
 class DoctrineAccountRepository implements AccountRepository
@@ -31,9 +33,13 @@ class DoctrineAccountRepository implements AccountRepository
 
     public function insert(Account $account): bool
     {
-        $this->em->persist($account);
-        $this->em->flush();
+        try {
+            $this->em->persist($account);
+            $this->em->flush();
 
-        return true;
+            return true;
+        } catch (UniqueConstraintViolationException) {
+            throw new UserAlreadyRegisteredException();
+        }
     }
 }

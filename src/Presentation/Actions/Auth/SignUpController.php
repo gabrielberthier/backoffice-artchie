@@ -8,10 +8,8 @@ use App\Data\Protocols\Auth\SignUpServiceInterface;
 use App\Data\Protocols\Cryptography\HasherInterface;
 use App\Domain\Models\Account;
 use App\Presentation\Actions\Protocols\Action;
-use App\Presentation\Actions\Protocols\ActionPayload;
 use Psr\Http\Message\ResponseInterface as Response;
 use Respect\Validation\Validator;
-use Throwable;
 
 class SignUpController extends Action
 {
@@ -23,35 +21,30 @@ class SignUpController extends Action
 
     public function action(): Response
     {
-        try {
-            $parsedBody = $this->request->getParsedBody();
-            [
+        $parsedBody = $this->request->getParsedBody();
+        [
             'email' => $email,
             'username' => $username,
             'password' => $password,
         ] = $parsedBody;
 
-            $password = $this->hasherInterface->hash($password);
-            $account = new Account(email: $email, username: $username, password: $password);
-            $tokenize = $this->service->register($account);
-            $refreshToken = $tokenize->getRenewToken();
+        $password = $this->hasherInterface->hash($password);
+        $account = new Account(email: $email, username: $username, password: $password);
+        $tokenize = $this->service->register($account);
+        $refreshToken = $tokenize->getRenewToken();
 
-            setcookie(
-                name: REFRESH_TOKEN,
-                value: $refreshToken,
-                expires_or_options: time() + 31536000,
-                path: '/',
-                httponly: true
-            );
+        setcookie(
+            name: REFRESH_TOKEN,
+            value: $refreshToken,
+            expires_or_options: time() + 31536000,
+            path: '/',
+            httponly: true
+        );
 
-            return $this
-                ->respondWithData(['token' => $tokenize->getToken()])
-                ->withStatus(201, 'Created token')
+        return $this
+            ->respondWithData(['token' => $tokenize->getToken()])
+            ->withStatus(201, 'Created token')
         ;
-        } catch (Throwable $th) {
-            return $this->respond(new ActionPayload(401, ['Error' => $th->getMessage(), 'ErrorType' => $th->__toString()]))->withStatus(401);
-            //return $this->respond(new ActionPayload(401, ['Error' => 'O nome de usuário ou email escolhido já foi utilizado']))->withStatus(401);
-        }
     }
 
     public function messages(): ?array

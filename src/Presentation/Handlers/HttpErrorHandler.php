@@ -6,6 +6,7 @@ namespace App\Presentation\Handlers;
 
 use App\Presentation\Actions\Protocols\ActionError;
 use App\Presentation\Actions\Protocols\ActionPayload;
+use App\Presentation\Actions\Protocols\HttpErrors\UnprocessableEntityException;
 use Exception;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Exception\HttpBadRequestException;
@@ -17,7 +18,6 @@ use Slim\Exception\HttpNotImplementedException;
 use Slim\Exception\HttpUnauthorizedException;
 use Slim\Handlers\ErrorHandler as SlimErrorHandler;
 use Throwable;
-use App\Presentation\Actions\Protocols\HttpErrors\UnprocessableEntityException;
 
 class HttpErrorHandler extends SlimErrorHandler
 {
