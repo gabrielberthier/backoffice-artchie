@@ -3,7 +3,10 @@
 declare(strict_types=1);
 
 use App\Data\Protocols\Cryptography\ComparerInterface;
+use App\Data\Protocols\Cryptography\DataDecrypter;
+use App\Data\Protocols\Cryptography\DataEncrypter;
 use App\Data\Protocols\Cryptography\HasherInterface;
+use App\Infrastructure\Cryptography\DataEncryption\Encrypter;
 use App\Infrastructure\Cryptography\HashComparer;
 use App\Infrastructure\Cryptography\HashCreator;
 use Monolog\Handler\StreamHandler;
@@ -17,6 +20,9 @@ use Psr\Log\LoggerInterface;
  *
  * @param ContainerBuilder $containerBuilder
  */
+
+ $encrypter = new Encrypter($_SERVER['ENCRYPTION_KEY'] ?? '');
+
 return [
     LoggerInterface::class => function (ContainerInterface $c) {
         $settings = $c->get('settings');
@@ -34,4 +40,6 @@ return [
     },
     ComparerInterface::class => new HashComparer(),
     HasherInterface::class => new HashCreator(),
+    DataDecrypter::class => $encrypter,
+    DataEncrypter::class => $encrypter,
 ];
