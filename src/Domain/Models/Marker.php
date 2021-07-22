@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Models;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 
@@ -25,7 +26,17 @@ class Marker implements JsonSerializable
     private ?string $text;
     private ?string $title;
     private ?string $url;
-    private ResourceModel $resource;
+    /**
+     * One marker has one or many resources. This is the inverse side.
+     *
+     * @OneToMany(targetEntity="ResourceModel", mappedBy="marker")
+     */
+    private array $resources;
+
+    public function __construct()
+    {
+        $this->resources = new ArrayCollection();
+    }
 
     public function jsonSerialize()
     {
@@ -57,9 +68,13 @@ class Marker implements JsonSerializable
      *
      * @return self
      */
-    public function setResource($resource)
+    public function setResources(array | ResourceModel $resource = [])
     {
-        $this->resource = $resource;
+        if (is_array($resource)) {
+            $this->resources = array_merge($this->resources, $resource);
+        } else {
+            $this->resources[] = $resource;
+        }
 
         return $this;
     }

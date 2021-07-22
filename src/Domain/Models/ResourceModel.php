@@ -26,6 +26,13 @@ class ResourceModel implements JsonSerializable
     private string $name;
     private string $filename;
     private string $type;
+    /**
+     * Many resources have one marker. This is the owning side.
+     *
+     * @ManyToOne(targetEntity="Marker", inversedBy="resources")
+     * @JoinColumn(name="marker_id", referencedColumnName="id")
+     */
+    private ?Marker $marker;
 
     public function jsonSerialize()
     {
@@ -148,6 +155,28 @@ class ResourceModel implements JsonSerializable
     public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get many resources have one marker. This is the owning side.
+     */
+    public function getMarker()
+    {
+        return $this->marker;
+    }
+
+    /**
+     * Set many resources have one marker. This is the owning side.
+     *
+     * @param mixed $marker
+     *
+     * @return self
+     */
+    public function setMarker($marker)
+    {
+        $this->marker = $marker;
 
         return $this;
     }
