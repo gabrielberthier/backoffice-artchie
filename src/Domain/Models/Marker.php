@@ -21,7 +21,7 @@ class Marker implements JsonSerializable
      * @ORM\Column(type="integer")
      */
     protected int $id;
-    private ?string $name;
+    private string $name;
     private ?string $trackableImage;
     private ?string $text;
     private ?string $title;
