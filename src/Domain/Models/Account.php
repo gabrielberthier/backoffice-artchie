@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Models;
 
+use App\Domain\Models\Traits\TimestampsTrait;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
@@ -17,6 +18,8 @@ use Ramsey\Uuid\UuidInterface;
  */
 class Account implements JsonSerializable
 {
+    use TimestampsTrait;
+
     /**
      * @var int
      *
@@ -53,14 +56,6 @@ class Account implements JsonSerializable
      */
     private ?string $role = 'common';
 
-    /** @ORM\Column(type="datetime", name="created_at") */
-    private DateTime $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime", name="updated_at")
-     */
-    private DateTime $updated;
-
     public function __construct(
         ?int $id = null,
         string $email,
@@ -77,24 +72,6 @@ class Account implements JsonSerializable
         $this->uuid = $uuid ?? Uuid::uuid4();
         $this->createdAt = new DateTime();
         $this->updated = new DateTime();
-    }
-
-    /**
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
-     */
-    public function updatedTimestamps(): void
-    {
-        $this->setUpdated(new DateTime('now'));
-        if (null === $this->getCreatedAt()) {
-            $this->setCreatedAt(new DateTime('now'));
-        }
-    }
-
-    public function setUpdated(DateTime $dateTime)
-    {
-        // WILL be saved in the database
-        $this->updated = $dateTime;
     }
 
     public function getId(): ?int
@@ -211,35 +188,5 @@ class Account implements JsonSerializable
         $this->uuid = $uuid;
 
         return $this;
-    }
-
-    /**
-     * Get the value of createdAt.
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set the value of createdAt.
-     *
-     * @param mixed $createdAt
-     *
-     * @return self
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of updated.
-     */
-    public function getUpdated()
-    {
-        return $this->updated;
     }
 }
