@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Models;
 
+use App\Domain\Models\Traits\TimestampsTrait;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 use JsonSerializable;
@@ -16,12 +17,18 @@ use Ramsey\Uuid\UuidInterface;
  */
 class ResourceModel implements JsonSerializable
 {
+    use TimestampsTrait;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     protected int $id;
+    /**
+     * The internal unique identity key.
+     *
+     * @ORM\Column(type="uuid", unique=true)
+     */
     private UuidInterface $uuid;
     private string $name;
     private string $filename;

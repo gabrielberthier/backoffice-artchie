@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Models;
 
+use App\Domain\Models\Traits\TimestampsTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
@@ -15,6 +16,7 @@ use JsonSerializable;
  */
 class Marker implements JsonSerializable
 {
+    use TimestampsTrait;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

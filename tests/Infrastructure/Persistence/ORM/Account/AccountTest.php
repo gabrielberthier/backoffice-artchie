@@ -7,6 +7,7 @@ namespace Tests\Infrastructure\Persistence\User;
 use App\Domain\Models\Account;
 use App\Domain\Repositories\AccountRepository;
 use Doctrine\ORM\EntityManager;
+use function PHPUnit\Framework\assertInstanceOf;
 use function PHPUnit\Framework\assertSame;
 use Tests\TestCase;
 
@@ -55,6 +56,18 @@ class AccountTest extends TestCase
         $total = $this->getTotalCount();
 
         assertSame($total, 1);
+    }
+
+    public function testShouldRetrieveAccount()
+    {
+        $account = new Account(email: 'mail.com', username: 'user', password: 'pass');
+        $this->repository->insert($account);
+
+        $account = $this->repository->findByMail('mail.com');
+
+        //print_r($account);
+
+        assertInstanceOf(Account::class, $account);
     }
 
     private function getTotalCount(): int
