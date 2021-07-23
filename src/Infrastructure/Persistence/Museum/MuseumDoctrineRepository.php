@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Infrastructure\Persistence\Account;
+namespace App\Infrastructure\Persistence\Museum;
 
 use App\Domain\Exceptions\Museum\MuseumAlreadyRegisteredException;
-use App\Domain\Models\Account;
 use App\Domain\Models\Museum;
 use App\Domain\Repositories\MuseumRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -15,14 +14,14 @@ class MuseumDoctrineRepository implements MuseumRepository
     {
     }
 
-    public function findByMail(string $mail): ?Account
+    public function findByMail(string $mail): ?Museum
     {
-        return $this->em->getRepository(Account::class)->findOneBy(['email' => $mail]);
+        return $this->em->getRepository(Museum::class)->findOneBy(['email' => $mail]);
     }
 
     public function findByUUID(string $uuid): ?Museum
     {
-        return $this->em->getRepository(Account::class)->findOneBy(['uuid' => $uuid]);
+        return $this->em->getRepository(Museum::class)->findOneBy(['uuid' => $uuid]);
     }
 
     public function findByID(int $id): ?Museum
@@ -32,7 +31,7 @@ class MuseumDoctrineRepository implements MuseumRepository
 
     public function findByName(string $name): ?Museum
     {
-        return $this->em->getRepository(Account::class)->findOneBy(['name' => $name]);
+        return $this->em->getRepository(Museum::class)->findOneBy(['name' => $name]);
     }
 
     public function insert(Museum $museum): bool

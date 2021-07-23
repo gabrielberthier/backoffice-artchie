@@ -16,7 +16,7 @@ interface MuseumRepository
     public function findByUUID(string $uuid): ?Museum;
 
     /**
-     * Inserts a user account.
+     * Inserts a museum model.
      *
      * @throws MuseumAlreadyRegisteredException
      */
