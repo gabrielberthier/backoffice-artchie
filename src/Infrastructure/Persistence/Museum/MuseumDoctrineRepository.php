@@ -53,4 +53,9 @@ class MuseumDoctrineRepository implements MuseumRepository
 
         return $museum;
     }
+
+    public function findAll(): array
+    {
+        return $this->em->getRepository(Museum::class)->findAll();
+    }
 }

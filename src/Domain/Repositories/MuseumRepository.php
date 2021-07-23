@@ -23,4 +23,6 @@ interface MuseumRepository
     public function insert(Museum $museum): bool;
 
     public function delete(Museum $museum): Museum;
+
+    public function findAll(): array;
 }

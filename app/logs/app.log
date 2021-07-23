@@ -763,3 +763,5 @@
 [2021-07-23T01:32:28.767950+00:00] slim-app.WARNING: Token not found [] {"uid":"934aec7"}
 [2021-07-23T01:32:28.778594+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"11898aa"}
 [2021-07-23T01:36:27.291404+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"8d527c3"}
+[2021-07-23T02:07:01.928433+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"0800d23"}
+[2021-07-23T02:07:01.935465+00:00] slim-app.WARNING: Expired token ["eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjcwMDM0MzIsImV4cCI6MTYyNzAwNDMzMiwianRpIjoiM2lIcEZESVY1cUtNc05BSkZia1BYQT09Iiwic3ViIjoiZ2Fic3RoaWVyIiwiZGF0YSI6eyJlbWFpbCI6ImdhYnJpZWxiZXJ0aGllckBnbWFpbC5jb20iLCJ1dWlkIjoiMzMwNTM5NmYtNWM1Mi00OTRhLTllZmItNjc4MjNmN2VmOGJmIiwicm9sZSI6ImNvbW1vbiIsInVzZXJuYW1lIjoiZ2Fic3RoaWVyIn0sImlzcyI6IkFSVENISUUifQ.l6fdPr6sEfjLwo8KXiFZIBYjSH2r2YTc6JWUFnQTqEo"] {"uid":"0800d23"}
