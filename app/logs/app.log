@@ -712,3 +712,27 @@
 [2021-07-23T00:48:04.867717+00:00] slim-app.WARNING: Token not found [] {"uid":"b626d2d"}
 [2021-07-23T00:48:04.878084+00:00] slim-app.WARNING: Token not found [] {"uid":"462bd5c"}
 [2021-07-23T00:48:04.888335+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"e24b8ba"}
+[2021-07-23T00:52:14.224589+00:00] slim-app.WARNING: Token not found [] {"uid":"1cea5c8"}
+[2021-07-23T00:52:52.813544+00:00] slim-app.WARNING: Token not found [] {"uid":"ac1177c"}
+[2021-07-23T00:53:10.395680+00:00] slim-app.WARNING: Token not found [] {"uid":"e36c870"}
+[2021-07-23T00:53:33.592640+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"2b66b15"}
+[2021-07-23T00:53:33.596211+00:00] slim-app.WARNING: Expired token ["eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjI5MjcyNjAsImV4cCI6MTYyMjkyODE2MCwianRpIjoiTDYweDZBY3F6UlNoMzBYQnBaNWVWUT09Iiwic3ViIjoibWF5emluaGEiLCJkYXRhIjp7ImVtYWlsIjoidml2aTA5MjAxMUBsaXZlLmNvbSIsInV1aWQiOiI2NTYyZDFiZC1lZGM4LTQ5OTQtOGQ3Ny02OWE5NzFjMTI1OWMiLCJyb2xlIjoiY29tbW9uIiwidXNlcm5hbWUiOiJtYXl6aW5oYSJ9LCJpc3MiOiJBUlRDSElFIn0.xu3MzR9JwQID0v7HtkRGeN0D9m1J7fTufHIKb8hNtpE"] {"uid":"2b66b15"}
+[2021-07-23T00:53:39.372838+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"2610d58"}
+[2021-07-23T00:54:48.521168+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"8583ac1"}
+[2021-07-23T00:55:04.812888+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"f3716de"}
+[2021-07-23T00:55:39.933006+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"98517e5"}
+[2021-07-23T01:13:02.941729+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"95ca189"}
+[2021-07-23T01:13:02.944273+00:00] slim-app.WARNING: Expired token ["eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjcwMDE1OTAsImV4cCI6MTYyNzAwMjQ5MCwianRpIjoiaWRmR0hSbVwvdmxTZXB6S3poOUtwRVE9PSIsInN1YiI6ImdhYnN0aGllciIsImRhdGEiOnsiZW1haWwiOiJnYWJyaWVsYmVydGhpZXJAZ21haWwuY29tIiwidXVpZCI6IjMzMDUzOTZmLTVjNTItNDk0YS05ZWZiLTY3ODIzZjdlZjhiZiIsInJvbGUiOiJjb21tb24iLCJ1c2VybmFtZSI6ImdhYnN0aGllciJ9LCJpc3MiOiJBUlRDSElFIn0.UKzCjZt7cNOEGlQwWqGJGI5W8RFmDw7KRJtGHln2aNc"] {"uid":"95ca189"}
+[2021-07-23T01:13:08.605394+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"f64a8d6"}
+[2021-07-23T01:13:08.607385+00:00] slim-app.WARNING: Expired token ["eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjcwMDE1OTAsImV4cCI6MTYyNzAwMjQ5MCwianRpIjoiaWRmR0hSbVwvdmxTZXB6S3poOUtwRVE9PSIsInN1YiI6ImdhYnN0aGllciIsImRhdGEiOnsiZW1haWwiOiJnYWJyaWVsYmVydGhpZXJAZ21haWwuY29tIiwidXVpZCI6IjMzMDUzOTZmLTVjNTItNDk0YS05ZWZiLTY3ODIzZjdlZjhiZiIsInJvbGUiOiJjb21tb24iLCJ1c2VybmFtZSI6ImdhYnN0aGllciJ9LCJpc3MiOiJBUlRDSElFIn0.UKzCjZt7cNOEGlQwWqGJGI5W8RFmDw7KRJtGHln2aNc"] {"uid":"f64a8d6"}
+[2021-07-23T01:13:32.679753+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"c78f4f8"}
+[2021-07-23T01:13:32.681707+00:00] slim-app.WARNING: Expired token ["eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjcwMDE1OTAsImV4cCI6MTYyNzAwMjQ5MCwianRpIjoiaWRmR0hSbVwvdmxTZXB6S3poOUtwRVE9PSIsInN1YiI6ImdhYnN0aGllciIsImRhdGEiOnsiZW1haWwiOiJnYWJyaWVsYmVydGhpZXJAZ21haWwuY29tIiwidXVpZCI6IjMzMDUzOTZmLTVjNTItNDk0YS05ZWZiLTY3ODIzZjdlZjhiZiIsInJvbGUiOiJjb21tb24iLCJ1c2VybmFtZSI6ImdhYnN0aGllciJ9LCJpc3MiOiJBUlRDSElFIn0.UKzCjZt7cNOEGlQwWqGJGI5W8RFmDw7KRJtGHln2aNc"] {"uid":"c78f4f8"}
+[2021-07-23T01:14:26.925147+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"14d1aeb"}
+[2021-07-23T01:16:30.344362+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"a6bb97a"}
+[2021-07-23T01:16:59.764366+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"767275b"}
+[2021-07-23T01:18:19.633148+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"8a45001"}
+[2021-07-23T01:23:21.481237+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"525e113"}
+[2021-07-23T01:23:25.160416+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"98e4892"}
+[2021-07-23T01:23:28.429658+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"84e7698"}
+[2021-07-23T01:24:17.060699+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"efcc4db"}
+[2021-07-23T01:24:29.044013+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"51f315a"}

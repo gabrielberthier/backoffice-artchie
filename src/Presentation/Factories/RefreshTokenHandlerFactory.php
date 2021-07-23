@@ -15,12 +15,16 @@ class RefreshTokenHandlerFactory
     ) {
     }
 
-    public function create(ServerRequestInterface $request): RefreshTokenHandler
+    public function create(ServerRequestInterface $request): ?RefreshTokenHandler
     {
         $secretBody = $_ENV['JWT_SECRET'];
         $secretToken = $_ENV['JWT_SECRET_COOKIE'];
 
         $refreshToken = $this->interceptor->interceptRefreshToken($request);
+
+        if ('' === $refreshToken) {
+            return null;
+        }
 
         return new RefreshTokenHandler($this->repository, $refreshToken, $secretBody, $secretToken);
     }
