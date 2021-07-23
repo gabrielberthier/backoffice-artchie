@@ -6,6 +6,7 @@ use App\Domain\Models\Account;
 use App\Domain\Repositories\AccountRepository;
 use App\Infrastructure\Cryptography\CookieTokenCreator;
 use App\Presentation\Handlers\RefreshTokenHandler;
+use App\Presentation\Helpers\Interceptors\RefreshTokenInterceptor;
 use function PHPUnit\Framework\assertNotNull;
 use function PHPUnit\Framework\assertSame;
 use function PHPUnit\Framework\assertTrue;
@@ -32,13 +33,9 @@ trait RefreshTokenTestTrait
 
         $request = $request->withCookieParams([REFRESH_TOKEN => $tokenValue]);
 
-        $mockJwtRefreshHandler = $this->getMockBuilder(RefreshTokenHandler::class)
+        $mockJwtRefreshHandler = $this->getMockBuilder(RefreshTokenInterceptor::class)
             ->disableOriginalConstructor()
             ->getMock()
-        ;
-        $mockJwtRefreshHandler->expects($this->once())
-            ->method('setRefreshToken')
-            ->with($tokenValue)
         ;
 
         /**

@@ -15,14 +15,12 @@ use Throwable;
  */
 class RefreshTokenHandler
 {
-    private string $refreshToken = '';
-    private string $secretBody;
-    private string $secretToken;
-
-    public function __construct(private AccountRepository $repository)
-    {
-        $this->secretBody = $_ENV['JWT_SECRET'];
-        $this->secretToken = $_ENV['JWT_SECRET_COOKIE'];
+    public function __construct(
+        private AccountRepository $repository,
+        private string $refreshToken,
+        private string $secretBody,
+        private string $secretToken,
+    ) {
     }
 
     public function __invoke(ResponseInterface $response, $arguments): ResponseInterface
@@ -32,6 +30,7 @@ class RefreshTokenHandler
         try {
             $payload = JWT::decode($this->refreshToken, $this->secretToken, ['HS256']);
             $token = $this->createRenewToken($payload);
+
             $response = $response->withHeader('X-RENEW-TOKEN', $token);
         } catch (Throwable) {
             $statusCode = 401;
@@ -43,11 +42,6 @@ class RefreshTokenHandler
         }
 
         return $response->withStatus($statusCode)->withHeader('Content-Type', 'application/json');
-    }
-
-    public function setRefreshToken(string $token)
-    {
-        $this->refreshToken = $token;
     }
 
     private function createRenewToken(object $payload): string
