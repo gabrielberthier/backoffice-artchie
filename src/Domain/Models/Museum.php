@@ -133,6 +133,11 @@ class Museum implements JsonSerializable
 
     public function jsonSerialize()
     {
-        return [];
+        return [
+            'id' => $this->id,
+            'uuid' => $this->uuid,
+            'email' => $this->email,
+            'name' => $this->name,
+        ];
     }
 }

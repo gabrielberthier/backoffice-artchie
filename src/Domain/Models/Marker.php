@@ -23,15 +23,30 @@ class Marker implements JsonSerializable
      * @ORM\Column(type="integer")
      */
     protected int $id;
+    /**
+     * @ORM\Column(type="string")
+     */
     private string $name;
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
     private ?string $trackableImage;
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
     private ?string $text;
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
     private ?string $title;
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
     private ?string $url;
     /**
      * One marker has one or many resources. This is the inverse side.
      *
-     * @OneToMany(targetEntity="ResourceModel", mappedBy="marker")
+     * @ORM\OneToMany(targetEntity="ResourceModel", mappedBy="marker")
      */
     private array $resources;
 

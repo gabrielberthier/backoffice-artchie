@@ -30,14 +30,23 @@ class ResourceModel implements JsonSerializable
      * @ORM\Column(type="uuid", unique=true)
      */
     private UuidInterface $uuid;
+    /**
+     * @ORM\Column(type="string")
+     */
     private string $name;
+    /**
+     * @ORM\Column(type="string")
+     */
     private string $filename;
+    /**
+     * @ORM\Column(type="string")
+     */
     private string $type;
     /**
      * Many resources have one marker. This is the owning side.
      *
-     * @ManyToOne(targetEntity="Marker", inversedBy="resources")
-     * @JoinColumn(name="marker_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Marker", inversedBy="resources")
+     * @ORM\JoinColumn(name="marker_id", referencedColumnName="id")
      */
     private ?Marker $marker;
 
