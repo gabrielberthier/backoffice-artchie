@@ -21,4 +21,6 @@ interface MuseumRepository
      * @throws MuseumAlreadyRegisteredException
      */
     public function insert(Museum $museum): bool;
+
+    public function delete(Museum $museum): Museum;
 }

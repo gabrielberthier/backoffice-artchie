@@ -46,7 +46,7 @@ class Marker implements JsonSerializable
     /**
      * One marker has one or many resources. This is the inverse side.
      *
-     * @ORM\OneToMany(targetEntity="ResourceModel", mappedBy="marker")
+     * @ORM\OneToMany(targetEntity="ResourceModel", mappedBy="marker", cascade={"persist", "remove"})
      */
     private array $resources;
 

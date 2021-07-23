@@ -45,4 +45,12 @@ class MuseumDoctrineRepository implements MuseumRepository
             throw new MuseumAlreadyRegisteredException();
         }
     }
+
+    public function delete(Museum $museum): Museum
+    {
+        $this->em->remove($museum);
+        $this->em->flush();
+
+        return $museum;
+    }
 }
