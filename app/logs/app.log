@@ -762,3 +762,4 @@
 [2021-07-23T01:32:28.757651+00:00] slim-app.WARNING: Token not found [] {"uid":"30b77d2"}
 [2021-07-23T01:32:28.767950+00:00] slim-app.WARNING: Token not found [] {"uid":"934aec7"}
 [2021-07-23T01:32:28.778594+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"11898aa"}
+[2021-07-23T01:36:27.291404+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"8d527c3"}

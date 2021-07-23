@@ -38,6 +38,14 @@ class Router
 
         $app->group('/api', function (Group $group) {
             $group->get('/', HomeController::class);
+
+            $group->group('/museum', function (Group $group) {
+                $group->get('/', function (Request $request, Response $response) {
+                    $response->getBody()->write('Welcome to museum\'s');
+
+                    return $response;
+                });
+            });
         });
     }
 }
