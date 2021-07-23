@@ -47,21 +47,21 @@ class JWTAuthMiddleware implements Middleware
         $secret = $_ENV['JWT_SECRET'];
         $shouldBeSecure = 'PRODUCTION' === $_ENV['MODE'];
 
-        $beforeFunction = function (Request $request, $arguments) use ($refreshTokenHandler) {
-            if (!$refreshTokenHandler) {
-                throw new HttpForbiddenException($request, 'Insufficient privileges');
-            }
+        // $beforeFunction = function (Request $request, $arguments) use ($refreshTokenHandler) {
+        //     if (!$refreshTokenHandler) {
+        //         throw new HttpForbiddenException($request, 'Insufficient privileges');
+        //     }
 
-            return $request;
-        };
+        //     return $request;
+        // };
 
         return new JwtAuthentication([
             'secret' => $secret,
             'path' => '/api',
             'ignore' => ['/api/auth', '/admin/ping'],
-            'before' => $beforeFunction,
+            // 'before' => $beforeFunction,
             'logger' => $this->logger,
-            'error' => $refreshTokenHandler ?? fn ($response, $arguments) => $response,
+            'error' => $refreshTokenHandler,
             'relaxed' => ['localhost', 'dev.example.com'],
             'secure' => $shouldBeSecure,
         ]);
