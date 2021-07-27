@@ -21,10 +21,14 @@ class MuseumDoctrineRepository implements MuseumRepository
         $museum = $this->findByID($id);
 
         if ($museum) {
-            $museum->setEmail($values['email'] ?? $museum->getEmail());
-            $museum->setName($values['name'] ?? $museum->getName());
+            try {
+                $museum->setEmail($values['email'] ?? $museum->getEmail());
+                $museum->setName($values['name'] ?? $museum->getName());
 
-            $this->em->flush();
+                $this->em->flush();
+            } catch (UniqueConstraintViolationException) {
+                throw new MuseumAlreadyRegisteredException();
+            }
         }
 
         return $museum;

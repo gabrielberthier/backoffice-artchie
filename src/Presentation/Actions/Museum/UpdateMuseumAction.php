@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Presentation\Actions\Museum;
 
-use App\Domain\Models\Museum;
 use App\Domain\Repositories\MuseumRepository;
 use App\Presentation\Actions\Protocols\Action;
 use Psr\Http\Message\ResponseInterface as Response;
 use Respect\Validation\Validator;
 
-class CreateMuseumAction extends Action
+class UpdateMuseumAction extends Action
 {
     public function __construct(
         private MuseumRepository $museumRepository
@@ -20,12 +19,12 @@ class CreateMuseumAction extends Action
     public function action(): Response
     {
         $parsedBody = $this->request->getParsedBody();
-        $parsedBody['name'] = htmlspecialchars($parsedBody['name']);
-        $museum = new Museum(...$parsedBody);
+        $name = $parsedBody['name'] ?? '';
+        $parsedBody['name'] = htmlspecialchars($name);
 
-        $this->museumRepository->insert($museum);
+        $museum = $this->museumRepository->update((int) $this->resolveArg('id'), $parsedBody);
 
-        return $this->respondWithData(['message' => 'Success! Museum created', 'museum' => $museum]);
+        return $this->respondWithData(['message' => 'Success! Museum updated', 'museum' => $museum]);
     }
 
     public function messages(): ?array
@@ -39,8 +38,8 @@ class CreateMuseumAction extends Action
     public function rules(): ?array
     {
         return [
-            'email' => Validator::email(),
-            'name' => Validator::StringType(),
+            'email' => Validator::optional(Validator::email()),
+            'name' => Validator::optional(Validator::StringType()),
         ];
     }
 }

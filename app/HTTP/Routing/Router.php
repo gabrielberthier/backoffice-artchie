@@ -9,6 +9,7 @@ use App\Presentation\Actions\Auth\LogoutController;
 use App\Presentation\Actions\Auth\SignUpController;
 use App\Presentation\Actions\Home\HomeController;
 use App\Presentation\Actions\Museum\CreateMuseumAction;
+use App\Presentation\Actions\Museum\UpdateMuseumAction;
 use App\Presentation\Actions\User\ListUsersAction;
 use App\Presentation\Actions\User\ViewUserAction;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -47,6 +48,7 @@ class Router
                     return $response;
                 });
                 $museum->post('/', CreateMuseumAction::class);
+                $museum->put('/{id}', UpdateMuseumAction::class);
             });
         });
     }
