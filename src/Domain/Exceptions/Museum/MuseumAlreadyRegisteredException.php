@@ -4,8 +4,8 @@ namespace App\Domain\Exceptions\Museum;
 
 use App\Domain\Exceptions\Protocols\HttpSpecializedAdapter;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpException;
-use Slim\Exception\HttpForbiddenException;
 
 class MuseumAlreadyRegisteredException extends HttpSpecializedAdapter
 {
@@ -13,6 +13,6 @@ class MuseumAlreadyRegisteredException extends HttpSpecializedAdapter
 
     public function wire(ServerRequestInterface $request): HttpException
     {
-        return new HttpForbiddenException($request, $this->responsaMessage);
+        return new HttpBadRequestException($request, $this->responsaMessage);
     }
 }

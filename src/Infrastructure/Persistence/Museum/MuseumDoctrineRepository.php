@@ -67,6 +67,18 @@ class MuseumDoctrineRepository implements MuseumRepository
         }
     }
 
+    public function add(Museum $museum): bool
+    {
+        try {
+            $this->em->persist($museum);
+            $this->em->flush();
+
+            return true;
+        } catch (UniqueConstraintViolationException) {
+            throw new MuseumAlreadyRegisteredException();
+        }
+    }
+
     public function delete(ModelInterface | int $museum): Museum
     {
         $this->em->remove($museum);

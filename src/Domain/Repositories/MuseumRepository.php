@@ -25,6 +25,8 @@ interface MuseumRepository extends CrudOperationsInterface
      */
     public function insert(ModelInterface $model): bool;
 
+    public function add(Museum $model): bool;
+
     public function delete(ModelInterface | int $museum): ?Museum;
 
     public function findAll(?PaginationInterface $pagination = null): array;

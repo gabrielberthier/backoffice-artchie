@@ -8,6 +8,7 @@ use App\Presentation\Actions\Auth\LoginController;
 use App\Presentation\Actions\Auth\LogoutController;
 use App\Presentation\Actions\Auth\SignUpController;
 use App\Presentation\Actions\Home\HomeController;
+use App\Presentation\Actions\Museum\CreateMuseumAction;
 use App\Presentation\Actions\User\ListUsersAction;
 use App\Presentation\Actions\User\ViewUserAction;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -39,12 +40,13 @@ class Router
         $app->group('/api', function (Group $group) {
             $group->get('/', HomeController::class);
 
-            $group->group('/museum', function (Group $group) {
-                $group->get('/', function (Request $request, Response $response) {
+            $group->group('/museum', function (Group $museum) {
+                $museum->get('/', function (Request $request, Response $response) {
                     $response->getBody()->write('Welcome to museum\'s');
 
                     return $response;
                 });
+                $museum->post('/', CreateMuseumAction::class);
             });
         });
     }

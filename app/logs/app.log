@@ -777,3 +777,30 @@
 [2021-07-27T13:11:47.712435+00:00] slim-app.WARNING: Token not found [] {"uid":"4dd85df"}
 [2021-07-27T13:11:47.725025+00:00] slim-app.WARNING: Token not found [] {"uid":"89212e0"}
 [2021-07-27T13:11:47.738511+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"cb9a9ca"}
+[2021-07-27T19:03:38.464552+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"7bfbcd2"}
+[2021-07-27T19:03:38.475646+00:00] slim-app.WARNING: Expired token ["eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjcwMDM0MzIsImV4cCI6MTYyNzAwNDMzMiwianRpIjoiM2lIcEZESVY1cUtNc05BSkZia1BYQT09Iiwic3ViIjoiZ2Fic3RoaWVyIiwiZGF0YSI6eyJlbWFpbCI6ImdhYnJpZWxiZXJ0aGllckBnbWFpbC5jb20iLCJ1dWlkIjoiMzMwNTM5NmYtNWM1Mi00OTRhLTllZmItNjc4MjNmN2VmOGJmIiwicm9sZSI6ImNvbW1vbiIsInVzZXJuYW1lIjoiZ2Fic3RoaWVyIn0sImlzcyI6IkFSVENISUUifQ.l6fdPr6sEfjLwo8KXiFZIBYjSH2r2YTc6JWUFnQTqEo"] {"uid":"7bfbcd2"}
+[2021-07-27T19:03:54.928547+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"ca50646"}
+[2021-07-27T19:04:02.591743+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"7c148db"}
+[2021-07-27T19:04:31.545555+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"7ffd36a"}
+[2021-07-27T19:04:35.316577+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"959b697"}
+[2021-07-27T19:04:52.212516+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"25edd24"}
+[2021-07-27T19:06:25.836856+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"c4ee9fc"}
+[2021-07-27T19:07:31.193410+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"3db3caa"}
+[2021-07-27T19:08:34.749069+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"59af72a"}
+[2021-07-27T19:09:41.573621+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"2679434"}
+[2021-07-27T19:13:26.034552+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"fec38f6"}
+[2021-07-27T19:14:36.364570+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"38c6f09"}
+[2021-07-27T19:14:57.939082+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"680f484"}
+[2021-07-27T19:20:44.156559+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"a730075"}
+[2021-07-27T19:20:44.159325+00:00] slim-app.WARNING: Expired token ["eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Mjc0MTI2MjAsImV4cCI6MTYyNzQxMzUyMCwianRpIjoidXFJY1wvRXY3RWpDbVpQUkNjSG1jdVE9PSIsInN1YiI6ImdhYnN0aGllciIsImRhdGEiOnsiZW1haWwiOiJnYWJyaWVsYmVydGhpZXJAZ21haWwuY29tIiwidXVpZCI6IjMzMDUzOTZmLTVjNTItNDk0YS05ZWZiLTY3ODIzZjdlZjhiZiIsInJvbGUiOiJjb21tb24iLCJ1c2VybmFtZSI6ImdhYnN0aGllciJ9LCJpc3MiOiJBUlRDSElFIn0.h5yXio2G0yeG72vTc0jii8X0bcXvHP2DQMd6oT6PLrk"] {"uid":"a730075"}
+[2021-07-27T19:20:52.078344+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"46c9dcf"}
+[2021-07-27T19:20:52.080384+00:00] slim-app.WARNING: Expired token ["eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Mjc0MTI2MjAsImV4cCI6MTYyNzQxMzUyMCwianRpIjoidXFJY1wvRXY3RWpDbVpQUkNjSG1jdVE9PSIsInN1YiI6ImdhYnN0aGllciIsImRhdGEiOnsiZW1haWwiOiJnYWJyaWVsYmVydGhpZXJAZ21haWwuY29tIiwidXVpZCI6IjMzMDUzOTZmLTVjNTItNDk0YS05ZWZiLTY3ODIzZjdlZjhiZiIsInJvbGUiOiJjb21tb24iLCJ1c2VybmFtZSI6ImdhYnN0aGllciJ9LCJpc3MiOiJBUlRDSElFIn0.h5yXio2G0yeG72vTc0jii8X0bcXvHP2DQMd6oT6PLrk"] {"uid":"46c9dcf"}
+[2021-07-27T19:21:02.231646+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"9682962"}
+[2021-07-27T19:21:02.234235+00:00] slim-app.WARNING: Expired token ["eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Mjc0MTI2MjAsImV4cCI6MTYyNzQxMzUyMCwianRpIjoidXFJY1wvRXY3RWpDbVpQUkNjSG1jdVE9PSIsInN1YiI6ImdhYnN0aGllciIsImRhdGEiOnsiZW1haWwiOiJnYWJyaWVsYmVydGhpZXJAZ21haWwuY29tIiwidXVpZCI6IjMzMDUzOTZmLTVjNTItNDk0YS05ZWZiLTY3ODIzZjdlZjhiZiIsInJvbGUiOiJjb21tb24iLCJ1c2VybmFtZSI6ImdhYnN0aGllciJ9LCJpc3MiOiJBUlRDSElFIn0.h5yXio2G0yeG72vTc0jii8X0bcXvHP2DQMd6oT6PLrk"] {"uid":"9682962"}
+[2021-07-27T19:21:12.828302+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"6f432d1"}
+[2021-07-27T19:21:12.830197+00:00] slim-app.WARNING: Expired token ["eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Mjc0MTI2MjAsImV4cCI6MTYyNzQxMzUyMCwianRpIjoidXFJY1wvRXY3RWpDbVpQUkNjSG1jdVE9PSIsInN1YiI6ImdhYnN0aGllciIsImRhdGEiOnsiZW1haWwiOiJnYWJyaWVsYmVydGhpZXJAZ21haWwuY29tIiwidXVpZCI6IjMzMDUzOTZmLTVjNTItNDk0YS05ZWZiLTY3ODIzZjdlZjhiZiIsInJvbGUiOiJjb21tb24iLCJ1c2VybmFtZSI6ImdhYnN0aGllciJ9LCJpc3MiOiJBUlRDSElFIn0.h5yXio2G0yeG72vTc0jii8X0bcXvHP2DQMd6oT6PLrk"] {"uid":"6f432d1"}
+[2021-07-27T19:21:16.026705+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"e43356a"}
+[2021-07-27T19:21:16.028687+00:00] slim-app.WARNING: Expired token ["eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Mjc0MTI2MjAsImV4cCI6MTYyNzQxMzUyMCwianRpIjoidXFJY1wvRXY3RWpDbVpQUkNjSG1jdVE9PSIsInN1YiI6ImdhYnN0aGllciIsImRhdGEiOnsiZW1haWwiOiJnYWJyaWVsYmVydGhpZXJAZ21haWwuY29tIiwidXVpZCI6IjMzMDUzOTZmLTVjNTItNDk0YS05ZWZiLTY3ODIzZjdlZjhiZiIsInJvbGUiOiJjb21tb24iLCJ1c2VybmFtZSI6ImdhYnN0aGllciJ9LCJpc3MiOiJBUlRDSElFIn0.h5yXio2G0yeG72vTc0jii8X0bcXvHP2DQMd6oT6PLrk"] {"uid":"e43356a"}
+[2021-07-27T19:36:55.316387+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"3b369de"}
+[2021-07-27T19:38:59.195662+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"ff3b68e"}
+[2021-07-27T19:41:29.754929+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"5e11ee1"}

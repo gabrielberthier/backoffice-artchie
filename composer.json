@@ -19,7 +19,7 @@
     "require": {
         "php": "^8.0",
         "ext-json": "*",
-        "doctrine/orm": "^2.8",
+        "doctrine/orm": "^2.9",
         "firebase/php-jwt": "^5.2",
         "lodash-php/lodash-php": "^0.0.7",
         "monolog/monolog": ">=2.0",
@@ -28,6 +28,7 @@
         "respect/validation": "^2.2",
         "slim/psr7": ">=1.0",
         "slim/slim": "^4.7",
+        "symfony/cache": "^5.3",
         "symfony/dotenv": "^5.2",
         "tuupola/slim-jwt-auth": "^3.5",
         "vlucas/phpdotenv": "^5.3"

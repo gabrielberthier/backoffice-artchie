@@ -25,11 +25,11 @@ return [
             )
         );
 
-        $config->setMetadataCacheImpl(
-            new FilesystemCache(
-                $doctrine['cache_dir']
-            )
-        );
+        // $config->setMetadataCacheImpl(
+        //     new FilesystemCache(
+        //         $doctrine['cache_dir']
+        //     )
+        // );
 
         if (!Type::hasType('uuid')) {
             Type::addType('uuid', 'Ramsey\Uuid\Doctrine\UuidType');
