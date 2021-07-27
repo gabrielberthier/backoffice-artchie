@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Pagination;
 
-use App\Data\Protocols\PersistenceOperations\PaginationInterface;
+use App\Domain\Repositories\Pagination\PaginationInterface;
 use ArrayIterator;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;

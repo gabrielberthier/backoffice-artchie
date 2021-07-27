@@ -6,7 +6,7 @@ use App\Data\Protocols\Cryptography\ComparerInterface;
 use App\Data\Protocols\Cryptography\DataDecrypter;
 use App\Data\Protocols\Cryptography\DataEncrypter;
 use App\Data\Protocols\Cryptography\HasherInterface;
-use App\Data\Protocols\PersistenceOperations\PaginationInterface;
+use App\Domain\Repositories\Pagination\PaginationInterface;
 use App\Infrastructure\Cryptography\DataEncryption\Encrypter;
 use App\Infrastructure\Cryptography\HashComparer;
 use App\Infrastructure\Cryptography\HashCreator;

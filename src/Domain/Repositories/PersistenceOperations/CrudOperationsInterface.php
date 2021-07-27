@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Data\Protocols\PersistenceOperations;
+namespace App\Domain\Repositories\PersistenceOperations;
 
 use App\Domain\Contracts\ModelInterface;
+use App\Domain\Repositories\Pagination\PaginationInterface;
 
 interface CrudOperations
 {

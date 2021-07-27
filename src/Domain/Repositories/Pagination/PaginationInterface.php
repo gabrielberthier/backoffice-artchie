@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data\Protocols\PersistenceOperations;
+namespace App\Domain\Repositories\Pagination;
 
 use IteratorAggregate;
 
