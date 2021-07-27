@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Domain\Models;
 
+use App\Domain\Contracts\ModelInterface;
 use App\Domain\Models\Traits\TimestampsTrait;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use JsonSerializable;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
@@ -16,7 +16,7 @@ use Ramsey\Uuid\UuidInterface;
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="museums")
  */
-class Museum implements JsonSerializable
+class Museum implements ModelInterface
 {
     use TimestampsTrait;
 

@@ -5,15 +5,15 @@ namespace App\Domain\Repositories\PersistenceOperations;
 use App\Domain\Contracts\ModelInterface;
 use App\Domain\Repositories\Pagination\PaginationInterface;
 
-interface CrudOperations
+interface CrudOperationsInterface
 {
-    public function create(ModelInterface $model): bool;
+    public function insert(ModelInterface $model): bool;
 
     public function findAll(?PaginationInterface $pagination = null): array;
 
-    public function update(int $id): ?ModelInterface;
+    public function update(int $id, array $values): ?ModelInterface;
 
-    public function delete(int $id): ?ModelInterface;
+    public function delete(ModelInterface | int $id): ?ModelInterface;
 
     public function findByID(int $id): ?ModelInterface;
 
