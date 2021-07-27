@@ -9,6 +9,7 @@ use App\Presentation\Actions\Auth\LogoutController;
 use App\Presentation\Actions\Auth\SignUpController;
 use App\Presentation\Actions\Home\HomeController;
 use App\Presentation\Actions\Museum\CreateMuseumAction;
+use App\Presentation\Actions\Museum\DeleteMuseumAction;
 use App\Presentation\Actions\Museum\UpdateMuseumAction;
 use App\Presentation\Actions\User\ListUsersAction;
 use App\Presentation\Actions\User\ViewUserAction;
@@ -49,6 +50,7 @@ class Router
                 });
                 $museum->post('/', CreateMuseumAction::class);
                 $museum->put('/{id}', UpdateMuseumAction::class);
+                $museum->delete('/{id}', DeleteMuseumAction::class);
             });
         });
     }
