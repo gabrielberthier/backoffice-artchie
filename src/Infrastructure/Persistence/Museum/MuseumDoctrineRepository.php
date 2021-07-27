@@ -83,10 +83,15 @@ class MuseumDoctrineRepository implements MuseumRepository
         }
     }
 
-    public function delete(ModelInterface | int $museum): Museum
+    public function delete(ModelInterface | int $museum): ?Museum
     {
-        $this->em->remove($museum);
-        $this->em->flush();
+        if (is_int($museum)) {
+            $museum = $this->findByID($museum);
+        }
+        if ($museum) {
+            $this->em->remove($museum);
+            $this->em->flush();
+        }
 
         return $museum;
     }

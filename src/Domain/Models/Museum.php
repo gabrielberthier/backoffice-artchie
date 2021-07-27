@@ -65,6 +65,11 @@ class Museum implements ModelInterface
         return $this->id;
     }
 
+    public function setId(int $id)
+    {
+        $this->id = $id;
+    }
+
     /**
      * Get the internal primary identity key.
      */
@@ -134,7 +139,7 @@ class Museum implements ModelInterface
     public function jsonSerialize()
     {
         return [
-            'id' => $this->id,
+            'id' => $this->getId(),
             'uuid' => $this->uuid,
             'email' => $this->email,
             'name' => $this->name,
