@@ -7,7 +7,6 @@ namespace App\Domain\Repositories;
 use App\Domain\Contracts\ModelInterface;
 use App\Domain\Exceptions\Museum\MuseumAlreadyRegisteredException;
 use App\Domain\Models\Museum;
-use App\Domain\Repositories\Pagination\PaginationInterface;
 use App\Domain\Repositories\PersistenceOperations\CrudOperationsInterface;
 
 interface MuseumRepository extends CrudOperationsInterface
@@ -28,6 +27,4 @@ interface MuseumRepository extends CrudOperationsInterface
     public function add(Museum $model): bool;
 
     public function delete(ModelInterface | int $museum): ?Museum;
-
-    public function findAll(?PaginationInterface $pagination = null): array;
 }

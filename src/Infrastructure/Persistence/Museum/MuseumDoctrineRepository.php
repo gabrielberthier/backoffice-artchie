@@ -6,7 +6,7 @@ use App\Domain\Contracts\ModelInterface;
 use App\Domain\Exceptions\Museum\MuseumAlreadyRegisteredException;
 use App\Domain\Models\Museum;
 use App\Domain\Repositories\MuseumRepository;
-use App\Domain\Repositories\Pagination\PaginationInterface;
+use App\Infrastructure\Persistence\Pagination\PaginationService;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
 
@@ -96,8 +96,24 @@ class MuseumDoctrineRepository implements MuseumRepository
         return $museum;
     }
 
-    public function findAll(?PaginationInterface $pagination = null): array
+    public function findAll(bool $paginate = false, $page = 1, $limit = 20): array
     {
+        if ($page && $limit) {
+            $page = intval($page);
+            $limit = intval($limit);
+
+            $query = $this->em
+                ->createQueryBuilder()
+                ->select('m')
+                ->from(Museum::class, 'm')
+            ;
+
+            $pagination = new PaginationService($query);
+            $paginator = $pagination->paginate($page, $limit);
+
+            return iterator_to_array($paginator->getIterator());
+        }
+
         return $this->em->getRepository(Museum::class)->findAll();
     }
 }

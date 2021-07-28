@@ -8,7 +8,7 @@ use App\Domain\Repositories\MuseumRepository;
 use App\Presentation\Actions\Protocols\Action;
 use Psr\Http\Message\ResponseInterface as Response;
 
-class SelectOneMuseumAction extends Action
+class GetAllMuseumAction extends Action
 {
     public function __construct(
         private MuseumRepository $museumRepository
@@ -17,9 +17,16 @@ class SelectOneMuseumAction extends Action
 
     public function action(): Response
     {
-        $id = (int) $this->resolveArg('id');
-        $museum = $this->museumRepository->findByID($id);
+        $museums = [];
+        $params = $this->request->getQueryParams();
+        if (isset($params['paginate'])) {
+            $params['paginate'] = (bool) $params['paginate'];
 
-        return $this->respondWithData(['museum' => $museum]);
+            $museums = $this->museumRepository->findAll(...$params);
+        } else {
+            $museums = $this->museumRepository->findAll();
+        }
+
+        return $this->respondWithData($museums);
     }
 }

@@ -7,28 +7,31 @@ use ArrayIterator;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use JsonSerializable;
 
-class PaginationService implements PaginationInterface
+class PaginationService implements PaginationInterface, JsonSerializable
 {
-    public function __construct(private Paginator $paginator)
+    private Paginator $paginator;
+
+    public function __construct(Query | QueryBuilder $query, $fetchJoinCollection = true)
     {
+        $this->paginator = new Paginator($query, $fetchJoinCollection);
     }
 
-    /**
-     * @param Query|QueryBuilder $query
-     * @param Request            $request
-     */
-    public function paginate($query, int $page, int $limit): Paginator
-    {
+    public function paginate(
+        int $page = 1,
+        int $limit = 20
+    ): Paginator {
         $currentPage = $page ?: 1;
-        $paginator = new Paginator($query);
-        $paginator
+        $query = $this->paginator
             ->getQuery()
             ->setFirstResult($limit * ($currentPage - 1))
             ->setMaxResults($limit)
         ;
 
-        return $paginator;
+        $this->paginator = new Paginator($query);
+
+        return $this->paginator;
     }
 
     public function lastPage(): int
@@ -51,5 +54,15 @@ class PaginationService implements PaginationInterface
         $iterator = $this->paginator->getIterator();
 
         return !($iterator->count());
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'currentHasNoResults' => $this->currentPageHasNoResult(),
+            'total' => $this->total(),
+            'lastPage' => $this->lastPage(),
+            'items' => $this->paginator->getQuery()->getResult(),
+        ];
     }
 }

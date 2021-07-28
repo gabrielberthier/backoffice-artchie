@@ -6,7 +6,10 @@ use IteratorAggregate;
 
 interface PaginationInterface
 {
-    public function paginate($query, int $page, int $limit): IteratorAggregate;
+    public function paginate(
+        int $page = 1,
+        int $limit = 20
+    ): IteratorAggregate;
 
     public function lastPage(): int;
 

@@ -6,11 +6,9 @@ use App\Data\Protocols\Cryptography\ComparerInterface;
 use App\Data\Protocols\Cryptography\DataDecrypter;
 use App\Data\Protocols\Cryptography\DataEncrypter;
 use App\Data\Protocols\Cryptography\HasherInterface;
-use App\Domain\Repositories\Pagination\PaginationInterface;
 use App\Infrastructure\Cryptography\DataEncryption\Encrypter;
 use App\Infrastructure\Cryptography\HashComparer;
 use App\Infrastructure\Cryptography\HashCreator;
-use App\Infrastructure\Persistence\Pagination\PaginationService;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
@@ -44,5 +42,4 @@ return [
     HasherInterface::class => new HashCreator(),
     DataDecrypter::class => $encrypter,
     DataEncrypter::class => $encrypter,
-    PaginationInterface::class => DI\create(PaginationService::class),
 ];

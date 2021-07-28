@@ -10,6 +10,7 @@ use App\Presentation\Actions\Auth\SignUpController;
 use App\Presentation\Actions\Home\HomeController;
 use App\Presentation\Actions\Museum\CreateMuseumAction;
 use App\Presentation\Actions\Museum\DeleteMuseumAction;
+use App\Presentation\Actions\Museum\GetAllMuseumAction;
 use App\Presentation\Actions\Museum\SelectOneMuseumAction;
 use App\Presentation\Actions\Museum\UpdateMuseumAction;
 use App\Presentation\Actions\User\ListUsersAction;
@@ -44,11 +45,7 @@ class Router
             $group->get('/', HomeController::class);
 
             $group->group('/museum', function (Group $museum) {
-                $museum->get('/', function (Request $request, Response $response) {
-                    $response->getBody()->write('Welcome to museum\'s');
-
-                    return $response;
-                });
+                $museum->get('/', GetAllMuseumAction::class);
                 $museum->post('/', CreateMuseumAction::class);
                 $museum->put('/{id}', UpdateMuseumAction::class);
                 $museum->delete('/{id}', DeleteMuseumAction::class);
