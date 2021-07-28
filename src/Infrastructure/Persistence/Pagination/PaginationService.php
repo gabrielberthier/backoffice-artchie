@@ -3,13 +3,13 @@
 namespace App\Infrastructure\Persistence\Pagination;
 
 use App\Domain\Repositories\Pagination\PaginationInterface;
+use App\Domain\Repositories\PersistenceOperations\Responses\PaginationResponse;
 use ArrayIterator;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use JsonSerializable;
 
-class PaginationService implements PaginationInterface, JsonSerializable
+class PaginationService implements PaginationInterface
 {
     private Paginator $paginator;
 
@@ -21,8 +21,9 @@ class PaginationService implements PaginationInterface, JsonSerializable
     public function paginate(
         int $page = 1,
         int $limit = 20
-    ): Paginator {
-        $currentPage = $page ?: 1;
+    ): PaginationResponse {
+        $currentPage = intval($page) ?: 1;
+        $limit = intval($limit);
         $query = $this->paginator
             ->getQuery()
             ->setFirstResult($limit * ($currentPage - 1))
@@ -31,7 +32,9 @@ class PaginationService implements PaginationInterface, JsonSerializable
 
         $this->paginator = new Paginator($query);
 
-        return $this->paginator;
+        $arrayItems = iterator_to_array($this->paginator->getIterator());
+
+        return new PaginationResponse($this->total(), $this->lastPage(), $this->currentPageHasNoResult(), $arrayItems);
     }
 
     public function lastPage(): int
@@ -54,15 +57,5 @@ class PaginationService implements PaginationInterface, JsonSerializable
         $iterator = $this->paginator->getIterator();
 
         return !($iterator->count());
-    }
-
-    public function jsonSerialize()
-    {
-        return [
-            'currentHasNoResults' => $this->currentPageHasNoResult(),
-            'total' => $this->total(),
-            'lastPage' => $this->lastPage(),
-            'items' => $this->paginator->getQuery()->getResult(),
-        ];
     }
 }

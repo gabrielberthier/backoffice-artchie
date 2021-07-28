@@ -6,6 +6,7 @@ use App\Domain\Contracts\ModelInterface;
 use App\Domain\Exceptions\Museum\MuseumAlreadyRegisteredException;
 use App\Domain\Models\Museum;
 use App\Domain\Repositories\MuseumRepository;
+use App\Domain\Repositories\PersistenceOperations\Responses\PaginationResponse;
 use App\Infrastructure\Persistence\Pagination\PaginationService;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
@@ -96,12 +97,9 @@ class MuseumDoctrineRepository implements MuseumRepository
         return $museum;
     }
 
-    public function findAll(bool $paginate = false, $page = 1, $limit = 20): array
+    public function findAll(bool $paginate = false, $page = 1, $limit = 20): array | PaginationResponse
     {
         if ($page && $limit) {
-            $page = intval($page);
-            $limit = intval($limit);
-
             $query = $this->em
                 ->createQueryBuilder()
                 ->select('m')
@@ -109,9 +107,8 @@ class MuseumDoctrineRepository implements MuseumRepository
             ;
 
             $pagination = new PaginationService($query);
-            $paginator = $pagination->paginate($page, $limit);
 
-            return iterator_to_array($paginator->getIterator());
+            return $pagination->paginate($page, $limit);
         }
 
         return $this->em->getRepository(Museum::class)->findAll();

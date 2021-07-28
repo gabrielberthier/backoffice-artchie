@@ -2,14 +2,14 @@
 
 namespace App\Domain\Repositories\Pagination;
 
-use IteratorAggregate;
+use App\Domain\Repositories\PersistenceOperations\Responses\PaginationResponse;
 
 interface PaginationInterface
 {
     public function paginate(
         int $page = 1,
         int $limit = 20
-    ): IteratorAggregate;
+    ): PaginationResponse;
 
     public function lastPage(): int;
 

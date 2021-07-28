@@ -1046,3 +1046,19 @@
 [2021-07-28T16:21:45.154508+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"06febd3"}
 [2021-07-28T16:21:53.296748+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"6f98c45"}
 [2021-07-28T16:21:57.803989+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"19f072f"}
+[2021-07-28T16:25:02.104405+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"88a113e"}
+[2021-07-28T16:25:05.924498+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"451b26f"}
+[2021-07-28T16:25:10.823067+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"de44015"}
+[2021-07-28T16:25:16.822949+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"a07ac5d"}
+[2021-07-28T16:42:23.738707+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"2947de0"}
+[2021-07-28T16:42:23.741718+00:00] slim-app.WARNING: Expired token ["eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Mjc0ODkyNTEsImV4cCI6MTYyNzQ5MDE1MSwianRpIjoiNTIyZUxjUWZ6dlFjSnoyVnVLYnJzZz09Iiwic3ViIjoiY2FpdXMxMjMiLCJkYXRhIjp7ImVtYWlsIjoiZ2FicmllbGJlcnRoaWVyQGdtYWlsLmNvbSIsInV1aWQiOiIzNDIyNTNmMi1hNTY5LTRlZmEtOWVlNC1hYWNhZmRiMDgyMzUiLCJyb2xlIjoiY29tbW9uIiwidXNlcm5hbWUiOiJjYWl1czEyMyJ9LCJpc3MiOiJBUlRDSElFIn0.FAXJGHHjRV30mksVWFSAFvn4W43AI82pzN8tDG0q8GI"] {"uid":"2947de0"}
+[2021-07-28T16:42:33.652001+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"3c448c2"}
+[2021-07-28T16:43:39.204167+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"4ecccb2"}
+[2021-07-28T16:45:26.807480+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"f845c31"}
+[2021-07-28T16:45:48.630001+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"6cdb59e"}
+[2021-07-28T16:46:55.682455+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"48d5e53"}
+[2021-07-28T16:47:08.172782+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"a843255"}
+[2021-07-28T16:47:39.309800+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"6f08ef1"}
+[2021-07-28T16:47:41.911259+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"b9e1174"}
+[2021-07-28T16:47:48.018152+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"517e290"}
+[2021-07-28T16:47:53.781666+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"8bb9f8f"}
