@@ -39,8 +39,12 @@ class S3StreamObjectsZipDownloader
         }
 
         foreach ($resourceObjects as $obj) {
+            $resource = $this->streamResourceCollector->streamCollect($bucketName, $obj);
+            if (!is_resource($resource)) {
+                continue;
+            }
             $objectName = $obj->getName() ?? basename($obj->getPath());
-            $zip->addFileFromStream($objectName, $this->streamResourceCollector->streamCollect($bucketName, $obj));
+            $zip->addFileFromStream($objectName, $resource);
         }
 
         $zip->finish();
