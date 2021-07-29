@@ -21,6 +21,7 @@
         "ext-json": "*",
         "doctrine/orm": "^2.9",
         "firebase/php-jwt": "^5.2",
+        "league/flysystem-aws-s3-v3": "^1.0",
         "lodash-php/lodash-php": "^0.0.7",
         "monolog/monolog": ">=2.0",
         "php-di/php-di": "^6.0",
