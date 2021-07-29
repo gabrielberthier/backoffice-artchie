@@ -6,7 +6,7 @@ use App\Infrastructure\Downloader\S3\Exceptions\InvalidParamsException;
 
 class ResourceObject
 {
-    public function __construct(private string $path, private ?string $name)
+    public function __construct(private string $path, private ?string $name = '')
     {
         if (empty($path)) {
             throw new InvalidParamsException('The `path` cannot be an empty string.');

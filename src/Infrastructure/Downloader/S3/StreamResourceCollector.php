@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Downloader\S3;
 
-use App\Infrastructure\Downloader\Exceptions\InvalidParamsException;
+use App\Infrastructure\Downloader\S3\Exceptions\InvalidParamsException;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
 use Psr\Http\Client\ClientInterface;
@@ -22,63 +22,53 @@ class StreamResourceCollector implements StreamResourceCollectorInterface
         $this->checkObjectExist = true;
     }
 
-    public function streamCollect(string $bucketName, ResourceObject ...$resourceObjects): array
+    public function streamCollect(string $bucketName, ResourceObject $resourceObject)
     {
-        if (empty($resourceObjects)) {
-            throw new InvalidParamsException('The parameter `objects` is required.');
-        }
-
         $this->prepareBucketHead($bucketName);
 
-        return $this->getStreamsFromResourcesArray(...$resourceObjects);
+        return $this->getStreamsFromResourcesArray($bucketName, $resourceObject);
     }
 
-    private function getStreamsFromResourcesArray(ResourceObject ...$resourceObjects): array
+    private function getStreamsFromResourcesArray(string $bucket, ResourceObject $resourceObject)
     {
-        $resultingArray = [];
+        $this->validateResourceObjects($bucket, $resourceObject, $this->checkObjectExist);
 
-        foreach ($resourceObjects as $obj) {
-            $this->validateResourceObjects($obj, $this->checkObjectExist);
+        $context = stream_context_create([
+            's3' => ['seekable' => true],
+        ]);
 
-            $objectName = $obj->getName() ?? basename($obj->getPath());
+        $request = $this->mountRequestS3Request($bucket, $resourceObject->getPath());
 
-            $context = stream_context_create([
-                's3' => ['seekable' => true],
-            ]);
+        $tmpfile = tempnam(sys_get_temp_dir(), crc32(time()));
 
-            $request = $this->mountRequestS3Request($obj->getPath());
+        $request->getBody()->write($tmpfile);
 
-            $tmpfile = tempnam(sys_get_temp_dir(), crc32(time()));
+        $this->clientInterface->sendRequest($request);
 
-            $request->getBody()->write($tmpfile);
-
-            $this->clientInterface->sendRequest($request);
-
-            if ($stream = fopen($tmpfile, 'r', false, $context)) {
-                $resultingArray[$objectName] = $stream;
-            }
+        if ($stream = fopen($tmpfile, 'r', false, $context)) {
+            return $stream;
         }
 
-        return $resultingArray;
+        return null;
     }
 
-    private function validateResourceObjects(ResourceObject $obj, $checkObjectExist)
+    private function validateResourceObjects(string $bucket, ResourceObject $obj, $checkObjectExist)
     {
         if (!($obj instanceof ResourceObject)) {
             throw new InvalidParamsException('Resources to download must be composed of ResourceObject instances only.');
         }
 
         if ($checkObjectExist) {
-            S3FileVerifier::verifyFileExistence($this->bucket->getBucketName(), $obj->getPath());
+            S3FileVerifier::verifyFileExistence($bucket, $obj->getPath());
         }
     }
 
-    private function mountRequestS3Request(string $path): RequestInterface
+    private function mountRequestS3Request(string $bucket, string $path): RequestInterface
     {
         return $this->s3client->createPresignedRequest(
             $this->s3client->getCommand('GetObject', [
                 'Key' => $path,
-                'Bucket' => $this->bucket->getBucketName(),
+                'Bucket' => $bucket,
             ]),
             '+1 day'
         );
@@ -92,7 +82,7 @@ class StreamResourceCollector implements StreamResourceCollectorInterface
         }
 
         try {
-            $this->s3Client->headBucket([
+            $this->s3client->headBucket([
                 'Bucket' => $bucketName,
             ]);
         } catch (S3Exception) {

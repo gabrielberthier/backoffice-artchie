@@ -8,12 +8,17 @@ use ZipStream\ZipStream;
 class S3StreamObjectsZipDownloader
 {
     protected $opt;
+    protected $stream;
 
     public function __construct(private StreamResourceCollectorInterface $streamResourceCollector)
     {
         // https://github.com/maennchen/ZipStream-PHP/wiki/Available-options
         $this->opt = new ArchiveOptions();
         $this->opt->setContentType('application/zip');
+        $this->opt->setSendHttpHeaders(false);
+
+        $this->stream = fopen('php://memory', 'r+');
+        $this->opt->setOutputStream($this->stream);
     }
 
     /**
@@ -33,12 +38,15 @@ class S3StreamObjectsZipDownloader
             $this->streamResourceCollector->checkForObjectExistence();
         }
 
-        $streams = $this->streamResourceCollector->streamCollect($bucketName, ...$resourceObjects);
-
-        foreach ($streams as $key => $value) {
-            $zip->addFileFromStream($key, $value);
+        foreach ($resourceObjects as $obj) {
+            $objectName = $obj->getName() ?? basename($obj->getPath());
+            $zip->addFileFromStream($objectName, $this->streamResourceCollector->streamCollect($bucketName, $obj));
         }
 
         $zip->finish();
+
+        rewind($this->stream);
+
+        return $this->stream;
     }
 }

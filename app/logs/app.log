@@ -1062,3 +1062,12 @@
 [2021-07-28T16:47:41.911259+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"b9e1174"}
 [2021-07-28T16:47:48.018152+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"517e290"}
 [2021-07-28T16:47:53.781666+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"8bb9f8f"}
+[2021-07-29T21:22:56.092360+00:00] slim-app.WARNING: Token not found [] {"uid":"41abc3f"}
+[2021-07-29T21:23:10.571492+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"f6b1e92"}
+[2021-07-29T21:24:39.923825+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"1c4d820"}
+[2021-07-29T21:25:05.443484+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"f205039"}
+[2021-07-29T21:54:42.444731+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"3882c83"}
+[2021-07-29T21:54:42.449228+00:00] slim-app.WARNING: Expired token ["eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Mjc1OTM3NzYsImV4cCI6MTYyNzU5NDY3NiwianRpIjoia1VHV2NRVHNxaWhJWCt6N21NXC9yb0E9PSIsInN1YiI6ImNhaXVzMTIzIiwiZGF0YSI6eyJlbWFpbCI6ImdhYnJpZWxiZXJ0aGllckBnbWFpbC5jb20iLCJ1dWlkIjoiMzQyMjUzZjItYTU2OS00ZWZhLTllZTQtYWFjYWZkYjA4MjM1Iiwicm9sZSI6ImNvbW1vbiIsInVzZXJuYW1lIjoiY2FpdXMxMjMifSwiaXNzIjoiQVJUQ0hJRSJ9.8m3346aB3jv5lJ6pijEUsI8feGL7xsSJi075UGOVHQY"] {"uid":"3882c83"}
+[2021-07-29T21:54:51.600721+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"a790371"}
+[2021-07-29T21:55:30.206269+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"0aad7eb"}
+[2021-07-29T21:58:00.585680+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"345312f"}
