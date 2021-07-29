@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Downloader;
+namespace App\Infrastructure\Downloader\S3;
 
 use Aws\S3\S3Client;
 

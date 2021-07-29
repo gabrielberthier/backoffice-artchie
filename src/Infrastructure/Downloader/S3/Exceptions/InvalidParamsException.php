@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Downloader\Exceptions;
+namespace App\Infrastructure\Downloader\S3\Exceptions;
 
 use Exception;
 

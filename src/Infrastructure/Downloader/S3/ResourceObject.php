@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Infrastructure\Downloader;
+namespace App\Infrastructure\Downloader\S3;
 
-use App\Infrastructure\Downloader\Exceptions\InvalidParamsException;
+use App\Infrastructure\Downloader\S3\Exceptions\InvalidParamsException;
 
 class ResourceObject
 {

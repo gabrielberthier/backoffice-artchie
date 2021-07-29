@@ -9,6 +9,8 @@ use App\Data\Protocols\Cryptography\HasherInterface;
 use App\Infrastructure\Cryptography\DataEncryption\Encrypter;
 use App\Infrastructure\Cryptography\HashComparer;
 use App\Infrastructure\Cryptography\HashCreator;
+use App\Infrastructure\Downloader\S3\S3DownloaderFactory;
+use App\Infrastructure\Downloader\S3\StreamResourceCollectorInterface;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
@@ -42,4 +44,5 @@ return [
     HasherInterface::class => new HashCreator(),
     DataDecrypter::class => $encrypter,
     DataEncrypter::class => $encrypter,
+    StreamResourceCollectorInterface::class => S3DownloaderFactory::create(),
 ];
