@@ -6,5 +6,10 @@ use App\Domain\Models\Marker;
 
 interface MarkerDownloaderServiceInterface
 {
-    public function downloadMarkers(Marker $marker);
+    /**
+     * Returns a stream of downloadable markers assets.
+     *
+     * @return resource
+     */
+    public function downloadMarkers(Marker ...$markers);
 }
