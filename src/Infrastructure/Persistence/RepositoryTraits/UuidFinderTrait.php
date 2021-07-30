@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Repositories\RepositoryTraits;
+namespace App\Infrastructure\Persistence\RepositoryTraits;
 
 use App\Infrastructure\Uuid\UuidEncoder;
 

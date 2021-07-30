@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Domain\Models;
 
+use App\Domain\Contracts\ModelInterface;
 use App\Domain\Models\Traits\TimestampsTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use JsonSerializable;
 
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="markers")
  */
-class Marker implements JsonSerializable
+class Marker implements ModelInterface
 {
     use TimestampsTrait;
     /**
@@ -24,7 +24,7 @@ class Marker implements JsonSerializable
      */
     protected int $id;
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", unique=true, nullable=false)
      */
     private string $name;
     /**
@@ -40,7 +40,7 @@ class Marker implements JsonSerializable
      */
     private ?string $title;
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string", nullable=true, unique=true)
      */
     private ?string $url;
     /**

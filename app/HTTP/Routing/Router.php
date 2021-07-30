@@ -8,6 +8,7 @@ use App\Presentation\Actions\Auth\LoginController;
 use App\Presentation\Actions\Auth\LogoutController;
 use App\Presentation\Actions\Auth\SignUpController;
 use App\Presentation\Actions\Home\HomeController;
+use App\Presentation\Actions\Markers\DownloadMarkerAction;
 use App\Presentation\Actions\Museum\CreateMuseumAction;
 use App\Presentation\Actions\Museum\DeleteMuseumAction;
 use App\Presentation\Actions\Museum\GetAllMuseumAction;
@@ -50,6 +51,10 @@ class Router
                 $museum->put('/{id}', UpdateMuseumAction::class);
                 $museum->delete('/{id}', DeleteMuseumAction::class);
                 $museum->get('/{id}', SelectOneMuseumAction::class);
+            });
+
+            $group->group('/marker', function (Group $museum) {
+                $museum->get('/get-as-zip', DownloadMarkerAction::class);
             });
         });
     }
