@@ -35,7 +35,12 @@ class MarkerDoctrineRepository implements MarkerRepositoryInterface
 
     public function findAllByMuseum(int | Museum $museum): array
     {
-        return [];
+        $id = $museum;
+        if ($museum instanceof Museum) {
+            $id = $museum->getId();
+        }
+
+        return $this->em->getRepository(Marker::class)->findBy(['museum_id' => $id]);
     }
 
     public function findAll(bool $paginate = false, $page = 1, $limit = 20): array | PaginationResponse

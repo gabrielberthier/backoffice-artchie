@@ -46,6 +46,13 @@ class Museum implements ModelInterface
      */
     private string $name;
 
+    /**
+     * One museum has one or many markers. This is the inverse side.
+     *
+     * @ORM\OneToMany(targetEntity="Marker", mappedBy="museum", cascade={"persist", "remove"})
+     */
+    private array $markers;
+
     public function __construct(
         ?int $id = null,
         string $email,

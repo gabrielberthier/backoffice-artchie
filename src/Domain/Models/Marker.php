@@ -24,6 +24,13 @@ class Marker implements ModelInterface
      */
     protected int $id;
     /**
+     * Many markers have one museum. This is the owning side.
+     *
+     * @ORM\ManyToOne(targetEntity="Museum", inversedBy="markers")
+     * @ORM\JoinColumn(name="museum_id", referencedColumnName="id")
+     */
+    private ?Museum $museum;
+    /**
      * @ORM\Column(type="string", unique=true, nullable=false)
      */
     private string $name;
@@ -67,6 +74,7 @@ class Marker implements ModelInterface
             ],
             'url' => $this->url,
             'resource' => $this->resource,
+            'museum' => $this->museum,
         ];
     }
 
@@ -202,6 +210,28 @@ class Marker implements ModelInterface
     public function setUrl($url)
     {
         $this->url = $url;
+
+        return $this;
+    }
+
+    /**
+     * Get many markers have one museum. This is the owning side.
+     */
+    public function getMuseum(): ?Museum
+    {
+        return $this->museum;
+    }
+
+    /**
+     * Set many markers have one museum. This is the owning side.
+     *
+     * @param mixed $museum
+     *
+     * @return self
+     */
+    public function setMuseum(Museum $museum)
+    {
+        $this->museum = $museum;
 
         return $this;
     }

@@ -58,6 +58,7 @@ class ResourceModel implements JsonSerializable
             'name' => $this->name,
             'filename' => $this->filename,
             'type' => $this->type,
+            'marker' => $this->marker,
         ];
     }
 
