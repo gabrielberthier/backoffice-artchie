@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Downloader\S3\Exceptions;
+namespace App\Infrastructure\DataTransference\Downloader\S3\Exceptions;
 
 use Exception;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Infrastructure\Downloader\S3;
+namespace App\Infrastructure\DataTransference\Downloader\S3;
 
-use App\Infrastructure\Downloader\S3\Exceptions\InvalidParamsException;
+use App\Infrastructure\DataTransference\Downloader\S3\Exceptions\InvalidParamsException;
 
 class S3FileVerifier
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Downloader\S3;
+namespace App\Infrastructure\DataTransference\Downloader\S3;
 
 use GuzzleHttp\Client as HttpClient;
 

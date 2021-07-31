@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Infrastructure\Downloader\S3;
+namespace App\Infrastructure\DataTransference\Downloader\S3;
 
-use App\Infrastructure\Downloader\S3\Exceptions\InvalidParamsException;
+use App\Infrastructure\DataTransference\Downloader\S3\Exceptions\InvalidParamsException;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
 use Psr\Http\Client\ClientInterface;
