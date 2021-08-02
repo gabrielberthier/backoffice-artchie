@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Presentation\Actions\Markers;
 
 use App\Presentation\Actions\Protocols\Action;
-use Aws\S3\S3Client;
 use GuzzleHttp\Promise\Utils;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\UploadedFileInterface;
@@ -13,7 +12,8 @@ use Psr\Http\Message\UploadedFileInterface;
 class UploadMarkerAction extends Action
 {
     public function __construct(
-        private S3Client $s3Client
+        private MarkerStoreService $markerStoreService,
+        private MarkerStoreUploaderServiceInterface $uploader
     ) {
     }
 
