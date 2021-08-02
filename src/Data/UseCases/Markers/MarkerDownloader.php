@@ -6,14 +6,13 @@ use App\Data\Protocols\Markers\Downloader\MarkerDownloaderServiceInterface;
 use App\Domain\Models\Marker;
 use App\Domain\Models\Museum;
 use App\Domain\Repositories\MarkerRepositoryInterface;
-use App\Infrastructure\Downloader\S3\ResourceObject;
-use App\Infrastructure\Downloader\S3\S3StreamObjectsZipDownloader;
-use App\Infrastructure\Downloader\S3\StreamResourceCollectorInterface;
+use S3DataTransfer\Objects\ResourceObject;
+use S3DataTransfer\S3\Zip\S3StreamObjectsZipDownloader;
 
 class MarkerDownloader implements MarkerDownloaderServiceInterface
 {
     public function __construct(
-        private StreamResourceCollectorInterface $streamResourceCollectorInterface,
+        private S3StreamObjectsZipDownloader $zipper,
         private MarkerRepositoryInterface $repository
     ) {
     }
@@ -49,9 +48,7 @@ class MarkerDownloader implements MarkerDownloaderServiceInterface
             $resources[] = new ResourceObject($marker->getUrl(), $marker->getName());
         }
 
-        $zipper = new S3StreamObjectsZipDownloader($this->streamResourceCollectorInterface);
-
-        return $zipper->zipObjects(
+        return $this->zipper->zipObjects(
             $bucket,
             $resources
         );

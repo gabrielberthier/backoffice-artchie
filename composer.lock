@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "af4d113d52bc1efe7bc67e258a0735e0",
+    "content-hash": "d04b8a641214a273c0e63eeb99492c12",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1335,6 +1335,52 @@
                 "source": "https://github.com/firebase/php-jwt/tree/v5.4.0"
             },
             "time": "2021-06-23T19:00:23+00:00"
+        },
+        {
+            "name": "gabrielberthier/s3-data-transfer",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gabrielberthier/s3-zip-objects.git",
+                "reference": "db5ce61ac115b7eeae37e67332b9ad96f4a2f041"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gabrielberthier/s3-zip-objects/zipball/db5ce61ac115b7eeae37e67332b9ad96f4a2f041",
+                "reference": "db5ce61ac115b7eeae37e67332b9ad96f4a2f041",
+                "shasum": ""
+            },
+            "require": {
+                "league/flysystem-aws-s3-v3": "^1.0",
+                "maennchen/zipstream-php": "^2.1",
+                "monolog/monolog": "^2.3",
+                "php": "^8.0",
+                "vlucas/phpdotenv": "^5.3"
+            },
+            "require-dev": {
+                "phpspec/prophecy-phpunit": "^2.0",
+                "phpunit/phpunit": "^9"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "S3DataTransfer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Gabriel Nogueira Berthier",
+                    "email": "gabrielnberthier@gmail.com"
+                }
+            ],
+            "description": "A package to handle s3 upload and download using PSR-7 interfaces, async operations and Zip options",
+            "support": {
+                "issues": "https://github.com/gabrielberthier/s3-zip-objects/issues",
+                "source": "https://github.com/gabrielberthier/s3-zip-objects/tree/main"
+            },
+            "time": "2021-08-02T15:33:01+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -7132,7 +7178,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "gabrielberthier/s3-data-transfer": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
