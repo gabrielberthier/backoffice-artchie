@@ -50,6 +50,11 @@ class ResourceModel implements JsonSerializable
      */
     private ?Marker $marker;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $isActive = true;
+
     public function jsonSerialize()
     {
         return [
@@ -194,6 +199,26 @@ class ResourceModel implements JsonSerializable
     public function setMarker($marker)
     {
         $this->marker = $marker;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of isActive.
+     */
+    public function getIsActive(): bool
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * Set the value of isActive.
+     *
+     * @return self
+     */
+    public function setIsActive(bool $isActive)
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }

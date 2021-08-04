@@ -57,6 +57,11 @@ class Marker implements ModelInterface
      */
     private array $resources;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    private bool $isActive = true;
+
     public function __construct()
     {
         $this->resources = new ArrayCollection();
@@ -96,9 +101,13 @@ class Marker implements ModelInterface
     public function setResources(array | ResourceModel $resource = [])
     {
         if (is_array($resource)) {
+            foreach ($resource as $obj) {
+                $obj->setMarker($this);
+            }
             $this->resources = array_merge($this->resources, $resource);
         } else {
             $this->resources[] = $resource;
+            $resource->setMarker($this);
         }
 
         return $this;
@@ -232,6 +241,28 @@ class Marker implements ModelInterface
     public function setMuseum(Museum $museum)
     {
         $this->museum = $museum;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of isActive.
+     */
+    public function getIsActive(): bool
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * Set the value of isActive.
+     *
+     * @param mixed $isActive
+     *
+     * @return self
+     */
+    public function setIsActive(bool $isActive)
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }

@@ -4,50 +4,43 @@ declare(strict_types=1);
 
 namespace App\Presentation\Actions\Markers;
 
+use App\Data\Protocols\Markers\Store\MarkerServiceStoreInterface;
+use App\Infrastructure\DataTransference\Utils\FileNameConverter;
 use App\Presentation\Actions\Protocols\Action;
-use GuzzleHttp\Promise\Utils;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\UploadedFileInterface;
+use S3DataTransfer\Interfaces\Upload\UploadCollectorInterface;
+use S3DataTransfer\Objects\UploadableObject;
+use Slim\Psr7\Stream;
 
 class UploadMarkerAction extends Action
 {
     public function __construct(
-        private MarkerStoreService $markerStoreService,
-        private MarkerStoreUploaderServiceInterface $uploader
+        private MarkerServiceStoreInterface $markerStore,
+        private UploadCollectorInterface $uploader
     ) {
     }
 
     public function action(): Response
     {
         $id = (int) $this->resolveArg('id');
+        $bucket = 'artchier-markers';
+        $this->uploader->uploadObjects($bucket);
 
         /**
          * @var UploadedFileInterface[]
          */
         $files = $this->request->getUploadedFiles();
+        /**
+         * @var UploadableObjectInterface[]
+         */
+        $objects = [];
 
-        $promises = [];
         foreach ($files as $file) {
+            $objects[] = new UploadableObject(FileNameConverter::convertFileName($file), new Stream($file->getStream()));
         }
-        // Construct a promise that will be fulfilled when all
-        // of its constituent promises are fulfilled
-        $allPromise = Utils::all($promises);
-        $result = $allPromise->wait();
+        $result = $this->uploader->uploadObjects($bucket, ...$objects);
 
         return $this->respondWithData($result);
-    }
-
-    public function getPromiseFromFile(UploadedFileInterface $file)
-    {
-        if (is_countable($file)) {
-        }
-        $basename = bin2hex(random_bytes(8));
-        $extension = pathinfo($file->getClientFilename(), PATHINFO_EXTENSION);
-        $filename = sprintf('%s.%0.8s', $basename, $extension);
-        $promises[] = $this->s3Client->putObjectAsync([
-            'Bucket' => '',
-            'Key' => $filename,
-            'SourceFile' => $file->getClientFilename(),
-        ]);
     }
 }
