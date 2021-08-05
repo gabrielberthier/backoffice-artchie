@@ -7,6 +7,7 @@ namespace App\Domain\Models;
 use App\Domain\Contracts\ModelInterface;
 use App\Domain\Models\Traits\TimestampsTrait;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,7 +23,7 @@ class Marker implements ModelInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    protected int $id;
+    protected ?int $id;
     /**
      * Many markers have one museum. This is the owning side.
      *
@@ -55,7 +56,7 @@ class Marker implements ModelInterface
      *
      * @ORM\OneToMany(targetEntity="ResourceModel", mappedBy="marker", cascade={"persist", "remove"})
      */
-    private array $resources;
+    private Collection $resources;
 
     /**
      * @ORM\Column(type="boolean", nullable=false)
@@ -98,17 +99,25 @@ class Marker implements ModelInterface
      *
      * @return self
      */
-    public function setResources(array | ResourceModel $resource = [])
+    public function setResources(ResourceModel ...$resource)
     {
-        if (is_array($resource)) {
-            foreach ($resource as $obj) {
-                $obj->setMarker($this);
-            }
-            $this->resources = array_merge($this->resources, $resource);
-        } else {
-            $this->resources[] = $resource;
-            $resource->setMarker($this);
+        foreach ($resource as $obj) {
+            $obj->setMarker($this);
+            $this->resources->add($obj);
         }
+
+        return $this;
+    }
+
+    /**
+     * Set the value of resource.
+     *
+     * @return self
+     */
+    public function addResource(ResourceModel $resource)
+    {
+        $resource->setMarker($this);
+        $this->resources->add($resource);
 
         return $this;
     }

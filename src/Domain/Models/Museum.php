@@ -7,6 +7,8 @@ namespace App\Domain\Models;
 use App\Domain\Contracts\ModelInterface;
 use App\Domain\Models\Traits\TimestampsTrait;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -51,7 +53,7 @@ class Museum implements ModelInterface
      *
      * @ORM\OneToMany(targetEntity="Marker", mappedBy="museum", cascade={"persist", "remove"})
      */
-    private array $markers;
+    private Collection $markers;
 
     public function __construct(
         ?int $id = null,
@@ -65,6 +67,7 @@ class Museum implements ModelInterface
         $this->uuid = $uuid ?? Uuid::uuid4();
         $this->createdAt = new DateTime();
         $this->updated = new DateTime();
+        $this->markers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -141,6 +144,11 @@ class Museum implements ModelInterface
         $this->name = $name;
 
         return $this;
+    }
+
+    public function addMarker(Marker $marker)
+    {
+        $this->markers->add($marker);
     }
 
     public function jsonSerialize()

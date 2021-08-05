@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Domain\Models;
 
 use App\Domain\Models\Traits\TimestampsTrait;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 use JsonSerializable;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
@@ -23,7 +25,7 @@ class ResourceModel implements JsonSerializable
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    protected int $id;
+    protected ?int $id;
     /**
      * The internal unique identity key.
      *
@@ -54,6 +56,22 @@ class ResourceModel implements JsonSerializable
      * @ORM\Column(type="boolean")
      */
     private bool $isActive = true;
+
+    public function __construct(
+        ?int $id = null,
+        string $name,
+        string $fileName,
+        string $type,
+        ?UuidInterface $uuid = null
+    ) {
+        $this->id = $id;
+        $this->name = $name;
+        $this->filename = $fileName;
+        $this->setType($type);
+        $this->uuid = $uuid ?? Uuid::uuid4();
+        $this->createdAt = new DateTime();
+        $this->updated = new DateTime();
+    }
 
     public function jsonSerialize()
     {
