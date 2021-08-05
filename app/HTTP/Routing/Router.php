@@ -7,6 +7,7 @@ namespace Core\HTTP\Routing;
 use App\Presentation\Actions\Auth\LoginController;
 use App\Presentation\Actions\Auth\LogoutController;
 use App\Presentation\Actions\Auth\SignUpController;
+use App\Presentation\Actions\FileUpload\UploadAction;
 use App\Presentation\Actions\Home\HomeController;
 use App\Presentation\Actions\Markers\DownloadMarkerAction;
 use App\Presentation\Actions\Museum\CreateMuseumAction;
@@ -56,6 +57,8 @@ class Router
             $group->group('/marker', function (Group $museum) {
                 $museum->get('/get-as-zip', DownloadMarkerAction::class);
             });
+
+            $group->post('/upload-file', UploadAction::class);
         });
     }
 }

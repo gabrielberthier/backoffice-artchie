@@ -15,9 +15,9 @@ use Ramsey\Uuid\UuidInterface;
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="resources")
+ * @ORM\Table(name="placement_objects")
  */
-class ResourceModel implements JsonSerializable
+class PlacementObject implements JsonSerializable
 {
     use TimestampsTrait;
     /**

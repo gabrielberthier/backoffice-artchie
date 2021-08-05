@@ -54,7 +54,7 @@ class Marker implements ModelInterface
     /**
      * One marker has one or many resources. This is the inverse side.
      *
-     * @ORM\OneToMany(targetEntity="ResourceModel", mappedBy="marker", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="PlacementObject", mappedBy="marker", cascade={"persist", "remove"})
      */
     private Collection $resources;
 
@@ -99,7 +99,7 @@ class Marker implements ModelInterface
      *
      * @return self
      */
-    public function setResources(ResourceModel ...$resource)
+    public function setResources(...$resource)
     {
         foreach ($resource as $obj) {
             $obj->setMarker($this);
@@ -114,7 +114,7 @@ class Marker implements ModelInterface
      *
      * @return self
      */
-    public function addResource(ResourceModel $resource)
+    public function addResource(PlacementObject $resource)
     {
         $resource->setMarker($this);
         $this->resources->add($resource);
