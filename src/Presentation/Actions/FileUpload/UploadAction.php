@@ -35,17 +35,18 @@ class UploadAction extends Action
         $objects = [];
 
         foreach ($files as $file) {
-            $objects[] = $this->createUploadableObject($file);
+            $objects[$file->getClientFilename()] = $this->createUploadableObject($file);
         }
 
         $results = $this->uploader->uploadObjects($bucket, ...$objects);
 
-        $returnValues = array_map(fn ($result, UploadableObjectInterface $object) => [
+        $returnValues = array_map(fn ($result, UploadableObjectInterface $object, string $originalName) => [
             'URL' => $result['ObjectURL'],
             'fileName' => $object->key(),
             'created_at' => new DateTime(),
             'mimeType' => MimeType::fromFilename($object->key()),
-        ], $results, $objects);
+            'originalName' => $originalName,
+        ], $results, $objects, array_keys($objects));
 
         return $this->respondWithData($returnValues);
     }
