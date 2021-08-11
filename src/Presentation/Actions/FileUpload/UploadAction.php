@@ -25,6 +25,8 @@ class UploadAction extends Action
     public function action(): Response
     {
         $bucket = 'artchier-markers';
+        $params = $this->request->getQueryParams();
+        $prefix = $params['prefix'] ?? '';
         /**
          * @var UploadedFileInterface[]
          */
@@ -35,7 +37,7 @@ class UploadAction extends Action
         $objects = [];
 
         foreach ($files as $file) {
-            $objects[$file->getClientFilename()] = $this->createUploadableObject($file);
+            $objects[$file->getClientFilename()] = $this->createUploadableObject($file, $prefix);
         }
 
         $results = $this->uploader->uploadObjects($bucket, ...$objects);
@@ -51,14 +53,14 @@ class UploadAction extends Action
         return $this->respondWithData($returnValues);
     }
 
-    private function createUploadableObject(UploadedFileInterface $uploadedFile): UploadableObjectInterface
+    private function createUploadableObject(UploadedFileInterface $uploadedFile, $prefix = ''): UploadableObjectInterface
     {
         if (!$uploadedFile->getError()) {
             $fileName = FileNameConverter::convertFileName($uploadedFile);
 
             $stream = $uploadedFile->getStream();
 
-            return new UploadableObject($fileName, $stream);
+            return new UploadableObject($prefix.$fileName, $stream);
         }
 
         throw new UploadError($this->request, $uploadedFile->getClientFilename());

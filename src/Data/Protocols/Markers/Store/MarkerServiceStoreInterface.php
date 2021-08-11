@@ -6,5 +6,5 @@ use App\Domain\Models\Marker;
 
 interface MarkerServiceStoreInterface
 {
-    public function insert(Marker $marker): void;
+    public function insert(int $museumId, Marker $marker): Marker;
 }
