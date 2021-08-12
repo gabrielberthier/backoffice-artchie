@@ -6,12 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="posed_assets")
  */
 class PosedAsset extends AbstractAsset
 {
     /**
      * @ORM\OneToOne(targetEntity="PlacementObject", mappedBy="asset")
-     * @JoinColumn(name="placement_object_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="placement_object_id", referencedColumnName="id")
      */
     private ?PlacementObject $posedObject;
 

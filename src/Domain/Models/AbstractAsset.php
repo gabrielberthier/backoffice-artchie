@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Abstract resource comprehends the entities which hold data such as medias, assets, etc.
  *
  * @ORM\Entity
+ * @ORM\Table(name="assets")
  * @ORM\HasLifecycleCallbacks
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")

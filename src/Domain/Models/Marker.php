@@ -37,7 +37,7 @@ class Marker implements ModelInterface
     private ?string $text;
     /** @ORM\Column(type="string", nullable=true) */
     private ?string $title;
-    /** @OneToOne(targetEntity="MarkerAsset", mappedBy="marker") */
+    /** @ORM\OneToOne(targetEntity="MarkerAsset", mappedBy="marker") */
     private ?AbstractAsset $asset;
 
     /** @ORM\Column(type="boolean", nullable=false) */
