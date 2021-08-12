@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Models;
 
 use App\Domain\Models\Traits\TimestampsTrait;
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use InvalidArgumentException;
 use JsonSerializable;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -26,24 +24,13 @@ class PlacementObject implements JsonSerializable
      * @ORM\Column(type="integer")
      */
     protected ?int $id;
-    /**
-     * The internal unique identity key.
-     *
-     * @ORM\Column(type="uuid", unique=true)
-     */
+    /** @ORM\Column(type="uuid", unique=true) */
     private UuidInterface $uuid;
-    /**
-     * @ORM\Column(type="string")
-     */
+    /** @ORM\Column(type="string") */
     private string $name;
-    /**
-     * @ORM\Column(type="string")
-     */
-    private string $filename;
-    /**
-     * @ORM\Column(type="string")
-     */
-    private string $type;
+    /** @ORM\Column(type="boolean") */
+    private bool $isActive = true;
+
     /**
      * Many resources have one marker. This is the owning side.
      *
@@ -52,25 +39,12 @@ class PlacementObject implements JsonSerializable
      */
     private ?Marker $marker;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private bool $isActive = true;
+    /** @OneToOne(targetEntity="PosedAsset", mappedBy="posedObject") */
+    private ?AbstractAsset $asset;
 
-    public function __construct(
-        ?int $id = null,
-        string $name,
-        string $fileName,
-        string $type,
-        ?UuidInterface $uuid = null
-    ) {
-        $this->id = $id;
-        $this->name = $name;
-        $this->filename = $fileName;
-        $this->setType($type);
+    public function __construct()
+    {
         $this->uuid = $uuid ?? Uuid::uuid4();
-        $this->createdAt = new DateTime();
-        $this->updated = new DateTime();
     }
 
     public function jsonSerialize()
@@ -79,36 +53,9 @@ class PlacementObject implements JsonSerializable
             'id' => $this->id,
             'uuid' => $this->uuid,
             'name' => $this->name,
-            'filename' => $this->filename,
-            'type' => $this->type,
             'marker' => $this->marker,
+            'asset' => $this->asset,
         ];
-    }
-
-    /**
-     * Get the value of type.
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * Set the value of type.
-     *
-     * @param mixed $type
-     *
-     * @return self
-     */
-    public function setType($type)
-    {
-        if ('2D' !== $type || '3D' !== $type) {
-            throw new InvalidArgumentException('The type of the resource must be 2D or 3D');
-        }
-
-        $this->type = $type;
-
-        return $this;
     }
 
     /**
@@ -129,28 +76,6 @@ class PlacementObject implements JsonSerializable
     public function setName($name)
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of filename.
-     */
-    public function getFilename()
-    {
-        return $this->filename;
-    }
-
-    /**
-     * Set the value of filename.
-     *
-     * @param mixed $filename
-     *
-     * @return self
-     */
-    public function setFilename($filename)
-    {
-        $this->filename = $filename;
 
         return $this;
     }
@@ -202,7 +127,7 @@ class PlacementObject implements JsonSerializable
     /**
      * Get many resources have one marker. This is the owning side.
      */
-    public function getMarker()
+    public function getMarker(): Marker
     {
         return $this->marker;
     }
@@ -210,11 +135,9 @@ class PlacementObject implements JsonSerializable
     /**
      * Set many resources have one marker. This is the owning side.
      *
-     * @param mixed $marker
-     *
      * @return self
      */
-    public function setMarker($marker)
+    public function setMarker(Marker $marker)
     {
         $this->marker = $marker;
 
@@ -237,6 +160,26 @@ class PlacementObject implements JsonSerializable
     public function setIsActive(bool $isActive)
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of asset.
+     */
+    public function getAsset(): AbstractAsset
+    {
+        return $this->asset;
+    }
+
+    /**
+     * Set the value of asset.
+     *
+     * @return self
+     */
+    public function setAsset(AbstractAsset $asset)
+    {
+        $this->asset = $asset;
 
         return $this;
     }

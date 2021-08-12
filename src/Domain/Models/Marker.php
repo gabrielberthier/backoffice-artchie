@@ -31,37 +31,24 @@ class Marker implements ModelInterface
      * @ORM\JoinColumn(name="museum_id", referencedColumnName="id")
      */
     private ?Museum $museum;
-    /**
-     * @ORM\Column(type="string", unique=true, nullable=false)
-     */
+    /** @ORM\Column(type="string", unique=true, nullable=false) */
     private string $name;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private ?string $trackableImage;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    /** @ORM\Column(type="string", nullable=true) */
     private ?string $text;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    /** @ORM\Column(type="string", nullable=true) */
     private ?string $title;
-    /**
-     * @ORM\Column(type="string", nullable=true, unique=true)
-     */
-    private ?string $url;
+    /** @OneToOne(targetEntity="MarkerAsset", mappedBy="marker") */
+    private ?AbstractAsset $asset;
+
+    /** @ORM\Column(type="boolean", nullable=false) */
+    private bool $isActive = true;
+
     /**
      * One marker has one or many resources. This is the inverse side.
      *
      * @ORM\OneToMany(targetEntity="PlacementObject", mappedBy="marker", cascade={"persist", "remove"})
      */
     private Collection $resources;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=false)
-     */
-    private bool $isActive = true;
 
     public function __construct()
     {
@@ -73,13 +60,12 @@ class Marker implements ModelInterface
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'trackableImage' => $this->trackableImage,
             'dataInfo' => [
                 'text' => $this->text,
                 'title' => $this->title,
             ],
-            'url' => $this->url,
-            'resource' => $this->resource,
+            'asset' => $this->asset,
+            'resources' => $this->resources,
             'museum' => $this->museum,
         ];
     }
@@ -99,7 +85,7 @@ class Marker implements ModelInterface
      *
      * @return self
      */
-    public function setResources(...$resource)
+    public function setResources(PlacementObject ...$resource)
     {
         foreach ($resource as $obj) {
             $obj->setMarker($this);
@@ -140,28 +126,6 @@ class Marker implements ModelInterface
     public function setName($name)
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of trackableImage.
-     */
-    public function getTrackableImage()
-    {
-        return $this->trackableImage;
-    }
-
-    /**
-     * Set the value of trackableImage.
-     *
-     * @param mixed $trackableImage
-     *
-     * @return self
-     */
-    public function setTrackableImage($trackableImage)
-    {
-        $this->trackableImage = $trackableImage;
 
         return $this;
     }
@@ -211,28 +175,6 @@ class Marker implements ModelInterface
     }
 
     /**
-     * Get the value of url.
-     */
-    public function getUrl()
-    {
-        return $this->url;
-    }
-
-    /**
-     * Set the value of url.
-     *
-     * @param mixed $url
-     *
-     * @return self
-     */
-    public function setUrl($url)
-    {
-        $this->url = $url;
-
-        return $this;
-    }
-
-    /**
      * Get many markers have one museum. This is the owning side.
      */
     public function getMuseum(): ?Museum
@@ -272,6 +214,26 @@ class Marker implements ModelInterface
     public function setIsActive(bool $isActive)
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of asset.
+     */
+    public function getAsset(): AbstractAsset
+    {
+        return $this->asset;
+    }
+
+    /**
+     * Set the value of asset.
+     *
+     * @return self
+     */
+    public function setAsset(AbstractAsset $asset)
+    {
+        $this->asset = $asset;
 
         return $this;
     }
