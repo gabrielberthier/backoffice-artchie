@@ -8,12 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
 trait TimestampsTrait
 {
     /** @ORM\Column(type="datetime", name="created_at") */
-    private DateTime $createdAt;
+    private ?DateTime $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime", name="updated_at")
      */
-    private DateTime $updated;
+    private ?DateTime $updated = null;
 
     /**
      * @ORM\PrePersist
