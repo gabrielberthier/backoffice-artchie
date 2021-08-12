@@ -10,7 +10,6 @@ use App\Domain\Models\PlacementObject;
 use App\Domain\Repositories\MarkerRepositoryInterface;
 use Doctrine\ORM\EntityManager;
 use function PHPUnit\Framework\assertInstanceOf;
-use function PHPUnit\Framework\assertIsArray;
 use function PHPUnit\Framework\assertSame;
 use Tests\TestCase;
 
@@ -130,9 +129,9 @@ class MarkerRepositoryTest extends TestCase
 
         $resources = $new_marker->getResources();
 
-        dd($resources);
-
-        assertIsArray($resources);
+        assertSame($resources->count(), 1);
+        $resource = $resources->get(0);
+        assertInstanceOf(PlacementObject::class, $resource);
     }
 
     private function getTotalCount(): int
