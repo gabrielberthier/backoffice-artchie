@@ -10,6 +10,7 @@ use App\Presentation\Actions\Markers\MarkerValidations\MarkerValidation;
 use App\Presentation\Actions\Markers\MarkerValidations\PlacementObjectValidation;
 use App\Presentation\Actions\Protocols\Action;
 use Psr\Http\Message\ResponseInterface as Response;
+use Respect\Validation\Validator;
 
 class StoreMarkerAction extends Action
 {
@@ -58,7 +59,7 @@ class StoreMarkerAction extends Action
 
         return [
             'marker' => $markerValidation->validation(),
-            'name' => $placementObjectValidation->validation(),
+            'name' => Validator::optional($placementObjectValidation->validation()),
         ];
     }
 }
