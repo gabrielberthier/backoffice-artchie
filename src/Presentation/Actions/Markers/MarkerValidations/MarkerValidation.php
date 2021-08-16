@@ -17,7 +17,7 @@ class MarkerValidation
             key('marker_title', v::stringType())->
             key(
                 'asset',
-                v::key('file_name', v::fileRule()),
+                $assetValidation->validation(),
                 false
             );
     }

@@ -69,6 +69,26 @@ class MarkerValidationTest extends TestCase
         assertFalse($result);
     }
 
+    public function testShouldFailWithBadUrlInAssets()
+    {
+        $validation = $this->sut->validation();
+        $body = [
+            'marker' => [
+                'marker_name' => 'something',
+                'marker_text' => 'something',
+                'marker_title' => 'something',
+                'asset' => [
+                    'file_name' => 'file.png',
+                    'media_type' => 'png',
+                    'path' => 'media/path',
+                    'url' => 'badurl',
+                ],
+            ],
+        ];
+        $result = $validation->validate($body['marker']);
+        assertFalse($result);
+    }
+
     public function testShouldPassAsset()
     {
         $validation = $this->sut->validation();
