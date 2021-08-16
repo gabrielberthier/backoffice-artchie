@@ -9,9 +9,11 @@ class PlacementObjectValidation
 {
     public function validation(): AbstractRule
     {
-        return v::allOf(
-            v::key('pose_object_name', v::stringType()),
-            (new AssetValidation())->validation()
+        $assetValidation = new AssetValidation();
+
+        return v::optional(
+            v::key('pose_object_name', v::alnum())
+                ->key('asset', $assetValidation->validation(), false)
         );
     }
 }

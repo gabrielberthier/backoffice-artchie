@@ -55,11 +55,12 @@ class StoreMarkerAction extends Action
     public function rules(): ?array
     {
         $markerValidation = new MarkerValidation();
-        $placementObjectValidation = new PlacementObjectValidation();
+        $posedObjectValidation = new PlacementObjectValidation();
 
         return [
+            'museum_id' => Validator::intType(),
             'marker' => $markerValidation->validation(),
-            // 'name' => Validator::optional($placementObjectValidation->validation()),
+            'pose_object' => $posedObjectValidation->validation(),
         ];
     }
 }
