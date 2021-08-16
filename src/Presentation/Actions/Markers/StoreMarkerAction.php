@@ -23,7 +23,7 @@ class StoreMarkerAction extends Action
     public function action(): Response
     {
         $parsedBody = $this->request->getParsedBody();
-        $museumId = $parsedBody['museum_id'];
+        $museumId = $parsedBody['museum_id'] ?? null;
 
         $builder = $this->markerBuilder;
 
