@@ -44,7 +44,9 @@ abstract class Action
         $this->args = $args;
 
         try {
-            $parsedBody = $request->getParsedBody();
+            $body = $request->getBody()->__toString();
+
+            $parsedBody = json_decode($body, true);
 
             $this->validate($parsedBody);
 

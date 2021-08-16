@@ -41,8 +41,6 @@ class AppBuilderManager
         Middleware::run($app);
         Router::run($app);
 
-        $app->addRoutingMiddleware();
-
         if ($this->enableErrorHandler) {
             $this->setErrorHandler($app, $request);
         }

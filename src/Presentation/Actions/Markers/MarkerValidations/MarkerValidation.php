@@ -9,11 +9,15 @@ class MarkerValidation
 {
     public function validation(): AbstractRule
     {
-        return v::allOf(
-            v::key('marker_name', v::stringType()),
-            v::key('marker_text', v::stringType()),
-            v::key('marker_title', v::stringType()),
-            (new AssetValidation())->validation()
-        );
+        $assetValidation = new AssetValidation();
+
+        return
+            v::key('marker_name', v::alnum('$', '*', '-', '#', '&'))->
+            key('marker_text', v::stringType())->
+            key('marker_title', v::stringType())->
+            key(
+                'asset',
+                v::key('file_name', v::file())
+            );
     }
 }

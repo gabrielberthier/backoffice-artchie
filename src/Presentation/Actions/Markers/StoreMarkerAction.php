@@ -59,7 +59,7 @@ class StoreMarkerAction extends Action
 
         return [
             'marker' => $markerValidation->validation(),
-            'name' => Validator::optional($placementObjectValidation->validation()),
+            // 'name' => Validator::optional($placementObjectValidation->validation()),
         ];
     }
 }
