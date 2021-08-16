@@ -4,6 +4,9 @@ namespace App\Presentation\Helpers\Validation\Rules;
 
 use Respect\Validation\Rules\AbstractRule;
 
+/**
+ * @author Gabriel Berthier <gabrielnberthier@gmail.com>
+ */
 class FileRule extends AbstractRule
 {
     private string $gourpAllowedChars = '([a-zA-Z0-9_\\.\-\(\):%&$#]+)';
@@ -12,8 +15,9 @@ class FileRule extends AbstractRule
 
     public function validate($input): bool
     {
-        $groupAllowedFormats = implode('|', $this->allowedFormats);
-        $fullRegex = '^'.$this->gourpAllowedChars.'\\.'.$groupAllowedFormats.'$';
+        $joinedFormats = implode('|', $this->allowedFormats);
+        $groupAllowedFormats = "({$joinedFormats})";
+        $fullRegex = '/^'.$this->gourpAllowedChars.'\.'.$groupAllowedFormats.'$/m';
 
         return preg_match($fullRegex, $input, $output_array);
     }

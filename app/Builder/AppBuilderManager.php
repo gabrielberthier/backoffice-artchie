@@ -10,6 +10,7 @@ use Core\HTTP\Routing\Router;
 use Exception;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Respect\Validation\Factory;
 use Slim\App;
 use Slim\Factory\AppFactory;
 
@@ -44,6 +45,12 @@ class AppBuilderManager
         if ($this->enableErrorHandler) {
             $this->setErrorHandler($app, $request);
         }
+
+        Factory::setDefaultInstance(
+            (new Factory())
+                ->withRuleNamespace('App\\Presentation\\Helpers\\Validation\\Rules')
+                ->withExceptionNamespace('App\\Presentation\\Helpers\\Validation\\Exceptions')
+        );
 
         return $app;
     }
