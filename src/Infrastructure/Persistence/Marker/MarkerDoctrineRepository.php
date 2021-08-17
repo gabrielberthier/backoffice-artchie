@@ -84,6 +84,7 @@ class MarkerDoctrineRepository implements MarkerRepositoryInterface
                 $marker->setText($values['text'] ?? $marker->getText());
                 $marker->setName($values['name'] ?? $marker->getName());
                 $marker->setTitle($values['title'] ?? $marker->getTitle());
+                $marker->setIsActive($values['isActive'] ?? $marker->getIsActive());
 
                 $this->em->flush();
             } catch (UniqueConstraintViolationException) {
