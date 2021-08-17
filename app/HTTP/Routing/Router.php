@@ -58,7 +58,7 @@ class Router
             });
 
             $group->group('/marker', function (Group $marker) {
-                $marker->get('/get-as-zip', DownloadMarkerAction::class);
+                $marker->get('/get-as-zip/{id}', DownloadMarkerAction::class);
                 $marker->post('/', StoreMarkerAction::class);
                 $marker->get('/', GetAllMarkersAction::class);
                 $marker->get('/museum/{museum_id}', GetAllMarkersByMuseumAction::class);

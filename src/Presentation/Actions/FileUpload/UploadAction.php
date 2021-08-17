@@ -26,7 +26,7 @@ class UploadAction extends Action
     {
         $bucket = 'artchier-markers';
         $params = $this->request->getQueryParams();
-        $prefix = $params['prefix'] ?? '';
+        $prefix = $params['prefix'].'-' ?? '';
         /**
          * @var UploadedFileInterface[]
          */

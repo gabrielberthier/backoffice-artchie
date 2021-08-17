@@ -11,7 +11,7 @@ class MarkerValidation
     {
         $assetValidation = new AssetValidation();
 
-        return v::key('marker_name', v::alnum('$', '*', '-', '#', '&', ' '))->
+        return v::key('marker_name', v::alnum('$', '*', '-', '#', '&', ' ', '.'))->
             key('marker_text', v::stringType())->
             key('marker_title', v::stringType())->
             key(

@@ -26,6 +26,8 @@ class MarkerDownloader implements MarkerDownloaderServiceInterface
     {
         $markers = $this->repository->findAllByMuseum($id);
 
+        $markers = array_filter($markers, fn ($marker) => $marker->getIsActive());
+
         return $this->downloadMarkers(...$markers);
     }
 

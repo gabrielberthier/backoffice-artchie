@@ -35,7 +35,7 @@ class PlacementObject implements JsonSerializable
      * Many resources have one marker. This is the owning side.
      *
      * @ORM\ManyToOne(targetEntity="Marker", inversedBy="resources")
-     * @ORM\JoinColumn(name="marker_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="marker_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private ?Marker $marker;
 
