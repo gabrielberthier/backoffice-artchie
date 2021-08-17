@@ -48,6 +48,12 @@ class MarkerDownloader implements MarkerDownloaderServiceInterface
 
         foreach ($markers as $marker) {
             $resources[] = new ResourceObject($marker->getAsset()->getPath(), $marker->getName());
+            foreach ($marker->getResources() as $placementObject) {
+                if ($placementObject->getAsset()) {
+                    $asset = $placementObject->getAsset();
+                    $resources[] = new ResourceObject($asset->getPath(), $placementObject->getName());
+                }
+            }
         }
 
         return $this->zipper->zipObjects(

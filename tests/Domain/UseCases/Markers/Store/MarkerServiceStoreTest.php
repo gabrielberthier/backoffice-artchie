@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Domain\UseCases\Markers\Store;
 
-use App\Data\Protocols\Markers\Store\MarkerServiceStoreInterface;
-use App\Data\UseCases\Markers\MarkerServiceStore;
 use App\Domain\Models\DTO\Credentials;
 use App\Domain\Models\Marker;
 use App\Domain\Models\Museum;
 use App\Domain\Repositories\MarkerRepositoryInterface;
 use App\Domain\Repositories\MuseumRepository;
+use Doctrine\DBAL\Connection;
+use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Tests\TestCase;
@@ -33,8 +33,10 @@ class MarkerServiceStoreTest extends TestCase
         $museumRepository = $this->mockMuseumRepository();
         /** @var MarkerRepositoryInterface */
         $markerRepository = $this->mockMarkerRepository();
+        /** @var EntityManager */
+        $em = $this->mockEntityManager();
 
-        $this->sut = new SutTypes($museumRepository, $markerRepository);
+        $this->sut = new SutTypes($museumRepository, $markerRepository, $em);
     }
 
     public function makeCredentials()
@@ -42,13 +44,19 @@ class MarkerServiceStoreTest extends TestCase
         return new Credentials(access: '@mail.com', password: 'password');
     }
 
-    /**
-     * @param MuseumRepository          $repository
-     * @param MarkerRepositoryInterface $markerRepository
-     */
-    public function makeService($repository, $markerRepository): MarkerServiceStoreInterface
+    public function mockEntityManager()
     {
-        return new MarkerServiceStore($repository, $markerRepository);
+        $em = $this->getMockBuilder(EntityManager::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+        $em->method('beginTransaction')->willReturn(0);
+
+        $conn = $this->getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
+
+        $em->method('getConnection')->willReturn($conn);
+
+        return $em;
     }
 
     /** @return MockObject */

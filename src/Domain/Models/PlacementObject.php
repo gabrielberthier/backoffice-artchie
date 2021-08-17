@@ -174,7 +174,7 @@ class PlacementObject implements JsonSerializable
     /**
      * Get the value of asset.
      */
-    public function getAsset(): AbstractAsset
+    public function getAsset(): ?AbstractAsset
     {
         return $this->asset;
     }

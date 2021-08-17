@@ -6,6 +6,7 @@ use App\Data\Protocols\Markers\Store\MarkerServiceStoreInterface;
 use App\Data\UseCases\Markers\MarkerServiceStore;
 use App\Domain\Repositories\MarkerRepositoryInterface;
 use App\Domain\Repositories\MuseumRepository;
+use Doctrine\ORM\EntityManager;
 
 class SutTypes
 {
@@ -13,8 +14,9 @@ class SutTypes
 
     public function __construct(
         public MuseumRepository $museumRepository,
-        public MarkerRepositoryInterface $markerRepositoryInterface
+        public MarkerRepositoryInterface $markerRepositoryInterface,
+        public EntityManager $em
     ) {
-        $this->service = new MarkerServiceStore($museumRepository, $markerRepositoryInterface);
+        $this->service = new MarkerServiceStore($museumRepository, $markerRepositoryInterface, $em);
     }
 }

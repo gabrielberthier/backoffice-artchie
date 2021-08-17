@@ -73,6 +73,8 @@ class Marker implements ModelInterface
 
     /**
      * Get the value of resource.
+     *
+     * @return Collection<PlacementObject>
      */
     public function getResources()
     {

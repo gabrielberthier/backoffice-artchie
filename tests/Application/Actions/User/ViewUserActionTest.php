@@ -44,7 +44,7 @@ class ViewUserActionTest extends TestCase
 
         $payload = (string) $response->getBody();
         $expectedPayload = new ActionPayload(200, $user);
-        $serializedPayload = json_encode($expectedPayload, JSON_PRETTY_PRINT);
+        $serializedPayload = json_encode($expectedPayload);
 
         $this->assertEquals($serializedPayload, $payload);
     }
