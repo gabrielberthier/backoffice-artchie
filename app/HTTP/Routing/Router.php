@@ -11,6 +11,7 @@ use App\Presentation\Actions\FileUpload\UploadAction;
 use App\Presentation\Actions\Home\HomeController;
 use App\Presentation\Actions\Markers\DownloadMarkerAction;
 use App\Presentation\Actions\Markers\GetAllMarkersAction;
+use App\Presentation\Actions\Markers\GetAllMarkersByMuseumAction;
 use App\Presentation\Actions\Markers\StoreMarkerAction;
 use App\Presentation\Actions\Museum\CreateMuseumAction;
 use App\Presentation\Actions\Museum\DeleteMuseumAction;
@@ -60,6 +61,7 @@ class Router
                 $marker->get('/get-as-zip', DownloadMarkerAction::class);
                 $marker->post('/', StoreMarkerAction::class);
                 $marker->get('/', GetAllMarkersAction::class);
+                $marker->get('/museum/{museum_id}', GetAllMarkersByMuseumAction::class);
             });
 
             $group->post('/upload-file', UploadAction::class);

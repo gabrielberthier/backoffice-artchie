@@ -34,14 +34,28 @@ class MarkerDoctrineRepository implements MarkerRepositoryInterface
         }
     }
 
-    public function findAllByMuseum(int | Museum $museum): array
+    public function findAllByMuseum(int | Museum $museum, bool $paginate = false, $page = 1, $limit = 20): array | PaginationResponse
     {
         $id = $museum;
         if ($museum instanceof Museum) {
             $id = $museum->getId();
         }
 
-        return $this->em->getRepository(Marker::class)->findBy(['museum_id' => $id]);
+        if ($paginate && $page && $limit) {
+            $query = $this->em
+                ->createQueryBuilder()
+                ->select('m')
+                ->from(Marker::class, 'm')
+                ->where('m.museum = :museum')
+                ->setParameter('museum', $id)
+            ;
+
+            $pagination = new PaginationService($query);
+
+            return $pagination->paginate($page, $limit);
+        }
+
+        return $this->em->getRepository(Marker::class)->findBy(['museum' => $id]);
     }
 
     public function findAll(bool $paginate = false, $page = 1, $limit = 20): array | PaginationResponse
