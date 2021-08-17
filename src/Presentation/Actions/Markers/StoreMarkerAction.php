@@ -41,9 +41,9 @@ class StoreMarkerAction extends Action
 
         $marker = $builder->getMarker();
 
-        $created = $this->markerServiceStore->insert($museumId, $marker);
+        $this->markerServiceStore->insert($museumId, $marker);
 
-        return $this->respondWithData(['message' => 'Success! Marker created', 'marker' => json_encode($created)]);
+        return $this->respondWithData(['message' => 'Success! Marker created']);
     }
 
     public function messages(): ?array
