@@ -64,7 +64,7 @@ class Marker implements ModelInterface
                 'text' => $this->text,
                 'title' => $this->title,
             ],
-            'asset' => $this->asset->jsonSerialize(),
+            'asset' => $this->asset,
             'resources' => $this->resources->toArray(),
         ];
     }

@@ -10,6 +10,7 @@ use App\Presentation\Actions\Auth\SignUpController;
 use App\Presentation\Actions\FileUpload\UploadAction;
 use App\Presentation\Actions\Home\HomeController;
 use App\Presentation\Actions\Markers\DownloadMarkerAction;
+use App\Presentation\Actions\Markers\GetAllMarkersAction;
 use App\Presentation\Actions\Markers\StoreMarkerAction;
 use App\Presentation\Actions\Museum\CreateMuseumAction;
 use App\Presentation\Actions\Museum\DeleteMuseumAction;
@@ -58,6 +59,7 @@ class Router
             $group->group('/marker', function (Group $marker) {
                 $marker->get('/get-as-zip', DownloadMarkerAction::class);
                 $marker->post('/', StoreMarkerAction::class);
+                $marker->get('/', GetAllMarkersAction::class);
             });
 
             $group->post('/upload-file', UploadAction::class);

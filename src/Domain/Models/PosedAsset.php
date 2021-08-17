@@ -16,19 +16,6 @@ class PosedAsset extends AbstractAsset
      */
     private ?PlacementObject $posedObject;
 
-    public function jsonSerialize(): array
-    {
-        return [
-            'id' => $this->getId(),
-            'path' => $this->getPath(),
-            'fileName' => $this->getFileName(),
-            'url' => $this->getUrl(),
-            'mediaType' => $this->getMediaType(),
-            'created_at' => $this->getCreatedAt(),
-            'last_update' => $this->getUpdated(),
-        ];
-    }
-
     /**
      * Get the value of posedObject.
      */
