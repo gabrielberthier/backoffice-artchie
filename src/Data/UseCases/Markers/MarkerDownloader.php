@@ -47,11 +47,16 @@ class MarkerDownloader implements MarkerDownloaderServiceInterface
         $resources = [];
 
         foreach ($markers as $marker) {
-            $resources[] = new ResourceObject($marker->getAsset()->getPath(), $marker->getName());
-            foreach ($marker->getResources() as $placementObject) {
-                if ($placementObject->getAsset()) {
-                    $asset = $placementObject->getAsset();
-                    $resources[] = new ResourceObject($asset->getPath(), $placementObject->getName());
+            $markerPath = $marker->getAsset()->getPath();
+            if ($this->verifyFileExistence($bucket, $markerPath)) {
+                $resources[] = new ResourceObject($markerPath, $marker->getName());
+                foreach ($marker->getResources() as $placementObject) {
+                    if ($placementObject->getAsset()) {
+                        $placementObjectPath = $placementObject->getAsset()->getPath();
+                        if ($this->verifyFileExistence($bucket, $placementObjectPath)) {
+                            $resources[] = new ResourceObject($placementObjectPath, $placementObject->getName());
+                        }
+                    }
                 }
             }
         }
@@ -60,5 +65,16 @@ class MarkerDownloader implements MarkerDownloaderServiceInterface
             $bucket,
             $resources
         );
+    }
+
+    /**
+     * Verify if object exists in S3 buckets.
+     */
+    private function verifyFileExistence(string $bucket, string $object): bool
+    {
+        // https://docs.aws.amazon.com/aws-sdk-php/v3/guide/service/s3-stream-wrapper.html#other-object-functions
+        $objectDir = 's3://'.$bucket.'/'.$object;
+
+        return file_exists($objectDir) && is_file($objectDir);
     }
 }
