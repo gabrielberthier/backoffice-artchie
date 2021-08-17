@@ -11,7 +11,6 @@ use App\Domain\Repositories\PersistenceOperations\Responses\PaginationResponse;
 use App\Infrastructure\Persistence\Pagination\PaginationService;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
-use Exception;
 
 class MarkerDoctrineRepository implements MarkerRepositoryInterface
 {
@@ -26,10 +25,12 @@ class MarkerDoctrineRepository implements MarkerRepositoryInterface
             $this->em->flush();
 
             return true;
-        } catch (Exception $e) {
-            echo $e;
+        } catch (UniqueConstraintViolationException $e) {
+            $exception = new MarkerNameRepeated();
+            $violationMessage = explode('1062', $e->getMessage())[1];
+            $exception->addViolationQueue($violationMessage);
 
-            return false;
+            throw $exception;
         }
     }
 

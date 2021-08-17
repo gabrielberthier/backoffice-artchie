@@ -64,8 +64,8 @@ class Marker implements ModelInterface
                 'text' => $this->text,
                 'title' => $this->title,
             ],
-            'asset' => $this->asset,
-            'resources' => $this->resources,
+            'asset' => $this->asset->jsonSerialize(),
+            'resources' => $this->resources->toArray(),
             'museum' => $this->museum,
         ];
     }
@@ -234,6 +234,28 @@ class Marker implements ModelInterface
     public function setAsset(AbstractAsset $asset)
     {
         $this->asset = $asset;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of id.
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id.
+     *
+     * @param mixed $id
+     *
+     * @return self
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
 
         return $this;
     }

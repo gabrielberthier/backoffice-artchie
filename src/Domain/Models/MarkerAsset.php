@@ -14,7 +14,7 @@ class MarkerAsset extends AbstractAsset
      * @ORM\OneToOne(targetEntity="Marker", mappedBy="asset")
      * @ORM\JoinColumn(name="marker_id", referencedColumnName="id")
      */
-    private ?Marker $marker;
+    private ?Marker $marker = null;
 
     /**
      * Get the value of marker.
@@ -46,7 +46,6 @@ class MarkerAsset extends AbstractAsset
             'fileName' => $this->getFileName(),
             'url' => $this->getUrl(),
             'mediaType' => $this->getMediaType(),
-            'marker' => $this->getMarker(),
             'created_at' => $this->getCreatedAt(),
             'last_update' => $this->getUpdated(),
         ];

@@ -40,7 +40,9 @@ class MarkerBuilder
 
     public function appendMarkerAsset(array|object $body): self
     {
-        $this->marker->setAsset($this->prepareAsset(new MarkerAsset(), $body));
+        $markerAsset = new MarkerAsset();
+        $markerAsset->setMarker($this->marker);
+        $this->marker->setAsset($this->prepareAsset($markerAsset, $body));
 
         return $this;
     }
@@ -55,7 +57,9 @@ class MarkerBuilder
         $resource->setName($name);
 
         if (isset($body['asset'])) {
-            $resource->setAsset($this->prepareAsset(new PosedAsset(), $body['asset']));
+            $asset = new PosedAsset();
+            $asset->setPosedObject($resource);
+            $resource->setAsset($this->prepareAsset($asset, $body['asset']));
         }
 
         $this->marker->addResource($resource);

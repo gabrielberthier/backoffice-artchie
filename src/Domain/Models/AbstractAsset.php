@@ -35,7 +35,7 @@ abstract class AbstractAsset implements ModelInterface
     private string $path;
     /** @ORM\Column(type="string", unique=true) */
     private string $fileName;
-    /** @ORM\Column(type="string") */
+    /** @ORM\Column(type="string", nullable=true) */
     private ?string $url;
     /** @ORM\Column(type="string") */
     private string $mediaType;

@@ -24,7 +24,6 @@ class PosedAsset extends AbstractAsset
             'fileName' => $this->getFileName(),
             'url' => $this->getUrl(),
             'mediaType' => $this->getMediaType(),
-            'placement_object' => $this->getPosedObject(),
             'created_at' => $this->getCreatedAt(),
             'last_update' => $this->getUpdated(),
         ];

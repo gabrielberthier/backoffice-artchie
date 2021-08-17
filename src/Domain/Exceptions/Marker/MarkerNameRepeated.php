@@ -2,17 +2,14 @@
 
 namespace App\Domain\Exceptions\Marker;
 
-use App\Domain\Exceptions\Protocols\HttpSpecializedAdapter;
-use Psr\Http\Message\ServerRequestInterface;
-use Slim\Exception\HttpBadRequestException;
-use Slim\Exception\HttpException;
+use App\Domain\Exceptions\Protocols\UniqueConstraintViolation\AbstractUniqueException;
 
-class MarkerNameRepeated extends HttpSpecializedAdapter
+class MarkerNameRepeated extends AbstractUniqueException
 {
-    private string $responsaMessage = 'O nome de marcador já foi utilizado';
+    protected string $responsaMessage = 'Marker name has already been utilized';
 
-    public function wire(ServerRequestInterface $request): HttpException
+    public function addViolationQueue(string $message)
     {
-        return new HttpBadRequestException($request, $this->responsaMessage);
+        $this->responsaMessage = $message;
     }
 }
