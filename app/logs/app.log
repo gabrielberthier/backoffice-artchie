@@ -1592,3 +1592,92 @@
 [2021-08-16T19:28:04.006227+00:00] slim-app.WARNING: Token not found [] {"uid":"d9b5ea0"}
 [2021-08-16T19:28:04.047482+00:00] slim-app.WARNING: Token not found [] {"uid":"07318a2"}
 [2021-08-16T19:28:04.092128+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"d26d822"}
+[2021-08-16T19:53:37.551723+00:00] slim-app.WARNING: Token not found [] {"uid":"1f7e84f"}
+[2021-08-16T19:53:59.916362+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"e323dda"}
+[2021-08-16T19:54:56.869921+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"bd609c0"}
+[2021-08-16T19:57:40.060064+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"9cd7471"}
+[2021-08-16T19:58:47.043005+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"20e4db6"}
+[2021-08-16T19:59:14.698806+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"184cf25"}
+[2021-08-16T20:00:02.774560+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"7f34b41"}
+[2021-08-16T20:00:21.471357+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"05f6c40"}
+[2021-08-16T20:01:00.656567+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"b7c5e59"}
+[2021-08-16T20:01:20.836406+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"25c5cb2"}
+[2021-08-16T20:04:15.090036+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"a10a442"}
+[2021-08-16T20:04:32.906057+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"7d3f675"}
+[2021-08-16T20:04:42.060669+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"61a2239"}
+[2021-08-16T20:04:50.541956+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"19aeb2c"}
+[2021-08-16T20:05:03.542809+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"3247d8a"}
+[2021-08-16T20:06:20.068323+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"6d5ec52"}
+[2021-08-16T20:06:21.862002+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"226bb67"}
+[2021-08-16T20:07:32.851087+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"096d9e7"}
+[2021-08-16T20:07:59.060409+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"26aadc7"}
+[2021-08-16T20:08:16.561573+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"a149dab"}
+[2021-08-16T20:08:36.532680+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"7a9ce7b"}
+[2021-08-16T20:08:42.890192+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"7636f3a"}
+[2021-08-16T20:08:55.524204+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"702847f"}
+[2021-08-16T20:08:55.527612+00:00] slim-app.WARNING: Expired token ["eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjkxNDM2MjgsImV4cCI6MTYyOTE0NDUyOCwianRpIjoiUTUxenZlSVFjakVCWnJcLzlYamFsOHc9PSIsInN1YiI6ImNhaXVzMTIzIiwiZGF0YSI6eyJlbWFpbCI6ImdhYnJpZWxiZXJ0aGllckBnbWFpbC5jb20iLCJ1dWlkIjoiN2M4ZmQxMGQtZjU3OS00MGZlLTlhMmMtYzYxMzZlZjVlZTVjIiwicm9sZSI6ImNvbW1vbiIsInVzZXJuYW1lIjoiY2FpdXMxMjMifSwiaXNzIjoiQVJUQ0hJRSJ9.7A6gQ-XP78eYLtgPuosL_WmTrWAhvD24Ag5EVfKW51o"] {"uid":"702847f"}
+[2021-08-16T20:09:15.368939+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"4edb3d3"}
+[2021-08-16T20:09:33.393038+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"0c74312"}
+[2021-08-16T20:09:54.140361+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"080bc0b"}
+[2021-08-16T20:09:56.134432+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"00e1cc8"}
+[2021-08-16T20:10:11.224217+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"9b2fde0"}
+[2021-08-16T20:10:29.690774+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"23a3e7d"}
+[2021-08-16T20:10:33.813360+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"0bcaaf0"}
+[2021-08-16T20:10:46.289033+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"50bf8ac"}
+[2021-08-16T20:10:48.500521+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"211613f"}
+[2021-08-16T20:11:24.989220+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"44f3ca0"}
+[2021-08-16T20:11:33.478395+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"6c10675"}
+[2021-08-16T20:11:35.864803+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"c2d51f1"}
+[2021-08-16T20:12:11.757956+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"b5a3f70"}
+[2021-08-16T20:12:21.566115+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"4c3e65d"}
+[2021-08-16T20:12:25.517386+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"e14308f"}
+[2021-08-16T20:12:34.231293+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"b72e116"}
+[2021-08-16T20:12:39.378536+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"96f12f7"}
+[2021-08-16T20:12:46.873321+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"bad4aee"}
+[2021-08-16T20:12:53.885646+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"37a5860"}
+[2021-08-16T20:12:56.315313+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"248f42d"}
+[2021-08-16T20:13:49.819558+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"eab3461"}
+[2021-08-16T20:14:00.357654+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"536ad20"}
+[2021-08-16T20:14:20.090814+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"d0b8fef"}
+[2021-08-16T20:14:28.309419+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"2f47c6e"}
+[2021-08-16T20:14:36.790738+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"6fb9bce"}
+[2021-08-16T20:14:39.527852+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"c5daed5"}
+[2021-08-16T20:20:38.994812+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"bb4be3e"}
+[2021-08-16T20:20:49.520862+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"cb91a9c"}
+[2021-08-16T20:21:38.182420+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"eecfa50"}
+[2021-08-16T20:21:46.973197+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"65c928b"}
+[2021-08-16T20:21:49.088261+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"fd96a15"}
+[2021-08-16T20:23:36.654677+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"cd202da"}
+[2021-08-16T20:23:45.210689+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"d9a9dd2"}
+[2021-08-16T20:23:54.359369+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"a7e1751"}
+[2021-08-16T20:23:56.910040+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"537a3cf"}
+[2021-08-16T20:23:56.913820+00:00] slim-app.WARNING: Expired token ["eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjkxNDQ1MzUsImV4cCI6MTYyOTE0NTQzNSwianRpIjoiVDYyc0tRWmVMWkxBRmljZFRGODFrUT09Iiwic3ViIjoiY2FpdXMxMjMiLCJkYXRhIjp7ImVtYWlsIjoiZ2FicmllbGJlcnRoaWVyQGdtYWlsLmNvbSIsInV1aWQiOiI3YzhmZDEwZC1mNTc5LTQwZmUtOWEyYy1jNjEzNmVmNWVlNWMiLCJyb2xlIjoiY29tbW9uIiwidXNlcm5hbWUiOiJjYWl1czEyMyJ9LCJpc3MiOiJBUlRDSElFIn0.tRrzkB4MiUImw6LYL11KvVBBtTiFMlwAdAL2mUFrFkg"] {"uid":"537a3cf"}
+[2021-08-16T20:24:07.620203+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"3044cce"}
+[2021-08-16T20:25:50.979322+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"2a7d84c"}
+[2021-08-16T20:25:55.856394+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"59d09fa"}
+[2021-08-16T20:26:15.829337+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"7832a59"}
+[2021-08-16T20:26:18.355327+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"e559af5"}
+[2021-08-16T20:26:31.491769+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"ad4dc02"}
+[2021-08-16T20:26:34.618762+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"1b631de"}
+[2021-08-16T20:27:06.193493+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"4918c65"}
+[2021-08-16T20:27:08.755932+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"8c68f0e"}
+[2021-08-16T20:27:15.418610+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"45eab39"}
+[2021-08-16T20:27:31.680104+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"476fe7f"}
+[2021-08-16T20:28:21.265330+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"a3e9c2e"}
+[2021-08-16T20:29:21.340097+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"127c83e"}
+[2021-08-16T20:29:38.989961+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"7ea8213"}
+[2021-08-16T20:29:41.958356+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"8f01d1a"}
+[2021-08-16T20:29:58.071601+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"169c372"}
+[2021-08-16T20:30:18.691483+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"4ed7f85"}
+[2021-08-16T20:30:24.569800+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"0e04087"}
+[2021-08-16T20:31:09.162941+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"1dc7395"}
+[2021-08-16T20:34:42.932627+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"ba66502"}
+[2021-08-16T20:40:44.019545+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"017123e"}
+[2021-08-16T20:40:44.025452+00:00] slim-app.WARNING: Expired token ["eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjkxNDU0MzcsImV4cCI6MTYyOTE0NjMzNywianRpIjoiTlNaMEZCQzlSZFZXUTlmZlN2c2xIdz09Iiwic3ViIjoiY2FpdXMxMjMiLCJkYXRhIjp7ImVtYWlsIjoiZ2FicmllbGJlcnRoaWVyQGdtYWlsLmNvbSIsInV1aWQiOiI3YzhmZDEwZC1mNTc5LTQwZmUtOWEyYy1jNjEzNmVmNWVlNWMiLCJyb2xlIjoiY29tbW9uIiwidXNlcm5hbWUiOiJjYWl1czEyMyJ9LCJpc3MiOiJBUlRDSElFIn0.VTy7lU42Bl5DcXr7GKYWE2_J1LwzgvcYQ7ZE7wmRgos"] {"uid":"017123e"}
+[2021-08-16T20:40:50.530526+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"13eaa64"}
+[2021-08-16T20:40:50.533346+00:00] slim-app.WARNING: Expired token ["eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjkxNDU0MzcsImV4cCI6MTYyOTE0NjMzNywianRpIjoiTlNaMEZCQzlSZFZXUTlmZlN2c2xIdz09Iiwic3ViIjoiY2FpdXMxMjMiLCJkYXRhIjp7ImVtYWlsIjoiZ2FicmllbGJlcnRoaWVyQGdtYWlsLmNvbSIsInV1aWQiOiI3YzhmZDEwZC1mNTc5LTQwZmUtOWEyYy1jNjEzNmVmNWVlNWMiLCJyb2xlIjoiY29tbW9uIiwidXNlcm5hbWUiOiJjYWl1czEyMyJ9LCJpc3MiOiJBUlRDSElFIn0.VTy7lU42Bl5DcXr7GKYWE2_J1LwzgvcYQ7ZE7wmRgos"] {"uid":"13eaa64"}
+[2021-08-16T20:41:11.180096+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"3793dbf"}
+[2021-08-16T22:56:48.356793+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"5fe0af9"}
+[2021-08-16T22:56:48.366998+00:00] slim-app.WARNING: Expired token ["eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjkxNDY0NTksImV4cCI6MTYyOTE0NzM1OSwianRpIjoiV1Nad1UrZFFrSEFpY0dEdCtpeWNYdz09Iiwic3ViIjoiY2FpdXMxMjMiLCJkYXRhIjp7ImVtYWlsIjoiZ2FicmllbGJlcnRoaWVyQGdtYWlsLmNvbSIsInV1aWQiOiI2YjEwNjUxMC1kYTEzLTQ4NjktODE1YS0yN2Y0Y2Y4M2M0NzEiLCJyb2xlIjoiY29tbW9uIiwidXNlcm5hbWUiOiJjYWl1czEyMyJ9LCJpc3MiOiJBUlRDSElFIn0.O9Y5U1kM9_EHJ6rIhzXdu-j5F1TH7EfMbxbQOEJc_k0"] {"uid":"5fe0af9"}
+[2021-08-16T22:59:00.364855+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"11845eb"}
+[2021-08-16T22:59:19.429430+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"3435a6b"}

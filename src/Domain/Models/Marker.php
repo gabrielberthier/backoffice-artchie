@@ -33,12 +33,12 @@ class Marker implements ModelInterface
     private ?Museum $museum;
     /** @ORM\Column(type="string", unique=true, nullable=false) */
     private string $name;
-    /** @ORM\Column(type="string", nullable=true) */
+    /** @ORM\Column(type="text", nullable=true) */
     private ?string $text;
     /** @ORM\Column(type="string", nullable=true) */
     private ?string $title;
     /** @ORM\OneToOne(targetEntity="MarkerAsset", mappedBy="marker", cascade={"persist", "remove"}) */
-    private ?AbstractAsset $asset;
+    private ?AbstractAsset $asset = null;
 
     /** @ORM\Column(type="boolean", nullable=false) */
     private bool $isActive = true;

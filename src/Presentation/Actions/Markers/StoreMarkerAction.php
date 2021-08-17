@@ -47,8 +47,9 @@ class StoreMarkerAction extends Action
     public function messages(): ?array
     {
         return [
-            'email' => 'Email is not valid',
-            'name' => 'Incorrect name provided',
+            'museum_id' => 'Museum id must be an integer value',
+            'marker' => 'A marker must have mandatory marker_name, marker_text, marker_title and may have an optional asset',
+            'pose_object' => '(Optional) A pose_object must be set with pose_object_name and may have an optional asset',
         ];
     }
 

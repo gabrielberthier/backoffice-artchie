@@ -40,7 +40,7 @@ class PlacementObject implements JsonSerializable
     private ?Marker $marker;
 
     /** @ORM\OneToOne(targetEntity="PosedAsset", mappedBy="posedObject") */
-    private ?AbstractAsset $asset;
+    private ?AbstractAsset $asset = null;
 
     public function __construct()
     {
