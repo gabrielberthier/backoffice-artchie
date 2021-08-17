@@ -10,6 +10,7 @@ use App\Presentation\Actions\Auth\SignUpController;
 use App\Presentation\Actions\FileUpload\UploadAction;
 use App\Presentation\Actions\Home\HomeController;
 use App\Presentation\Actions\Markers\DeativateMarkerAction;
+use App\Presentation\Actions\Markers\DeleteMarkerAction;
 use App\Presentation\Actions\Markers\DownloadMarkerAction;
 use App\Presentation\Actions\Markers\GetAllMarkersAction;
 use App\Presentation\Actions\Markers\GetAllMarkersByMuseumAction;
@@ -64,6 +65,7 @@ class Router
                 $marker->get('/', GetAllMarkersAction::class);
                 $marker->get('/museum/{museum_id}', GetAllMarkersByMuseumAction::class);
                 $marker->patch('/deativate/{id}', DeativateMarkerAction::class);
+                $marker->delete('/{id}', DeleteMarkerAction::class);
             });
 
             $group->post('/upload-file', UploadAction::class);

@@ -12,7 +12,7 @@ class PlacementObjectValidation
         $assetValidation = new AssetValidation();
 
         return v::optional(v::allOf(
-            v::key('pose_object_name', v::alnum('$', '*', '-', '#', '&', ' ')),
+            v::key('pose_object_name', v::alnum('$', '*', '-', '#', '&', ' ', '.')),
             v::key(
                 'asset',
                 v::optional($assetValidation->validation()),
