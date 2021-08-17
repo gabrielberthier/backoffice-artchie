@@ -54,8 +54,8 @@ class MarkerBuilder
         $name = $body['pose_object_name'];
         $resource->setName($name);
 
-        if (isset($body['pose_object_asset'])) {
-            $resource->setAsset($this->prepareAsset(new PosedAsset(), $body['pose_object_asset']));
+        if (isset($body['asset'])) {
+            $resource->setAsset($this->prepareAsset(new PosedAsset(), $body['asset']));
         }
 
         $this->marker->addResource($resource);

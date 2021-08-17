@@ -36,7 +36,7 @@ abstract class AbstractAsset implements ModelInterface
     /** @ORM\Column(type="string", unique=true) */
     private string $fileName;
     /** @ORM\Column(type="string") */
-    private string $url;
+    private ?string $url;
     /** @ORM\Column(type="string") */
     private string $mediaType;
 
@@ -105,7 +105,7 @@ abstract class AbstractAsset implements ModelInterface
     /**
      * Get the value of url.
      */
-    public function getUrl(): string
+    public function getUrl(): ?string
     {
         return $this->url;
     }
@@ -115,7 +115,7 @@ abstract class AbstractAsset implements ModelInterface
      *
      * @return self
      */
-    public function setUrl(string $url)
+    public function setUrl(?string $url)
     {
         $this->url = $url;
 

@@ -27,14 +27,16 @@ class StoreMarkerAction extends Action
 
         $builder = $this->markerBuilder;
 
-        $builder->prepareMarker($parsedBody['marker']);
+        $marker = $parsedBody['marker'];
 
-        if (isset($parsedBody['marker_asset'])) {
-            $builder->appendMarkerAsset($parsedBody['marker_asset']);
+        $builder->prepareMarker($marker);
+
+        if (isset($marker['asset'])) {
+            $builder->appendMarkerAsset($marker['asset']);
         }
 
-        if (isset($parsedBody['posed_object'])) {
-            $builder->appendResource($parsedBody['posed_object']);
+        if (isset($parsedBody['pose_object'])) {
+            $builder->appendResource($parsedBody['pose_object']);
         }
 
         $marker = $builder->getMarker();
