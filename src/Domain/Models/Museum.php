@@ -51,12 +51,12 @@ class Museum implements ModelInterface
     /**
      * @ORM\Column(type="text")
      */
-    private string $description;
+    private ?string $description;
 
     /**
      * @ORM\Column(type="string")
      */
-    private string $info;
+    private ?string $info;
 
     /**
      * One museum has one or many markers. This is the inverse side.
@@ -69,8 +69,8 @@ class Museum implements ModelInterface
         ?int $id = null,
         string $email,
         string $name,
-        ?string $description,
-        ?string $info,
+        ?string $description = null,
+        ?string $info = null,
         ?UuidInterface $uuid = null
     ) {
         $this->id = $id;
@@ -173,5 +173,49 @@ class Museum implements ModelInterface
             'email' => $this->email,
             'name' => $this->name,
         ];
+    }
+
+    /**
+     * Get the value of description.
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set the value of description.
+     *
+     * @param mixed $description
+     *
+     * @return self
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of info.
+     */
+    public function getInfo()
+    {
+        return $this->info;
+    }
+
+    /**
+     * Set the value of info.
+     *
+     * @param mixed $info
+     *
+     * @return self
+     */
+    public function setInfo($info)
+    {
+        $this->info = $info;
+
+        return $this;
     }
 }
