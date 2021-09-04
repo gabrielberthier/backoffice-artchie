@@ -23,7 +23,7 @@ return [
             // you should add any other path containing annotated entity classes
             'metadata_dirs' => [getcwd().'/src/Domain/Models'],
 
-            'connection' => require __DIR__.'./connection.php',
+            'connection' => require __DIR__.'/connection.php',
         ],
     ],
 ];
