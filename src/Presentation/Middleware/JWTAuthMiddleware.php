@@ -45,7 +45,7 @@ class JWTAuthMiddleware implements Middleware
     private function boot(?RefreshTokenHandler $refreshTokenHandler): JwtAuthentication
     {
         $secret = $_ENV['JWT_SECRET'];
-        $shouldBeSecure = 'PRODUCTION' === $_ENV['MODE'];
+        // $shouldBeSecure = 'PRODUCTION' === $_ENV['MODE'];
 
         // $beforeFunction = function (Request $request, $arguments) use ($refreshTokenHandler) {
         //     if (!$refreshTokenHandler) {
@@ -63,7 +63,7 @@ class JWTAuthMiddleware implements Middleware
             'logger' => $this->logger,
             'error' => $refreshTokenHandler,
             'relaxed' => ['localhost', 'dev.example.com'],
-            'secure' => $shouldBeSecure,
+            'secure' => false,
         ]);
     }
 }
