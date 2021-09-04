@@ -49,6 +49,16 @@ class Museum implements ModelInterface
     private string $name;
 
     /**
+     * @ORM\Column(type="text")
+     */
+    private string $description;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private string $info;
+
+    /**
      * One museum has one or many markers. This is the inverse side.
      *
      * @ORM\OneToMany(targetEntity="Marker", mappedBy="museum", cascade={"persist", "remove"})
@@ -59,11 +69,15 @@ class Museum implements ModelInterface
         ?int $id = null,
         string $email,
         string $name,
+        ?string $description,
+        ?string $info,
         ?UuidInterface $uuid = null
     ) {
         $this->id = $id;
         $this->email = $email;
         $this->name = $name;
+        $this->description = $description;
+        $this->info = $info;
         $this->uuid = $uuid ?? Uuid::uuid4();
         $this->createdAt = new DateTime();
         $this->updated = new DateTime();
