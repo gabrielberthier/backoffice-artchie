@@ -9,7 +9,7 @@ use Slim\App;
 
 class Middleware
 {
-    public static function run(App $app)
+    public function run(App $app)
     {
         // Defaults
         $app->addBodyParsingMiddleware(); // Add parser that handles body values

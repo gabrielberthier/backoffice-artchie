@@ -26,6 +26,10 @@ class AppBuilderManager
 
     private bool $enableShutdownHandler = true;
 
+    private Router $router;
+
+    private Middleware $middleware;
+
     public function __construct(ContainerInterface $containerInterface)
     {
         $this->container = $containerInterface;
@@ -33,14 +37,19 @@ class AppBuilderManager
         $this->displayErrors = $this->container->get('settings')['displayErrorDetails'];
 
         $this->errorFactory = new ErrorFactory($this->container);
+
+        $this->router = new Router();
+
+        $this->middleware = new Middleware();
     }
 
     public function build(ServerRequestInterface $request): App
     {
         $app = $this->createApp();
 
-        Middleware::run($app);
-        Router::run($app);
+        $this->middleware->run($app);
+
+        $this->router->run($app);
 
         if ($this->enableErrorHandler) {
             $this->setErrorHandler($app, $request);
