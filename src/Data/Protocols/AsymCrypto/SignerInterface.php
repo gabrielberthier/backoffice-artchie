@@ -2,9 +2,9 @@
 
 namespace App\Data\Protocols\AsymCrypto;
 
-use App\Domain\DTO\Signature;
+use Ramsey\Uuid\UuidInterface;
 
 interface SignerInterface
 {
-    public function sign(): Signature;
+    public function sign(UuidInterface $uuidInterface): string;
 }

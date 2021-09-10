@@ -1,0 +1,83 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Presentation\Auth;
+
+use App\Data\Protocols\AsymCrypto\SignerInterface;
+use App\Presentation\Actions\Protocols\HttpErrors\UnprocessableEntityException;
+use App\Presentation\Actions\ResourcesSecurity\KeyCreatorAction;
+use PHPUnit\Framework\MockObject\MockObject;
+use Prophecy\PhpUnit\ProphecyTrait;
+use Psr\Http\Message\ServerRequestInterface;
+use Ramsey\Uuid\Uuid;
+use Slim\Psr7\Response;
+use Tests\TestCase;
+
+/**
+ * @internal
+ * @coversNothing
+ */
+class KeyCreatorActionTest extends TestCase
+{
+    use ProphecyTrait;
+
+    private $prophet;
+
+    private KeyCreatorAction $sut;
+
+    protected function setUp(): void
+    {
+        /** @var SignerInterface */
+        $service = $this->createMockService();
+        $this->sut = new KeyCreatorAction($service);
+    }
+
+    public function testIfUuidIsValid()
+    {
+        $this->expectException(UnprocessableEntityException::class);
+        /** @var SignerInterface */
+        $service = $this->createMockService();
+        $action = new KeyCreatorAction($service);
+        $response = $action($this->createRequest('POST', '/'), new Response(), []);
+    }
+
+    public function testShouldCallAsymmetricSignerWithCorrectValues()
+    {
+        $prophecyService = $this->prophesize(SignerInterface::class);
+        $prophecyService->sign(Uuid::fromString('914e4c51-a049-4594-ae5c-921bbadf686b'))->willReturn('')
+            ->shouldBeCalledOnce()
+        ;
+        $action = new KeyCreatorAction($prophecyService->reveal());
+        $response = $action($this->createMockRequest(), new Response(), []);
+        $payload = (string) $response->getBody();
+        $this->assertTrue(is_string($payload));
+    }
+
+    private function createMockRequest(): ServerRequestInterface
+    {
+        $request = $this->createRequest('POST', '/api/forge-credential');
+        $request->getBody()
+            ->write(json_encode(['uuid' => '914e4c51-a049-4594-ae5c-921bbadf686b'], JSON_PRETTY_PRINT))
+        ;
+        $request->getBody()
+            ->rewind()
+        ;
+
+        return $request;
+    }
+
+    /**
+     * Create a mocked login service.
+     *
+     * @return MockObject
+     */
+    private function createMockService()
+    {
+        return $this->getMockBuilder(SignerInterface::class)
+            ->onlyMethods(['sign'])
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+    }
+}

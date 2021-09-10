@@ -12,7 +12,7 @@ use JsonSerializable;
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="accounts")
+ * @ORM\Table(name="signature_tokens")
  */
 class SignatureToken implements JsonSerializable
 {
@@ -40,7 +40,7 @@ class SignatureToken implements JsonSerializable
     /**
      * One Product has One Shipment.
      *
-     * @ORM\OneToOne(targetEntity="Museum")
+     * @ORM\OneToOne(targetEntity="App\Domain\Models\Museum")
      */
     private ?Museum $museum;
 
