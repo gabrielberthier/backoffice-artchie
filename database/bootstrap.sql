@@ -12,7 +12,7 @@ values
   (
     'adming@arcthie.com',
     'admin',
-    '$2y$08$xowZtJwq2dG5FX0eA7rIaukC2WnBoHcLMSzJH090.OyjLbLBLar7G',
+    '$2y$08$dBhkPXXqtiZoRyFQ5BIfaOVe2pbdd03lZaEUnux9pNcbGf4/5epoe',
     'admin',
     '0c04d7f5-5e42-4fdd-9ba2-d1b44cd22ac9',
     now(),

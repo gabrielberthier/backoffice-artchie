@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Core\HTTP\Routing;
 
-use App\Presentation\Actions\Auth\LoginController;
-use App\Presentation\Actions\Auth\LogoutController;
-use App\Presentation\Actions\Auth\SignUpController;
 use App\Presentation\Actions\FileUpload\UploadAction;
 use App\Presentation\Actions\Home\HomeController;
 use App\Presentation\Actions\Markers\DeativateMarkerAction;
@@ -42,11 +39,9 @@ class Router
             $group->get('/{id}', ViewUserAction::class);
         });
 
-        $app->group('/auth', function (Group $group) {
-            $group->post('/login', LoginController::class);
-            $group->post('/signup', SignUpController::class);
-            $group->get('/logout', LogoutController::class);
-        });
+        $auth = require __DIR__.'/Subs/AuthRouter.php';
+
+        $app->group('/auth', $auth);
 
         $app->group('/api', function (Group $group) {
             $group->get('/', HomeController::class);
