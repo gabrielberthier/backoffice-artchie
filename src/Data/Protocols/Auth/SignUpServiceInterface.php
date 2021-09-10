@@ -2,8 +2,8 @@
 
 namespace App\Data\Protocols\Auth;
 
+use App\Domain\DTO\TokenLoginResponse;
 use App\Domain\Models\Account;
-use App\Domain\Models\TokenLoginResponse;
 
 interface SignUpServiceInterface
 {

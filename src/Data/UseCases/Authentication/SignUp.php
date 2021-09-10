@@ -3,8 +3,8 @@
 namespace App\Data\UseCases\Authentication;
 
 use App\Data\Protocols\Auth\SignUpServiceInterface;
+use App\Domain\DTO\TokenLoginResponse;
 use App\Domain\Models\Account;
-use App\Domain\Models\TokenLoginResponse;
 use App\Domain\Repositories\AccountRepository;
 use Exception;
 

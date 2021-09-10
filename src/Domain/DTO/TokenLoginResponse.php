@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Models;
+namespace App\Domain\DTO;
 
 use App\Data\Protocols\Cryptography\TokenGeneratorInterface;
+use App\Domain\Models\Account;
 use App\Infrastructure\Cryptography\BodyTokenCreator;
 use App\Infrastructure\Cryptography\CookieTokenCreator;
 use JsonSerializable;
