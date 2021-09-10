@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Actions\Auth;
 
 use App\Data\Protocols\Auth\LoginServiceInterface;
-use App\Domain\Models\DTO\Credentials;
+use App\Domain\DTO\Credentials;
 use App\Presentation\Actions\Protocols\Action;
 use Psr\Http\Message\ResponseInterface as Response;
 use Respect\Validation\Validator;

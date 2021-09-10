@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Presentation\Auth;
 
 use App\Data\Protocols\Auth\LoginServiceInterface;
-use App\Domain\DTO\Credentials;
+use App\Domain\Models\DTO\Credentials;
 use App\Presentation\Actions\Protocols\ActionError;
 use App\Presentation\Actions\Protocols\ActionPayload;
 use App\Presentation\Protocols\Validation;
@@ -21,7 +21,7 @@ use Tests\TestCase;
  * @internal
  * @coversNothing
  */
-class LoginControllerTest extends TestCase
+class KeyCreatorActionTest extends TestCase
 {
     use ProphecyTrait;
 
@@ -35,6 +35,14 @@ class LoginControllerTest extends TestCase
         $this->autowireContainer(LoginServiceInterface::class, $service);
         $validator = $this->createValidatorService();
         $this->autowireContainer(Validation::class, $validator);
+    }
+
+    public function testShouldCallActionWithCorrectValues()
+    {
+        $action = new KeyCreatorAction();
+        $response = $action->handle(uuid: $uuid, );
+        $payload = (string) $response->getBody();
+        explode('.', base64_decode($payload));
     }
 
     public function testShouldCallAuthenticationWithCorrectValues()
