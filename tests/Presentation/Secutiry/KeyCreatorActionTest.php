@@ -36,10 +36,8 @@ class KeyCreatorActionTest extends TestCase
     public function testIfUuidIsValid()
     {
         $this->expectException(UnprocessableEntityException::class);
-        /** @var SignerInterface */
-        $service = $this->createMockService();
-        $action = new KeyCreatorAction($service);
-        $response = $action($this->createRequest('POST', '/'), new Response(), []);
+
+        $this->sut->__invoke($this->createRequest('POST', '/'), new Response(), []);
     }
 
     public function testShouldCallAsymmetricSignerWithCorrectValues()
@@ -52,6 +50,20 @@ class KeyCreatorActionTest extends TestCase
         $response = $action($this->createMockRequest(), new Response(), []);
         $payload = (string) $response->getBody();
         $this->assertTrue(is_string($payload));
+    }
+
+    public function testShouldReturn200WithCorrectInput()
+    {
+        $service = $this->createMockService();
+        $testString = base64_encode('expectedString');
+        $service->expects($this->once())->method('sign')->willReturn($testString);
+        /** @var SignerInterface */
+        $serviceMocked = $service;
+        $action = new KeyCreatorAction($serviceMocked);
+        $response = $action->__invoke($this->createMockRequest(), new Response(), []);
+        $decoded = json_decode((string) $response->getBody());
+        $this->assertSame(200, $decoded->statusCode);
+        $this->assertSame($testString, $decoded->data->token);
     }
 
     private function createMockRequest(): ServerRequestInterface
