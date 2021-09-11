@@ -21,12 +21,15 @@ class AsymmetricSigner implements SignerInterface
         $museum = $this->museumRepository->findByUUID($uuidInterface);
 
         if ($museum) {
-            $this->encrypter->encrypt(json_encode([
+            $signature = $this->encrypter->encrypt(json_encode([
                 'uuid' => $museum->getUuid()->toString(),
                 'museum_name' => $museum->getName(),
             ]));
 
-            return '';
+            $uuid = base64_encode($museum->getUuid()->toString());
+            $privateKey = base64_encode($signature->privateKey());
+
+            return "{$uuid}.{$privateKey}";
         }
 
         throw new MuseumNotFoundException();

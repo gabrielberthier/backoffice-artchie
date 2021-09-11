@@ -97,7 +97,7 @@ class SignerTest extends TestCase
         $this->assertTrue(is_string($response));
     }
 
-    public function testIfEncrypterReturnsDTO()
+    public function testIfSignerReturnsValid64BasedString()
     {
         /**
          * @var MockObject
@@ -115,9 +115,20 @@ class SignerTest extends TestCase
             ]
         );
 
+        $encodedUuid = base64_encode('5a4bd710-aab8-4ebc-b65d-0c059a960cfb');
+        $encodedPrivateKey = base64_encode('privKey');
+
+        $payload = "{$encodedUuid}.{$encodedPrivateKey}";
+
         $encrypter->expects($this->once())->method('encrypt')->with($subject)->willReturn(new Signature('privKey', 'test', 'test'));
 
         $response = $this->sut->signer->sign($uuid);
+
+        list($uuid, $privateKey) = explode('.', $response);
+
+        $this->assertSame(base64_decode($uuid, true), '5a4bd710-aab8-4ebc-b65d-0c059a960cfb');
+        $this->assertSame(base64_decode($privateKey, true), 'privKey');
+        $this->assertSame($payload, $response);
     }
 
     /**
