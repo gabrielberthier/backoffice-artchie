@@ -7,6 +7,7 @@ namespace Tests\Domain\UseCases\AsymCrypto;
 use App\Data\Protocols\AsymCrypto\SignerInterface;
 use App\Data\Protocols\Cryptography\AsymmetricEncrypter;
 use App\Data\UseCases\AsymCrypto\AsymmetricSigner;
+use App\Domain\DTO\Signature;
 use App\Domain\Exceptions\Museum\MuseumNotFoundException;
 use App\Domain\Models\Museum;
 use App\Domain\Repositories\MuseumRepository;
@@ -94,6 +95,29 @@ class SignerTest extends TestCase
         $response = $this->sut->signer->sign($uuid);
 
         $this->assertTrue(is_string($response));
+    }
+
+    public function testIfEncrypterReturnsDTO()
+    {
+        /**
+         * @var MockObject
+         */
+        $encrypter = $this->sut->encrypter;
+        /** @var MockObject */
+        $repo = $this->sut->repository;
+        $uuid = Uuid::fromString('5a4bd710-aab8-4ebc-b65d-0c059a960cfb');
+        $repo->method('findByUUID')->willReturn(new Museum(email: '', name: 'test_museum', uuid: $uuid));
+
+        $subject = json_encode(
+            [
+                'uuid' => '5a4bd710-aab8-4ebc-b65d-0c059a960cfb',
+                'museum_name' => 'test_museum',
+            ]
+        );
+
+        $encrypter->expects($this->once())->method('encrypt')->with($subject)->willReturn(new Signature('privKey', 'test', 'test'));
+
+        $response = $this->sut->signer->sign($uuid);
     }
 
     /**
