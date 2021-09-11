@@ -2338,3 +2338,45 @@
 [2021-09-11T01:30:46.638166+00:00] slim-app.WARNING: Token not found [] {"uid":"728ecad"}
 [2021-09-11T01:30:46.737245+00:00] slim-app.WARNING: Token not found [] {"uid":"d874162"}
 [2021-09-11T01:30:46.846132+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"1f578ba"}
+[2021-09-11T13:51:09.475034+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"8bde923"}
+[2021-09-11T13:51:09.497152+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"22a3964"}
+[2021-09-11T13:51:10.104259+00:00] slim-app.WARNING: Token not found [] {"uid":"643b29e"}
+[2021-09-11T13:51:10.113651+00:00] slim-app.WARNING: Token not found [] {"uid":"606e390"}
+[2021-09-11T13:51:10.254110+00:00] slim-app.WARNING: Token not found [] {"uid":"f7fcfdb"}
+[2021-09-11T13:51:10.410941+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"4d7140f"}
+[2021-09-11T13:59:37.795298+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"de8a15f"}
+[2021-09-11T13:59:37.814029+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"50c92c3"}
+[2021-09-11T13:59:38.236632+00:00] slim-app.WARNING: Token not found [] {"uid":"1af10a5"}
+[2021-09-11T13:59:38.241815+00:00] slim-app.WARNING: Token not found [] {"uid":"47dbb61"}
+[2021-09-11T13:59:38.304935+00:00] slim-app.WARNING: Token not found [] {"uid":"7b27f62"}
+[2021-09-11T13:59:38.367533+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"618f25c"}
+[2021-09-11T14:22:35.918656+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"dbd92e5"}
+[2021-09-11T14:22:35.930252+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"d7baae6"}
+[2021-09-11T14:22:36.215987+00:00] slim-app.WARNING: Token not found [] {"uid":"3e50a09"}
+[2021-09-11T14:22:36.219608+00:00] slim-app.WARNING: Token not found [] {"uid":"c045281"}
+[2021-09-11T14:22:36.264206+00:00] slim-app.WARNING: Token not found [] {"uid":"e4de6a2"}
+[2021-09-11T14:22:36.312129+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"f446ed7"}
+[2021-09-11T14:24:33.097504+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"f6ead0a"}
+[2021-09-11T14:24:33.106862+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"4ec25a6"}
+[2021-09-11T14:24:33.325220+00:00] slim-app.WARNING: Token not found [] {"uid":"9d91529"}
+[2021-09-11T14:24:33.328458+00:00] slim-app.WARNING: Token not found [] {"uid":"928101b"}
+[2021-09-11T14:24:33.370051+00:00] slim-app.WARNING: Token not found [] {"uid":"e837bfa"}
+[2021-09-11T14:24:33.415102+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"720ba2c"}
+[2021-09-11T14:25:16.949649+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"d3215a7"}
+[2021-09-11T14:25:16.964568+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"038720f"}
+[2021-09-11T14:25:17.194135+00:00] slim-app.WARNING: Token not found [] {"uid":"e5551e9"}
+[2021-09-11T14:25:17.197527+00:00] slim-app.WARNING: Token not found [] {"uid":"9ce6466"}
+[2021-09-11T14:25:17.239704+00:00] slim-app.WARNING: Token not found [] {"uid":"afba8fd"}
+[2021-09-11T14:25:17.282608+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"50d3883"}
+[2021-09-11T14:29:15.281189+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"7cfd0b9"}
+[2021-09-11T14:29:15.289283+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"e2161ac"}
+[2021-09-11T14:29:15.519220+00:00] slim-app.WARNING: Token not found [] {"uid":"1efe819"}
+[2021-09-11T14:29:15.523019+00:00] slim-app.WARNING: Token not found [] {"uid":"1938db3"}
+[2021-09-11T14:29:15.564373+00:00] slim-app.WARNING: Token not found [] {"uid":"a71e6e7"}
+[2021-09-11T14:29:15.607415+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"56d5026"}
+[2021-09-11T14:29:30.214207+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"f0a9618"}
+[2021-09-11T14:29:30.226193+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"095668e"}
+[2021-09-11T14:29:30.444784+00:00] slim-app.WARNING: Token not found [] {"uid":"754ebce"}
+[2021-09-11T14:29:30.448797+00:00] slim-app.WARNING: Token not found [] {"uid":"ff7a3ca"}
+[2021-09-11T14:29:30.490367+00:00] slim-app.WARNING: Token not found [] {"uid":"a6361a8"}
+[2021-09-11T14:29:30.535825+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"d14af41"}

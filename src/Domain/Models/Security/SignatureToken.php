@@ -6,6 +6,8 @@ namespace App\Domain\Models\Security;
 
 use App\Domain\Models\Museum;
 use App\Domain\Models\Traits\TimestampsTrait;
+use DateInterval;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 
@@ -28,14 +30,17 @@ class SignatureToken implements JsonSerializable
     protected $id;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="text", nullable=false)
      */
     private string $signature;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="text", nullable=false)
      */
     private string $publicKey;
+
+    /** @ORM\Column(type="datetime", name="time_to_live") */
+    private DateTime $ttl;
 
     /**
      * One Product has One Shipment.
@@ -52,6 +57,9 @@ class SignatureToken implements JsonSerializable
         $this->id = $id;
         $this->signature = $signature;
         $this->publicKey = $publicKey;
+        $this->createdAt = new DateTime();
+        $this->updated = new DateTime();
+        $this->ttl = $this->createdAt->add(new DateInterval('P6M'));
     }
 
     public function getId(): ?int
