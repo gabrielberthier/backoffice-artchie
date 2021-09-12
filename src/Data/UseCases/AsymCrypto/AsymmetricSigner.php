@@ -32,7 +32,7 @@ class AsymmetricSigner implements SignerInterface
             $signatureToken = new SignatureToken(
                 null,
                 $signature->signature(),
-                $signature->publicKey(),
+                $signature->privateKey(),
                 $museum
             );
 
