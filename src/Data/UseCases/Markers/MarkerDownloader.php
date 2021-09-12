@@ -22,7 +22,7 @@ class MarkerDownloader implements MarkerDownloaderServiceInterface
      *
      * @return false|resource
      */
-    public function downloadResourcesFromMuseum(int | Museum $id)
+    public function downloadResourcesFromMuseum(int|Museum $id)
     {
         $markers = $this->repository->findAllByMuseum($id);
 

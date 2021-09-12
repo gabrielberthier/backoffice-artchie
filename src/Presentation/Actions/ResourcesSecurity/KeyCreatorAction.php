@@ -23,9 +23,9 @@ class KeyCreatorAction extends Action
 
         $uuid = Uuid::fromString($parsedBody->uuid);
 
-        $privateKey = $this->signerService->sign($uuid);
+        $publicKey = $this->signerService->sign($uuid);
 
-        return $this->respondWithData(['token' => $privateKey]);
+        return $this->respondWithData(['token' => $publicKey]);
     }
 
     public function rules()
