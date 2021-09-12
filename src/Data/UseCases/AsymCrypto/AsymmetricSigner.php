@@ -40,18 +40,18 @@ class AsymmetricSigner implements SignerInterface
 
             return $this->createTokenResponse(
                 $museum->getUuid()->toString(),
-                $signature->privateKey()
+                $signature->publicKey()
             );
         }
 
         throw new MuseumNotFoundException();
     }
 
-    private function createTokenResponse(string $uuid, string $privateKey): string
+    private function createTokenResponse(string $uuid, string $publicKey): string
     {
         $uuid = base64_encode($uuid);
-        $privateKey = base64_encode($privateKey);
+        $publicKey = base64_encode($publicKey);
 
-        return "{$uuid}.{$privateKey}";
+        return "{$uuid}.{$publicKey}";
     }
 }

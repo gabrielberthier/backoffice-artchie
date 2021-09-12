@@ -53,18 +53,18 @@ trait AsymmetricEncrypterTestTrait
         );
 
         $encodedUuid = base64_encode('5a4bd710-aab8-4ebc-b65d-0c059a960cfb');
-        $encodedPrivateKey = base64_encode('privKey');
+        $encodedPrivateKey = base64_encode('pubKey');
 
         $payload = "{$encodedUuid}.{$encodedPrivateKey}";
 
-        $encrypter->expects($this->once())->method('encrypt')->with($subject)->willReturn(new Signature('privKey', 'test', 'test'));
+        $encrypter->expects($this->once())->method('encrypt')->with($subject)->willReturn(new Signature('privKey', 'pubKey', 'test'));
 
         $response = $this->sut->signer->sign($uuid);
 
         list($uuid, $privateKey) = explode('.', $response);
 
         $this->assertSame(base64_decode($uuid, true), '5a4bd710-aab8-4ebc-b65d-0c059a960cfb');
-        $this->assertSame(base64_decode($privateKey, true), 'privKey');
+        $this->assertSame(base64_decode($privateKey, true), 'pubKey');
         $this->assertSame($payload, $response);
     }
 

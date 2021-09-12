@@ -2576,3 +2576,21 @@
 [2021-09-12T02:33:02.972638+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"b76f60f"}
 [2021-09-12T02:33:37.831931+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"cbe4c54"}
 [2021-09-12T02:33:45.681757+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"2b69b16"}
+[2021-09-12T02:46:24.338485+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"ca4a8fb"}
+[2021-09-12T02:46:24.351417+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"5062f3b"}
+[2021-09-12T02:46:24.645398+00:00] slim-app.WARNING: Token not found [] {"uid":"b2181e3"}
+[2021-09-12T02:46:24.649257+00:00] slim-app.WARNING: Token not found [] {"uid":"b25058d"}
+[2021-09-12T02:46:24.696620+00:00] slim-app.WARNING: Token not found [] {"uid":"062619e"}
+[2021-09-12T02:46:24.745199+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"8e8a0b1"}
+[2021-09-12T02:47:05.375730+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"bb2a4f1"}
+[2021-09-12T02:47:05.386750+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"7ef48ab"}
+[2021-09-12T02:47:05.606119+00:00] slim-app.WARNING: Token not found [] {"uid":"f11f4ba"}
+[2021-09-12T02:47:05.609470+00:00] slim-app.WARNING: Token not found [] {"uid":"8c9f598"}
+[2021-09-12T02:47:05.653076+00:00] slim-app.WARNING: Token not found [] {"uid":"0abaa1f"}
+[2021-09-12T02:47:05.697475+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"6435fe6"}
+[2021-09-12T02:47:26.056694+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"0f59130"}
+[2021-09-12T02:47:26.067780+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"6c92dd6"}
+[2021-09-12T02:47:26.289573+00:00] slim-app.WARNING: Token not found [] {"uid":"6108161"}
+[2021-09-12T02:47:26.293209+00:00] slim-app.WARNING: Token not found [] {"uid":"9ec7a1f"}
+[2021-09-12T02:47:26.336288+00:00] slim-app.WARNING: Token not found [] {"uid":"540dabf"}
+[2021-09-12T02:47:26.381754+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"5def7bc"}

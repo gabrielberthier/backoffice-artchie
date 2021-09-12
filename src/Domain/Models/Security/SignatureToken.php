@@ -37,7 +37,7 @@ class SignatureToken implements JsonSerializable
     /**
      * @ORM\Column(type="text", nullable=false)
      */
-    private string $publicKey;
+    private string $privateKey;
 
     /** @ORM\Column(type="datetime", name="time_to_live") */
     private DateTime $ttl;
@@ -52,12 +52,12 @@ class SignatureToken implements JsonSerializable
     public function __construct(
         ?int $id = null,
         string $signature,
-        string $publicKey,
+        string $privateKey,
         ?Museum $museum,
     ) {
         $this->id = $id;
         $this->signature = $signature;
-        $this->publicKey = $publicKey;
+        $this->privateKey = $privateKey;
         $this->museum = $museum;
         $this->createdAt = new DateTime();
         $this->updated = new DateTime();
@@ -91,34 +91,34 @@ class SignatureToken implements JsonSerializable
         return $this;
     }
 
-    /**
-     * Get the value of publicKey.
-     */
-    public function getPublicKey()
-    {
-        return $this->publicKey;
-    }
-
-    /**
-     * Set the value of publicKey.
-     *
-     * @param mixed $publicKey
-     *
-     * @return self
-     */
-    public function setPublicKey($publicKey)
-    {
-        $this->publicKey = $publicKey;
-
-        return $this;
-    }
-
     public function jsonSerialize()
     {
         return [
             'id' => $this->getId(),
             'signature' => $this->getSignature(),
-            'publicKey' => $this->getPublicKey(),
+            'privateKey' => $this->getPrivateKey(),
         ];
+    }
+
+    /**
+     * Get the value of privateKey.
+     */
+    public function getPrivateKey()
+    {
+        return $this->privateKey;
+    }
+
+    /**
+     * Set the value of privateKey.
+     *
+     * @param mixed $privateKey
+     *
+     * @return self
+     */
+    public function setPrivateKey($privateKey)
+    {
+        $this->privateKey = $privateKey;
+
+        return $this;
     }
 }
