@@ -53,10 +53,12 @@ class SignatureToken implements JsonSerializable
         ?int $id = null,
         string $signature,
         string $publicKey,
+        ?Museum $museum,
     ) {
         $this->id = $id;
         $this->signature = $signature;
         $this->publicKey = $publicKey;
+        $this->museum = $museum;
         $this->createdAt = new DateTime();
         $this->updated = new DateTime();
         $this->ttl = $this->createdAt->add(new DateInterval('P6M'));

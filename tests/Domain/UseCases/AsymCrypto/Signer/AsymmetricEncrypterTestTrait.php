@@ -1,77 +1,14 @@
 <?php
 
-declare(strict_types=1);
+namespace Tests\Domain\UseCases\AsymCrypto\Signer;
 
-namespace Tests\Domain\UseCases\AsymCrypto;
-
-use App\Data\Protocols\AsymCrypto\SignerInterface;
 use App\Data\Protocols\Cryptography\AsymmetricEncrypter;
-use App\Data\UseCases\AsymCrypto\AsymmetricSigner;
 use App\Domain\DTO\Signature;
-use App\Domain\Exceptions\Museum\MuseumNotFoundException;
 use App\Domain\Models\Museum;
-use App\Domain\Repositories\MuseumRepository;
-use PHPUnit\Framework\MockObject\MockObject;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Ramsey\Uuid\Uuid;
-use Tests\TestCase;
 
-class SutTypes
+trait AsymmetricEncrypterTestTrait
 {
-    public function __construct(
-        public SignerInterface $signer,
-        public MuseumRepository $repository,
-        public AsymmetricEncrypter $encrypter
-    ) {
-    }
-}
-
-/**
- * @internal
- * @coversNothing
- */
-class SignerTest extends TestCase
-{
-    use ProphecyTrait;
-
-    private SutTypes $sut;
-
-    public function setUp(): void
-    {
-        /** @var MuseumRepository */
-        $repository = $this->createMockRepository();
-        /** @var AsymmetricEncrypter */
-        $encrypter = $this->createEncrypterMock();
-        $signer = new AsymmetricSigner($repository, $encrypter);
-
-        $this->sut = new SutTypes($signer, $repository, $encrypter);
-    }
-
-    public function testShouldCallRepositoryWithCorrectValues()
-    {
-        /** @var MockObject */
-        $repository = $this->sut->repository;
-
-        $uuid = Uuid::fromString('5a4bd710-aab8-4ebc-b65d-0c059a960cfb');
-
-        $repository->expects($this->once())->method('findByUUID')->with($uuid)->willReturn(new Museum(email: '', name: ''));
-
-        $response = $this->sut->signer->sign($uuid);
-
-        $this->assertTrue(is_string($response));
-    }
-
-    public function testShouldThrowNotFoundWhenNoMuseumIsFound()
-    {
-        $this->expectException(MuseumNotFoundException::class);
-        /** @var MockObject */
-        $repository = $this->sut->repository;
-        $uuid = Uuid::fromString('5a4bd710-aab8-4ebc-b65d-0c059a960cfb');
-        $repository->expects($this->once())->method('findByUUID')->with($uuid)->willReturn(null);
-
-        $this->sut->signer->sign($uuid);
-    }
-
     public function testIfAsymmetricEncrypterReceivesValues()
     {
         /**
@@ -90,7 +27,7 @@ class SignerTest extends TestCase
             ]
         );
 
-        $encrypter->expects($this->once())->method('encrypt')->with($subject);
+        $encrypter->expects($this->once())->method('encrypt')->with($subject)->willReturn(new Signature('privKey', 'pubKey', 'signature'));
 
         $response = $this->sut->signer->sign($uuid);
 
@@ -129,19 +66,6 @@ class SignerTest extends TestCase
         $this->assertSame(base64_decode($uuid, true), '5a4bd710-aab8-4ebc-b65d-0c059a960cfb');
         $this->assertSame(base64_decode($privateKey, true), 'privKey');
         $this->assertSame($payload, $response);
-    }
-
-    /**
-     * Create a mocked login service.
-     *
-     * @return MockObject
-     */
-    private function createMockRepository()
-    {
-        return $this->getMockBuilder(MuseumRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
     }
 
     /**
