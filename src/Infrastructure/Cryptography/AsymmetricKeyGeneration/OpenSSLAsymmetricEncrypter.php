@@ -14,16 +14,15 @@ class OpenSSLAsymmetricEncrypter implements AsymmetricEncrypter
             'private_key_bits' => 2048,
             'private_key_type' => OPENSSL_KEYTYPE_RSA,
         ];
-        $resource = openssl_pkey_new($config);
+        $new_key_pair = openssl_pkey_new($config);
 
-        // Extract private key from the pair
-        openssl_pkey_export($resource, $privateKey);
+        openssl_pkey_export($new_key_pair, $privateKey);
 
-        // Extract public key from the pair
-        $keyDetails = openssl_pkey_get_details($resource);
-        $publicKey = $keyDetails['key'];
+        $details = openssl_pkey_get_details($new_key_pair);
+        $publicKey = $details['key'];
 
-        openssl_sign($json_data, $signature, $privateKey);
+        //create signature
+        openssl_sign($json_data, $signature, $privateKey, OPENSSL_ALGO_SHA256);
 
         $signature = base64_encode($signature);
 

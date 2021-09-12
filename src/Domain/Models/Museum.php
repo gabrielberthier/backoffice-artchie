@@ -49,12 +49,12 @@ class Museum implements ModelInterface
     private string $name;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private ?string $description;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private ?string $info;
 
@@ -172,6 +172,8 @@ class Museum implements ModelInterface
             'uuid' => $this->uuid,
             'email' => $this->email,
             'name' => $this->name,
+            'info' => $this->info,
+            'description' => $this->description,
         ];
     }
 
