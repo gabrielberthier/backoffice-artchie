@@ -29,7 +29,9 @@ class AsymmetricSigner implements SignerInterface
                 'museum_name' => $museum->getName(),
             ]));
 
-            $this->tokenRepository->save(new SignatureToken(null, $signature->signature(), $signature->publicKey(), $museum));
+            $signatureToken = new SignatureToken(null, $signature->signature(), $signature->publicKey(), $museum);
+
+            $this->tokenRepository->save($signatureToken);
 
             return $this->createTokenResponse($museum->getUuid()->toString(), $signature->privateKey());
         }
