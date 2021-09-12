@@ -38,7 +38,10 @@ class AsymmetricSigner implements SignerInterface
 
             $this->tokenRepository->save($signatureToken);
 
-            return $this->createTokenResponse($museum->getUuid()->toString(), $signature->privateKey());
+            return $this->createTokenResponse(
+                $museum->getUuid()->toString(),
+                $signature->privateKey()
+            );
         }
 
         throw new MuseumNotFoundException();

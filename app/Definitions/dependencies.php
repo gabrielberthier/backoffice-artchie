@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
+use App\Data\Protocols\Cryptography\AsymmetricEncrypter;
 use App\Data\Protocols\Cryptography\ComparerInterface;
 use App\Data\Protocols\Cryptography\DataDecrypter;
 use App\Data\Protocols\Cryptography\DataEncrypter;
 use App\Data\Protocols\Cryptography\HasherInterface;
+use App\Infrastructure\Cryptography\AsymmetricKeyGeneration\OpenSSLAsymmetricEncrypter;
 use App\Infrastructure\Cryptography\DataEncryption\Encrypter;
 use App\Infrastructure\Cryptography\HashComparer;
 use App\Infrastructure\Cryptography\HashCreator;
@@ -47,6 +49,7 @@ return [
     HasherInterface::class => new HashCreator(),
     DataDecrypter::class => $encrypter,
     DataEncrypter::class => $encrypter,
+    AsymmetricEncrypter::class => new OpenSSLAsymmetricEncrypter(),
     StreamCollectorInterface::class => function (ContainerInterface $c): StreamCollectorInterface {
         $factory = new S3AsyncDownloaderFactory();
         $key = $_ENV['S3KEY'];
