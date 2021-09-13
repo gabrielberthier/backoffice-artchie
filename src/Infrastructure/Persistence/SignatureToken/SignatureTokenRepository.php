@@ -19,6 +19,11 @@ class SignatureTokenRepository implements SignatureTokenRepositoryInterface, Sig
     public function save(SignatureToken $token): bool
     {
         try {
+            $oldToken = $this->findFromMuseum($token->getMuseum());
+            if ($oldToken) {
+                $this->em->remove($oldToken);
+                $this->em->flush();
+            }
             $this->em->persist($token);
             $this->em->flush();
 
@@ -28,7 +33,7 @@ class SignatureTokenRepository implements SignatureTokenRepositoryInterface, Sig
         }
     }
 
-    public function findFromMuseum(Museum $museum): SignatureToken
+    public function findFromMuseum(Museum $museum): ?SignatureToken
     {
         $id = $museum;
         if ($museum instanceof Museum) {

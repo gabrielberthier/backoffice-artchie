@@ -7,5 +7,5 @@ use App\Domain\Models\Security\SignatureToken;
 
 interface SignatureTokenRetrieverInterface
 {
-    public function findFromMuseum(Museum $museum): SignatureToken;
+    public function findFromMuseum(Museum $museum): ?SignatureToken;
 }

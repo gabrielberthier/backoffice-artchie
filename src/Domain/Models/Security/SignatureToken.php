@@ -121,4 +121,26 @@ class SignatureToken implements JsonSerializable
 
         return $this;
     }
+
+    /**
+     * Get one Product has One Shipment.
+     */
+    public function getMuseum()
+    {
+        return $this->museum;
+    }
+
+    /**
+     * Set one Product has One Shipment.
+     *
+     * @param mixed $museum
+     *
+     * @return self
+     */
+    public function setMuseum($museum)
+    {
+        $this->museum = $museum;
+
+        return $this;
+    }
 }
