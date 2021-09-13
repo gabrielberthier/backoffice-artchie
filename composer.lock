@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0d102a058331ecd837899531d6c77171",
+    "content-hash": "21137aa8dff06d9e10d3b37e537d7122",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -1396,16 +1396,16 @@
         },
         {
             "name": "gabrielberthier/s3-data-transfer",
-            "version": "1.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gabrielberthier/s3-zip-objects.git",
-                "reference": "fe826d7523641e34a12064e66b5e6944f3e47004"
+                "reference": "9de9012c36c1c1a6489480b75cbc75040380cf9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gabrielberthier/s3-zip-objects/zipball/fe826d7523641e34a12064e66b5e6944f3e47004",
-                "reference": "fe826d7523641e34a12064e66b5e6944f3e47004",
+                "url": "https://api.github.com/repos/gabrielberthier/s3-zip-objects/zipball/9de9012c36c1c1a6489480b75cbc75040380cf9f",
+                "reference": "9de9012c36c1c1a6489480b75cbc75040380cf9f",
                 "shasum": ""
             },
             "require": {
@@ -1435,9 +1435,9 @@
             "description": "A package to handle s3 upload and download using PSR-7 interfaces, async operations and Zip options",
             "support": {
                 "issues": "https://github.com/gabrielberthier/s3-zip-objects/issues",
-                "source": "https://github.com/gabrielberthier/s3-zip-objects/tree/1.0"
+                "source": "https://github.com/gabrielberthier/s3-zip-objects/tree/1.0.1"
             },
-            "time": "2021-08-17T20:21:14+00:00"
+            "time": "2021-09-13T01:34:04+00:00"
         },
         {
             "name": "graham-campbell/result-type",
