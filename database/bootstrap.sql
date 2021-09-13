@@ -1,5 +1,6 @@
 insert into
   accounts(
+    id,
     email,
     username,
     password,
@@ -10,6 +11,7 @@ insert into
   )
 values
   (
+    42,
     'adming@arcthie.com',
     'admin',
     '$2y$08$dBhkPXXqtiZoRyFQ5BIfaOVe2pbdd03lZaEUnux9pNcbGf4/5epoe',
