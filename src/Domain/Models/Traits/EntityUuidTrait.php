@@ -5,7 +5,7 @@ namespace App\Domain\Models\Traits;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 
-trait EntityIdTrait
+trait EntityUuidTrait
 {
     /**
      * The unique auto incremented primary key.

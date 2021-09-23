@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data\Protocols\User;
+namespace App\Data\Protocols\BusinessEntities;
 
 use App\Domain\Repositories\MuseumRepository;
 

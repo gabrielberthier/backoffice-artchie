@@ -5,7 +5,7 @@ namespace App\Presentation\Errors;
 use RuntimeException;
 use Throwable;
 
-class Server extends RuntimeException
+class ServerError extends RuntimeException
 {
     public $message;
 
