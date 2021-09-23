@@ -18,10 +18,10 @@ class Router
         $usersTest = $this->retrieveRouting('Users/UserRouting');
         $api = $this->retrieveRouting('Api/ApiRouting');
 
-        // $app->options(
-        //     '/{routes:.+}',
-        //     fn (Request $request, Response $response, $args) => $response->withStatus(200, 'Preflight is on')
-        // );
+        $app->options(
+            '/{routes:.+}',
+            fn (Request $request, Response $response, $args) => $response->withStatus(200, 'Preflight is on')
+        );
 
         $app->get('/', function (Request $request, Response $response) {
             $response->getBody()->write('Welcome to ARtchie\'s');
