@@ -20,7 +20,7 @@ return function (Group $group) {
 
     $group->post('/create-app-key', KeyCreatorAction::class);
 
-    $app->options('', function (Request $request, Response $response): Response {
+    $app->options('/', function (Request $request, Response $response): Response {
         // Do nothing here. Just return the response.
         return $response->withStatus(200);
     });
