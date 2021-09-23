@@ -2,3 +2,4 @@ RewriteEngine on
 RewriteRule ^$ public/ [L]
 RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 RewriteRule (.*) public/$1 [L]
+Header set Access-Control-Allow-Origin "*"
