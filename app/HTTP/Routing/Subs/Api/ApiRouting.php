@@ -20,8 +20,8 @@ return function (Group $group) {
 
     $group->post('/create-app-key', KeyCreatorAction::class);
 
-    $group->options('/', function (Request $request, Response $response): Response {
+    $group->options('/', function (Request $request, Response $response, $args): Response {
         // Do nothing here. Just return the response.
-        return $response->withStatus(200, 'Preflight');
+        return $response;
     });
 };
