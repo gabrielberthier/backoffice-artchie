@@ -35,6 +35,11 @@ class Router
                 AsymetricValidatorFactory::createMiddleware($app->getContainer())
             )
         ;
+
+        $app->options(
+            '/{routes:.+}',
+            fn ($request, $response, $args) => $response
+        );
     }
 
     private function retrieveRouting(string $path)
