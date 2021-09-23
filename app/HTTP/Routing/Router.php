@@ -38,7 +38,7 @@ class Router
 
         $app->options(
             '/{routes:.+}',
-            fn ($request, $response, $args) => $response
+            fn (Request $request, Response $response, $args) => $response->withStatus(200, 'Preflight is on')
         );
     }
 
