@@ -20,5 +20,4 @@
   RewriteRule ^ index.php [QSA,L]
   RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-  Header set Access-Control-Allow-Origin "*"
 </IfModule>
