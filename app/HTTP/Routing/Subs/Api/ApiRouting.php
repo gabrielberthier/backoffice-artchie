@@ -22,6 +22,6 @@ return function (Group $group) {
 
     $group->options('/', function (Request $request, Response $response): Response {
         // Do nothing here. Just return the response.
-        return $response->withStatus(200);
+        return $response->withStatus(200, 'Preflight');
     });
 };

@@ -9,6 +9,7 @@ use Core\HTTP\Routing\RouteMiddlewares\AsymetricValidatorFactory;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
+use Slim\Exception\HttpNotFoundException;
 
 class Router
 {
@@ -40,6 +41,10 @@ class Router
                 AsymetricValidatorFactory::createMiddleware($app->getContainer())
             )
         ;
+
+        $app->map(['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], '/{routes:.+}', function ($request, $response) {
+            throw new HttpNotFoundException($request);
+        });
     }
 
     private function retrieveRouting(string $path)
