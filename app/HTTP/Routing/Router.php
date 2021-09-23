@@ -20,7 +20,7 @@ class Router
 
         $app->options(
             '/{routes:.+}',
-            fn (Request $request, Response $response, $args) => $response->withStatus(200, 'Preflight is on')
+            fn (Request $request, Response $response, $args) => $response
         );
 
         $app->get('/', function (Request $request, Response $response) {
