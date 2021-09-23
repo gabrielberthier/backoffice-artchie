@@ -20,7 +20,7 @@ class Router
 
         $app->options(
             '/{routes:.+}',
-            fn (Request $request, Response $response, $args) => $response
+            fn (Request $request, Response $response, $args) => $response->withStatus(200)
         );
 
         $app->get('/', function (Request $request, Response $response) {
