@@ -29,13 +29,15 @@ class LoginController extends Action
         $tokenize = $this->loginService->auth($credentials);
         $refreshToken = $tokenize->getRenewToken();
 
+        $domain = 'PRODUCTION' === $_ENV['MODE'] ? 'https://artchie-back-end.herokuapp.com' : '';
+
         setcookie(
             name: REFRESH_TOKEN,
             value: $refreshToken,
             expires_or_options: time() + 31536000,
             path: '/',
             httponly: true,
-            domain: $_SERVER['REQUEST_URI']
+            domain: $domain
         );
 
         return $this->respondWithData(['token' => $tokenize->getToken()])->withStatus(201, 'Created token');
