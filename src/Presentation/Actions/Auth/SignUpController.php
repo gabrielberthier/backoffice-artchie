@@ -33,12 +33,18 @@ class SignUpController extends Action
         $tokenize = $this->service->register($account);
         $refreshToken = $tokenize->getRenewToken();
 
+        $sameSite = 'PRODUCTION' === $_ENV['MODE'] ? 'None' : '';
+
         setcookie(
-            name: REFRESH_TOKEN,
-            value: $refreshToken,
-            expires_or_options: time() + 31536000,
-            path: '/',
-            httponly: true
+            REFRESH_TOKEN,
+            $refreshToken,
+            [
+                'expires' => time() + 31536000,
+                'path' => '/',
+                'httponly' => true,
+                'samesite' => $sameSite,
+                'secure' => true,
+            ]
         );
 
         return $this

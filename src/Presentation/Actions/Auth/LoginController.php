@@ -30,6 +30,7 @@ class LoginController extends Action
         $refreshToken = $tokenize->getRenewToken();
 
         $domain = 'PRODUCTION' === $_ENV['MODE'] ? 'https://artchie-back-end.herokuapp.com' : '';
+        $sameSite = 'PRODUCTION' === $_ENV['MODE'] ? 'None' : '';
 
         setcookie(
             REFRESH_TOKEN,
@@ -38,7 +39,7 @@ class LoginController extends Action
                 'expires' => time() + 31536000,
                 'path' => '/',
                 'httponly' => true,
-                'samesite' => 'None',
+                'samesite' => $sameSite,
                 'secure' => true,
             ]
         );
