@@ -34,7 +34,8 @@ class LoginController extends Action
             value: $refreshToken,
             expires_or_options: time() + 31536000,
             path: '/',
-            httponly: true
+            httponly: true,
+            domain: $_SERVER['REQUEST_URI']
         );
 
         return $this->respondWithData(['token' => $tokenize->getToken()])->withStatus(201, 'Created token');
