@@ -11,12 +11,18 @@ class LogoutController extends Action
 {
     public function action(): Response
     {
+        $sameSite = 'PRODUCTION' === $_ENV['MODE'] ? 'None' : '';
+
         setcookie(
-            name: REFRESH_TOKEN,
-            value: '',
-            expires_or_options: time() - 3600,
-            path: '/',
-            httponly: true
+            REFRESH_TOKEN,
+            '',
+            [
+                'expires' => time() - 3600,
+                'path' => '/',
+                'httponly' => true,
+                'samesite' => $sameSite,
+                'secure' => true,
+            ]
         );
 
         return $this->respondWithData(['message' => 'You have been unlogged'])->withStatus(200, 'Unlogged');
