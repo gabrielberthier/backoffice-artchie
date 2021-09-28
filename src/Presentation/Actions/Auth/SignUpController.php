@@ -7,16 +7,20 @@ namespace App\Presentation\Actions\Auth;
 use App\Data\Protocols\Auth\SignUpServiceInterface;
 use App\Data\Protocols\Cryptography\HasherInterface;
 use App\Domain\Models\Account;
+use App\Presentation\Actions\Auth\Utilities\CookieTokenManager;
 use App\Presentation\Actions\Protocols\Action;
 use Psr\Http\Message\ResponseInterface as Response;
 use Respect\Validation\Validator;
 
 class SignUpController extends Action
 {
+    private CookieTokenManager $cookieManager;
+
     public function __construct(
         private SignUpServiceInterface $service,
         private HasherInterface $hasherInterface
     ) {
+        $this->cookieManager = new CookieTokenManager();
     }
 
     public function action(): Response
@@ -33,19 +37,7 @@ class SignUpController extends Action
         $tokenize = $this->service->register($account);
         $refreshToken = $tokenize->getRenewToken();
 
-        $sameSite = 'PRODUCTION' === $_ENV['MODE'] ? 'None' : '';
-
-        setcookie(
-            REFRESH_TOKEN,
-            $refreshToken,
-            [
-                'expires' => time() + 31536000,
-                'path' => '/',
-                'httponly' => true,
-                'samesite' => $sameSite,
-                'secure' => true,
-            ]
-        );
+        $this->cookieManager->implant($refreshToken);
 
         return $this
             ->respondWithData(['token' => $tokenize->getToken()])
