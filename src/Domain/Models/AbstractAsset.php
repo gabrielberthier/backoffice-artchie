@@ -40,6 +40,8 @@ abstract class AbstractAsset implements ModelInterface
     /** @ORM\Column(type="string") */
     private string $mediaType;
 
+    private ?string $temporaryLocation = null;
+
     /**
      * Get the value of id.
      *
@@ -154,6 +156,29 @@ abstract class AbstractAsset implements ModelInterface
             'mediaType' => $this->getMediaType(),
             'created_at' => $this->getCreatedAt(),
             'last_update' => $this->getUpdated(),
+            'temporary_location' => $this->getTemporaryLocation(),
         ];
+    }
+
+    /**
+     * Get the value of temporaryLocation.
+     */
+    public function getTemporaryLocation(): ?string
+    {
+        return $this->temporaryLocation;
+    }
+
+    /**
+     * Set the value of temporaryLocation.
+     *
+     * @param mixed $temporaryLocation
+     *
+     * @return self
+     */
+    public function setTemporaryLocation(?string $temporaryLocation)
+    {
+        $this->temporaryLocation = $temporaryLocation;
+
+        return $this;
     }
 }
