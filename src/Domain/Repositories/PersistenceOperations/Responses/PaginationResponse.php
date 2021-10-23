@@ -2,9 +2,7 @@
 
 namespace App\Domain\Repositories\PersistenceOperations\Responses;
 
-use JsonSerializable;
-
-class PaginationResponse implements JsonSerializable
+final class PaginationResponse implements ResultSetInterface
 {
     public function __construct(
         private int $total,
@@ -22,5 +20,29 @@ class PaginationResponse implements JsonSerializable
             'lastPage' => $this->lastPage,
             'items' => $this->items,
         ];
+    }
+
+    public function getItems(): array
+    {
+        return $this->items;
+    }
+
+    public function setItems(array $items): array
+    {
+        $this->items = $items;
+
+        return $this->items;
+    }
+
+    public function addItem($element): array
+    {
+        $this->items[] = $element;
+
+        return $this->items;
+    }
+
+    public function count(): int
+    {
+        return $this->total;
     }
 }

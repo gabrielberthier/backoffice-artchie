@@ -6,14 +6,14 @@ use App\Domain\Contracts\ModelInterface;
 use App\Domain\Exceptions\Museum\MuseumAlreadyRegisteredException;
 use App\Domain\Models\Museum;
 use App\Domain\Repositories\MuseumRepository;
-use App\Domain\Repositories\PersistenceOperations\Responses\PaginationResponse;
-use App\Infrastructure\Persistence\Pagination\PaginationService;
+use App\Domain\Repositories\PersistenceOperations\Responses\ResultSetInterface;
+use App\Infrastructure\Persistence\PersistenceUtils\ItemsRetriever;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
 
 class MuseumDoctrineRepository implements MuseumRepository
 {
-    public function __construct(private EntityManager $em)
+    public function __construct(private EntityManager $em, private ItemsRetriever $itemsRetriever)
     {
     }
 
@@ -84,7 +84,7 @@ class MuseumDoctrineRepository implements MuseumRepository
         }
     }
 
-    public function delete(ModelInterface | int $museum): ?Museum
+    public function delete(ModelInterface|int $museum): ?Museum
     {
         if (is_int($museum)) {
             $museum = $this->findByID($museum);
@@ -97,20 +97,8 @@ class MuseumDoctrineRepository implements MuseumRepository
         return $museum;
     }
 
-    public function findAll(bool $paginate = false, $page = 1, $limit = 20): array | PaginationResponse
+    public function findAll(bool $paginate = false, $page = 1, $limit = 20): ResultSetInterface
     {
-        if ($page && $limit) {
-            $query = $this->em
-                ->createQueryBuilder()
-                ->select('m')
-                ->from(Museum::class, 'm')
-            ;
-
-            $pagination = new PaginationService($query);
-
-            return $pagination->paginate($page, $limit);
-        }
-
-        return $this->em->getRepository(Museum::class)->findAll();
+        return $this->itemsRetriever->findAll(Museum::class, $paginate, $page, $limit);
     }
 }

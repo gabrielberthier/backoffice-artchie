@@ -6,7 +6,7 @@ $scanDatabaseValues = function () use ($mode) {
     $prefix = '';
 
     if ('DEV' === $mode) {
-        $prefix = 'dev-';
+        $prefix = 'dev_';
     }
 
     if (isset($_ENV[$prefix.'DATABASE_URL'])) {
