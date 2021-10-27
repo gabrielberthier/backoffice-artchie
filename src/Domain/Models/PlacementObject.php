@@ -53,14 +53,6 @@ class PlacementObject implements JsonSerializable
             'id' => $this->id,
             'uuid' => $this->uuid,
             'name' => $this->name,
-            'marker' => [
-                'id' => $this->marker->getId(),
-                'name' => $this->marker->getName(),
-                'dataInfo' => [
-                    'text' => $this->marker->getText(),
-                    'title' => $this->marker->getTitle(),
-                ],
-            ],
             'asset' => $this->asset,
         ];
     }

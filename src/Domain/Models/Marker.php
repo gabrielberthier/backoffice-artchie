@@ -66,7 +66,6 @@ class Marker implements ModelInterface
             ],
             'asset' => $this->asset,
             'resources' => $this->resources->toArray(),
-            'museum' => $this->museum,
             'isActive' => $this->isActive,
         ];
     }
