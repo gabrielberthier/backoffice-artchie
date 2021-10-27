@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Presentation\Actions\Markers;
 
 use App\Domain\Repositories\MarkerRepositoryInterface;
-use App\Presentation\Actions\Markers\Utils\PresignedUrlMapper;
 use App\Presentation\Actions\Protocols\Action;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Exception\HttpBadRequestException;
@@ -14,7 +13,6 @@ class GetAllMarkersByMuseumAction extends Action
 {
     public function __construct(
         private MarkerRepositoryInterface $repo,
-        private PresignedUrlMapper $presignedUrlMapper
     ) {
     }
 
@@ -35,8 +33,6 @@ class GetAllMarkersByMuseumAction extends Action
         } else {
             $markers = $this->repo->findAllByMuseum($museum_id);
         }
-
-        $this->presignedUrlMapper->mapResponse($markers);
 
         return $this->respondWithData($markers);
     }
