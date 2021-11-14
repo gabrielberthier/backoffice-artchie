@@ -45,6 +45,7 @@ class JWTAuthMiddleware implements Middleware
     private function boot(?RefreshTokenHandler $refreshTokenHandler): JwtAuthentication
     {
         $secret = $_ENV['JWT_SECRET'];
+        $onErrorHandler = 'DEV' === $_ENV['MODE'] ? $refreshTokenHandler : null;
         // $shouldBeSecure = 'PRODUCTION' === $_ENV['MODE'];
 
         // $beforeFunction = function (Request $request, $arguments) use ($refreshTokenHandler) {
@@ -61,7 +62,7 @@ class JWTAuthMiddleware implements Middleware
             'ignore' => ['/api/auth', '/admin/ping'],
             // 'before' => $beforeFunction,
             'logger' => $this->logger,
-            'error' => $refreshTokenHandler,
+            'error' => $onErrorHandler,
             'relaxed' => ['localhost', 'dev.example.com'],
             'secure' => false,
         ]);
