@@ -2802,3 +2802,11 @@
 [2021-11-14T20:27:10.718702+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"5cb2954"}
 [2021-11-14T20:27:10.722141+00:00] slim-app.WARNING: Expired token ["eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MzUzMjkyMTIsImV4cCI6MTYzNTMzMDExMiwianRpIjoiclRiTW95NWNjeUhrdUhTQWdsdmdSQT09Iiwic3ViIjoiYWRtaW4iLCJkYXRhIjp7ImVtYWlsIjoiYWRtaW5nQGFyY3RoaWUuY29tIiwidXVpZCI6IjBjMDRkN2Y1LTVlNDItNGZkZC05YmEyLWQxYjQ0Y2QyMmFjOSIsInJvbGUiOiJhZG1pbiIsInVzZXJuYW1lIjoiYWRtaW4ifSwiaXNzIjoiQVJUQ0hJRSJ9.KdvUnkk_Bh0j8nyqcj4MuHFRFdXNIm7KTI8BNmG1C0A"] {"uid":"5cb2954"}
 [2021-11-14T20:27:42.842359+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"ddb39f5"}
+[2021-11-14T20:32:08.568067+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"1c88adb"}
+[2021-11-14T20:32:43.610907+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"4dca963"}
+[2021-11-14T20:32:51.034052+00:00] slim-app.WARNING: Token not found [] {"uid":"1398247"}
+[2021-11-14T20:32:54.157942+00:00] slim-app.WARNING: Token not found [] {"uid":"6f120a5"}
+[2021-11-14T20:38:51.424548+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"dd2f3c4"}
+[2021-11-14T20:38:51.429762+00:00] slim-app.WARNING: Expired token ["eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MzUzMjkyMTIsImV4cCI6MTYzNTMzMDExMiwianRpIjoiclRiTW95NWNjeUhrdUhTQWdsdmdSQT09Iiwic3ViIjoiYWRtaW4iLCJkYXRhIjp7ImVtYWlsIjoiYWRtaW5nQGFyY3RoaWUuY29tIiwidXVpZCI6IjBjMDRkN2Y1LTVlNDItNGZkZC05YmEyLWQxYjQ0Y2QyMmFjOSIsInJvbGUiOiJhZG1pbiIsInVzZXJuYW1lIjoiYWRtaW4ifSwiaXNzIjoiQVJUQ0hJRSJ9.KdvUnkk_Bh0j8nyqcj4MuHFRFdXNIm7KTI8BNmG1C0A"] {"uid":"dd2f3c4"}
+[2021-11-14T20:38:54.705827+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"c19d305"}
+[2021-11-14T20:38:54.709957+00:00] slim-app.WARNING: Expired token ["eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MzUzMjkyMTIsImV4cCI6MTYzNTMzMDExMiwianRpIjoiclRiTW95NWNjeUhrdUhTQWdsdmdSQT09Iiwic3ViIjoiYWRtaW4iLCJkYXRhIjp7ImVtYWlsIjoiYWRtaW5nQGFyY3RoaWUuY29tIiwidXVpZCI6IjBjMDRkN2Y1LTVlNDItNGZkZC05YmEyLWQxYjQ0Y2QyMmFjOSIsInJvbGUiOiJhZG1pbiIsInVzZXJuYW1lIjoiYWRtaW4ifSwiaXNzIjoiQVJUQ0hJRSJ9.KdvUnkk_Bh0j8nyqcj4MuHFRFdXNIm7KTI8BNmG1C0A"] {"uid":"c19d305"}
