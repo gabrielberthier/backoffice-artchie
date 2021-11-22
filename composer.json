@@ -25,6 +25,7 @@
         "league/flysystem-aws-s3-v3": "^1.0",
         "lodash-php/lodash-php": "^0.0.7",
         "maennchen/zipstream-php": "^2.1",
+        "middlewares/trailing-slash": "^2.0",
         "monolog/monolog": ">=2.0",
         "php-di/php-di": "^6.0",
         "ramsey/uuid-doctrine": "^1.6",
