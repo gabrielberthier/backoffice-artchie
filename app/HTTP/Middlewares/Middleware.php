@@ -15,7 +15,7 @@ class Middleware
         // Defaults
         $app->addBodyParsingMiddleware(); // Add parser that handles body values
         $app->addRoutingMiddleware(); // Add the Slim built-in routing middleware
-        $app->add(new TrailingSlash());
+        $app->add(new TrailingSlash(true));
 
         // Apply middlewares
         $definitions = ResourceLoader::getResource('middlewares');
