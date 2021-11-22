@@ -10,9 +10,9 @@ use App\Presentation\Actions\Museum\UpdateMuseumAction;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 
 return function (Group $museum) {
-    $museum->get('/', GetAllMuseumAction::class);
-    $museum->post('/', CreateMuseumAction::class);
-    $museum->put('/{id}', UpdateMuseumAction::class);
-    $museum->delete('/{id}', DeleteMuseumAction::class);
-    $museum->get('/{id}', SelectOneMuseumAction::class);
+    $museum->get('', GetAllMuseumAction::class);
+    $museum->post('', CreateMuseumAction::class);
+    $museum->put('{id}', UpdateMuseumAction::class);
+    $museum->delete('{id}', DeleteMuseumAction::class);
+    $museum->get('{id}', SelectOneMuseumAction::class);
 };
