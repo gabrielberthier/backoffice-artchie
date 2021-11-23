@@ -74,13 +74,14 @@ class MarkerBuilder
         }
 
         if (is_array($body)) {
-            list('file_name' => $fileName, 'media_type' => $mediaType, 'path' => $path, 'url' => $url) = $body;
+            list('file_name' => $fileName, 'media_type' => $mediaType, 'path' => $path, 'url' => $url, 'original_name' => $originalName) = $body;
 
             return $asset
                 ->setFileName($fileName)
                 ->setMediaType($mediaType)
                 ->setPath($path)
                 ->setUrl($url)
+                ->setOriginalName($originalName)
           ;
         }
 

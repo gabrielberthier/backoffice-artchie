@@ -39,6 +39,8 @@ abstract class AbstractAsset implements ModelInterface
     private ?string $url;
     /** @ORM\Column(type="string") */
     private string $mediaType;
+    /** @ORM\Column(type="string") */
+    private string $originalName;
 
     private ?string $temporaryLocation = null;
 
@@ -178,6 +180,28 @@ abstract class AbstractAsset implements ModelInterface
     public function setTemporaryLocation(?string $temporaryLocation)
     {
         $this->temporaryLocation = $temporaryLocation;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of originalName.
+     */
+    public function getOriginalName()
+    {
+        return $this->originalName;
+    }
+
+    /**
+     * Set the value of originalName.
+     *
+     * @param mixed $originalName
+     *
+     * @return self
+     */
+    public function setOriginalName($originalName)
+    {
+        $this->originalName = $originalName;
 
         return $this;
     }

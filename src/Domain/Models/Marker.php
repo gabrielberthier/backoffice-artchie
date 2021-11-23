@@ -31,7 +31,7 @@ class Marker implements ModelInterface
      * @ORM\JoinColumn(name="museum_id", referencedColumnName="id")
      */
     private ?Museum $museum;
-    /** @ORM\Column(type="string", unique=true, nullable=false) */
+    /** @ORM\Column(type="string", nullable=false) */
     private string $name;
     /** @ORM\Column(type="text", nullable=true) */
     private ?string $text;

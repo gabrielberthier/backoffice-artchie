@@ -29,7 +29,7 @@ class MarkerDoctrineRepository implements MarkerRepositoryInterface
             return true;
         } catch (UniqueConstraintViolationException $e) {
             $exception = new MarkerNameRepeated();
-            $violationMessage = explode('1062', $e->getMessage())[1];
+            $violationMessage = explode('1062', $e->getMessage())[1] ?? $e->getMessage();
             $exception->addViolationQueue($violationMessage);
 
             throw $exception;
