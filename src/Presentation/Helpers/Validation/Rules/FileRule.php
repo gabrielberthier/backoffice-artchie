@@ -9,7 +9,7 @@ use Respect\Validation\Rules\AbstractRule;
  */
 class FileRule extends AbstractRule
 {
-    private string $gourpAllowedChars = '([a-zA-Z0-9_\\.\-\(\):%&$#]+)';
+    private string $gourpAllowedChars = '([a-zA-Z0-9_\\.\-\(\):%&$#\/]+)';
 
     private array $allowedFormats = ['obj', 'fbx', 'png', 'jpg', 'dae', '3ds', 'dxf', 'bpm', 'tif', 'tga', 'jpg', 'psd'];
 
