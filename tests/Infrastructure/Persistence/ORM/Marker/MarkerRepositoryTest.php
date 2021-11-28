@@ -91,6 +91,7 @@ class MarkerRepositoryTest extends TestCase
         $asset->setFileName('boyapple.png');
         $asset->setPath('domain/path/boyaple.png');
         $asset->setUrl('www.name.com');
+        $asset->setOriginalName('boyapp.png');
         $asset->setMediaType('file/png');
 
         $marker->setAsset($asset);

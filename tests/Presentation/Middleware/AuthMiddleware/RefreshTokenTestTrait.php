@@ -2,15 +2,10 @@
 
 namespace Tests\Presentation\Middleware\AuthMiddleware;
 
-use App\Domain\Models\Account;
-use App\Domain\Repositories\AccountRepository;
-use App\Infrastructure\Cryptography\CookieTokenCreator;
 use App\Presentation\Handlers\RefreshTokenHandler;
 use App\Presentation\Helpers\Interceptors\RefreshTokenInterceptor;
 use function PHPUnit\Framework\assertNotNull;
 use function PHPUnit\Framework\assertSame;
-use function PHPUnit\Framework\assertTrue;
-use Psr\Http\Message\ResponseInterface;
 
 /**
  * Tests only methods based on refresh token.
@@ -48,31 +43,5 @@ trait RefreshTokenTestTrait
         $response = $this->app->handle($request);
 
         assertNotNull($response);
-    }
-
-    public function testShouldReturnNewJtwCaseRefreshIsSet()
-    {
-        self::createDatabase();
-
-        $account = new Account(email: 'mail.com', username: 'user', password: 'pass');
-        $repository = $this->getContainer()->get(AccountRepository::class);
-        $repository->insert($account);
-
-        $cookieCreator = new CookieTokenCreator($account->getUuid());
-        $cookie = $cookieCreator->createToken($_ENV['JWT_SECRET_COOKIE']);
-
-        $request = $this->createMockRequest();
-        $request = $request->withCookieParams([REFRESH_TOKEN => $cookie]);
-
-        /**
-         * @var ResponseInterface
-         */
-        $response = $this->app->handle($request);
-
-        assertTrue($response->hasHeader('X-RENEW-TOKEN'));
-        assertNotNull($response);
-        assertSame(201, $response->getStatusCode());
-
-        self::truncateDatabase();
     }
 }
