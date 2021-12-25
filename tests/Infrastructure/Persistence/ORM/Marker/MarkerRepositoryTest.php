@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Infrastructure\Persistence\ORM\Marker;
 
-use App\Domain\Models\Marker;
-use App\Domain\Models\MarkerAsset;
-use App\Domain\Models\PlacementObject;
+use App\Domain\Models\Assets\TwoDimensionalAsset;
+use App\Domain\Models\Marker\Marker;
+use App\Domain\Models\Marker\MarkerAsset;
+use App\Domain\Models\PlacementObject\PlacementObject;
 use App\Domain\Repositories\MarkerRepositoryInterface;
 use Doctrine\ORM\EntityManager;
 use function PHPUnit\Framework\assertInstanceOf;
@@ -87,14 +88,15 @@ class MarkerRepositoryTest extends TestCase
         $marker->setText('The boy with an apple is a famous portrait of a boy with an apple');
         $marker->setTitle('Boy with an apple');
 
-        $asset = new MarkerAsset();
+        $asset = new TwoDimensionalAsset();
         $asset->setFileName('boyapple.png');
         $asset->setPath('domain/path/boyaple.png');
         $asset->setUrl('www.name.com');
         $asset->setOriginalName('boyapp.png');
-        $asset->setMediaType('file/png');
+        $asset->setMimeType('file/png');
+        $markerAsset = new MarkerAsset($marker, $asset);
 
-        $marker->setAsset($asset);
+        $marker->setAsset($markerAsset);
 
         $this->repository->insert($marker);
 

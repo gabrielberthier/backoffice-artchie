@@ -2,7 +2,7 @@
 
 namespace App\Data\Protocols\Markers\Downloader;
 
-use App\Domain\Models\Marker;
+use App\Domain\Models\Marker\Marker;
 use App\Domain\Models\Museum;
 
 interface MarkerDownloaderServiceInterface
@@ -10,7 +10,7 @@ interface MarkerDownloaderServiceInterface
     /**
      * @return resource
      */
-    public function downloadResourcesFromMuseum(int | Museum $id);
+    public function downloadResourcesFromMuseum(int|Museum $id);
 
     /**
      * Returns a stream of downloadable markers assets.

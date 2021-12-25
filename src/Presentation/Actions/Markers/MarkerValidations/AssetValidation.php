@@ -10,9 +10,9 @@ class AssetValidation
     public function validation(): AbstractRule
     {
         return v::key('file_name', v::fileRule())
-            ->key('media_type', v::stringType())
             ->key('path', v::stringType())
             ->key('url', v::optional(v::url()))
+            ->key('original_name', v::StringType())
         ;
     }
 }

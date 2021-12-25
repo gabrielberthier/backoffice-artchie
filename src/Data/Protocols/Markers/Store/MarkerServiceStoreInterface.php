@@ -2,7 +2,7 @@
 
 namespace App\Data\Protocols\Markers\Store;
 
-use App\Domain\Models\Marker;
+use App\Domain\Models\Marker\Marker;
 
 interface MarkerServiceStoreInterface
 {

@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Models;
+namespace App\Domain\Models\PlacementObject;
 
+use App\Domain\Models\Marker\Marker;
 use App\Domain\Models\Traits\TimestampsTrait;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
@@ -34,13 +35,13 @@ class PlacementObject implements JsonSerializable
     /**
      * Many resources have one marker. This is the owning side.
      *
-     * @ORM\ManyToOne(targetEntity="Marker", inversedBy="resources")
+     * @ORM\ManyToOne(targetEntity="App\Domain\Models\Marker\Marker", inversedBy="resources")
      * @ORM\JoinColumn(name="marker_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private ?Marker $marker;
 
     /** @ORM\OneToOne(targetEntity="PosedAsset", mappedBy="posedObject", cascade={"persist", "remove"}) */
-    private ?AbstractAsset $asset = null;
+    private ?PosedAsset $asset = null;
 
     public function __construct()
     {
@@ -53,7 +54,7 @@ class PlacementObject implements JsonSerializable
             'id' => $this->id,
             'uuid' => $this->uuid,
             'name' => $this->name,
-            'asset' => $this->asset,
+            'asset' => $this->asset?->getAsset(),
         ];
     }
 
@@ -166,7 +167,7 @@ class PlacementObject implements JsonSerializable
     /**
      * Get the value of asset.
      */
-    public function getAsset(): ?AbstractAsset
+    public function getAsset(): ?PosedAsset
     {
         return $this->asset;
     }
@@ -176,7 +177,7 @@ class PlacementObject implements JsonSerializable
      *
      * @return self
      */
-    public function setAsset(AbstractAsset $asset)
+    public function setAsset(PosedAsset $asset)
     {
         $this->asset = $asset;
 

@@ -6,7 +6,7 @@ use App\Data\Protocols\Markers\Store\MarkerServiceStoreInterface;
 use App\Domain\Exceptions\Protocols\UniqueConstraintViolation\AbstractUniqueException;
 use App\Domain\Exceptions\Transaction\InstanceNotFoundException;
 use App\Domain\Exceptions\Transaction\NameAlreadyInUse;
-use App\Domain\Models\Marker;
+use App\Domain\Models\Marker\Marker;
 use App\Domain\Repositories\MarkerRepositoryInterface;
 use App\Domain\Repositories\MuseumRepository;
 use Doctrine\ORM\EntityManager;

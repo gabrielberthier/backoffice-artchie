@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Models;
+namespace App\Domain\Models\Assets;
 
 use App\Domain\Contracts\ModelInterface;
 use App\Domain\Models\Traits\TimestampsTrait;
@@ -15,8 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({
- *      "marker" = "MarkerAsset",
- *      "posed" = "PosedAsset"
+ *      "3d" = "ThreeDimensionalAsset",
+ *      "2d" = "TwoDimensionalAsset"
  * })
  */
 abstract class AbstractAsset implements ModelInterface
@@ -41,6 +41,8 @@ abstract class AbstractAsset implements ModelInterface
     private string $mediaType;
     /** @ORM\Column(type="string") */
     private string $originalName;
+    /** @ORM\Column(type="string") */
+    private string $mimeType;
 
     private ?string $temporaryLocation = null;
 
@@ -158,6 +160,8 @@ abstract class AbstractAsset implements ModelInterface
             'mediaType' => $this->getMediaType(),
             'created_at' => $this->getCreatedAt(),
             'last_update' => $this->getUpdated(),
+            'mimeType' => $this->getMimeType(),
+            'mediaType' => $this->mediaType,
             'temporary_location' => $this->getTemporaryLocation(),
         ];
     }
@@ -187,7 +191,7 @@ abstract class AbstractAsset implements ModelInterface
     /**
      * Get the value of originalName.
      */
-    public function getOriginalName()
+    public function getOriginalName(): string
     {
         return $this->originalName;
     }
@@ -199,9 +203,29 @@ abstract class AbstractAsset implements ModelInterface
      *
      * @return self
      */
-    public function setOriginalName($originalName)
+    public function setOriginalName(string $originalName)
     {
         $this->originalName = $originalName;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of mimeType.
+     */
+    public function getMimeType(): string
+    {
+        return $this->mimeType;
+    }
+
+    /**
+     * Set the value of mimeType.
+     *
+     * @return self
+     */
+    public function setMimeType(string $mimeType)
+    {
+        $this->mimeType = $mimeType;
 
         return $this;
     }

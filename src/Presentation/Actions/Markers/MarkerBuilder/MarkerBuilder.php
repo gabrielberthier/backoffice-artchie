@@ -2,11 +2,14 @@
 
 namespace App\Presentation\Actions\Markers\MarkerBuilder;
 
-use App\Domain\Models\AbstractAsset;
-use App\Domain\Models\Marker;
-use App\Domain\Models\MarkerAsset;
-use App\Domain\Models\PlacementObject;
-use App\Domain\Models\PosedAsset;
+use App\Domain\Models\Assets\AbstractAsset;
+use App\Domain\Models\Assets\ThreeDimensionalAsset;
+use App\Domain\Models\Assets\TwoDimensionalAsset;
+use App\Domain\Models\Marker\Marker;
+use App\Domain\Models\Marker\MarkerAsset;
+use App\Domain\Models\PlacementObject\PlacementObject;
+use App\Domain\Models\PlacementObject\PosedAsset;
+use Mimey\MimeTypes;
 
 class MarkerBuilder
 {
@@ -40,9 +43,8 @@ class MarkerBuilder
 
     public function appendMarkerAsset(array|object $body): self
     {
-        $markerAsset = new MarkerAsset();
-        $markerAsset->setMarker($this->marker);
-        $this->marker->setAsset($this->prepareAsset($markerAsset, $body));
+        $markerAsset = new MarkerAsset($this->marker, $this->prepareAsset($body));
+        $this->marker->setAsset($markerAsset);
 
         return $this;
     }
@@ -57,9 +59,8 @@ class MarkerBuilder
         $resource->setName($name);
 
         if (isset($body['asset'])) {
-            $asset = new PosedAsset();
-            $asset->setPosedObject($resource);
-            $resource->setAsset($this->prepareAsset($asset, $body['asset']));
+            $asset = new PosedAsset($resource, $this->prepareAsset($body['asset']));
+            $resource->setAsset($asset);
         }
 
         $this->marker->addResource($resource);
@@ -67,24 +68,34 @@ class MarkerBuilder
         return $this;
     }
 
-    private function prepareAsset(AbstractAsset $asset, null|array|object $body): ?AbstractAsset
+    private function prepareAsset(null|array|object $body): ?AbstractAsset
     {
+        /** @var null|AbstractAsset */
+        $asset = null;
         if (is_object($body)) {
             $body = (array) $body;
         }
 
         if (is_array($body)) {
-            list('file_name' => $fileName, 'media_type' => $mediaType, 'path' => $path, 'url' => $url, 'original_name' => $originalName) = $body;
+            list('file_name' => $fileName, 'path' => $path, 'url' => $url, 'original_name' => $originalName) = $body;
+            $extension = pathinfo($path, PATHINFO_EXTENSION);
+            if (in_array($extension, ['obj', 'fbx', 'dae', '3ds'])) {
+                $asset = new ThreeDimensionalAsset();
+            } else {
+                $asset = new TwoDimensionalAsset();
+            }
 
-            return $asset
+            $mimes = new MimeTypes();
+
+            $asset
                 ->setFileName($fileName)
-                ->setMediaType($mediaType)
                 ->setPath($path)
                 ->setUrl($url)
                 ->setOriginalName($originalName)
+                ->setMimeType(($mimes->getMimeType($extension)))
           ;
         }
 
-        return null;
+        return $asset;
     }
 }

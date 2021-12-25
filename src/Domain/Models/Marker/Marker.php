@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Models;
+namespace App\Domain\Models\Marker;
 
 use App\Domain\Contracts\ModelInterface;
+use App\Domain\Models\Museum;
+use App\Domain\Models\PlacementObject\PlacementObject;
 use App\Domain\Models\Traits\TimestampsTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -27,7 +29,7 @@ class Marker implements ModelInterface
     /**
      * Many markers have one museum. This is the owning side.
      *
-     * @ORM\ManyToOne(targetEntity="Museum", inversedBy="markers")
+     * @ORM\ManyToOne(targetEntity="App\Domain\Models\Museum", inversedBy="markers")
      * @ORM\JoinColumn(name="museum_id", referencedColumnName="id")
      */
     private ?Museum $museum;
@@ -38,7 +40,7 @@ class Marker implements ModelInterface
     /** @ORM\Column(type="string", nullable=true) */
     private ?string $title;
     /** @ORM\OneToOne(targetEntity="MarkerAsset", mappedBy="marker", cascade={"persist", "remove"}) */
-    private ?AbstractAsset $asset = null;
+    private ?MarkerAsset $asset = null;
 
     /** @ORM\Column(type="boolean", nullable=false) */
     private bool $isActive = true;
@@ -46,7 +48,7 @@ class Marker implements ModelInterface
     /**
      * One marker has one or many resources. This is the inverse side.
      *
-     * @ORM\OneToMany(targetEntity="PlacementObject", mappedBy="marker", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Domain\Models\PlacementObject\PlacementObject", mappedBy="marker", cascade={"persist", "remove"})
      */
     private Collection $resources;
 
@@ -64,7 +66,7 @@ class Marker implements ModelInterface
                 'text' => $this->text,
                 'title' => $this->title,
             ],
-            'asset' => $this->asset,
+            'asset' => $this->asset?->getAsset(),
             'resources' => $this->resources->toArray(),
             'isActive' => $this->isActive,
         ];
@@ -223,7 +225,7 @@ class Marker implements ModelInterface
     /**
      * Get the value of asset.
      */
-    public function getAsset(): AbstractAsset
+    public function getAsset(): ?MarkerAsset
     {
         return $this->asset;
     }
@@ -233,7 +235,7 @@ class Marker implements ModelInterface
      *
      * @return self
      */
-    public function setAsset(AbstractAsset $asset)
+    public function setAsset(?MarkerAsset $asset)
     {
         $this->asset = $asset;
 

@@ -102,6 +102,7 @@ class MarkerValidationTest extends TestCase
                     'media_type' => 'png',
                     'path' => 'media/path',
                     'url' => 'https://respect-validation.readthedocs.io',
+                    'original_name' => 'like ',
                 ],
             ],
         ];

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Domain\UseCases\Markers\Store;
 
 use App\Domain\DTO\Credentials;
-use App\Domain\Models\Marker;
+use App\Domain\Models\Marker\Marker;
 use App\Domain\Models\Museum;
 use App\Domain\Repositories\MarkerRepositoryInterface;
 use App\Domain\Repositories\MuseumRepository;

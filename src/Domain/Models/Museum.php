@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Models;
 
 use App\Domain\Contracts\ModelInterface;
+use App\Domain\Models\Marker\Marker;
 use App\Domain\Models\Traits\TimestampsTrait;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -61,7 +62,7 @@ class Museum implements ModelInterface
     /**
      * One museum has one or many markers. This is the inverse side.
      *
-     * @ORM\OneToMany(targetEntity="Marker", mappedBy="museum", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Domain\Models\Marker\Marker", mappedBy="museum", cascade={"persist", "remove"})
      */
     private Collection $markers;
 

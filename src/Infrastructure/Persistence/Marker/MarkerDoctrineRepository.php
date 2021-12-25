@@ -4,7 +4,7 @@ namespace App\Infrastructure\Persistence\Marker;
 
 use App\Domain\Contracts\ModelInterface;
 use App\Domain\Exceptions\Marker\MarkerNameRepeated;
-use App\Domain\Models\Marker;
+use App\Domain\Models\Marker\Marker;
 use App\Domain\Models\Museum;
 use App\Domain\Repositories\MarkerRepositoryInterface;
 use App\Domain\Repositories\PersistenceOperations\Responses\ResultSetInterface;
@@ -23,6 +23,20 @@ class MarkerDoctrineRepository implements MarkerRepositoryInterface
     public function insert(ModelInterface $model): bool
     {
         try {
+            $this->em->getConnection()->beginTransaction();
+            /** @var Marker */
+            $marker = $model;
+            $asset = $marker->getAsset()?->getAsset();
+            if ($asset) {
+                $this->em->persist($asset);
+            }
+            foreach ($marker->getResources() as $resource) {
+                $posedAsset = $resource->getAsset()?->getAsset();
+                if ($posedAsset) {
+                    $this->em->persist($posedAsset);
+                }
+            }
+
             $this->em->persist($model);
             $this->em->flush();
 
@@ -31,6 +45,7 @@ class MarkerDoctrineRepository implements MarkerRepositoryInterface
             $exception = new MarkerNameRepeated();
             $violationMessage = explode('1062', $e->getMessage())[1] ?? $e->getMessage();
             $exception->addViolationQueue($violationMessage);
+            $this->em->getConnection()->rollBack();
 
             throw $exception;
         }
