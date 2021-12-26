@@ -10,3 +10,4 @@
 .phpunit.result.cache
 /var
 app/logs/app.log
+/pgdata

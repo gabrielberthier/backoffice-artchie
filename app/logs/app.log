@@ -3031,3 +3031,6 @@
 [2021-12-24T20:36:47.837987+00:00] slim-app.WARNING: Token not found [] {"uid":"b7c1f4a"}
 [2021-12-24T20:36:47.847183+00:00] slim-app.WARNING: Token not found [] {"uid":"0873591"}
 [2021-12-24T20:36:47.981010+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"a93a54e"}
+[2021-12-25T23:14:00.743713+00:00] slim-app.WARNING: Token not found [] {"uid":"ffa542c"}
+[2021-12-25T23:14:27.476918+00:00] slim-app.WARNING: Token not found [] {"uid":"2856ed2"}
+[2021-12-25T23:15:58.566445+00:00] slim-app.WARNING: Token not found [] {"uid":"2f820e9"}
