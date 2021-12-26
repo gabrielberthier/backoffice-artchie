@@ -15,12 +15,13 @@ services:
         volumes:
             - .:/var/www
             - logs:/var/www/logs
-        networks:
-            - app-network
+        depends_on:
+            - db
 
     # Postgres service
     db:
         image: postgres
+        container_name: db
         restart: always
         environment:
             - POSTGRES_USER=${dev_user}
@@ -28,14 +29,6 @@ services:
             - POSTGRES_DB=${dev_dbname}
         ports:
             - "5432:5432"
-        logging:
-            options:
-                max-size: 10m
-                max-file: "3"
-        volumes:
-            - ./pgdata:/var/lib/postgresql/data
-        networks:
-            - app-network
 
     # Postgres Adminer service
     adminer:
@@ -43,21 +36,22 @@ services:
         restart: always
         ports:
             - 8080:8080
-        networks:
-            - app-network
 
     # Nginx service
     nginx:
-        image: nginx:alpine
-        container_name: php-nginx
+        container_name: nginx
+        build:
+            context: ./nginx
         ports:
-            - 8000:80
+            - "8000:80"
+            - "443:443"
         volumes:
             - ./:/var/www
-            - ./nginx/conf.d/:/etc/nginx/conf.d/
-        networks:
-            - app-network
-
-networks:
-    app-network:
-        driver: bridge
+            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./nginx/sites/:/etc/nginx/sites-available
+            - ./nginx/conf.d/:/etc/nginx/conf.d
+            - ./logs/nginx:/var/log/nginx
+        depends_on:
+            - app
+        links:
+            - "app:php-fpm"

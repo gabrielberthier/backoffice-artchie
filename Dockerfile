@@ -1,43 +1,21 @@
-FROM php:8.0.0rc1-fpm
+FROM php:8.0-fpm
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y git
+
+RUN apt-get update && \
+  apt-get install -y --no-install-recommends libssl-dev zlib1g-dev curl git unzip netcat libxml2-dev libpq-dev libzip-dev && \
+  pecl install apcu && \
+  docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql && \
+  docker-php-ext-install -j$(nproc) zip opcache intl pdo_pgsql pgsql && \
+  docker-php-ext-enable apcu pdo_pgsql sodium && \
+  apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Common
 RUN apt-get update \
   && apt-get install -y \
   openssl \
-  git \
   gnupg2
-
-# PHP
-# intl
-RUN apt-get update \
-  && apt-get install -y libicu-dev \
-  && docker-php-ext-configure intl \
-  && docker-php-ext-install -j$(nproc) intl
-
-# xml
-RUN apt-get update \
-  && apt-get install -y \
-  libxml2-dev \
-  libxslt-dev \
-  && docker-php-ext-install -j$(nproc) \
-  dom \
-  xsl
-
-# database
-RUN docker-php-ext-install -j$(nproc) \
-  mysqli \
-  pdo \
-  pdo_mysql 
-
-RUN apt-get update
-
-# Install Postgre PDO
-RUN apt-get install -y libpq-dev \
-  && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-  && docker-php-ext-install -j$(nproc) pdo_pgsql pgsql 
 
 # strings
 RUN apt-get update \
@@ -46,15 +24,6 @@ RUN apt-get update \
   gettext \
   mbstring
 
-# compression
-RUN apt-get update \
-  && apt-get install -y \
-  libbz2-dev \
-  zlib1g-dev \
-  libzip-dev \
-  && docker-php-ext-install -j$(nproc) \
-  zip \
-  bz2
 
 # ssh2
 RUN apt-get update \
@@ -67,11 +36,8 @@ RUN apt-get update \
   libmemcached-dev \
   libmemcached11
 
+COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-# Install composer and put binary into $PATH
-RUN curl -sS https://getcomposer.org/installer | php \
-  && mv composer.phar /usr/local/bin/ \
-  && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
 
 # Install PHP Code sniffer
 RUN curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar \
@@ -103,6 +69,6 @@ RUN find /var/www -type d -exec chmod u+rwx,g+rx,o+rx {} +
 RUN find /var/www -type f -exec chmod u+rw,g+rw,o+r {} +
 
 
-CMD ["php-fpm"]
+CMD composer i -o && php-fpm 
 
 EXPOSE 9000
