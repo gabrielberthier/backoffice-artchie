@@ -1,5 +1,9 @@
 FROM php:8.0-fpm
 
+COPY scripts/wait-for-it.sh /usr/bin/wait-for-it
+
+RUN chmod +x /usr/bin/wait-for-it
+
 # Install system dependencies
 RUN apt-get update && apt-get install -y git
 
@@ -69,6 +73,7 @@ RUN find /var/www -type d -exec chmod u+rwx,g+rx,o+rx {} +
 RUN find /var/www -type f -exec chmod u+rw,g+rw,o+r {} +
 
 
-CMD composer i -o && php-fpm 
+CMD composer i -o ; wait-for-it database:5432 -- vendor/bin/doctrine-migrations migrate ;  php-fpm 
+
 
 EXPOSE 9000

@@ -17,6 +17,8 @@ services:
             - logs:/var/www/logs
         depends_on:
             - db
+        links:
+            - "db:database"
 
     # Postgres service
     db:
@@ -24,11 +26,13 @@ services:
         container_name: db
         restart: always
         environment:
-            - POSTGRES_USER=${dev_user}
-            - POSTGRES_PASSWORD=${dev_password}
-            - POSTGRES_DB=${dev_dbname}
+            - POSTGRES_USER=${USER}
+            - POSTGRES_PASSWORD=${PASSWORD}
+            - POSTGRES_DB=${DBNAME}
         ports:
             - "5432:5432"
+        env_file:
+            - .env
 
     # Postgres Adminer service
     adminer:

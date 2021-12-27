@@ -4,8 +4,10 @@
 declare(strict_types=1);
 
 use Core\Builder\Factories\ContainerFactory;
+use Doctrine\Migrations\Configuration\EntityManager\ExistingEntityManager;
+use Doctrine\Migrations\Configuration\Migration\PhpFile;
+use Doctrine\Migrations\DependencyFactory;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Tools\Console\ConsoleRunner;
 
 require __DIR__.'/configs/bootstrap.php';
 
@@ -13,6 +15,8 @@ $containerFactory = new ContainerFactory();
 
 $container = $containerFactory->get();
 
+$config = new PhpFile('migrations.php');
+
 $em = $container->get(EntityManager::class);
 
-return ConsoleRunner::createHelperSet($em);
+return DependencyFactory::fromEntityManager($config, new ExistingEntityManager($em));

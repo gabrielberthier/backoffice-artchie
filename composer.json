@@ -19,6 +19,7 @@
     "require": {
         "php": "^8.0",
         "ext-json": "*",
+        "doctrine/migrations": "^3.3",
         "doctrine/orm": "^2.9",
         "firebase/php-jwt": "^5.2",
         "gabrielberthier/s3-data-transfer": "1.0.*",
