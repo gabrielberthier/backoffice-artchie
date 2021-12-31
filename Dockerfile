@@ -15,6 +15,8 @@ RUN apt-get update && \
   docker-php-ext-enable apcu pdo_pgsql sodium && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+COPY php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+
 # Common
 RUN apt-get update \
   && apt-get install -y \
