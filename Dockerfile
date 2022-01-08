@@ -75,7 +75,7 @@ RUN find /var/www -type d -exec chmod u+rwx,g+rx,o+rx {} +
 RUN find /var/www -type f -exec chmod u+rw,g+rw,o+r {} +
 
 
-CMD composer i -o ; wait-for-it database:5432 -- vendor/bin/doctrine-migrations migrate ;  php-fpm 
+CMD composer i -o ; vendor/bin/doctrine-migrations migrate ;  php-fpm 
 
 
 EXPOSE 9000

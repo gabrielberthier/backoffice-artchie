@@ -21,7 +21,8 @@ class MarkerAsset
     private Marker $marker;
 
     /**
-     * @ORM\Id @ORM\ManyToOne(targetEntity="App\Domain\Models\Assets\AbstractAsset")
+     * @ORM\Id 
+     * @ORM\ManyToOne(targetEntity="App\Domain\Models\Assets\AbstractAsset")
      * @ORM\JoinColumn(name="marker_id", referencedColumnName="id")
      */
     private AbstractAsset $asset;

@@ -16,13 +16,15 @@ class PosedAsset
     use TimestampsTrait;
 
     /**
-     * @ORM\Id @ORM\OneToOne(targetEntity="PlacementObject", mappedBy="asset")
+     * @ORM\Id 
+     * @ORM\OneToOne(targetEntity="PlacementObject", mappedBy="asset")
      * @ORM\JoinColumn(name="placement_object_id", referencedColumnName="id")
      */
     private ?PlacementObject $posedObject;
 
     /**
-     * @ORM\Id @ORM\ManyToOne(targetEntity="App\Domain\Models\Assets\AbstractAsset")
+     * @ORM\Id 
+     * @ORM\ManyToOne(targetEntity="App\Domain\Models\Assets\AbstractAsset")
      * @ORM\JoinColumn(name="placement_object_id", referencedColumnName="id")
      */
     private AbstractAsset $asset;
