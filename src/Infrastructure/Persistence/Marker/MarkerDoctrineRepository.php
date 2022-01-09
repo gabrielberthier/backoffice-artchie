@@ -13,6 +13,7 @@ use App\Infrastructure\Persistence\Pagination\PaginationService;
 use App\Infrastructure\Persistence\PersistenceUtils\ItemsRetriever;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
+use Exception;
 
 class MarkerDoctrineRepository implements MarkerRepositoryInterface
 {
@@ -40,6 +41,8 @@ class MarkerDoctrineRepository implements MarkerRepositoryInterface
             $this->em->persist($model);
             $this->em->flush();
 
+            $this->em->getConnection()->commit();
+
             return true;
         } catch (UniqueConstraintViolationException $e) {
             $exception = new MarkerNameRepeated();
@@ -48,6 +51,8 @@ class MarkerDoctrineRepository implements MarkerRepositoryInterface
             $this->em->getConnection()->rollBack();
 
             throw $exception;
+        } catch (Exception $ex) {
+            echo $ex;
         }
     }
 
@@ -64,8 +69,7 @@ class MarkerDoctrineRepository implements MarkerRepositoryInterface
                 ->select('m')
                 ->from(Marker::class, 'm')
                 ->where('m.museum = :museum')
-                ->setParameter('museum', $id)
-            ;
+                ->setParameter('museum', $id);
 
             $pagination = new PaginationService($query);
 

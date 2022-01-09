@@ -42,6 +42,8 @@ class MarkerServiceStore implements MarkerServiceStoreInterface
         } catch (Exception $ex) {
             $this->em->getConnection()->rollBack();
 
+            echo $ex;
+
             throw $ex;
         }
     }
