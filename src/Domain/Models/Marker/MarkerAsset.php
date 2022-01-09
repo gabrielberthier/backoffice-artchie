@@ -15,7 +15,8 @@ class MarkerAsset
 {
     use TimestampsTrait;
     /**
-     * @ORM\Id @ORM\OneToOne(targetEntity="Marker")
+     * @ORM\Id 
+     * @ORM\OneToOne(targetEntity="Marker")
      * @ORM\JoinColumn(name="marker_id", referencedColumnName="id")
      */
     private Marker $marker;
@@ -23,7 +24,7 @@ class MarkerAsset
     /**
      * @ORM\Id 
      * @ORM\ManyToOne(targetEntity="App\Domain\Models\Assets\AbstractAsset")
-     * @ORM\JoinColumn(name="marker_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="asset_id", referencedColumnName="id")
      */
     private AbstractAsset $asset;
 

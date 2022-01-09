@@ -25,7 +25,7 @@ class PosedAsset
     /**
      * @ORM\Id 
      * @ORM\ManyToOne(targetEntity="App\Domain\Models\Assets\AbstractAsset")
-     * @ORM\JoinColumn(name="placement_object_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="asset_id", referencedColumnName="id")
      */
     private AbstractAsset $asset;
 
