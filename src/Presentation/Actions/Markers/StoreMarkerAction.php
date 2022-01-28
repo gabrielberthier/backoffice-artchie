@@ -24,11 +24,8 @@ class StoreMarkerAction extends Action
     {
         $parsedBody = $this->request->getParsedBody();
         $museumId = $parsedBody['museum_id'] ?? null;
-
         $builder = $this->markerBuilder;
-
         $marker = $parsedBody['marker'];
-
         $builder->prepareMarker($marker);
 
         if (isset($marker['asset'])) {
@@ -40,7 +37,6 @@ class StoreMarkerAction extends Action
         }
 
         $marker = $builder->getMarker();
-
         $this->markerServiceStore->insert($museumId, $marker);
 
         return $this->respondWithData(['message' => 'Success! Marker created']);

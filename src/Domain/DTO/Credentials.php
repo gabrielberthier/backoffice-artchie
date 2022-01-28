@@ -8,9 +8,6 @@ use JsonSerializable;
 
 class Credentials implements JsonSerializable
 {
-    private string $email;
-    private string $username;
-
     public function __construct(
         private string $access,
         private string $password,
