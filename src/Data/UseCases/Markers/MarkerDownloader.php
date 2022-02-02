@@ -33,7 +33,7 @@ class MarkerDownloader implements MarkerDownloaderServiceInterface
 
         $markers = array_filter(
             $markers->getItems(),
-            fn ($marker) => $marker->getIsActive()
+            fn (Marker $marker) => $marker->getIsActive()
         );
 
         return $this->downloadMarkers($markers);
