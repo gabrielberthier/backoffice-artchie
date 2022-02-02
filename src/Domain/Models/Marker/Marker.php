@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Domain\Models\Marker;
 
 use App\Domain\Contracts\ModelInterface;
+use App\Domain\MediaVisitor\MediaCollectorInterface;
+use App\Domain\MediaVisitor\MediaHostInterface;
+use App\Domain\MediaVisitor\MediaHostParentInterface;
+use App\Domain\Models\Assets\AbstractAsset;
 use App\Domain\Models\Museum;
 use App\Domain\Models\PlacementObject\PlacementObject;
 use App\Domain\Models\Traits\TimestampsTrait;
@@ -17,7 +21,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="markers")
  */
-class Marker implements ModelInterface
+class Marker implements ModelInterface, MediaHostParentInterface
 {
     use TimestampsTrait;
     /**
@@ -56,6 +60,34 @@ class Marker implements ModelInterface
     {
         $this->resources = new ArrayCollection();
     }
+
+
+    public function assetInformation(): ?AbstractAsset
+    {
+        return $this->asset?->getAsset();
+    }
+
+    public function namedBy(): string
+    {
+        return $this->name;
+    }
+
+    public function accept(MediaCollectorInterface $visitor): void
+    {
+        $visitor->visit($this);
+    }
+
+    /**
+     * Returns the dependent entities
+     *
+     * @return MediaHostInterface[]
+     */
+    public function children(): array
+    {
+        return $this->resources->toArray();
+    }
+
+
 
     public function jsonSerialize()
     {
@@ -262,5 +294,13 @@ class Marker implements ModelInterface
         $this->id = $id;
 
         return $this;
+    }
+
+    public function getMediaAsset(): ?AbstractAsset
+    {
+        if ($this->asset) {
+            return $this->asset->getAsset();
+        }
+        return null;
     }
 }

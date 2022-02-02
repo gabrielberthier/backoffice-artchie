@@ -6,11 +6,11 @@ namespace App\Domain\Repositories;
 
 use App\Domain\Models\Marker\Marker;
 use App\Domain\Models\Museum;
-use App\Domain\Repositories\PersistenceOperations\CrudOperationsInterface;
 use App\Domain\Repositories\PersistenceOperations\Responses\ResultSetInterface;
 
-interface MarkerRepositoryInterface extends CrudOperationsInterface
+interface MarkerRepositoryInterface
 {
+    public function add(Marker $model): bool;
     /**
      * @var Marker[]
      *

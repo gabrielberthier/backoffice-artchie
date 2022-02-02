@@ -7,9 +7,8 @@ namespace App\Domain\Repositories;
 use App\Domain\Contracts\ModelInterface;
 use App\Domain\Exceptions\Museum\MuseumAlreadyRegisteredException;
 use App\Domain\Models\Museum;
-use App\Domain\Repositories\PersistenceOperations\CrudOperationsInterface;
 
-interface MuseumRepository extends CrudOperationsInterface
+interface MuseumRepository
 {
     public function findByID(int $id): ?Museum;
 

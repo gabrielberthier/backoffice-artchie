@@ -6,15 +6,15 @@ use App\Domain\Contracts\ModelInterface;
 use App\Domain\Exceptions\Museum\MuseumAlreadyRegisteredException;
 use App\Domain\Models\Museum;
 use App\Domain\Repositories\MuseumRepository;
-use App\Domain\Repositories\PersistenceOperations\Responses\ResultSetInterface;
-use App\Infrastructure\Persistence\PersistenceUtils\ItemsRetriever;
+use App\Infrastructure\Persistence\Abstract\AbstractRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Doctrine\ORM\EntityManager;
 
-class MuseumDoctrineRepository implements MuseumRepository
+
+class MuseumDoctrineRepository extends AbstractRepository implements MuseumRepository
 {
-    public function __construct(private EntityManager $em, private ItemsRetriever $itemsRetriever)
+    public function entity(): string
     {
+        return Museum::class;
     }
 
     public function update(int $id, array $values): ?Museum
@@ -35,38 +35,30 @@ class MuseumDoctrineRepository implements MuseumRepository
         return $museum;
     }
 
-    public function findByKey(string $key, mixed $value): ?Museum
+    public function findByID(int $id): ?Museum
     {
-        return $this->em->getRepository(Museum::class)->findOneBy([$key => $value]);
+        return parent::findByID($id);
     }
 
     public function findByMail(string $mail): ?Museum
     {
-        return $this->em->getRepository(Museum::class)->findOneBy(['email' => $mail]);
+        return $this->findByKey('email', $mail);
     }
 
     public function findByUUID(string $uuid): ?Museum
     {
-        return $this->em->getRepository(Museum::class)->findOneBy(['uuid' => $uuid]);
-    }
-
-    public function findByID(int $id): ?Museum
-    {
-        return $this->em->find(Museum::class, $id);
+        return $this->findByKey('uuid', $uuid);
     }
 
     public function findByName(string $name): ?Museum
     {
-        return $this->em->getRepository(Museum::class)->findOneBy(['name' => $name]);
+        return $this->findByKey('name', $name);
     }
 
     public function insert(ModelInterface $museum): bool
     {
         try {
-            $this->em->persist($museum);
-            $this->em->flush();
-
-            return true;
+            return $this->insert($museum);
         } catch (UniqueConstraintViolationException) {
             throw new MuseumAlreadyRegisteredException();
         }
@@ -74,31 +66,11 @@ class MuseumDoctrineRepository implements MuseumRepository
 
     public function add(Museum $museum): bool
     {
-        try {
-            $this->em->persist($museum);
-            $this->em->flush();
-
-            return true;
-        } catch (UniqueConstraintViolationException) {
-            throw new MuseumAlreadyRegisteredException();
-        }
+        return $this->insert($museum);
     }
 
-    public function delete(ModelInterface|int $museum): ?Museum
+    public function delete(ModelInterface|int $subject): ?Museum
     {
-        if (is_int($museum)) {
-            $museum = $this->findByID($museum);
-        }
-        if ($museum) {
-            $this->em->remove($museum);
-            $this->em->flush();
-        }
-
-        return $museum;
-    }
-
-    public function findAll(bool $paginate = false, $page = 1, $limit = 20): ResultSetInterface
-    {
-        return $this->itemsRetriever->findAll(Museum::class, $paginate, $page, $limit);
+        return parent::delete($subject);
     }
 }

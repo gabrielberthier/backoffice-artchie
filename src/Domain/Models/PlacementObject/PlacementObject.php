@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace App\Domain\Models\PlacementObject;
 
+use App\Domain\Contracts\ModelInterface;
+use App\Domain\DTO\MediaResource;
+use App\Domain\MediaVisitor\MediaCollectorInterface;
+use App\Domain\MediaVisitor\MediaHostInterface;
+use App\Domain\Models\Assets\AbstractAsset;
 use App\Domain\Models\Marker\Marker;
 use App\Domain\Models\Traits\TimestampsTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,7 +21,7 @@ use Ramsey\Uuid\UuidInterface;
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="placement_objects")
  */
-class PlacementObject implements JsonSerializable
+class PlacementObject implements ModelInterface, MediaHostInterface
 {
     use TimestampsTrait;
     /**
@@ -46,6 +51,21 @@ class PlacementObject implements JsonSerializable
     public function __construct()
     {
         $this->uuid = $uuid ?? Uuid::uuid4();
+    }
+
+    public function assetInformation(): ?AbstractAsset
+    {
+        return $this->asset?->getAsset();
+    }
+
+    public function namedBy(): string
+    {
+        return $this->name;
+    }
+
+    public function accept(MediaCollectorInterface $visitor): void
+    {
+        $visitor->visit($this);
     }
 
     public function jsonSerialize()
@@ -182,5 +202,13 @@ class PlacementObject implements JsonSerializable
         $this->asset = $asset;
 
         return $this;
+    }
+
+    public function getMediaAsset(): ?AbstractAsset
+    {
+        if ($this->asset) {
+            return $this->asset->getAsset();
+        }
+        return null;
     }
 }

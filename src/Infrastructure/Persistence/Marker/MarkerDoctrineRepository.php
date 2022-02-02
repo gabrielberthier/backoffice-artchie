@@ -9,25 +9,25 @@ use App\Domain\Models\Museum;
 use App\Domain\Repositories\MarkerRepositoryInterface;
 use App\Domain\Repositories\PersistenceOperations\Responses\ResultSetInterface;
 use App\Domain\Repositories\PersistenceOperations\Responses\SearchResult;
+use App\Infrastructure\Persistence\Abstract\AbstractRepository;
 use App\Infrastructure\Persistence\Pagination\PaginationService;
-use App\Infrastructure\Persistence\PersistenceUtils\ItemsRetriever;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Doctrine\ORM\EntityManager;
 use Exception;
 
-class MarkerDoctrineRepository implements MarkerRepositoryInterface
+class MarkerDoctrineRepository extends AbstractRepository implements MarkerRepositoryInterface
 {
-    public function __construct(private EntityManager $em, private ItemsRetriever $itemsRetriever)
+
+    function entity(): string
     {
+        return Marker::class;
     }
 
-    public function insert(ModelInterface $model): bool
+    public function add(Marker $marker): bool
     {
         try {
             $this->em->getConnection()->beginTransaction();
-            /** @var Marker */
-            $marker = $model;
-            $asset = $marker->getAsset()?->getAsset();
+
+            $asset = $marker->getMediaAsset();
             if ($asset) {
                 $this->em->persist($asset);
             }
@@ -38,7 +38,7 @@ class MarkerDoctrineRepository implements MarkerRepositoryInterface
                 }
             }
 
-            $this->em->persist($model);
+            $this->em->persist($marker);
             $this->em->flush();
 
             $this->em->getConnection()->commit();
@@ -76,14 +76,9 @@ class MarkerDoctrineRepository implements MarkerRepositoryInterface
             return $pagination->paginate($page, $limit);
         }
 
-        $items = $this->em->getRepository(Marker::class)->findBy(['museum' => $id]);
+        $items = $this->findItemsByKey('museum', $id);
 
         return new SearchResult($items);
-    }
-
-    public function findAll(bool $paginate = false, $page = 1, $limit = 20): ResultSetInterface
-    {
-        return $this->itemsRetriever->findAll(Marker::class, $paginate, $page, $limit);
     }
 
     public function update(int $id, array $values): ?Marker
@@ -106,26 +101,9 @@ class MarkerDoctrineRepository implements MarkerRepositoryInterface
         return $marker;
     }
 
-    public function delete(ModelInterface|int $id): ?Marker
-    {
-        if (is_int($id)) {
-            $id = $this->findByID($id);
-        }
-        if ($id) {
-            $this->em->remove($id);
-            $this->em->flush();
-        }
-
-        return $id;
-    }
 
     public function findByID(int $id): ?Marker
     {
-        return $this->em->find(Marker::class, $id);
-    }
-
-    public function findByKey(string $key, mixed $value): ?Marker
-    {
-        return $this->em->getRepository(Marker::class)->findOneBy([$key => $value]);
+        return parent::findByID($id);
     }
 }

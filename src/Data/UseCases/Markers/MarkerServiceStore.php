@@ -33,7 +33,7 @@ class MarkerServiceStore implements MarkerServiceStoreInterface
             }
 
             $marker->setMuseum($museum);
-            $this->markerRepository->insert($marker);
+            $this->markerRepository->add($marker);
             $this->em->getConnection()->commit();
 
             return $marker;
