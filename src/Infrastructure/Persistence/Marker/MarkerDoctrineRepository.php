@@ -68,7 +68,7 @@ class MarkerDoctrineRepository extends AbstractRepository implements MarkerRepos
                 ->createQueryBuilder()
                 ->select('m')
                 ->from(Marker::class, 'm')
-                ->where('m.museum = :museum')
+                ->where('m.museum = :museum AND m.isActive = TRUE')
                 ->setParameter('museum', $id);
 
             $pagination = new PaginationService($query);
@@ -76,7 +76,7 @@ class MarkerDoctrineRepository extends AbstractRepository implements MarkerRepos
             return $pagination->paginate($page, $limit);
         }
 
-        $items = $this->findItemsByKey('museum', $id);
+        $items = $this->findWithConditions(['museum' => $id, 'isActive' => true]);
 
         return new SearchResult($items);
     }

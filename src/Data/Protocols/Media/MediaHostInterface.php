@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\MediaVisitor;
+namespace App\Data\Protocols\Media;
 
 use App\Domain\Models\Assets\AbstractAsset;
 use JsonSerializable;

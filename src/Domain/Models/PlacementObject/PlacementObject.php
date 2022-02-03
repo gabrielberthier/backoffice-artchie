@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace App\Domain\Models\PlacementObject;
 
+use App\Data\Protocols\Media\MediaCollectorInterface;
+use App\Data\Protocols\Media\MediaHostInterface;
 use App\Domain\Contracts\ModelInterface;
-use App\Domain\DTO\MediaResource;
-use App\Domain\MediaVisitor\MediaCollectorInterface;
-use App\Domain\MediaVisitor\MediaHostInterface;
 use App\Domain\Models\Assets\AbstractAsset;
 use App\Domain\Models\Marker\Marker;
 use App\Domain\Models\Traits\TimestampsTrait;
 use Doctrine\ORM\Mapping as ORM;
-use JsonSerializable;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 

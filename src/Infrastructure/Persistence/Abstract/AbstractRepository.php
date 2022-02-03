@@ -33,7 +33,7 @@ abstract class AbstractRepository implements CrudOperationsInterface
     return $this->repository()->findOneBy([$key => $value]);
   }
 
-  public function findItemsByKey(string $key, mixed $value)
+  public function findItemsByKey(string $key, mixed $value): array
   {
     return $this->repository()->findBy([$key => $value]);
   }
@@ -41,6 +41,11 @@ abstract class AbstractRepository implements CrudOperationsInterface
   public function findByID(int $id): ?ModelInterface
   {
     return $this->em->find($this->entity(), $id);
+  }
+
+  public function findWithConditions(array $conditions): array
+  {
+    return $this->repository()->findBy($conditions);
   }
 
   public function delete(ModelInterface|int $subject): ?ModelInterface

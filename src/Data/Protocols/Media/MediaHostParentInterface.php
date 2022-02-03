@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\MediaVisitor;
+namespace App\Data\Protocols\Media;
 
 interface MediaHostParentInterface extends MediaHostInterface
 {

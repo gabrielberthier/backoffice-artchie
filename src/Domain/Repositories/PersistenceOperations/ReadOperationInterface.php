@@ -12,4 +12,14 @@ interface ReadOperationInterface
   public function findByID(int $id): ?ModelInterface;
 
   public function findByKey(string $key, mixed $value): ?ModelInterface;
+
+  public function findItemsByKey(string $key, mixed $value): array;
+
+  /**
+   * Match conditions within repository
+   *
+   * @param array<string, mixed> $conditions
+   * @return array
+   */
+  public function findWithConditions(array $conditions): array;
 }

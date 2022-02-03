@@ -59,7 +59,7 @@ class MarkerRepositoryTest extends TestCase
         $marker->setText('The boy with an apple is a famous portrait of a boy with an apple');
         $marker->setTitle('Boy with an apple');
 
-        $this->repository->insert($marker);
+        $this->repository->add($marker);
         $total = $this->getTotalCount();
 
         assertSame($total, 1);
@@ -72,7 +72,7 @@ class MarkerRepositoryTest extends TestCase
         $marker->setText('The boy with an apple is a famous portrait of a boy with an apple');
         $marker->setTitle('Boy with an apple');
 
-        $this->repository->insert($marker);
+        $this->repository->add($marker);
 
         $new_marker = $this->entityManager->getRepository(Marker::class)->findBy([], ['id' => 'DESC'], 1, 0)[0];
 
@@ -98,7 +98,7 @@ class MarkerRepositoryTest extends TestCase
 
         $marker->setAsset($markerAsset);
 
-        $this->repository->insert($marker);
+        $this->repository->add($marker);
 
         $new_marker = $this->entityManager->getRepository(Marker::class)->findBy([], ['id' => 'DESC'], 1, 0)[0];
 
@@ -123,7 +123,7 @@ class MarkerRepositoryTest extends TestCase
 
         $marker->addResource($placementObject);
 
-        $this->repository->insert($marker);
+        $this->repository->add($marker);
 
         /** @var Marker */
         $new_marker = $this->entityManager->getRepository(Marker::class)->findBy([], ['id' => 'DESC'], 1, 0)[0];

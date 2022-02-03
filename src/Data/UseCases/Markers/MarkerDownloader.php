@@ -3,8 +3,8 @@
 namespace App\Data\UseCases\Markers;
 
 use App\Data\Protocols\Markers\Downloader\MarkerDownloaderServiceInterface;
+use App\Data\Protocols\Media\MediaCollectorInterface;
 use App\Domain\DTO\MediaResource;
-use App\Domain\MediaVisitor\MediaCollector;
 use App\Domain\Models\Marker\Marker;
 use App\Domain\Models\Museum;
 use App\Domain\Repositories\MarkerRepositoryInterface;
@@ -17,7 +17,8 @@ class MarkerDownloader implements MarkerDownloaderServiceInterface
 
     public function __construct(
         private S3StreamObjectsZipDownloader $zipper,
-        private MarkerRepositoryInterface $repository
+        private MarkerRepositoryInterface $repository,
+        private MediaCollectorInterface $visitor
     ) {
         $this->bucket = "artchier-markers";
     }
@@ -29,12 +30,7 @@ class MarkerDownloader implements MarkerDownloaderServiceInterface
      */
     public function downloadResourcesFromMuseum(int|Museum $id)
     {
-        $markers = $this->repository->findAllByMuseum($id);
-
-        $markers = array_filter(
-            $markers->getItems(),
-            fn (Marker $marker) => $marker->getIsActive()
-        );
+        $markers = $this->repository->findAllByMuseum($id)->getItems();
 
         return $this->downloadMarkers($markers);
     }
@@ -48,20 +44,18 @@ class MarkerDownloader implements MarkerDownloaderServiceInterface
      */
     public function downloadMarkers(array $markers)
     {
-        $mediaCollector = new MediaCollector();
-
         foreach ($markers as $marker) {
-            $marker->accept($mediaCollector);
+            $marker->accept($this->visitor);
         }
 
         $resources = array_filter(
-            $mediaCollector->collect(),
+            $this->visitor->collect(),
             fn (MediaResource $resource) => $this->verifyFileExistence(
                 $resource->path()
             )
         );
 
-        array_map(
+        $mappedArray = array_map(
             fn (MediaResource $resource) => new ResourceObject(
                 $resource->path(),
                 $resource->name()
@@ -69,7 +63,7 @@ class MarkerDownloader implements MarkerDownloaderServiceInterface
             $resources
         );
 
-        return $this->zipper->zipObjects($this->bucket, $resources);
+        return $this->zipper->zipObjects($this->bucket, $mappedArray);
     }
 
     /**

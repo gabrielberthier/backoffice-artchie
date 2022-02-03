@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Domain\MediaVisitor;
+namespace App\Data\UseCases\Media;
 
+use App\Data\Protocols\Media\MediaCollectorInterface;
+use App\Data\Protocols\Media\MediaHostInterface;
+use App\Data\Protocols\Media\MediaHostParentInterface;
 use App\Domain\DTO\MediaResource;
 use App\Domain\Models\Assets\AbstractAsset;
 
-class MediaCollector implements MediaCollectorInterface
+class MediaCollectorVisitor implements MediaCollectorInterface
 {
   /**
    * Collection of media files
