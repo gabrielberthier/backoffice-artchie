@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Marker;
 
-use App\Domain\Contracts\ModelInterface;
+
 use App\Domain\Exceptions\Marker\MarkerNameRepeated;
 use App\Domain\Models\Marker\Marker;
 use App\Domain\Models\Museum;
