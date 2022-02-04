@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Account;
 
+use App\Domain\DTO\AccountDto;
 use App\Domain\Exceptions\Account\UserAlreadyRegisteredException;
 use App\Domain\Models\Account;
 use App\Domain\Repositories\AccountRepository;
@@ -31,13 +32,14 @@ class DoctrineAccountRepository implements AccountRepository
         return $this->em->getRepository(Account::class)->findOneBy(['uuid' => $uuid]);
     }
 
-    public function insert(Account $account): bool
+    public function insert(AccountDto $accountDto): Account
     {
         try {
+            $account = new Account(null, ...$accountDto->getData());
             $this->em->persist($account);
             $this->em->flush();
 
-            return true;
+            return $account;
         } catch (UniqueConstraintViolationException) {
             throw new UserAlreadyRegisteredException();
         }

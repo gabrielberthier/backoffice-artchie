@@ -50,7 +50,7 @@ class SignatureToken implements JsonSerializable
     private ?Museum $museum;
 
     public function __construct(
-        ?int $id = null,
+        ?int $id,
         string $signature,
         string $privateKey,
         ?Museum $museum,

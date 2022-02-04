@@ -48,8 +48,7 @@ class MarkerServiceStoreTest extends TestCase
     {
         $em = $this->getMockBuilder(EntityManager::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
         $em->method('beginTransaction')->willReturn(0);
 
         $conn = $this->getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
@@ -64,8 +63,7 @@ class MarkerServiceStoreTest extends TestCase
     {
         return $this->getMockBuilder(MuseumRepository::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
     }
 
     /** @return MockObject */
@@ -73,9 +71,7 @@ class MarkerServiceStoreTest extends TestCase
     {
         return $this->getMockBuilder(MarkerRepositoryInterface::class)
             ->disableOriginalConstructor()
-            ->getMock()
-
-        ;
+            ->getMock();
     }
 
     public function testShouldPassWhenServiceIsCalled()
@@ -88,8 +84,7 @@ class MarkerServiceStoreTest extends TestCase
         $mock->expects($this->once())
             ->method('findByID')
             ->with(13)
-            ->willReturn(new Museum(email: 'email', name: 'name'))
-        ;
+            ->willReturn(new Museum(1, email: 'email', name: 'name'));
 
         $service->insert(13, new Marker());
     }

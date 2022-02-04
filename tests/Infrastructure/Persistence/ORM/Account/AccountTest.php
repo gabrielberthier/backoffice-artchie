@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Infrastructure\Persistence\User;
 
+use App\Domain\DTO\AccountDto;
 use App\Domain\Models\Account;
 use App\Domain\Repositories\AccountRepository;
 use Doctrine\ORM\EntityManager;
@@ -51,7 +52,7 @@ class AccountTest extends TestCase
 
     public function testShouldInsertAccount()
     {
-        $account = new Account(email: 'mail.com', username: 'user', password: 'pass');
+        $account = new AccountDto(email: 'mail.com', username: 'user', password: 'pass');
         $this->repository->insert($account);
         $total = $this->getTotalCount();
 
@@ -60,7 +61,7 @@ class AccountTest extends TestCase
 
     public function testShouldRetrieveAccount()
     {
-        $account = new Account(email: 'mail.com', username: 'user', password: 'pass');
+        $account = new AccountDto(email: 'mail.com', username: 'user', password: 'pass');
         $this->repository->insert($account);
 
         $account = $this->repository->findByMail('mail.com');

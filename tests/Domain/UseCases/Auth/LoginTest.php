@@ -68,8 +68,7 @@ class LoginTest extends TestCase
     {
         return $this->getMockBuilder(AccountRepository::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
     }
 
     /**
@@ -81,8 +80,7 @@ class LoginTest extends TestCase
     {
         $mock = $this->getMockBuilder(ComparerInterface::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
         $mock->method('compare')->willReturn(true);
 
         return $mock;
@@ -119,11 +117,10 @@ class LoginTest extends TestCase
         $credentialsStub = $this->makeCredentials();
         $mock->expects($this->once())
             ->method('compare')
-            ->with('password', 'hashed_password')
-        ;
+            ->with('password', 'hashed_password');
         $repository = $this->sut->repository;
         $repository->method('findByAccess')->willReturn(
-            new Account(password: 'hashed_password', email: 'mail.com', username: 'user')
+            new Account(id: 2, password: 'hashed_password', email: 'mail.com', username: 'user')
         );
         $loginService = $this->sut->service;
         $loginService->auth($credentialsStub);
@@ -134,7 +131,7 @@ class LoginTest extends TestCase
     {
         $repository = $this->mockRepository();
         $repository->method('findByAccess')->willReturn(
-            new Account(password: 'hashed_password', email: 'mail.com', username: 'user')
+            new Account(2, password: 'hashed_password', email: 'mail.com', username: 'user')
         );
 
         $this->expectException(IncorrectPasswordException::class);
@@ -143,8 +140,7 @@ class LoginTest extends TestCase
          */
         $mock = $this->getMockBuilder(ComparerInterface::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
         $mock->expects($this->once())->method('compare')->willReturn(false);
 
         $loginService = $this->makeService($repository, $mock);
@@ -160,7 +156,7 @@ class LoginTest extends TestCase
         $sut = $this->sut->service;
         $repository = $this->sut->repository;
         $repository->method('findByAccess')->willReturn(
-            new Account(password: 'hashed_password', email: 'mail.com', username: 'user')
+            new Account(2, password: 'hashed_password', email: 'mail.com', username: 'user')
         );
         $credentialsStub = $this->makeCredentials();
         $response = $sut->auth($credentialsStub);

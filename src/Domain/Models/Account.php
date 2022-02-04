@@ -57,7 +57,7 @@ class Account implements JsonSerializable
     private ?string $role = 'common';
 
     public function __construct(
-        ?int $id = null,
+        ?int $id,
         string $email,
         string $username,
         string $password,

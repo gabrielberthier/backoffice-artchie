@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Repositories;
 
+use App\Domain\DTO\AccountDto;
 use App\Domain\Exceptions\Account\UserAlreadyRegisteredException;
 use App\Domain\Models\Account;
 
@@ -20,5 +21,5 @@ interface AccountRepository
      *
      * @throws UserAlreadyRegisteredException
      */
-    public function insert(Account $account): bool;
+    public function insert(AccountDto $account): Account;
 }

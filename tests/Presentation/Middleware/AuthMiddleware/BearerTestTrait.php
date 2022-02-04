@@ -2,6 +2,7 @@
 
 namespace Tests\Presentation\Middleware\AuthMiddleware;
 
+use App\Domain\DTO\AccountDto;
 use App\Domain\Models\Account;
 use App\Domain\Repositories\AccountRepository;
 use App\Infrastructure\Cryptography\BodyTokenCreator;
@@ -17,9 +18,9 @@ trait BearerTestTrait
     {
         self::createDatabase();
 
-        $account = new Account(email: 'mail.com', username: 'user', password: 'pass');
+        $dto = new AccountDto(email: 'mail.com', username: 'user', password: 'pass');
         $repository = $this->getContainer()->get(AccountRepository::class);
-        $repository->insert($account);
+        $account = $repository->insert($dto);
 
         $tokenCreator = new BodyTokenCreator($account);
         $token = $tokenCreator->createToken($_ENV['JWT_SECRET']);

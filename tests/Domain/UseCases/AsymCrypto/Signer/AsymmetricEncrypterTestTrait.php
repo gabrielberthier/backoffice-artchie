@@ -18,7 +18,7 @@ trait AsymmetricEncrypterTestTrait
         /** @var MockObject */
         $repo = $this->sut->repository;
         $uuid = Uuid::fromString('5a4bd710-aab8-4ebc-b65d-0c059a960cfb');
-        $repo->method('findByUUID')->willReturn(new Museum(email: '', name: 'test_museum', uuid: $uuid));
+        $repo->method('findByUUID')->willReturn(new Museum(2, email: '', name: 'test_museum', uuid: $uuid));
 
         $subject = json_encode(
             [
@@ -43,7 +43,7 @@ trait AsymmetricEncrypterTestTrait
         /** @var MockObject */
         $repo = $this->sut->repository;
         $uuid = Uuid::fromString('5a4bd710-aab8-4ebc-b65d-0c059a960cfb');
-        $repo->method('findByUUID')->willReturn(new Museum(email: '', name: 'test_museum', uuid: $uuid));
+        $repo->method('findByUUID')->willReturn(new Museum(2, email: '', name: 'test_museum', uuid: $uuid));
 
         $subject = json_encode(
             [
@@ -77,7 +77,6 @@ trait AsymmetricEncrypterTestTrait
     {
         return $this->getMockBuilder(AsymmetricEncrypter::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
     }
 }

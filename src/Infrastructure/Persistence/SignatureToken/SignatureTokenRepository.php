@@ -35,11 +35,10 @@ class SignatureTokenRepository implements SignatureTokenRepositoryInterface, Sig
 
     public function findFromMuseum(Museum $museum): ?SignatureToken
     {
-        $id = $museum;
-        if ($museum instanceof Museum) {
-            $id = $museum->getId();
+        $id = $museum->getId();
+        if ($id) {
+            return $this->em->getRepository(SignatureToken::class)->findOneBy(['museum' => $id]);
         }
-
-        return $this->em->getRepository(SignatureToken::class)->findOneBy(['museum' => $id]);
+        return null;
     }
 }

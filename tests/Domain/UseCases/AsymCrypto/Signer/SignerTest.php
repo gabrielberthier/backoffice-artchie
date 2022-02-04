@@ -55,7 +55,7 @@ class SignerTest extends TestCase
 
         $encrypter->method('encrypt')->willReturn(new Signature('privKey', 'pubKey', 'signature'));
 
-        $museum = new Museum(email: '', name: '');
+        $museum = new Museum(id: 2, email: '', name: '');
 
         $museumRepository->method('findByUUID')->willReturn($museum);
 
@@ -76,7 +76,6 @@ class SignerTest extends TestCase
         return $this->getMockBuilder(SignatureTokenRepositoryInterface::class)
             ->onlyMethods(['save'])
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
     }
 }

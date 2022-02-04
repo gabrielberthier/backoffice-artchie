@@ -20,7 +20,7 @@ class PosedAsset
      * @ORM\OneToOne(targetEntity="PlacementObject", mappedBy="asset")
      * @ORM\JoinColumn(name="placement_object_id", referencedColumnName="id")
      */
-    private ?PlacementObject $posedObject;
+    private PlacementObject $posedObject;
 
     /**
      * @ORM\Id 

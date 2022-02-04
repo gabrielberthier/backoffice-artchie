@@ -67,7 +67,7 @@ class Museum implements ModelInterface
     private Collection $markers;
 
     public function __construct(
-        ?int $id = null,
+        ?int $id,
         string $email,
         string $name,
         ?string $description = null,

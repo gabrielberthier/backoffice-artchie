@@ -3,6 +3,7 @@
 namespace App\Data\UseCases\Authentication;
 
 use App\Data\Protocols\Auth\SignUpServiceInterface;
+use App\Domain\DTO\AccountDto;
 use App\Domain\DTO\TokenLoginResponse;
 use App\Domain\Models\Account;
 use App\Domain\Repositories\AccountRepository;
@@ -14,13 +15,8 @@ class SignUp implements SignUpServiceInterface
     {
     }
 
-    public function register(Account $account): TokenLoginResponse
+    public function register(AccountDto $account): TokenLoginResponse
     {
-        $result = $this->accountRepository->insert($account);
-        if ($result) {
-            return new TokenLoginResponse($account);
-        }
-
-        throw new Exception("One error occured while saving user's data");
+        return new TokenLoginResponse($this->accountRepository->insert($account));
     }
 }

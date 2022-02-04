@@ -6,6 +6,7 @@ namespace App\Presentation\Actions\Auth;
 
 use App\Data\Protocols\Auth\SignUpServiceInterface;
 use App\Data\Protocols\Cryptography\HasherInterface;
+use App\Domain\DTO\AccountDto;
 use App\Domain\Models\Account;
 use App\Presentation\Actions\Auth\Utilities\CookieTokenManager;
 use App\Presentation\Actions\Protocols\Action;
@@ -33,7 +34,7 @@ class SignUpController extends Action
         ] = $parsedBody;
 
         $password = $this->hasherInterface->hash($password);
-        $account = new Account(email: $email, username: $username, password: $password);
+        $account = new AccountDto(email: $email, username: $username, password: $password);
         $tokenize = $this->service->register($account);
         $refreshToken = $tokenize->getRenewToken();
 
@@ -41,8 +42,7 @@ class SignUpController extends Action
 
         return $this
             ->respondWithData(['token' => $tokenize->getToken()])
-            ->withStatus(201, 'Created token')
-        ;
+            ->withStatus(201, 'Created token');
     }
 
     public function messages(): ?array
@@ -63,7 +63,9 @@ class SignUpController extends Action
         return [
             'email' => Validator::email(),
             'username' => Validator::alnum()->noWhitespace()->length(6, 20),
-            'password' => function ($value) { return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[\w$@]{6,}$/m', $value); },
+            'password' => function ($value) {
+                return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[\w$@]{6,}$/m', $value);
+            },
             'passwordConfirmation' => fn ($value) => $value === $password,
         ];
     }

@@ -17,7 +17,7 @@ trait RepositoryBatteryTestTrait
 
         $uuid = Uuid::fromString('5a4bd710-aab8-4ebc-b65d-0c059a960cfb');
 
-        $repository->expects($this->once())->method('findByUUID')->with($uuid)->willReturn(new Museum(email: '', name: ''));
+        $repository->expects($this->once())->method('findByUUID')->with($uuid)->willReturn(new Museum(1, email: '', name: ''));
         /** @var MockObject */
         $encrypter = $this->sut->encrypter;
         $encrypter->method('encrypt')->willReturn(new Signature('privKey', 'pubKey', 'signature'));
@@ -47,7 +47,6 @@ trait RepositoryBatteryTestTrait
     {
         return $this->getMockBuilder(MuseumRepository::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
     }
 }
