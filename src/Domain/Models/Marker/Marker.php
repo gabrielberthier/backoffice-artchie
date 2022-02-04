@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Domain\Models\Marker;
 
 use App\Data\Protocols\Media\MediaCollectorInterface;
+use App\Data\Protocols\Media\MediaHostInterface;
 use App\Data\Protocols\Media\MediaHostParentInterface;
 use App\Domain\Contracts\ModelInterface;
-use App\Domain\MediaVisitor\MediaHostInterface;
 use App\Domain\Models\Assets\AbstractAsset;
 use App\Domain\Models\Museum;
 use App\Domain\Models\PlacementObject\PlacementObject;
@@ -75,6 +75,10 @@ class Marker implements ModelInterface, MediaHostParentInterface
     public function accept(MediaCollectorInterface $visitor): void
     {
         $visitor->visit($this);
+
+        foreach ($this->children() as $child) {
+            $child->accept($visitor);
+        }
     }
 
     /**

@@ -30,11 +30,6 @@ class MediaCollectorVisitor implements MediaCollectorInterface
     if ($info) {
       $this->collection[] = $this->makeAssetInfo($info, $mediaAdapter->namedBy());
     }
-    if ($mediaAdapter instanceof MediaHostParentInterface) {
-      foreach ($mediaAdapter->children() as $vals) {
-        $this->visit($vals);
-      }
-    }
   }
 
   public function makeAssetInfo(AbstractAsset $asset, string $name): MediaResource
