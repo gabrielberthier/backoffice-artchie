@@ -7,9 +7,9 @@ namespace App\Presentation\Actions\Markers;
 use App\Domain\Repositories\MarkerRepositoryInterface;
 use App\Presentation\Actions\Markers\Utils\PresignedUrlCreator;
 use App\Presentation\Actions\Protocols\Action;
-use DI\NotFoundException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Exception\HttpBadRequestException;
+use Slim\Exception\HttpNotFoundException;
 
 class GetOneMarkerByIdAction extends Action
 {
@@ -30,14 +30,15 @@ class GetOneMarkerByIdAction extends Action
         $marker = $this->repo->findByID($id);
 
         if (!$marker) {
-            throw new NotFoundException('No marker found using this id');
+            throw new HttpNotFoundException($this->request, 'No marker found using this id');
         }
-        if ($asset = $marker->getAsset()) {
+
+        if ($asset = $marker->assetInformation()) {
             $asset->setTemporaryLocation($this->presignedUrlCreator->setPresignedUrl($asset));
         }
 
         foreach ($marker->getResources() as $res) {
-            if ($asset = $res->getAsset()) {
+            if ($asset = $res->assetInformation()) {
                 $asset->setTemporaryLocation($this->presignedUrlCreator->setPresignedUrl($asset));
             }
         }

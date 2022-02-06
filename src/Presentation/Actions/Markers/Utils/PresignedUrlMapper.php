@@ -2,7 +2,7 @@
 
 namespace App\Presentation\Actions\Markers\Utils;
 
-use App\Domain\Models\Marker;
+use App\Domain\Models\Marker\Marker;
 use App\Domain\Repositories\PersistenceOperations\Responses\ResultSetInterface;
 
 class PresignedUrlMapper
@@ -16,13 +16,13 @@ class PresignedUrlMapper
         foreach ($set->getItems() as $marker) {
             /** @var Marker */
             $marker = $marker;
-            $markerAsset = $marker->getAsset();
+            $markerAsset = $marker->assetInformation();
             if ($markerAsset) {
                 $presignedUrl = $this->presignedUrlCreator->setPresignedUrl($markerAsset);
                 $markerAsset->setTemporaryLocation($presignedUrl);
             }
             foreach ($marker->getResources() as $resource) {
-                $resourceAsset = $resource->getAsset();
+                $resourceAsset = $resource->assetInformation();
                 if ($resourceAsset) {
                     $presignedUrl = $this->presignedUrlCreator->setPresignedUrl($resourceAsset);
                     $resourceAsset->setTemporaryLocation($presignedUrl);

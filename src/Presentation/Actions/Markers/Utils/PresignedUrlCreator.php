@@ -2,7 +2,7 @@
 
 namespace App\Presentation\Actions\Markers\Utils;
 
-use App\Domain\Models\AbstractAsset;
+use App\Domain\Models\Assets\AbstractAsset;
 use Aws\S3\S3Client;
 use S3DataTransfer\S3\Factories\ClientProvider;
 
