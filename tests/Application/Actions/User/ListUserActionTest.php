@@ -32,8 +32,7 @@ class ListUserActionTest extends TestCase
         $userRepositoryProphecy
             ->findAll()
             ->willReturn([$user])
-            ->shouldBeCalledOnce()
-        ;
+            ->shouldBeCalledOnce();
 
         $container->set(UserRepository::class, $userRepositoryProphecy->reveal());
 
