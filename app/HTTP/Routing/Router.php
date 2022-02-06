@@ -5,45 +5,29 @@ declare(strict_types=1);
 namespace Core\HTTP\Routing;
 
 use App\Presentation\Actions\Markers\OpenAppsDownloadMarkersAction;
-use Core\HTTP\Routing\RouteMiddlewares\AsymetricValidatorFactory;
+use Core\HTTP\Routing\Interface\AbstractRouter;
+use Core\HTTP\Routing\Middlewares\AsymetricValidatorFactory;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 
-class Router
+class Router extends AbstractRouter
 {
-    public function run(App $app)
+    public function define(App $app): void
     {
-        $auth = $this->retrieveRouting('AuthRouter');
-        $usersTest = $this->retrieveRouting('Users/UserRouting');
-        $api = $this->retrieveRouting('Api/ApiRouting');
-
-        $app->options(
-            '/{routes:.+}',
-            fn (Request $request, Response $response, $args) => $response->withStatus(200)
-        );
-
         $app->get('/', function (Request $request, Response $response) {
             $response->getBody()->write('Welcome to ARtchie\'s');
 
             return $response;
         });
 
-        $app->group('/users', $usersTest);
+        $this->setGroup('/users', 'Users/UserRouting');
+        $this->setGroup('/auth', 'AuthRouter');
+        $this->setGroup('/api', 'Api/ApiRouting');
 
-        $app->group('/auth', $auth);
-
-        $app->group('/api', $api);
-
-        $app->get('/download-assets', OpenAppsDownloadMarkersAction::class)
-            ->addMiddleware(
-                AsymetricValidatorFactory::createMiddleware($app->getContainer())
-            )
-        ;
-    }
-
-    private function retrieveRouting(string $path)
-    {
-        return require __DIR__."/Subs/{$path}.php";
+        $asymValidator = AsymetricValidatorFactory::createMiddleware($app->getContainer());
+        $app
+            ->get('/download-assets', OpenAppsDownloadMarkersAction::class)
+            ->addMiddleware($asymValidator);
     }
 }
