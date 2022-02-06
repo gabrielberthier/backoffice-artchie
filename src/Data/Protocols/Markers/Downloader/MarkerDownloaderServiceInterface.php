@@ -13,9 +13,11 @@ interface MarkerDownloaderServiceInterface
     public function downloadResourcesFromMuseum(int|Museum $id);
 
     /**
-     * Returns a stream of downloadable markers assets.
+     * Returns zip stream of object markers.
      *
-     * @return resource
+     * @param Marker[] $markers
+     *
+     * @return false|resource
      */
-    public function downloadMarkers(Marker ...$markers);
+    public function downloadMarkers(array $markers);
 }

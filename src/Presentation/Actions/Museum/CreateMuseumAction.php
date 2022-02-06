@@ -21,7 +21,7 @@ class CreateMuseumAction extends Action
     {
         $parsedBody = $this->request->getParsedBody();
         $parsedBody['name'] = htmlspecialchars($parsedBody['name']);
-        $museum = new Museum(...$parsedBody);
+        $museum = new Museum(null, ...$parsedBody);
 
         $this->museumRepository->insert($museum);
 

@@ -81,7 +81,7 @@ class VisitorCollectorTest extends TestCase
     $this->assertEquals($this->sut->collect()[0]->path(), "file");
   }
 
-  public function testShouldHave()
+  public function testShouldHaveFiveElementsInCollection()
   {
     $arr = [];
     for ($i = 0; $i < 5; $i++) {

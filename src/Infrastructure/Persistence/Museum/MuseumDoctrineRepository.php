@@ -58,7 +58,7 @@ class MuseumDoctrineRepository extends AbstractRepository implements MuseumRepos
     public function insert(ModelInterface $museum): bool
     {
         try {
-            return $this->insert($museum);
+            return parent::insert($museum);
         } catch (UniqueConstraintViolationException) {
             throw new MuseumAlreadyRegisteredException();
         }
