@@ -17,7 +17,7 @@ abstract class AbstractRouter
 
   public function run()
   {
-    $this->prepareOnTheFlyRequests($this->app);
+    $this->prepareOnTheFlyRequests();
     $this->define($this->app);
   }
 

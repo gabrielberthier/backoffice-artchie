@@ -15,7 +15,7 @@ class Router extends AbstractRouter
 {
     public function define(App $app): void
     {
-        $app->get('/', function (Request $request, Response $response) {
+        $app->get('/', function ($request, Response $response) {
             $response->getBody()->write('Welcome to ARtchie\'s');
 
             return $response;
