@@ -1,7 +1,5 @@
 <?php
 
-use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Cache\FilesystemCache;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
@@ -15,15 +13,10 @@ return [
 
         $config = Setup::createAnnotationMetadataConfiguration(
             $doctrine['metadata_dirs'],
-            $doctrine['dev_mode']
+            $doctrine['dev_mode'],
+            useSimpleAnnotationReader: false
         );
 
-        $config->setMetadataDriverImpl(
-            new AnnotationDriver(
-                new AnnotationReader(),
-                $doctrine['metadata_dirs']
-            )
-        );
 
         // $config->setMetadataCacheImpl(
         //     new FilesystemCache(

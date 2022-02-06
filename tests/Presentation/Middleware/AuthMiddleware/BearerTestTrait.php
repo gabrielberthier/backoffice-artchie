@@ -3,7 +3,6 @@
 namespace Tests\Presentation\Middleware\AuthMiddleware;
 
 use App\Domain\DTO\AccountDto;
-use App\Domain\Models\Account;
 use App\Domain\Repositories\AccountRepository;
 use App\Infrastructure\Cryptography\BodyTokenCreator;
 use function PHPUnit\Framework\assertNotNull;

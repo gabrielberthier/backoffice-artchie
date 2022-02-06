@@ -14,7 +14,8 @@ $scanDatabaseValues = function (): array {
         'PORT',
         'USER',
         'PASSWORD',
-        'CHARSET', ];
+        'CHARSET',
+    ];
 
     $connectionArray = [];
 
@@ -33,8 +34,8 @@ $connection = match ($mode) {
     'PRODUCTION', 'DEV' => $scanDatabaseValues(),
     default => throw new Exception(
         'An application mode should be specified at project level'
-        .' .env or _ENV variable and should contain one of the '
-        .'following values: PRODUCTION, TEST or DEV',
+            . ' .env or _ENV variable and should contain one of the '
+            . 'following values: PRODUCTION, TEST or DEV',
         500
     )
 };

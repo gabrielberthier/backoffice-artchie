@@ -61,8 +61,7 @@ class MarkerValidationTest extends TestCase
                 'marker_name' => 'something',
                 'marker_text' => 'something',
                 'marker_title' => 'something',
-                'asset' => [
-                ],
+                'asset' => [],
             ],
         ];
         $result = $validation->validate($body['marker']);
