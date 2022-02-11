@@ -16,5 +16,5 @@ interface ResourcesDownloaderInterface
    * 
    * @return MarkerResource[]
    */
-  public function transport(string $uuid): array;
+  public function transport(int $id): array;
 }

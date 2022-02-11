@@ -24,6 +24,7 @@ class PresignedUrlCreator
     public function setPresignedUrl(AbstractAsset $asset): ?string
     {
         $object = $asset->getPath();
+
         if ($this->s3Client->doesObjectExist($this->bucket, $object)) {
             $cmd = $this->s3Client->getCommand('GetObject', [
                 'Bucket' => $this->bucket,

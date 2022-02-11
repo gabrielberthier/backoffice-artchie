@@ -35,113 +35,116 @@ class DeliveryMan implements ResourcesDownloaderInterface
    * @param string $uuid
    * @return array
    */
-  public function transport(string $uuid): array
+  public function transport(int $id): array
   {
-    $museum = $this->museumRepository->findByUUID($uuid);
-    return $this->doOrThrowIf(
-      isset($museum),
-      fn () =>
-      $this->mapCollectionToAssets(
-        $this->filterPlacementObjectsFromMarkers(
-          $this->filterMarkers(
-            $this->gatherMarkersFromMuseum($museum)
+    $museum = $this->museumRepository->findByID($id);
+    try {
+      return $this->doOrThrowIf(
+        isset($museum),
+        doCallback: fn () => $this->mapCollectionToAssets(
+          $this->filterPlacementObjectsFromMarkers(
+            $this->filterMarkers(
+              $this->gatherMarkersFromMuseum($museum)
+            )
           )
+        ),
+        orThrow: new MuseumNotFoundException(
+          "Could not identify a museum by this code"
         )
-      ),
-      new MuseumNotFoundException(
-        "Could not identify a museum by this code"
-      )
-    );
+      );
+    } catch (\Throwable $th) {
+      echo ($th);
+    }
   }
 
   /**
    * Maps over Markers Collection and return an array of assets
    *
    * @param Collection<Marker> $markers
-   * 
+   *
    * @return MarkerResource[]
    */
   private function mapCollectionToAssets(Collection $markers): array
   {
+
     return $this->preventNotFoundAssets(
-      $markers
-        ->map(
-          fn (Marker $el) => (new MarkerResource(
-            ...$this->convertMediaMapperToAssetBase($el)
-          ))->withInformation(new AssetInfo($el->getTitle(), $el->getText()))
-            ->attachPlacementResources(
-              $this->mapPlacementObjectsToPlacementResources(
-                $el->getResources()
-              )
+      $markers->map(
+        fn (Marker $el) => (new MarkerResource(
+          ...$this->convertMediaMapperToAssetBase($el)
+        ))
+          ->withInformation(
+            new AssetInfo($el->getTitle(), $el->getText())
+          )
+          ->attachPlacementResources(
+            $this->mapPlacementObjectsToPlacementResources(
+              $el->getResources()
             )
-        )
-    )
-      ->toArray();
+          )
+      )
+    )->toArray();
   }
 
   /**
    *
    * @param Collection<PlacementObject> $resources
-   * 
+   *
    * @return PlacementResource[]
    */
-  private function mapPlacementObjectsToPlacementResources(Collection $resources): array
-  {
+  private function mapPlacementObjectsToPlacementResources(
+    Collection $resources
+  ): array {
     return $this->preventNotFoundAssets(
-      $resources
-        ->map(
-          fn (
-            PlacementObject $po
-          ) => new PlacementResource(
-            ...$this->convertMediaMapperToAssetBase(
-              $po
-            )
-          )
+      $resources->map(
+        fn (PlacementObject $po) => new PlacementResource(
+          ...$this->convertMediaMapperToAssetBase($po)
         )
-    )
-      ->toArray();
+      )
+    )->toArray();
   }
 
-  private function convertMediaMapperToAssetBase(MediaHostInterface $host): array
-  {
+  private function convertMediaMapperToAssetBase(
+    MediaHostInterface $host
+  ): array {
     return [
-      'name' => $host->namedBy(),
-      'path' => $host->assetInformation()->getPath(),
-      'url' => $this->assignUrl($host->assetInformation())
+      "name" => $host->namedBy(),
+      "path" => $host->assetInformation()->getPath(),
+      "url" => $this->assignUrl($host->assetInformation()),
     ];
   }
 
   /**
    * @param AbstractAsset $abstractAsset
-   * 
+   *
    * @return string|null
    */
   private function assignUrl(AbstractAsset $abstractAsset): ?string
   {
-    return $this
-      ->presignedUrlCreator
-      ->setPresignedUrl(
-        $abstractAsset
-      );
+    return $this->presignedUrlCreator->setPresignedUrl($abstractAsset);
   }
 
   private function preventNotFoundAssets(Collection $collection): Collection
   {
-    return $collection->filter(fn (Asset $asset) => empty($asset->getUrl()));
+    return $collection->filter(
+      fn (Asset $asset) =>
+      !($asset->getUrl() === null && $asset->getUrl() === "")
+    );
   }
 
-  private function doOrThrowIf(bool $condition, callable $callback, DomainException $domainException)
-  {
+  private function doOrThrowIf(
+    bool $condition,
+    callable $doCallback,
+    DomainException $orThrow
+  ) {
     if ($condition) {
-      return $callback();
+      return $doCallback();
     }
 
-    throw $domainException;
+    throw $orThrow;
   }
 
   /**
    * @param Collection<Marker> $collection
-   * 
+   *
    * @return Collection<Marker>
    */
   private function filterMarkers(Collection $collection): Collection
@@ -151,47 +154,39 @@ class DeliveryMan implements ResourcesDownloaderInterface
 
   /**
    * @param Museum $museum
-   * 
+   *
    * @return Collection<Marker>
    */
   private function gatherMarkersFromMuseum(Museum $museum): Collection
   {
     return new ArrayCollection(
-      $this->repository
-        ->findAllByMuseum($museum)
-        ->getItems()
+      $this->repository->findAllByMuseum($museum)->getItems()
     );
   }
 
   /**
    * @param Collection<Marker> $markers
-   * 
+   *
    * @return Collection<Marker> $markers
    */
-  private function filterPlacementObjectsFromMarkers(Collection $markers): Collection
-  {
-    iterator_apply(
-      $markers,
-      fn (Marker $marker) =>
-      !!$marker
-        ->setResources(
-          $this->getOnlySetAssets(
-            $marker->getResources()
-          )
+  private function filterPlacementObjectsFromMarkers(
+    Collection $markers
+  ): Collection {
+    foreach ($markers as $marker) {
+      $marker->setResources(
+        $this->getOnlySetAssets(
+          $marker->getResources()
         )
-    );
+      );
+    }
 
     return $markers;
   }
 
   private function getOnlySetAssets(Collection $collection)
   {
-    return $collection->filter(
-      function (MediaHostInterface $el) {
-        return !is_null(
-          $el->assetInformation()
-        );
-      }
-    );
+    return $collection->filter(function (MediaHostInterface $el) {
+      return !is_null($el->assetInformation());
+    });
   }
 }

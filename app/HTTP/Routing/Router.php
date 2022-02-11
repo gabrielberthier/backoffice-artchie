@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Core\HTTP\Routing;
 
 use App\Presentation\Actions\Markers\OpenAppsDownloadMarkersAction;
+use App\Presentation\Actions\Resources\ResourcesDownloaderAction;
 use Core\HTTP\Routing\Interface\AbstractRouter;
 use Core\HTTP\Routing\Middlewares\AsymetricValidatorFactory;
 use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 
 class Router extends AbstractRouter
@@ -28,6 +28,9 @@ class Router extends AbstractRouter
         $asymValidator = AsymetricValidatorFactory::createMiddleware($app->getContainer());
         $app
             ->get('/download-assets', OpenAppsDownloadMarkersAction::class)
+            ->addMiddleware($asymValidator);
+        $app
+            ->get('/fetch-assets', ResourcesDownloaderAction::class)
             ->addMiddleware($asymValidator);
     }
 }

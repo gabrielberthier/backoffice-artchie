@@ -26,7 +26,6 @@ class DownloadMarkerAction extends Action
             ->withAddedHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
             ->withHeader('Cache-Control', 'post-check=0, pre-check=0')
             ->withHeader('Pragma', 'no-cache')
-            ->withBody((new Stream($this->markerDonwloader->downloadResourcesFromMuseum($id))))
-      ;
+            ->withBody((new Stream($this->markerDonwloader->downloadResourcesFromMuseum($id))));
     }
 }

@@ -53,4 +53,12 @@ class MarkerResource extends Asset
   {
     return $this->dataInfo;
   }
+
+  public function jsonSerialize(): mixed
+  {
+    return parent::jsonSerialize() + [
+      'asset_info' => $this->dataInfo,
+      'placement_objects' => $this->placementResource->toArray()
+    ];
+  }
 }

@@ -2,12 +2,14 @@
 
 namespace App\Domain\DTO\Asset;
 
-abstract class Asset
+use JsonSerializable;
+
+abstract class Asset implements JsonSerializable
 {
   public function __construct(
-    private string $name,
-    private string $path,
-    private ?string $url
+    protected string $name,
+    protected string $path,
+    protected ?string $url = null
   ) {
   }
 
@@ -16,7 +18,7 @@ abstract class Asset
   /**
    * Get the value of url
    */
-  public function getUrl(): string
+  public function getUrl(): ?string
   {
     return $this->url;
   }
@@ -71,5 +73,14 @@ abstract class Asset
     $this->path = $path;
 
     return $this;
+  }
+
+  public function jsonSerialize(): mixed
+  {
+    return [
+      'name' => $this->name,
+      'path' => $this->path,
+      'url' => $this->url
+    ];
   }
 }

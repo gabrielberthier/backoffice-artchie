@@ -43,9 +43,13 @@ class AsymmetricValidator implements Middleware
             $result = openssl_verify($signature, $raw_signature, $token, OPENSSL_ALGO_SHA256);
 
             if (1 === $result) {
-                $request->withAttribute('museum_id', $museum->getId());
-
-                return $handler->handle($request);
+                return $handler->handle(
+                    $request
+                        ->withAttribute(
+                            'museum_id',
+                            $museum->getId()
+                        )
+                );
             }
         }
 

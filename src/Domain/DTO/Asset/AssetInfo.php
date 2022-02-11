@@ -2,7 +2,9 @@
 
 namespace App\Domain\DTO\Asset;
 
-class AssetInfo
+use JsonSerializable;
+
+class AssetInfo implements JsonSerializable
 {
   public function __construct(
     private string $title,
@@ -25,5 +27,13 @@ class AssetInfo
   public function getDescription(): string
   {
     return $this->description;
+  }
+
+  public function jsonSerialize(): mixed
+  {
+    return [
+      'title' => $this->title,
+      'text' => $this->description
+    ];
   }
 }
