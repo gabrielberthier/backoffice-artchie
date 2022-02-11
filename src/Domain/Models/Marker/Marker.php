@@ -119,13 +119,12 @@ class Marker implements ModelInterface, MediaHostParentInterface
     }
 
     /**
-     * Set the value of resource.
+     * Add a resource variadic set to the collection
      *
-     * @param mixed $resource
-     *
+     * @param PlacementObject ...$resource
      * @return self
      */
-    public function setResources(PlacementObject ...$resource)
+    public function addResources(PlacementObject ...$resource): self
     {
         foreach ($resource as $obj) {
             $obj->setMarker($this);
@@ -134,6 +133,23 @@ class Marker implements ModelInterface, MediaHostParentInterface
 
         return $this;
     }
+
+    /**
+     * Undocumented function
+     *
+     * @param Collection<PlacementObject> $collection
+     * @return self
+     */
+    public function setResources(Collection $collection): self
+    {
+        $this->resources->clear();
+
+        $this->resources = $collection;
+
+        return $this;
+    }
+
+
 
     /**
      * Set the value of resource.
