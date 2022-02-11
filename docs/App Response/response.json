@@ -1,0 +1,21 @@
+{
+  "statusCode": 200,
+  "data": [
+    {
+      "name": "other.png",
+      "path": "marker-5455.jpg",
+      "url": "https://artchier-markers.s3",
+      "asset_info": {
+        "title": "Gabriel Berthier",
+        "text": "Eu, Gabriel, uma obra incrível"
+      },
+      "placement_objects": [
+        {
+          "name": "Pose Object.jpg",
+          "path": "pose-5455.jpg",
+          "url": "https://artchier-markers.s3"
+        }
+      ]
+    }
+  ]
+}
