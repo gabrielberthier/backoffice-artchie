@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Presentation\Helpers\Validation\Validators;
+namespace App\Presentation\Helpers\Validation\Validators\Interfaces;
 
-use App\Presentation\Helpers\Validation\ValidationError;
-use App\Presentation\Protocols\Validation;
+use App\Presentation\Helpers\Validation\Validators\ValidationExceptions\ValidationError;
 
-abstract class AbstractValidator implements Validation
+abstract class AbstractValidator implements ValidationInterface
 {
     protected string $field;
     protected ?string $message;

@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Presentation\Helpers\Validation;
+namespace App\Presentation\Helpers\Validation\Validators\Facade;
 
-use App\Presentation\Helpers\Validation\Validators\ValidatorFactory;
-use App\Presentation\Protocols\Validation;
+use App\Presentation\Helpers\Validation\Validators\Composite\Composite;
+use App\Presentation\Helpers\Validation\Validators\Factories\ValidatorFactory;
+use App\Presentation\Helpers\Validation\Validators\Interfaces\ValidationInterface;
+
 
 class ValidationFacade
 {
@@ -11,7 +13,7 @@ class ValidationFacade
     {
     }
 
-    public function createValidations(): Validation
+    public function createValidations(): ValidationInterface
     {
         $composite = new Composite();
         $validatorFactory = new ValidatorFactory();

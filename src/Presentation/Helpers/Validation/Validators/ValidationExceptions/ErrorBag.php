@@ -2,7 +2,7 @@
 
 namespace App\Presentation\Helpers\Validation\Validators\ValidationExceptions;
 
-use App\Presentation\Helpers\Validation\ValidationError;
+
 
 class ErrorBag extends ValidationError
 {

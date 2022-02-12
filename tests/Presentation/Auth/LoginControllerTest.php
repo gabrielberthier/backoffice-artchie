@@ -8,7 +8,7 @@ use App\Data\Protocols\Auth\LoginServiceInterface;
 use App\Domain\DTO\Credentials;
 use App\Presentation\Actions\Protocols\ActionError;
 use App\Presentation\Actions\Protocols\ActionPayload;
-use App\Presentation\Protocols\Validation;
+use App\Presentation\Helpers\Validation\Validators\Interfaces\ValidationInterface;
 use DI\Container;
 use function PHPUnit\Framework\assertEquals;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -34,7 +34,7 @@ class LoginControllerTest extends TestCase
         $service = $this->createMockService();
         $this->autowireContainer(LoginServiceInterface::class, $service);
         $validator = $this->createValidatorService();
-        $this->autowireContainer(Validation::class, $validator);
+        $this->autowireContainer(ValidationInterface::class, $validator);
     }
 
     public function testShouldCallAuthenticationWithCorrectValues()
@@ -44,13 +44,11 @@ class LoginControllerTest extends TestCase
         $service = $this->createMockService();
         $service->expects($this->once())
             ->method('auth')
-            ->with($this->makeCredentials())
-        ;
+            ->with($this->makeCredentials());
         $container->set(LoginServiceInterface::class, $service);
         $this
             ->app
-            ->handle($this->createMockRequest('any_mail@gmail.com', 'Password04'))
-        ;
+            ->handle($this->createMockRequest('any_mail@gmail.com', 'Password04'));
     }
 
     public function testShouldReturn400IfValidationReturnsError()
@@ -100,11 +98,10 @@ class LoginControllerTest extends TestCase
 
     private function createValidatorService()
     {
-        return $this->getMockBuilder(Validation::class)
+        return $this->getMockBuilder(ValidationInterface::class)
             ->onlyMethods(['validate'])
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
     }
 
     private function createMockRequest(string $access, string $pass): ServerRequestInterface
@@ -112,11 +109,9 @@ class LoginControllerTest extends TestCase
         $credentials = new Credentials($access, $pass);
         $request = $this->createRequest('POST', '/auth/login');
         $request->getBody()
-            ->write(json_encode($credentials))
-        ;
+            ->write(json_encode($credentials));
         $request->getBody()
-            ->rewind()
-        ;
+            ->rewind();
 
         return $request;
     }
@@ -131,7 +126,6 @@ class LoginControllerTest extends TestCase
         return $this->getMockBuilder(LoginServiceInterface::class)
             ->onlyMethods(['auth'])
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
     }
 }

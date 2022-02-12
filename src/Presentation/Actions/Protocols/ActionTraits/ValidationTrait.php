@@ -3,7 +3,7 @@
 namespace App\Presentation\Actions\Protocols\ActionTraits;
 
 use App\Presentation\Actions\Protocols\HttpErrors\UnprocessableEntityException;
-use App\Presentation\Helpers\Validation\ValidationFacade;
+use App\Presentation\Helpers\Validation\Validators\Facade\ValidationFacade;
 
 trait ValidationTrait
 {

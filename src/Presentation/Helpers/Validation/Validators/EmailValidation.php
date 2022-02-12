@@ -2,13 +2,13 @@
 
 namespace App\Presentation\Helpers\Validation\Validators;
 
-use App\Presentation\Helpers\Validation\ValidationError;
-use App\Presentation\Protocols\Validation;
-use Respect\Validation\Validator;
+use App\Presentation\Helpers\Validation\Validators\Interfaces\ValidationInterface;
+use App\Presentation\Helpers\Validation\Validators\ValidationExceptions\ValidationError;
+use Ramsey\Uuid\Validator\ValidatorInterface;
 
-class EmailValidation implements Validation
+class EmailValidation implements ValidationInterface
 {
-    public function __construct(private string $field, private Validator $validator)
+    public function __construct(private string $field, private ValidatorInterface $validator)
     {
     }
 

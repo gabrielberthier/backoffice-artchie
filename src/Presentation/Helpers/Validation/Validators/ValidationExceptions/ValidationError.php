@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Presentation\Helpers\Validation;
+namespace App\Presentation\Helpers\Validation\Validators\ValidationExceptions;
 
 use Exception;
 

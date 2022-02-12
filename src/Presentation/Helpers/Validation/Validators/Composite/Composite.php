@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Presentation\Helpers\Validation;
+namespace App\Presentation\Helpers\Validation\Validators\Composite;
 
+use App\Presentation\Helpers\Validation\Validators\Interfaces\ValidationInterface;
 use App\Presentation\Helpers\Validation\Validators\ValidationExceptions\ErrorBag;
-use App\Presentation\Protocols\Validation;
+use App\Presentation\Helpers\Validation\Validators\ValidationExceptions\ValidationError;
 
-class Composite implements Validation
+class Composite implements ValidationInterface
 {
     /**
      * @var Validation[]
@@ -19,7 +20,7 @@ class Composite implements Validation
         $this->errorBag = new ErrorBag();
     }
 
-    public function pushValidation(Validation $validation): self
+    public function pushValidation(ValidationInterface $validation): self
     {
         $this->compositions[] = $validation;
 
