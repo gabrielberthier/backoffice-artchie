@@ -9,7 +9,7 @@ use App\Presentation\Helpers\Validation\Validators\ValidationExceptions\Validati
 class Composite implements ValidationInterface
 {
     /**
-     * @var Validation[]
+     * @var ValidationInterface[]
      */
     private array $compositions = [];
 
@@ -37,5 +37,19 @@ class Composite implements ValidationInterface
         }
 
         return $this->errorBag->hasErrors() ? $this->errorBag : null;
+    }
+
+
+    /**
+     * @return ValidationInterface[]
+     */
+    public function getValidations(): array
+    {
+        return $this->compositions;
+    }
+
+    public function getErrorBag()
+    {
+        return $this->errorBag;
     }
 }

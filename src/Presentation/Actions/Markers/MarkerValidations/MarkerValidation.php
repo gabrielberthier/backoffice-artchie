@@ -7,17 +7,19 @@ use Respect\Validation\Validator as v;
 
 class MarkerValidation
 {
-    public function validation(): AbstractRule
+    public function validation(): array
     {
         $assetValidation = new AssetValidation();
 
-        return v::key('marker_name', v::alnum('$', '*', '-', '#', '&', ' ', '.'))->
-            key('marker_text', v::stringType())->
-            key('marker_title', v::stringType())->
-            key(
+        return [
+            'marker_name' => v::alnum('$', '*', '-', '#', '&', ' ', '.'),
+            'marker_text' => v::stringType(),
+            'marker_title' => v::stringType(),
+            'asset' => v::key(
                 'asset',
                 $assetValidation->validation(),
                 false
-            );
+            )
+        ];
     }
 }

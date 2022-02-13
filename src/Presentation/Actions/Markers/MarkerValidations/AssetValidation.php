@@ -12,7 +12,6 @@ class AssetValidation
         return v::key('file_name', v::fileRule())
             ->key('path', v::stringType())
             ->key('url', v::optional(v::url()))
-            ->key('original_name', v::StringType())
-        ;
+            ->key('original_name', v::StringType());
     }
 }

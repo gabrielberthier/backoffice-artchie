@@ -13,7 +13,7 @@ class ErrorBag extends ValidationError
     {
         $this->errors[] = $error;
         $this->messages[] = "[{$error->getField()}]: {$error->getMessage()}";
-        $this->message = join("\n", $this->messages);
+        $this->message = join("\r", $this->messages);
     }
 
     public function hasErrors(): bool
@@ -21,6 +21,11 @@ class ErrorBag extends ValidationError
         return count($this->errors) > 0;
     }
 
+    /**
+     * Returns all errors
+     *
+     * @return ValidationError[]
+     */
     public function getErrors()
     {
         return $this->errors;
