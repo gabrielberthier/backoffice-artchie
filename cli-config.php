@@ -9,7 +9,7 @@ use Doctrine\Migrations\Configuration\Migration\PhpFile;
 use Doctrine\Migrations\DependencyFactory;
 use Doctrine\ORM\EntityManager;
 
-require __DIR__.'/configs/bootstrap.php';
+require __DIR__ . '/configs/bootstrap.php';
 
 $containerFactory = new ContainerFactory();
 
@@ -19,4 +19,6 @@ $config = new PhpFile('migrations.php');
 
 $em = $container->get(EntityManager::class);
 
-return DependencyFactory::fromEntityManager($config, new ExistingEntityManager($em));
+DependencyFactory::fromEntityManager($config, new ExistingEntityManager($em));
+
+return \Doctrine\ORM\Tools\Console\ConsoleRunner::createHelperSet($em);

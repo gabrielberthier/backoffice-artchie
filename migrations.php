@@ -10,7 +10,7 @@ return [
     ],
 
     'migrations_paths' => [
-        'Core\Data\Migrations' => getcwd().'/app/Data/Migrations',
+        'Core\Data\Migrations' => getcwd() . '/app/Data/Migrations',
     ],
 
     'all_or_nothing' => true,
