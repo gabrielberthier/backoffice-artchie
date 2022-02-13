@@ -42,7 +42,7 @@ class ActionPayload implements JsonSerializable
     /**
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         $payload = [
             'statusCode' => $this->statusCode,

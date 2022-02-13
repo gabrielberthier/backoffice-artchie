@@ -66,7 +66,7 @@ class PlacementObject implements ModelInterface, MediaHostInterface
         $visitor->visit($this);
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return [
             'id' => $this->id,

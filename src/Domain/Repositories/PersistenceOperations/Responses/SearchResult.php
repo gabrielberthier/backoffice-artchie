@@ -27,7 +27,7 @@ class SearchResult implements ResultSetInterface
         return $this->arrayItems;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return [
             'total' => $this->count(),

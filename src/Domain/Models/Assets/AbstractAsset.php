@@ -150,7 +150,7 @@ abstract class AbstractAsset implements ModelInterface
         return $this;
     }
 
-    public function jsonSerialize(): array
+    public function jsonSerialize(): mixed
     {
         return [
             'id' => $this->getId(),

@@ -93,7 +93,7 @@ class Marker implements ModelInterface, MediaHostParentInterface
 
 
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return [
             'id' => $this->id,

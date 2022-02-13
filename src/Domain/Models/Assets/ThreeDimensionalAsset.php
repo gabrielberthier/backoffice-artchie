@@ -48,7 +48,7 @@ class ThreeDimensionalAsset extends AbstractAsset
         $texture->setModel($this);
     }
 
-    public function jsonSerialize(): array
+    public function jsonSerialize(): mixed
     {
         return parent::jsonSerialize() + ['textures' => $this->textures];
     }

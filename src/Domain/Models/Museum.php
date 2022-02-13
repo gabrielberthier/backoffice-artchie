@@ -166,7 +166,7 @@ class Museum implements ModelInterface
         $this->markers->add($marker);
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return [
             'id' => $this->getId(),

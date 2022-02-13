@@ -12,7 +12,7 @@ final class PaginationResponse implements ResultSetInterface
     ) {
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return [
             'currentHasNoResults' => $this->currentHasNoResults,
