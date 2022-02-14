@@ -12,7 +12,7 @@ class PlacementObjectValidation
 
         return [
             'pose_object_name' => v::alnum('$', '*', '-', '#', '&', ' ', '.'),
-            'asset' => v::optional($assetValidation->validation())
+            'asset' => ($assetValidation->validation())
         ];
     }
 }
