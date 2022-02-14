@@ -92,8 +92,7 @@ class MarkerBuilder
                 ->setPath($path)
                 ->setUrl($url)
                 ->setOriginalName($originalName)
-                ->setMimeType(($mimes->getMimeType($extension)))
-          ;
+                ->setMimeType(($mimes->getMimeType($extension) ?? ""));
         }
 
         return $asset;
