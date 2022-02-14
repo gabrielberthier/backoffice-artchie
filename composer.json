@@ -21,7 +21,7 @@
         "ext-json": "*",
         "doctrine/migrations": "^3.3",
         "firebase/php-jwt": "^5.2",
-        "gabrielberthier/s3-data-transfer": "^1.0",
+        "gabrielberthier/s3-data-transfer": "~1.0",
         "league/flysystem-aws-s3-v3": "^1.0",
         "lodash-php/lodash-php": "^0.0.7",
         "maennchen/zipstream-php": "^2.1",
