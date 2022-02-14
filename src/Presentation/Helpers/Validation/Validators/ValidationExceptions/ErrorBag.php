@@ -13,7 +13,7 @@ class ErrorBag extends ValidationError
     {
         $this->errors[] = $error;
         $this->messages[] = "[{$error->getField()}]: {$error->getMessage()}";
-        $this->message = join("\r", $this->messages);
+        $this->message = join(PHP_EOL, $this->messages);
     }
 
     public function hasErrors(): bool

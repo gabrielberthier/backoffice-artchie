@@ -15,11 +15,7 @@ class MarkerValidation
             'marker_name' => v::alnum('$', '*', '-', '#', '&', ' ', '.'),
             'marker_text' => v::stringType(),
             'marker_title' => v::stringType(),
-            'asset' => v::key(
-                'asset',
-                $assetValidation->validation(),
-                false
-            )
+            'asset' => $assetValidation->validation(),
         ];
     }
 }

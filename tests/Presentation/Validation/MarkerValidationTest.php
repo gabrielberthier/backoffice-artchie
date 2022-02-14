@@ -2,10 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tests\Presentation\Marker\Validation;
+namespace Tests\Presentation\Validation;
 
 use App\Presentation\Actions\Markers\MarkerValidations\MarkerValidation;
-use function PHPUnit\Framework\assertFalse;
+use App\Presentation\Helpers\Validation\Validators\Facade\ValidationFacade;
+use App\Presentation\Helpers\Validation\Validators\Interfaces\ValidationInterface;
+
+use function PHPUnit\Framework\assertNotNull;
 use function PHPUnit\Framework\assertTrue;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Tests\TestCase;
@@ -18,16 +21,16 @@ class MarkerValidationTest extends TestCase
 {
     use ProphecyTrait;
 
-    private MarkerValidation $sut;
+    private ValidationInterface $sut;
 
     protected function setUp(): void
     {
-        $this->sut = new MarkerValidation();
+        $facade = new ValidationFacade((new MarkerValidation())->validation());
+        $this->sut = $facade->createValidations();
     }
 
     public function testShouldReturnFalseWhenFieldsAreEmpty()
     {
-        $validation = $this->sut->validation();
         $body = [
             'marker' => [
                 'marker_name' => '$jon',
@@ -35,42 +38,28 @@ class MarkerValidationTest extends TestCase
                 'marker_title' => 42,
             ],
         ];
-        $result = $validation->validate($body['marker']);
-        assertFalse($result);
+        $result = $this->sut->validate($body['marker']);
+        assertNotNull($result);
     }
 
-    public function testShouldValidateArrayUsingAwesomeValidation()
-    {
-        $validation = $this->sut->validation();
-        $body = [
-            'marker' => [
-                'marker_name' => 'something',
-                'marker_text' => 'something',
-                'marker_title' => 'something',
-            ],
-        ];
-        $result = $validation->validate($body['marker']);
-        assertTrue($result);
-    }
 
     public function testShouldInvalidateEmptyAsset()
     {
-        $validation = $this->sut->validation();
         $body = [
             'marker' => [
                 'marker_name' => 'something',
                 'marker_text' => 'something',
                 'marker_title' => 'something',
-                'asset' => [],
             ],
         ];
-        $result = $validation->validate($body['marker']);
-        assertFalse($result);
+        $result = $this->sut->validate($body['marker']);
+        assertNotNull($result);
+        self::assertEquals($result->getMessage(), '[asset]: asset is empty');
     }
+
 
     public function testShouldFailWithBadUrlInAssets()
     {
-        $validation = $this->sut->validation();
         $body = [
             'marker' => [
                 'marker_name' => 'something',
@@ -84,13 +73,14 @@ class MarkerValidationTest extends TestCase
                 ],
             ],
         ];
-        $result = $validation->validate($body['marker']);
-        assertFalse($result);
+        $result = $this->sut->validate($body['marker']);
+
+        assertNotNull($result);
+        $this->assertStringContainsString('[asset]: - These rules must pass for `{ "file_name": "file.png", "media_type": "png", "path": "media/path", "url": "badurl" }`', $result->getMessage());
     }
 
     public function testShouldPassAsset()
     {
-        $validation = $this->sut->validation();
         $body = [
             'marker' => [
                 'marker_name' => 'something',
@@ -105,7 +95,7 @@ class MarkerValidationTest extends TestCase
                 ],
             ],
         ];
-        $result = $validation->validate($body['marker']);
-        assertTrue($result);
+
+        $this->assertNull($this->sut->validate($body['marker']));
     }
 }

@@ -73,11 +73,11 @@ class LoginControllerTest extends TestCase
     /**
      * @group ignore
      */
-    public function testExpectsThreeErrors()
+    public function testExpectsTwoErrors()
     {
         $app = $this->app;
         $this->setUpErrorHandler($app);
-        $request = $this->constructPostRequest(new Credentials('gnberthiermail.com', 'pass'), 'POST', '/auth/login');
+        $request = $this->constructPostRequest(new Credentials('GABRI@MAIL', 'pass'), 'POST', '/auth/login');
 
         $response = $app->handle($request);
 
@@ -88,7 +88,7 @@ class LoginControllerTest extends TestCase
             ->error
             ->description);
 
-        $this->assertEquals(count($errors), 2);
+        $this->assertEquals(2, count($errors));
     }
 
     private function makeCredentials(): Credentials

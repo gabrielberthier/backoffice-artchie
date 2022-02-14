@@ -30,7 +30,7 @@ trait ValidationTrait
         $result = $validator->validate($body);
 
         if ($result) {
-            throw new UnprocessableEntityException($this->request, nl2br($result->getMessage(), false), $result);
+            throw new UnprocessableEntityException($this->request, $result->getMessage(), $result);
         }
     }
 }
