@@ -3,6 +3,7 @@
 namespace App\Data\UseCases\Markers;
 
 use App\Data\Protocols\Markers\Store\MarkerServiceStoreInterface;
+use App\Domain\Exceptions\Protocols\HttpSpecializedAdapter;
 use App\Domain\Exceptions\Protocols\UniqueConstraintViolation\AbstractUniqueException;
 use App\Domain\Exceptions\Transaction\InstanceNotFoundException;
 use App\Domain\Exceptions\Transaction\NameAlreadyInUse;
@@ -39,6 +40,8 @@ class MarkerServiceStore implements MarkerServiceStoreInterface
             return $marker;
         } catch (AbstractUniqueException $exception) {
             throw new NameAlreadyInUse($exception->getResponseMessage(), 400, $exception);
+        } catch (HttpSpecializedAdapter $exception) {
+            throw $exception;
         } catch (Exception $ex) {
             $this->em->getConnection()->rollBack();
 
