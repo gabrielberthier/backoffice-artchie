@@ -12,6 +12,7 @@ use App\Domain\Models\Assets\AbstractAsset;
 use App\Domain\Models\Museum;
 use App\Domain\Models\PlacementObject\PlacementObject;
 use App\Domain\Models\Traits\TimestampsTrait;
+use App\Domain\Models\Traits\UuidTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -24,6 +25,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Marker implements ModelInterface, MediaHostParentInterface
 {
     use TimestampsTrait;
+    use UuidTrait;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

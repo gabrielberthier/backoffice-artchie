@@ -7,12 +7,11 @@ namespace App\Domain\Models;
 use App\Domain\Contracts\ModelInterface;
 use App\Domain\Models\Marker\Marker;
 use App\Domain\Models\Traits\TimestampsTrait;
+use App\Domain\Models\Traits\UuidTrait;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
@@ -22,6 +21,7 @@ use Ramsey\Uuid\UuidInterface;
 class Museum implements ModelInterface
 {
     use TimestampsTrait;
+    use UuidTrait;
 
     /**
      * @var int
@@ -31,13 +31,6 @@ class Museum implements ModelInterface
      * @ORM\Column(type="integer")
      */
     protected $id;
-
-    /**
-     * The internal primary identity key.
-     *
-     * @ORM\Column(type="uuid", unique=true)
-     */
-    private UuidInterface $uuid;
 
     /**
      * @ORM\Column(type="string", unique=true, nullable=false)
@@ -71,15 +64,13 @@ class Museum implements ModelInterface
         string $email,
         string $name,
         ?string $description = null,
-        ?string $info = null,
-        ?UuidInterface $uuid = null
+        ?string $info = null
     ) {
         $this->id = $id;
         $this->email = $email;
         $this->name = $name;
         $this->description = $description;
         $this->info = $info;
-        $this->uuid = $uuid ?? Uuid::uuid4();
         $this->createdAt = new DateTime();
         $this->updated = new DateTime();
         $this->markers = new ArrayCollection();
@@ -93,28 +84,6 @@ class Museum implements ModelInterface
     public function setId(int $id)
     {
         $this->id = $id;
-    }
-
-    /**
-     * Get the internal primary identity key.
-     */
-    public function getUuid()
-    {
-        return $this->uuid;
-    }
-
-    /**
-     * Set the internal primary identity key.
-     *
-     * @param mixed $uuid
-     *
-     * @return self
-     */
-    public function setUuid($uuid)
-    {
-        $this->uuid = $uuid;
-
-        return $this;
     }
 
     /**

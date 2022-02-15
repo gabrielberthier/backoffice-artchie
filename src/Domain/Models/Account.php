@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Domain\Models;
 
 use App\Domain\Models\Traits\TimestampsTrait;
+use App\Domain\Models\Traits\UuidTrait;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
@@ -19,6 +18,7 @@ use Ramsey\Uuid\UuidInterface;
 class Account implements JsonSerializable
 {
     use TimestampsTrait;
+    use UuidTrait;
 
     /**
      * @var int
@@ -29,12 +29,7 @@ class Account implements JsonSerializable
      */
     protected $id;
 
-    /**
-     * The internal primary identity key.
-     *
-     * @ORM\Column(type="uuid", unique=true)
-     */
-    private UuidInterface $uuid;
+
 
     /**
      * @ORM\Column(type="string", unique=true, nullable=false)
@@ -61,15 +56,13 @@ class Account implements JsonSerializable
         string $email,
         string $username,
         string $password,
-        ?string $role = 'common',
-        ?UuidInterface $uuid = null
+        ?string $role = 'common'
     ) {
         $this->id = $id;
         $this->email = $email;
         $this->username = $username;
         $this->password = $password;
         $this->role = $role;
-        $this->uuid = $uuid ?? Uuid::uuid4();
         $this->createdAt = new DateTime();
         $this->updated = new DateTime();
     }
@@ -79,10 +72,7 @@ class Account implements JsonSerializable
         return $this->id;
     }
 
-    public function getUuid(): UuidInterface
-    {
-        return $this->uuid;
-    }
+
 
     public function getUsername(): string
     {
@@ -174,19 +164,5 @@ class Account implements JsonSerializable
             'created_at' => $this->createdAt,
             'updated' => $this->updated,
         ];
-    }
-
-    /**
-     * Set the value of uuid.
-     *
-     * @param mixed $uuid
-     *
-     * @return self
-     */
-    public function setUuid($uuid)
-    {
-        $this->uuid = $uuid;
-
-        return $this;
     }
 }

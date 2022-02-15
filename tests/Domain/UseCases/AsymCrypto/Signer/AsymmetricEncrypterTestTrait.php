@@ -18,7 +18,9 @@ trait AsymmetricEncrypterTestTrait
         /** @var MockObject */
         $repo = $this->sut->repository;
         $uuid = Uuid::fromString('5a4bd710-aab8-4ebc-b65d-0c059a960cfb');
-        $repo->method('findByUUID')->willReturn(new Museum(2, email: '', name: 'test_museum', uuid: $uuid));
+        $museum = new Museum(2, email: '', name: 'test_museum');
+        $museum->setUuid('5a4bd710-aab8-4ebc-b65d-0c059a960cfb');
+        $repo->method('findByUUID')->willReturn($museum);
 
         $subject = json_encode(
             [
@@ -43,7 +45,9 @@ trait AsymmetricEncrypterTestTrait
         /** @var MockObject */
         $repo = $this->sut->repository;
         $uuid = Uuid::fromString('5a4bd710-aab8-4ebc-b65d-0c059a960cfb');
-        $repo->method('findByUUID')->willReturn(new Museum(2, email: '', name: 'test_museum', uuid: $uuid));
+        $museum = new Museum(2, email: '', name: 'test_museum');
+        $museum->setUuid('5a4bd710-aab8-4ebc-b65d-0c059a960cfb');
+        $repo->method('findByUUID')->willReturn($museum);
 
         $subject = json_encode(
             [

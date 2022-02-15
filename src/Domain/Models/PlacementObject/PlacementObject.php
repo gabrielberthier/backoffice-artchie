@@ -11,8 +11,6 @@ use App\Domain\Models\Assets\AbstractAsset;
 use App\Domain\Models\Marker\Marker;
 use App\Domain\Models\Traits\TimestampsTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
@@ -28,8 +26,7 @@ class PlacementObject implements ModelInterface, MediaHostInterface
      * @ORM\Column(type="integer")
      */
     protected ?int $id;
-    /** @ORM\Column(type="uuid", unique=true) */
-    private UuidInterface $uuid;
+
     /** @ORM\Column(type="string") */
     private string $name;
     /** @ORM\Column(type="boolean") */
@@ -46,10 +43,7 @@ class PlacementObject implements ModelInterface, MediaHostInterface
     /** @ORM\OneToOne(targetEntity="PosedAsset", mappedBy="posedObject", cascade={"persist", "remove"}) */
     private ?PosedAsset $asset = null;
 
-    public function __construct()
-    {
-        $this->uuid = $uuid ?? Uuid::uuid4();
-    }
+
 
     public function assetInformation(): ?AbstractAsset
     {
@@ -94,28 +88,6 @@ class PlacementObject implements ModelInterface, MediaHostInterface
     public function setName($name)
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of uuid.
-     */
-    public function getUuid()
-    {
-        return $this->uuid;
-    }
-
-    /**
-     * Set the value of uuid.
-     *
-     * @param mixed $uuid
-     *
-     * @return self
-     */
-    public function setUuid($uuid)
-    {
-        $this->uuid = $uuid;
 
         return $this;
     }

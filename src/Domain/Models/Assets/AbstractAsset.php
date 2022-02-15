@@ -4,6 +4,7 @@ namespace App\Domain\Models\Assets;
 
 use App\Domain\Contracts\ModelInterface;
 use App\Domain\Models\Traits\TimestampsTrait;
+use App\Domain\Models\Traits\UuidTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,6 +23,7 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class AbstractAsset implements ModelInterface
 {
     use TimestampsTrait;
+    use UuidTrait;
 
     /**
      * @var int

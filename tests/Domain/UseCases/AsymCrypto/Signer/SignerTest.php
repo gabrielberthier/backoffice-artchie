@@ -56,6 +56,7 @@ class SignerTest extends TestCase
         $encrypter->method('encrypt')->willReturn(new Signature('privKey', 'pubKey', 'signature'));
 
         $museum = new Museum(id: 2, email: '', name: '');
+        $museum->generateUuid();
 
         $museumRepository->method('findByUUID')->willReturn($museum);
 
