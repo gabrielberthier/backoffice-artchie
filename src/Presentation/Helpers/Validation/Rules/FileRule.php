@@ -17,7 +17,7 @@ class FileRule extends AbstractRule
     {
         $joinedFormats = implode('|', $this->allowedFormats);
         $groupAllowedFormats = "({$joinedFormats})";
-        $fullRegex = '/^'.$this->gourpAllowedChars.'\.'.$groupAllowedFormats.'$/m';
+        $fullRegex = '/^' . $this->gourpAllowedChars . '\.' . $groupAllowedFormats . '$/m';
 
         return preg_match($fullRegex, $input, $output_array);
     }

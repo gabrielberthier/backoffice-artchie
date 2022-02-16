@@ -5,7 +5,10 @@ namespace App\Domain\Models\Assets;
 use App\Domain\Contracts\ModelInterface;
 use App\Domain\Models\Traits\TimestampsTrait;
 use App\Domain\Models\Traits\UuidTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 
 /**
  * Abstract resource comprehends the entities which hold data such as medias, assets, etc.
@@ -13,11 +16,13 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="assets")
  * @ORM\HasLifecycleCallbacks
- * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="asset_type", type="string")
  * @ORM\DiscriminatorMap({
- *      "3d" = "ThreeDimensionalAsset",
- *      "2d" = "TwoDimensionalAsset"
+ *      "3dObject" = "App\Domain\Models\Assets\Types\ThreeDimensionalAsset",
+ *      "texture" = "App\Domain\Models\Assets\Types\TextureAsset",
+ *      "video" = "App\Domain\Models\Assets\Types\VideoAsset",
+ *      "picture" = "App\Domain\Models\Assets\Types\PictureAsset"
  * })
  */
 abstract class AbstractAsset implements ModelInterface
@@ -47,6 +52,31 @@ abstract class AbstractAsset implements ModelInterface
     private string $mimeType;
 
     private ?string $temporaryLocation = null;
+
+    /**
+     * One Asset may have a set of sub assets, e.g., a 3D object can have many textures.
+     * 
+     * @ORM\OneToMany(targetEntity="AbstractAsset", mappedBy="parent")
+     */
+    private Collection $children;
+
+    /**
+     * Many sub assets have a single parent.
+     * 
+     * @ORM\ManyToOne(targetEntity="AbstractAsset", inversedBy="children")
+     */
+    private self $parent;
+
+    public function __construct(string $mediaType)
+    {
+        if (empty($mediaType)) {
+            throw new Exception("Cannot create an asset subtype without expliciting its media type");
+        }
+        $this->mediaType = $mediaType;
+        $this->children = new ArrayCollection();
+    }
+
+    abstract public function allowedFormats(): array;
 
     /**
      * Get the value of id.
@@ -230,5 +260,51 @@ abstract class AbstractAsset implements ModelInterface
         $this->mimeType = $mimeType;
 
         return $this;
+    }
+
+    /**
+     * Get many sub assets have a single parent.
+     */
+    public function getParent(): self
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Set many sub assets have a single parent.
+     *
+     * @return  self
+     */
+    public function setParent(self $parent)
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get one Asset may have a set of sub assets, e.g., a 3D object can have many textures.
+     */
+    protected function getChildren(): Collection
+    {
+        return $this->children;
+    }
+
+    /**
+     * Set one Asset may have a set of sub assets, e.g., a 3D object can have many textures.
+     *
+     * @param self $element
+     * @return  self
+     */
+    protected function addChild(self $element)
+    {
+        $this->children->add($element);
+
+        return $this;
+    }
+
+    protected function setChildren(Collection $collection)
+    {
+        $this->children = $collection;
     }
 }
