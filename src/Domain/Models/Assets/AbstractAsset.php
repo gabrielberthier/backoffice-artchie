@@ -3,6 +3,7 @@
 namespace App\Domain\Models\Assets;
 
 use App\Domain\Contracts\ModelInterface;
+use App\Domain\DTO\Asset\Command\CreateAsset;
 use App\Domain\Models\Traits\TimestampsTrait;
 use App\Domain\Models\Traits\UuidTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,10 +20,10 @@ use Exception;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="asset_type", type="string")
  * @ORM\DiscriminatorMap({
- *      "3dObject" = "App\Domain\Models\Assets\Types\ThreeDimensionalAsset",
- *      "texture" = "App\Domain\Models\Assets\Types\TextureAsset",
- *      "video" = "App\Domain\Models\Assets\Types\VideoAsset",
- *      "picture" = "App\Domain\Models\Assets\Types\PictureAsset"
+ *      "3dObject" = "ThreeDimensionalAsset",
+ *      "texture" = "TextureAsset",
+ *      "video" = "VideoAsset",
+ *      "picture" = "PictureAsset"
  * })
  */
 abstract class AbstractAsset implements ModelInterface
@@ -76,7 +77,7 @@ abstract class AbstractAsset implements ModelInterface
         $this->children = new ArrayCollection();
     }
 
-    abstract public function allowedFormats(): array;
+
 
     /**
      * Get the value of id.
@@ -186,6 +187,7 @@ abstract class AbstractAsset implements ModelInterface
     {
         return [
             'id' => $this->getId(),
+            'uuid' => $this->getUuid(),
             'path' => $this->getPath(),
             'fileName' => $this->getFileName(),
             'url' => $this->getUrl(),
@@ -299,6 +301,7 @@ abstract class AbstractAsset implements ModelInterface
     protected function addChild(self $element)
     {
         $this->children->add($element);
+        $element->setParent($this);
 
         return $this;
     }
@@ -306,5 +309,13 @@ abstract class AbstractAsset implements ModelInterface
     protected function setChildren(Collection $collection)
     {
         $this->children = $collection;
+    }
+
+    public function fromCommand(CreateAsset $createAsset)
+    {
+        $this->fileName = $createAsset->fileName;
+        $this->path = $createAsset->path;
+        $this->url = $createAsset->url;
+        $this->originalName = $createAsset->originalName;
     }
 }

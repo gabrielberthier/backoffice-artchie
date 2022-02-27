@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\DTO\Asset;
+namespace App\Domain\DTO\Asset\Transference;
 
 use JsonSerializable;
 

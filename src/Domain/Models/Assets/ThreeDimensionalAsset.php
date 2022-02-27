@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Domain\Models\Assets\Types;
+namespace App\Domain\Models\Assets;
 
 use App\Domain\Models\Assets\AbstractAsset;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -44,12 +43,5 @@ class ThreeDimensionalAsset extends AbstractAsset
     public function jsonSerialize(): mixed
     {
         return parent::jsonSerialize() + ['textures' => $this->getChildren()];
-    }
-
-    function allowedFormats(): array
-    {
-        return [
-            'obj', 'fbx', 'dae', '3ds', 'dxf'
-        ];
     }
 }

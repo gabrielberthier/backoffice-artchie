@@ -2,22 +2,20 @@
 
 namespace App\Presentation\Actions\Markers\MarkerBuilder;
 
+use App\Domain\DTO\Asset\Command\CreateAsset;
 use App\Domain\Models\Assets\AbstractAsset;
-use App\Domain\Models\Assets\ThreeDimensionalAsset;
-use App\Domain\Models\Assets\TwoDimensionalAsset;
+use App\Domain\Models\Assets\Types\AssetFactoryFacade;
 use App\Domain\Models\Marker\Marker;
 use App\Domain\Models\Marker\MarkerAsset;
 use App\Domain\Models\PlacementObject\PlacementObject;
 use App\Domain\Models\PlacementObject\PosedAsset;
-use Mimey\MimeTypes;
 
 class MarkerBuilder
 {
-    private Marker $marker;
-
-    public function __construct()
-    {
-        $this->marker = new Marker();
+    public function __construct(
+        private Marker $marker,
+        private AssetFactoryFacade $assetFactory
+    ) {
     }
 
     public function getMarker(): Marker
@@ -30,9 +28,11 @@ class MarkerBuilder
         if (is_object($body)) {
             $body = (array) $body;
         }
-        $name = $body['marker_name'];
-        $text = $body['marker_text'];
-        $title = $body['marker_title'];
+        [
+            "marker_name" => $name,
+            "marker_text" => $text,
+            "marker_title" => $title,
+        ] = $body;
 
         $this->marker->setName($name);
         $this->marker->setText($text);
@@ -43,7 +43,10 @@ class MarkerBuilder
 
     public function appendMarkerAsset(array|object $body): self
     {
-        $markerAsset = new MarkerAsset($this->marker, $this->prepareAsset($body));
+        $markerAsset = new MarkerAsset(
+            $this->marker,
+            $this->prepareAsset($body)
+        );
         $this->marker->setAsset($markerAsset);
 
         return $this;
@@ -55,11 +58,14 @@ class MarkerBuilder
         if (is_object($body)) {
             $body = (array) $body;
         }
-        $name = $body['pose_object_name'];
+        $name = $body["pose_object_name"];
         $resource->setName($name);
 
-        if (isset($body['asset'])) {
-            $asset = new PosedAsset($resource, $this->prepareAsset($body['asset']));
+        if (isset($body["asset"])) {
+            $asset = new PosedAsset(
+                $resource,
+                $this->prepareAsset($body["asset"])
+            );
             $resource->setAsset($asset);
         }
 
@@ -77,22 +83,21 @@ class MarkerBuilder
         }
 
         if (is_array($body)) {
-            list('file_name' => $fileName, 'path' => $path, 'url' => $url, 'original_name' => $originalName) = $body;
-            $extension = pathinfo($path, PATHINFO_EXTENSION);
-            if (in_array($extension, ['obj', 'fbx', 'dae', '3ds'])) {
-                $asset = new ThreeDimensionalAsset();
-            } else {
-                $asset = new TwoDimensionalAsset();
-            }
+            list(
+                "file_name" => $fileName,
+                "path" => $path,
+                "url" => $url,
+                "original_name" => $originalName,
+            ) = $body;
 
-            $mimes = new MimeTypes();
-
-            $asset
-                ->setFileName($fileName)
-                ->setPath($path)
-                ->setUrl($url)
-                ->setOriginalName($originalName)
-                ->setMimeType(($mimes->getMimeType($extension) ?? ""));
+            return $this->assetFactory->create(
+                new CreateAsset(
+                    $path,
+                    $fileName,
+                    $originalName,
+                    $url
+                )
+            );
         }
 
         return $asset;
