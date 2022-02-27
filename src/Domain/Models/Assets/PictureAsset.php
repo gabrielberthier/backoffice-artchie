@@ -12,6 +12,6 @@ class PictureAsset extends AbstractAsset
 {
   public function __construct()
   {
-    parent::__construct('video');
+    parent::__construct('picture');
   }
 }

@@ -10,6 +10,7 @@ use App\Domain\Contracts\ModelInterface;
 use App\Domain\Models\Assets\AbstractAsset;
 use App\Domain\Models\Marker\Marker;
 use App\Domain\Models\Traits\TimestampsTrait;
+use App\Domain\Models\Traits\UuidTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,6 +21,8 @@ use Doctrine\ORM\Mapping as ORM;
 class PlacementObject implements ModelInterface, MediaHostInterface
 {
     use TimestampsTrait;
+    use UuidTrait;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

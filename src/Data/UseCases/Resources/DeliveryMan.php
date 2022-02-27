@@ -4,10 +4,11 @@ namespace App\Data\UseCases\Resources;
 
 use App\Data\Protocols\Media\MediaHostInterface;
 use App\Data\Protocols\Resources\ResourcesDownloaderInterface;
-use App\Domain\DTO\Asset\Asset;
-use App\Domain\DTO\Asset\AssetInfo;
-use App\Domain\DTO\Asset\MarkerResource;
 use App\Domain\DTO\Asset\PlacementResource;
+use App\Domain\DTO\Asset\Transference\Asset as TransferenceAsset;
+use App\Domain\DTO\Asset\Transference\AssetInfo as TransferenceAssetInfo;
+use App\Domain\DTO\Asset\Transference\MarkerResource;
+use App\Domain\DTO\Asset\Transference\PlacementResource as TransferencePlacementResource;
 use App\Domain\Exceptions\Museum\MuseumNotFoundException;
 use App\Domain\Exceptions\Protocols\DomainException;
 use App\Domain\Models\Assets\AbstractAsset;
@@ -73,7 +74,7 @@ class DeliveryMan implements ResourcesDownloaderInterface
           ...$this->convertMediaMapperToAssetBase($el)
         ))
           ->withInformation(
-            new AssetInfo($el->getTitle(), $el->getText())
+            new TransferenceAssetInfo($el->getTitle(), $el->getText())
           )
           ->attachPlacementResources(
             $this->mapPlacementObjectsToPlacementResources(
@@ -95,7 +96,7 @@ class DeliveryMan implements ResourcesDownloaderInterface
   ): array {
     return $this->preventNotFoundAssets(
       $resources->map(
-        fn (PlacementObject $po) => new PlacementResource(
+        fn (PlacementObject $po) => new TransferencePlacementResource(
           ...$this->convertMediaMapperToAssetBase($po)
         )
       )
@@ -125,7 +126,7 @@ class DeliveryMan implements ResourcesDownloaderInterface
   private function preventNotFoundAssets(Collection $collection): Collection
   {
     return $collection->filter(
-      fn (Asset $asset) =>
+      fn (TransferenceAsset $asset) =>
       !($asset->getUrl() === null && $asset->getUrl() === "")
     );
   }

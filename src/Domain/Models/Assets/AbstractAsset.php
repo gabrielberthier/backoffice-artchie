@@ -317,5 +317,6 @@ abstract class AbstractAsset implements ModelInterface
         $this->path = $createAsset->path;
         $this->url = $createAsset->url;
         $this->originalName = $createAsset->originalName;
+        $this->mimeType = $createAsset->mimeType();
     }
 }
