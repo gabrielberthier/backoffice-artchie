@@ -33,7 +33,8 @@ class DeliveryMan implements ResourcesDownloaderInterface
   /**
    * Returns all mapped marker instances from a museum
    *
-   * @param string $uuid
+   * @param string $id
+   * 
    * @return array
    */
   public function transport(int $id): array
@@ -42,10 +43,13 @@ class DeliveryMan implements ResourcesDownloaderInterface
     try {
       return $this->doOrThrowIf(
         isset($museum),
-        doCallback: fn () => $this->mapCollectionToAssets(
+        doCallback: fn () =>
+        $this->mapCollectionToAssets(
           $this->filterPlacementObjectsFromMarkers(
             $this->filterMarkers(
-              $this->gatherMarkersFromMuseum($museum)
+              $this->gatherMarkersFromMuseum(
+                $museum
+              )
             )
           )
         ),

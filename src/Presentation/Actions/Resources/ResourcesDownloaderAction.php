@@ -19,6 +19,8 @@ class ResourcesDownloaderAction extends Action
     {
         $id = $this->request->getAttribute('museum_id');
 
-        return $this->respondWithData($this->downloader->transport($id));
+        $assets = $this->downloader->transport($id);
+
+        return $this->respondWithData(array_values($assets));
     }
 }
