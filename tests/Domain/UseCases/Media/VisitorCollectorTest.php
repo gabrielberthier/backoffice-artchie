@@ -9,20 +9,26 @@ use App\Domain\Models\Assets\AbstractAsset;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
+function createAbstractAsset(): AbstractAsset
+{
+  return new class extends AbstractAsset
+  {
+    public function __construct(public string $mediaType = "stub")
+    {
+    }
+
+    function getPath(): string
+    {
+      return "path";
+    }
+  };
+}
+
 class MediaHostInterfaceStub implements MediaHostInterface
 {
   public function assetInformation(): ?AbstractAsset
   {
-    $absAsset = new class extends AbstractAsset
-    {
-      function getPath(): string
-      {
-        return "path";
-      }
-    };
-
-
-    return $absAsset;
+    return createAbstractAsset();
   }
 
   public function accept(MediaCollectorInterface $visitor): void
@@ -66,19 +72,12 @@ class VisitorCollectorTest extends TestCase
 
     $mhi->namedBy()->willReturn("");
 
-    $mhi->assetInformation()->will(function () {
-      $absAsset = new class extends AbstractAsset
-      {
-      };
-      $absAsset->setPath("file");
-
-      return $absAsset;
-    });
+    $mhi->assetInformation()->willReturn(createAbstractAsset());
 
     $this->sut->visit($mhi->reveal());
 
     $this->assertEquals(1, count($this->sut->collect()));
-    $this->assertEquals($this->sut->collect()[0]->path(), "file");
+    $this->assertEquals($this->sut->collect()[0]->path(), "path");
   }
 
   public function testShouldHaveFiveElementsInCollection()

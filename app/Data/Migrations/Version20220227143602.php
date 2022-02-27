@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220215032750 extends AbstractMigration
+final class Version20220227143602 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,6 +20,7 @@ final class Version20220215032750 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
+        $this->addSql('ALTER TABLE two_dimensional_assets DROP CONSTRAINT fk_871bb3fc7975b7e7');
         $this->addSql('CREATE SEQUENCE accounts_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE assets_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE markers_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
@@ -30,10 +31,11 @@ final class Version20220215032750 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX UNIQ_CAC89EACE7927C74 ON accounts (email)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_CAC89EACD17F50A6 ON accounts (uuid)');
         $this->addSql('COMMENT ON COLUMN accounts.uuid IS \'(DC2Type:uuid)\'');
-        $this->addSql('CREATE TABLE assets (id INT NOT NULL, path VARCHAR(255) NOT NULL, fileName VARCHAR(255) NOT NULL, url VARCHAR(255) DEFAULT NULL, mediaType VARCHAR(255) NOT NULL, originalName VARCHAR(255) NOT NULL, mimeType VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, uuid UUID NOT NULL, type VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE assets (id INT NOT NULL, parent_id INT DEFAULT NULL, path VARCHAR(255) NOT NULL, fileName VARCHAR(255) NOT NULL, url VARCHAR(255) DEFAULT NULL, mediaType VARCHAR(255) NOT NULL, originalName VARCHAR(255) NOT NULL, mimeType VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, uuid UUID NOT NULL, asset_type VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_79D17D8EB548B0F ON assets (path)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_79D17D8E9C39465B ON assets (fileName)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_79D17D8ED17F50A6 ON assets (uuid)');
+        $this->addSql('CREATE INDEX IDX_79D17D8E727ACA70 ON assets (parent_id)');
         $this->addSql('COMMENT ON COLUMN assets.uuid IS \'(DC2Type:uuid)\'');
         $this->addSql('CREATE TABLE marker_assets (marker_id INT NOT NULL, asset_id INT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(marker_id, asset_id))');
         $this->addSql('CREATE INDEX IDX_9F1ADF05474460EB ON marker_assets (marker_id)');
@@ -53,9 +55,7 @@ final class Version20220215032750 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_DE1634275DA1941 ON posed_assets (asset_id)');
         $this->addSql('CREATE TABLE signature_tokens (id INT NOT NULL, museum_id INT DEFAULT NULL, signature TEXT NOT NULL, privateKey TEXT NOT NULL, time_to_live TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_566BCE004B52E5B5 ON signature_tokens (museum_id)');
-        $this->addSql('CREATE TABLE three_dimensional_assets (id INT NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE two_dimensional_assets (id INT NOT NULL, model_id INT DEFAULT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE INDEX IDX_871BB3FC7975B7E7 ON two_dimensional_assets (model_id)');
+        $this->addSql('ALTER TABLE assets ADD CONSTRAINT FK_79D17D8E727ACA70 FOREIGN KEY (parent_id) REFERENCES assets (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE marker_assets ADD CONSTRAINT FK_9F1ADF05474460EB FOREIGN KEY (marker_id) REFERENCES markers (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE marker_assets ADD CONSTRAINT FK_9F1ADF055DA1941 FOREIGN KEY (asset_id) REFERENCES assets (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE markers ADD CONSTRAINT FK_4189DF304B52E5B5 FOREIGN KEY (museum_id) REFERENCES museums (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -63,31 +63,32 @@ final class Version20220215032750 extends AbstractMigration
         $this->addSql('ALTER TABLE posed_assets ADD CONSTRAINT FK_DE163427E6DF104B FOREIGN KEY (placement_object_id) REFERENCES placement_objects (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE posed_assets ADD CONSTRAINT FK_DE1634275DA1941 FOREIGN KEY (asset_id) REFERENCES assets (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE signature_tokens ADD CONSTRAINT FK_566BCE004B52E5B5 FOREIGN KEY (museum_id) REFERENCES museums (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE three_dimensional_assets ADD CONSTRAINT FK_CFC69230BF396750 FOREIGN KEY (id) REFERENCES assets (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE two_dimensional_assets ADD CONSTRAINT FK_871BB3FC7975B7E7 FOREIGN KEY (model_id) REFERENCES three_dimensional_assets (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE two_dimensional_assets ADD CONSTRAINT FK_871BB3FCBF396750 FOREIGN KEY (id) REFERENCES assets (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('DROP TABLE three_dimensional_assets');
+        $this->addSql('DROP TABLE two_dimensional_assets');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SCHEMA public');
+        $this->addSql('ALTER TABLE assets DROP CONSTRAINT FK_79D17D8E727ACA70');
         $this->addSql('ALTER TABLE marker_assets DROP CONSTRAINT FK_9F1ADF055DA1941');
         $this->addSql('ALTER TABLE posed_assets DROP CONSTRAINT FK_DE1634275DA1941');
-        $this->addSql('ALTER TABLE three_dimensional_assets DROP CONSTRAINT FK_CFC69230BF396750');
-        $this->addSql('ALTER TABLE two_dimensional_assets DROP CONSTRAINT FK_871BB3FCBF396750');
         $this->addSql('ALTER TABLE marker_assets DROP CONSTRAINT FK_9F1ADF05474460EB');
         $this->addSql('ALTER TABLE placement_objects DROP CONSTRAINT FK_7DF23F54474460EB');
         $this->addSql('ALTER TABLE markers DROP CONSTRAINT FK_4189DF304B52E5B5');
         $this->addSql('ALTER TABLE signature_tokens DROP CONSTRAINT FK_566BCE004B52E5B5');
         $this->addSql('ALTER TABLE posed_assets DROP CONSTRAINT FK_DE163427E6DF104B');
-        $this->addSql('ALTER TABLE two_dimensional_assets DROP CONSTRAINT FK_871BB3FC7975B7E7');
         $this->addSql('DROP SEQUENCE accounts_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE assets_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE markers_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE museums_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE placement_objects_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE signature_tokens_id_seq CASCADE');
+        $this->addSql('CREATE TABLE three_dimensional_assets (id INT NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE two_dimensional_assets (id INT NOT NULL, model_id INT DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX idx_871bb3fc7975b7e7 ON two_dimensional_assets (model_id)');
+        $this->addSql('ALTER TABLE two_dimensional_assets ADD CONSTRAINT fk_871bb3fc7975b7e7 FOREIGN KEY (model_id) REFERENCES three_dimensional_assets (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('DROP TABLE accounts');
         $this->addSql('DROP TABLE assets');
         $this->addSql('DROP TABLE marker_assets');
@@ -96,7 +97,5 @@ final class Version20220215032750 extends AbstractMigration
         $this->addSql('DROP TABLE placement_objects');
         $this->addSql('DROP TABLE posed_assets');
         $this->addSql('DROP TABLE signature_tokens');
-        $this->addSql('DROP TABLE three_dimensional_assets');
-        $this->addSql('DROP TABLE two_dimensional_assets');
     }
 }

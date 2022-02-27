@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Infrastructure\Persistence\ORM\Marker;
 
-use App\Domain\Models\Assets\TwoDimensionalAsset;
+use App\Domain\Models\Assets\PictureAsset;
 use App\Domain\Models\Marker\Marker;
 use App\Domain\Models\Marker\MarkerAsset;
 use App\Domain\Models\PlacementObject\PlacementObject;
@@ -88,7 +88,7 @@ class MarkerRepositoryTest extends TestCase
         $marker->setText('The boy with an apple is a famous portrait of a boy with an apple');
         $marker->setTitle('Boy with an apple');
 
-        $asset = new TwoDimensionalAsset();
+        $asset = new PictureAsset();
         $asset->setFileName('boyapple.png');
         $asset->setPath('domain/path/boyaple.png');
         $asset->setUrl('www.name.com');
