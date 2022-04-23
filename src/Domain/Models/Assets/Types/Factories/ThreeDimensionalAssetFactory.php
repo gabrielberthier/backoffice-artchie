@@ -28,7 +28,7 @@ class ThreeDimensionalAssetFactory implements ConstrainedAssetFactoryInterface
     function allowedFormats(): array|string
     {
         return [
-            'obj', 'fbx', 'dae', '3ds', 'dxf'
+            'obj', 'fbx', 'glb', 'gltf'
         ];
     }
 }

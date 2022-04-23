@@ -11,13 +11,33 @@ class FileRule extends AbstractRule
 {
     private string $gourpAllowedChars = '([a-zA-Z0-9_\\.\-\(\):%&$#\/]+)';
 
-    private array $allowedFormats = ['obj', 'fbx', 'png', 'jpg', 'dae', '3ds', 'dxf', 'bpm', 'tif', 'tga', 'jpg', 'psd'];
+    private array $allowedFormats = [
+        "obj",
+        "fbx",
+        "png",
+        "jpg",
+        "dae",
+        "3ds",
+        "dxf",
+        "bpm",
+        "tif",
+        "tga",
+        "jpg",
+        "psd",
+        "glb",
+        "gltf",
+    ];
 
     public function validate($input): bool
     {
-        $joinedFormats = implode('|', $this->allowedFormats);
+        $joinedFormats = implode("|", $this->allowedFormats);
         $groupAllowedFormats = "({$joinedFormats})";
-        $fullRegex = '/^' . $this->gourpAllowedChars . '\.' . $groupAllowedFormats . '$/m';
+        $fullRegex =
+            "/^" .
+            $this->gourpAllowedChars .
+            "\." .
+            $groupAllowedFormats .
+            '$/m';
 
         return preg_match($fullRegex, $input, $output_array);
     }
