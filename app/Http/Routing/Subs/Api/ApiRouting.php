@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\HTTP\Routing\Subs\Api;
+namespace Core\Http\Routing\Subs\Api;
 
 use App\Presentation\Actions\FileUpload\UploadAction;
 use App\Presentation\Actions\Home\HomeController;

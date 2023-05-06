@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\HTTP\Routing\Subs;
+namespace Core\Http\Routing\Subs;
 
 use App\Presentation\Actions\User\ListUsersAction;
 use App\Presentation\Actions\User\ViewUserAction;

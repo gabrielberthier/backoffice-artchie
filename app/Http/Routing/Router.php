@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Core\HTTP\Routing;
+namespace Core\Http\Routing;
 
 use App\Presentation\Actions\Markers\OpenAppsDownloadMarkersAction;
 use App\Presentation\Actions\Resources\ResourcesDownloaderAction;
-use Core\HTTP\Routing\Interface\AbstractRouter;
-use Core\HTTP\Routing\Middlewares\AsymetricValidatorFactory;
+use Core\Http\Routing\Interface\AbstractRouter;
+use Core\Http\Routing\Middlewares\AsymetricValidatorFactory;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\App;
 

@@ -7,7 +7,7 @@ volumes:
 services:
     # Slim app service
     app:
-        build: .
+        build: ./.docker/php
         container_name: php-app
         working_dir: /var/www/
         environment:
@@ -42,7 +42,7 @@ services:
     nginx:
         container_name: nginx
         build:
-            context: ./nginx
+            context: ./.docker/nginx
         ports:
             - "8000:80"
             - "443:443"

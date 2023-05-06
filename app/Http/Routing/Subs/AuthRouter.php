@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\HTTP\Routing\Subs;
+namespace Core\Http\Routing\Subs;
 
 use App\Presentation\Actions\Auth\LoginController;
 use App\Presentation\Actions\Auth\LogoutController;

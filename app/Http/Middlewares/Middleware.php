@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Core\HTTP\Middlewares;
+namespace Core\Http\Middlewares;
 
 use Core\ResourceLoader;
 use Middlewares\TrailingSlash;

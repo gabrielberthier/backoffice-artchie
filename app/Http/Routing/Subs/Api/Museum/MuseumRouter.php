@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\HTTP\Routing\Subs\Api\Museum;
+namespace Core\Http\Routing\Subs\Api\Museum;
 
 use App\Presentation\Actions\Museum\CreateMuseumAction;
 use App\Presentation\Actions\Museum\DeleteMuseumAction;

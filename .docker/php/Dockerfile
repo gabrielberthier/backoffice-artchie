@@ -1,8 +1,4 @@
-FROM php:8.0-fpm
-
-COPY scripts/wait-for-it.sh /usr/bin/wait-for-it
-
-RUN chmod +x /usr/bin/wait-for-it
+FROM php:8.2-fpm
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y git
@@ -15,7 +11,7 @@ RUN apt-get update && \
   docker-php-ext-enable apcu pdo_pgsql sodium && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-COPY php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 # Common
 RUN apt-get update \
@@ -63,8 +59,7 @@ RUN curl -OL https://phar.phpunit.de/phpunit.phar \
 
 RUN ln -s /usr/bin/php8 /usr/bin/php
 
-# COPY php/php.ini /usr/local/etc/php/
-# COPY php/php.ini /etc/php8/conf.d/custom.ini
+COPY php.ini /usr/local/etc/php/
 
 # Set working directory
 WORKDIR /var/www

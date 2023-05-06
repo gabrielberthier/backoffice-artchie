@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\HTTP\Routing\Middlewares;
+namespace Core\Http\Routing\Middlewares;
 
 use App\Data\Protocols\AsymCrypto\AsymmetricVerifier;
 use App\Domain\Repositories\MuseumRepository;

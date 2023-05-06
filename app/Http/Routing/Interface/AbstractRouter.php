@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Core\HTTP\Routing\Interface;
+namespace Core\Http\Routing\Interface;
 
 use Closure;
 use Psr\Http\Message\ResponseInterface as Response;

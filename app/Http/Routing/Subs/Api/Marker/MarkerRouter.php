@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\HTTP\Routing\Subs\Api\Marker;
+namespace Core\Http\Routing\Subs\Api\Marker;
 
 use App\Presentation\Actions\Markers\DeativateMarkerAction;
 use App\Presentation\Actions\Markers\DeleteMarkerAction;
