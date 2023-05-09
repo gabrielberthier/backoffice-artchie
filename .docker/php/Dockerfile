@@ -59,7 +59,7 @@ RUN curl -OL https://phar.phpunit.de/phpunit.phar \
 
 RUN ln -s /usr/bin/php8 /usr/bin/php
 
-COPY php.ini /usr/local/etc/php/
+COPY custom.ini "$PHP_INI_DIR/conf.d/"
 
 # Set working directory
 WORKDIR /var/www

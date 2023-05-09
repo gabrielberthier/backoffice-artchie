@@ -6,7 +6,7 @@ namespace Core\Http\Routing;
 
 use App\Presentation\Actions\Markers\OpenAppsDownloadMarkersAction;
 use App\Presentation\Actions\Resources\ResourcesDownloaderAction;
-use Core\Http\Routing\Interface\AbstractRouter;
+use Core\Http\Routing\Interfaces\AbstractRouter;
 use Core\Http\Routing\Middlewares\AsymetricValidatorFactory;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\App;

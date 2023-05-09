@@ -6,29 +6,11 @@ namespace App\Domain\DTO;
 
 use JsonSerializable;
 
-class Credentials implements JsonSerializable
+final readonly class Credentials implements JsonSerializable
 {
-    public function __construct(
-        private string $access,
-        private string $password,
-        private string $role = ''
-    ) {
-    }
-
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    public function getRole(): ?string
-    {
-        return $this->role;
-    }
-
-    public function getAccess()
-    {
-        return $this->access;
-    }
+    public string $access;
+    public string $password;
+    public string $role = '';
 
     /**
      * @return array
@@ -36,7 +18,7 @@ class Credentials implements JsonSerializable
     public function jsonSerialize(): mixed
     {
         return [
-            'access' => $this->getAccess(),
+            'access' => $this->access,
             'password' => $this->password,
             'role' => $this->role,
         ];

@@ -2,7 +2,7 @@
 
 namespace Core\Providers\Settings;
 
-use Core\Providers\Abstract\AbstractProvider;
+use Core\Providers\Contract\AbstractProvider;
 use DI\ContainerBuilder;
 
 class SettingsProvider extends AbstractProvider

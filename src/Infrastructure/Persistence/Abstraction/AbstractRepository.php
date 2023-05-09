@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Persistence\Abstract;
+namespace App\Infrastructure\Persistence\Abstraction;
 
 use App\Domain\Contracts\ModelInterface;
 use App\Domain\Repositories\PersistenceOperations\CrudOperationsInterface;

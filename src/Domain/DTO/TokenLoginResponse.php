@@ -12,8 +12,8 @@ use JsonSerializable;
 
 class TokenLoginResponse implements JsonSerializable
 {
-    private string $token;
-    private string $renewToken;
+    public readonly string $token;
+    public readonly string $renewToken;
     private TokenGeneratorInterface $tokenHandler;
 
     /**
@@ -30,16 +30,6 @@ class TokenLoginResponse implements JsonSerializable
 
         $this->tokenHandler = new BodyTokenCreator($this->account);
         $this->token = $this->tokenHandler->createToken($secretBody);
-    }
-
-    public function getToken()
-    {
-        return $this->token;
-    }
-
-    public function getRenewToken()
-    {
-        return $this->renewToken;
     }
 
     /**

@@ -9,7 +9,7 @@ use App\Domain\Models\Museum;
 use App\Domain\Repositories\MarkerRepositoryInterface;
 use App\Domain\Repositories\PersistenceOperations\Responses\ResultSetInterface;
 use App\Domain\Repositories\PersistenceOperations\Responses\SearchResult;
-use App\Infrastructure\Persistence\Abstract\AbstractRepository;
+use App\Infrastructure\Persistence\Abstraction\AbstractRepository;
 use App\Infrastructure\Persistence\Pagination\PaginationService;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Exception;

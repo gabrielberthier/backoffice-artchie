@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Providers\Database;
 
-use Core\Providers\Abstract\AbstractProvider;
+use Core\Providers\Contract\AbstractProvider;
 use DI\ContainerBuilder;
 
 class DatabaseProvider extends AbstractProvider

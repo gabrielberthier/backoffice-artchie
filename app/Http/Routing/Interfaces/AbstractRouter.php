@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Core\Http\Routing\Interface;
+namespace Core\Http\Routing\Interfaces;
 
 use Closure;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -32,7 +32,7 @@ abstract class AbstractRouter
   {
     $this->app->options(
       '/{routes:.+}',
-      fn (Request $request, Response $response, $args) => $response->withStatus(200)
+      fn(Request $request, Response $response, $args) => $response->withStatus(200)
     );
   }
 

@@ -1,83 +1,83 @@
 {
-    "name": "slim/slim-skeleton",
-    "description": "ARTCHIE's backend",
-    "keywords": [
-        "microframework",
-        "rest",
-        "router",
-        "psr7"
-    ],
-    "homepage": "https://github.com/gabrielberthier/backoffice-artchie",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Gabriel Berthier",
-            "email": "gabriel.berthier@acad.ifma.edu.br",
-            "homepage": "https://github.com/gabrielberthier"
-        }
-    ],
-    "require": {
-        "php": "^8.0",
-        "ext-json": "*",
-        "doctrine/migrations": "^3.3",
-        "firebase/php-jwt": "^5.2",
-        "gabrielberthier/s3-data-transfer": "~1.0",
-        "league/flysystem-aws-s3-v3": "^1.0",
-        "lodash-php/lodash-php": "^0.0.7",
-        "maennchen/zipstream-php": "^2.1",
-        "middlewares/trailing-slash": "^2.0",
-        "monolog/monolog": ">=2.0",
-        "php-di/php-di": "^6.0",
-        "ralouphie/mimey": "^1.0",
-        "ramsey/uuid-doctrine": "^1.6",
-        "respect/validation": "^2.2",
-        "slim/psr7": ">=1.0",
-        "slim/slim": "^4.7",
-        "symfony/dotenv": "^5.2",
-        "tuupola/slim-jwt-auth": "^3.5",
-        "vlucas/phpdotenv": "^5.3",
-        "doctrine/orm": "^2.11.0",
-        "doctrine/dbal": "^3.2",
-        "doctrine/annotations": "1.13.2",
-        "symfony/yaml": "^5.4",
-        "symfony/cache": "^5.4"
-    },
-    "require-dev": {
-        "phpspec/prophecy-phpunit": "^2.0",
-        "phpunit/phpunit": "^9",
-        "squizlabs/php_codesniffer": "^3.6",
-        "symfony/var-dumper": "^5.3"
-    },
-    "config": {
-        "process-timeout": 0,
-        "sort-packages": true,
-        "allow-plugins": {
-            "composer/package-versions-deprecated": true
-        }
-    },
-    "autoload": {
-        "psr-4": {
-            "App\\": "src/",
-            "Core\\": "app/"
-        },
-        "files": [
-            "app/helpers.php"
-        ]
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/"
-        }
-    },
-    "scripts": {
-        "start": "php -S localhost:8080 -t public",
-        "test": "phpunit",
-        "test:nodebug": "@php -c ./disable-xdebug.ini && phpunit",
-        "test:update": "phpunit --migrate-configuration",
-        "doctrine": "doctrine",
-        "doctrine:create-db": "doctrine orm:clear-cache:metadata && doctrine orm:schema-tool:create && doctrine dbal:import database/bootstrap.sql",
-        "doctrine:update-db": "doctrine orm:schema-tool:update",
-        "doctrine:drop-db": "doctrine orm:schema-tool:drop --force",
-        "doctrine:clear-cache": "doctrine orm:clear-cache:metadata && doctrine orm:clear-cache:query && doctrine orm:clear-cache:result"
+  "name": "slim/slim-skeleton",
+  "description": "ARTCHIE's backend",
+  "keywords": [
+    "microframework",
+    "rest",
+    "router",
+    "psr7"
+  ],
+  "homepage": "https://github.com/gabrielberthier/backoffice-artchie",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Gabriel Berthier",
+      "email": "gabriel.berthier@acad.ifma.edu.br",
+      "homepage": "https://github.com/gabrielberthier"
     }
+  ],
+  "require": {
+    "php": "^8.2",
+    "ext-json": "*",
+    "doctrine/migrations": "^3.3",
+    "firebase/php-jwt": "^5.2",
+    "gabrielberthier/s3-data-transfer": "~1.0",
+    "league/flysystem-aws-s3-v3": "^1.0",
+    "lodash-php/lodash-php": "^0.0.7",
+    "maennchen/zipstream-php": "^2.1",
+    "middlewares/trailing-slash": "^2.0",
+    "monolog/monolog": ">=2.0",
+    "php-di/php-di": "^6.0",
+    "ralouphie/mimey": "^1.0",
+    "ramsey/uuid-doctrine": "^1.6",
+    "respect/validation": "^2.2",
+    "slim/psr7": ">=1.0",
+    "slim/slim": "^4.7",
+    "symfony/dotenv": "^5.2",
+    "tuupola/slim-jwt-auth": "^3.5",
+    "vlucas/phpdotenv": "^5.3",
+    "doctrine/orm": "^2.11.0",
+    "doctrine/dbal": "^3.2",
+    "doctrine/annotations": "1.13.2",
+    "symfony/yaml": "^5.4",
+    "symfony/cache": "^5.4"
+  },
+  "require-dev": {
+    "phpspec/prophecy-phpunit": "^2.0",
+    "phpunit/phpunit": "^9",
+    "squizlabs/php_codesniffer": "^3.6",
+    "symfony/var-dumper": "^5.3"
+  },
+  "config": {
+    "process-timeout": 0,
+    "sort-packages": true,
+    "allow-plugins": {
+      "composer/package-versions-deprecated": true
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/",
+      "Core\\": "app/"
+    },
+    "files": [
+      "app/functions/helpers.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "start": "php -S localhost:8080 -t public",
+    "test": "phpunit",
+    "test:nodebug": "@php -c ./disable-xdebug.ini && phpunit",
+    "test:update": "phpunit --migrate-configuration",
+    "doctrine": "doctrine",
+    "doctrine:create-db": "doctrine orm:clear-cache:metadata && doctrine orm:schema-tool:create && doctrine dbal:import database/bootstrap.sql",
+    "doctrine:update-db": "doctrine orm:schema-tool:update",
+    "doctrine:drop-db": "doctrine orm:schema-tool:drop --force",
+    "doctrine:clear-cache": "doctrine orm:clear-cache:metadata && doctrine orm:clear-cache:query && doctrine orm:clear-cache:result"
+  }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Providers\Repository;
 
-use Core\Providers\Abstract\AbstractProvider;
+use Core\Providers\Contract\AbstractProvider;
 use function DI\autowire;
 use DI\ContainerBuilder;
 

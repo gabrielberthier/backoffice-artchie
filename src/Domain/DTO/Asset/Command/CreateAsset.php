@@ -7,10 +7,10 @@ use Mimey\MimeTypes;
 class CreateAsset
 {
   public function __construct(
-    public string $path,
-    public string $fileName,
-    public string $originalName,
-    public ?string $url,
+    public readonly string $path,
+    public readonly string $fileName,
+    public readonly string $originalName,
+    public readonly ?string $url,
     private array $children = []
   ) {
   }

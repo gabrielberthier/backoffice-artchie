@@ -6,7 +6,7 @@ use App\Domain\Contracts\ModelInterface;
 use App\Domain\Exceptions\Museum\MuseumAlreadyRegisteredException;
 use App\Domain\Models\Museum;
 use App\Domain\Repositories\MuseumRepository;
-use App\Infrastructure\Persistence\Abstract\AbstractRepository;
+use App\Infrastructure\Persistence\Abstraction\AbstractRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 

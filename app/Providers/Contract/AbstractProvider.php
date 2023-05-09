@@ -1,16 +1,18 @@
 <?php
 
-namespace Core\Providers\Abstract;
+namespace Core\Providers\Contract;
 
 use Core\Providers\AppProviderInterface;
 use LogicException;
 
 abstract class AbstractProvider implements AppProviderInterface
 {
+    protected string $target = "";
+
     public function __construct()
     {
-        if (!isset($this->target)) {
-            throw new LogicException(get_class($this).' must have a $target name');
+        if ($this->target === "") {
+            throw new LogicException(get_class($this) . ' must have a $target name');
         }
     }
 
