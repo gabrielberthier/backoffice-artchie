@@ -23,7 +23,6 @@
     "firebase/php-jwt": "^5.2",
     "gabrielberthier/s3-data-transfer": "~1.0",
     "league/flysystem-aws-s3-v3": "^1.0",
-    "lodash-php/lodash-php": "^0.0.7",
     "maennchen/zipstream-php": "^2.1",
     "middlewares/trailing-slash": "^2.0",
     "monolog/monolog": ">=2.0",
@@ -75,7 +74,7 @@
     "test:nodebug": "@php -c ./disable-xdebug.ini && phpunit",
     "test:update": "phpunit --migrate-configuration",
     "doctrine": "doctrine",
-    "doctrine:create-db": "doctrine orm:clear-cache:metadata && doctrine orm:schema-tool:create && doctrine dbal:import database/bootstrap.sql",
+    "doctrine:create-db": "doctrine orm:clear-cache:metadata && doctrine orm:schema-tool:create && doctrine dbal:run-sql database/bootstrap.sql",
     "doctrine:update-db": "doctrine orm:schema-tool:update",
     "doctrine:drop-db": "doctrine orm:schema-tool:drop --force",
     "doctrine:clear-cache": "doctrine orm:clear-cache:metadata && doctrine orm:clear-cache:query && doctrine orm:clear-cache:result"

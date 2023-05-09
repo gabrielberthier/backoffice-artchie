@@ -20,7 +20,7 @@ trait ValidationTrait
     /**
      * @throws UnprocessableEntityException
      */
-    protected function validate(null | array | object $body)
+    protected function validate(null|array|object $body)
     {
         $rules = $this->rules() ?? [];
         $messages = $this->messages() ?? [];
