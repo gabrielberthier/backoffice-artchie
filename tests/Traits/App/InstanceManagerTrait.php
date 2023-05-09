@@ -4,7 +4,7 @@ namespace Tests\Traits\App;
 
 use Core\Builder\AppBuilderManager;
 use Core\Builder\Factories\ContainerFactory;
-use Core\Http\HTTPRequestFactory;
+use Core\Http\RequestFactory;
 use Psr\Container\ContainerInterface;
 use Slim\App;
 
@@ -14,12 +14,12 @@ trait InstanceManagerTrait
     protected App $app;
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     final protected function getAppInstance(): App
     {
         $appBuilder = new AppBuilderManager($this->getContainer());
-        $request = new HTTPRequestFactory();
+        $request = new RequestFactory();
 
         return $appBuilder->build($request->createRequest());
     }
@@ -27,7 +27,7 @@ trait InstanceManagerTrait
     final protected function createAppInstance()
     {
         $appBuilder = new AppBuilderManager($this->getContainer(true));
-        $request = new HTTPRequestFactory();
+        $request = new RequestFactory();
 
         return $appBuilder->build($request->createRequest());
     }
@@ -44,7 +44,7 @@ trait InstanceManagerTrait
     protected function autowireContainer($key, $instance)
     {
         /**
-         * @var Container
+         * @var ContainerInterface
          */
         $container = $this->getContainer();
         $container->set($key, $instance);

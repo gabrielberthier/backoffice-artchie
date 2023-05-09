@@ -2,7 +2,7 @@
 
 namespace App\Domain\Models\Assets\Types\Factories;
 
-use App\Domain\DTO\Asset\Command\CreateAsset;
+use App\Domain\Dto\Asset\Command\CreateAsset;
 use App\Domain\Models\Assets\AbstractAsset;
 use App\Domain\Models\Assets\TextureAsset;
 use App\Domain\Models\Assets\Types\Exceptions\NotAllowedAssetType;
@@ -31,7 +31,10 @@ class TextureAssetFactory implements ConstrainedAssetFactoryInterface
   function allowedFormats(): array|string
   {
     return [
-      "BMP", "JPG", "PNG", 'JPEG',
+      "BMP",
+      "JPG",
+      "PNG",
+      'JPEG',
     ];
   }
 }

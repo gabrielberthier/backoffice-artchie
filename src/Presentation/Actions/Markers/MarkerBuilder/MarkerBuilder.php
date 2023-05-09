@@ -2,7 +2,7 @@
 
 namespace App\Presentation\Actions\Markers\MarkerBuilder;
 
-use App\Domain\DTO\Asset\Command\CreateAsset;
+use App\Domain\Dto\Asset\Command\CreateAsset;
 use App\Domain\Models\Assets\AbstractAsset;
 use App\Domain\Models\Assets\Types\AssetFactoryFacade;
 use App\Domain\Models\Marker\Marker;

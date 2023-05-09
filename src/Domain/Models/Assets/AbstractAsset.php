@@ -3,7 +3,7 @@
 namespace App\Domain\Models\Assets;
 
 use App\Domain\Contracts\ModelInterface;
-use App\Domain\DTO\Asset\Command\CreateAsset;
+use App\Domain\Dto\Asset\Command\CreateAsset;
 use App\Domain\Models\Traits\TimestampsTrait;
 use App\Domain\Models\Traits\UuidTrait;
 use Doctrine\Common\Collections\ArrayCollection;

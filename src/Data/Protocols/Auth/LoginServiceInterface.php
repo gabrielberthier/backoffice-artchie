@@ -2,8 +2,8 @@
 
 namespace App\Data\Protocols\Auth;
 
-use App\Domain\DTO\Credentials;
-use App\Domain\DTO\TokenLoginResponse;
+use App\Domain\Dto\Credentials;
+use App\Domain\Dto\TokenLoginResponse;
 
 interface LoginServiceInterface
 {

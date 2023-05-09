@@ -2,7 +2,7 @@
 
 namespace App\Domain\Models\Assets\Types\Factories;
 
-use App\Domain\DTO\Asset\Command\CreateAsset;
+use App\Domain\Dto\Asset\Command\CreateAsset;
 use App\Domain\Models\Assets\AbstractAsset;
 use App\Domain\Models\Assets\Types\Interfaces\ConstrainedAssetFactoryInterface;
 use App\Domain\Models\Assets\VideoAsset;

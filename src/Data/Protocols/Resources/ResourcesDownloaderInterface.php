@@ -2,7 +2,7 @@
 
 namespace App\Data\Protocols\Resources;
 
-use App\Domain\DTO\Asset\MarkerResource;
+use App\Domain\Dto\Asset\MarkerResource;
 use App\Domain\Exceptions\Museum\MuseumNotFoundException;
 
 interface ResourcesDownloaderInterface

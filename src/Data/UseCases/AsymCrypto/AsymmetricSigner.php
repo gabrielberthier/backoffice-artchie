@@ -31,8 +31,8 @@ class AsymmetricSigner implements SignerInterface
 
             $signatureToken = new SignatureToken(
                 null,
-                $signature->signature(),
-                $signature->privateKey(),
+                $signature->signature,
+                $signature->privateKey,
                 $museum
             );
 
@@ -40,7 +40,7 @@ class AsymmetricSigner implements SignerInterface
 
             return $this->createTokenResponse(
                 $museum->getUuid()->toString(),
-                $signature->publicKey()
+                $signature->publicKey
             );
         }
 

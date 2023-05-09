@@ -2,16 +2,15 @@
 
 namespace App\Data\Protocols\Auth;
 
-use App\Domain\DTO\AccountDto;
-use App\Domain\DTO\TokenLoginResponse;
-use App\Domain\Models\Account;
+use App\Domain\Dto\AccountDto;
+use App\Domain\Dto\TokenLoginResponse;
 
 interface SignUpServiceInterface
 {
     /**
      * Receives Account and return TokenLoginResponse.
      *
-     * @param Account
+     * @param AccountDto
      */
-    public function register(AccountDto $account): TokenLoginResponse;
+    public function register(AccountDto $accountDto): TokenLoginResponse;
 }

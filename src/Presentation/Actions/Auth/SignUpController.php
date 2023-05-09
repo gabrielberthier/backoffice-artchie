@@ -6,8 +6,7 @@ namespace App\Presentation\Actions\Auth;
 
 use App\Data\Protocols\Auth\SignUpServiceInterface;
 use App\Data\Protocols\Cryptography\HasherInterface;
-use App\Domain\DTO\AccountDto;
-use App\Domain\Models\Account;
+use App\Domain\Dto\AccountDto;
 use App\Presentation\Actions\Auth\Utilities\CookieTokenManager;
 use App\Presentation\Actions\Protocols\Action;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -36,12 +35,12 @@ class SignUpController extends Action
         $password = $this->hasherInterface->hash($password);
         $account = new AccountDto(email: $email, username: $username, password: $password);
         $tokenize = $this->service->register($account);
-        $refreshToken = $tokenize->getRenewToken();
+        $refreshToken = $tokenize->renewToken;
 
         $this->cookieManager->implant($refreshToken);
 
         return $this
-            ->respondWithData(['token' => $tokenize->getToken()])
+            ->respondWithData(['token' => $tokenize->token])
             ->withStatus(201, 'Created token');
     }
 
@@ -66,7 +65,7 @@ class SignUpController extends Action
             'password' => function ($value) {
                 return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[\w$@]{6,}$/m', $value);
             },
-            'passwordConfirmation' => fn ($value) => $value === $password,
+            'passwordConfirmation' => fn($value) => $value === $password,
         ];
     }
 }

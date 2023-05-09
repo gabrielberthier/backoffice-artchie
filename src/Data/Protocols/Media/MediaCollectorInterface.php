@@ -2,7 +2,7 @@
 
 namespace App\Data\Protocols\Media;
 
-use App\Domain\DTO\MediaResource;
+use App\Domain\Dto\MediaResource;
 
 
 interface MediaCollectorInterface

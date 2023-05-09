@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\DTO\Asset\Command;
+namespace App\Domain\Dto\Asset\Command;
 
 use Mimey\MimeTypes;
 

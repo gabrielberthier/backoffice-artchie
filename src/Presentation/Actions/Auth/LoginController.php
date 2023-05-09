@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Actions\Auth;
 
 use App\Data\Protocols\Auth\LoginServiceInterface;
-use App\Domain\DTO\Credentials;
+use App\Domain\Dto\Credentials;
 use App\Presentation\Actions\Auth\Utilities\CookieTokenManager;
 use App\Presentation\Actions\Protocols\Action;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -31,11 +31,11 @@ class LoginController extends Action
 
         $credentials = new Credentials($access, $password);
         $tokenize = $this->loginService->auth($credentials);
-        $refreshToken = $tokenize->getRenewToken();
+        $refreshToken = $tokenize->renewToken;
 
         $this->cookieManager->implant($refreshToken);
 
-        return $this->respondWithData(['token' => $tokenize->getToken()])->withStatus(201, 'Created token');
+        return $this->respondWithData(['token' => $tokenize->token])->withStatus(201, 'Created token');
     }
 
     public function messages(): ?array

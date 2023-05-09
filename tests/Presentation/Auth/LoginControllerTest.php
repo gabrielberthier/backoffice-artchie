@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Presentation\Auth;
 
 use App\Data\Protocols\Auth\LoginServiceInterface;
-use App\Domain\DTO\Credentials;
+use App\Domain\Dto\Credentials;
 use App\Presentation\Actions\Protocols\ActionError;
 use App\Presentation\Actions\Protocols\ActionPayload;
 use App\Presentation\Helpers\Validation\Validators\Interfaces\ValidationInterface;
@@ -56,7 +56,7 @@ class LoginControllerTest extends TestCase
         $app = $this->app;
         $this->setUpErrorHandler($app);
         $body = new Credentials('mike@gmail.com', 'pass');
-        $request = $this->createJsonRequest('POST', '/auth/login', $body);
+        $request = $this->createJsonRequest('POST', '/auth/login', $body->jsonSerialize());
 
         $response = $app->handle($request);
 

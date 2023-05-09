@@ -2,7 +2,7 @@
 
 namespace App\Domain\Models\Assets\Types\Factories;
 
-use App\Domain\DTO\Asset\Command\CreateAsset;
+use App\Domain\Dto\Asset\Command\CreateAsset;
 use App\Domain\Models\Assets\AbstractAsset;
 use App\Domain\Models\Assets\ThreeDimensionalAsset;
 use App\Domain\Models\Assets\Types\Interfaces\ConstrainedAssetFactoryInterface;
@@ -28,7 +28,10 @@ class ThreeDimensionalAssetFactory implements ConstrainedAssetFactoryInterface
     function allowedFormats(): array|string
     {
         return [
-            'obj', 'fbx', 'glb', 'gltf'
+            'obj',
+            'fbx',
+            'glb',
+            'gltf'
         ];
     }
 }

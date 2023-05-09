@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Infrastructure\Persistence\ORM;
+namespace Tests\Infrastructure\Persistence\Orm;
 
 use DI\Container;
 use Doctrine\ORM\EntityManager;

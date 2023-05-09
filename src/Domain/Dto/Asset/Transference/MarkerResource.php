@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\DTO\Asset\Transference;
+namespace App\Domain\Dto\Asset\Transference;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

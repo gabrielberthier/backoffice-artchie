@@ -4,7 +4,7 @@ namespace App\Data\UseCases\Markers;
 
 use App\Data\Protocols\Markers\Downloader\MarkerDownloaderServiceInterface;
 use App\Data\Protocols\Media\MediaCollectorInterface;
-use App\Domain\DTO\MediaResource;
+use App\Domain\Dto\MediaResource;
 use App\Domain\Models\Marker\Marker;
 use App\Domain\Models\Museum;
 use App\Domain\Repositories\MarkerRepositoryInterface;
@@ -50,15 +50,15 @@ class MarkerDownloader implements MarkerDownloaderServiceInterface
 
         $resources = array_filter(
             $this->visitor->collect(),
-            fn (MediaResource $resource) => $this->verifyFileExistence(
-                $resource->path()
+            fn(MediaResource $resource) => $this->verifyFileExistence(
+                $resource->path
             )
         );
 
         $mappedArray = array_map(
-            fn (MediaResource $resource) => new ResourceObject(
-                $resource->path(),
-                $resource->name()
+            fn(MediaResource $resource) => new ResourceObject(
+                $resource->path,
+                $resource->name
             ),
             $resources
         );

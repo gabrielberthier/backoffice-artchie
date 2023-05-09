@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Account;
 
-use App\Domain\DTO\AccountDto;
+use App\Domain\Dto\AccountDto;
 use App\Domain\Exceptions\Account\UserAlreadyRegisteredException;
 use App\Domain\Models\Account;
 use App\Domain\Repositories\AccountRepository;

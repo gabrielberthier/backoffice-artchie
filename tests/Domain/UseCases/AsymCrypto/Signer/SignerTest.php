@@ -6,7 +6,7 @@ namespace Tests\Domain\UseCases\AsymCrypto;
 
 use App\Data\Protocols\Cryptography\AsymmetricEncrypter;
 use App\Data\UseCases\AsymCrypto\AsymmetricSigner;
-use App\Domain\DTO\Signature;
+use App\Domain\Dto\Signature;
 use App\Domain\Models\Museum;
 use App\Domain\Repositories\MuseumRepository;
 use App\Domain\Repositories\SignatureTokenRepositoryInterface;

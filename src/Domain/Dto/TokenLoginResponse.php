@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\DTO;
+namespace App\Domain\Dto;
 
 use App\Data\Protocols\Cryptography\TokenGeneratorInterface;
 use App\Domain\Models\Account;

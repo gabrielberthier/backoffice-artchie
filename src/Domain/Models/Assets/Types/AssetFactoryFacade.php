@@ -2,7 +2,7 @@
 
 namespace App\Domain\Models\Assets\Types;
 
-use App\Domain\DTO\Asset\Command\CreateAsset;
+use App\Domain\Dto\Asset\Command\CreateAsset;
 use App\Domain\Models\Assets\AbstractAsset;
 use App\Domain\Models\Assets\Types\Exceptions\NotAllowedAssetType;
 use App\Domain\Models\Assets\Types\Factories\PictureAssetFactory;

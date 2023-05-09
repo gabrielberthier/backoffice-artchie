@@ -4,7 +4,7 @@ namespace App\Data\UseCases\Media;
 
 use App\Data\Protocols\Media\MediaCollectorInterface;
 use App\Data\Protocols\Media\MediaHostInterface;
-use App\Domain\DTO\MediaResource;
+use App\Domain\Dto\MediaResource;
 use App\Domain\Models\Assets\AbstractAsset;
 
 class MediaCollectorVisitor implements MediaCollectorInterface

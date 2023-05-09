@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Presentation\Auth;
+namespace Tests\Presentation\Security;
 
 use App\Data\Protocols\AsymCrypto\SignerInterface;
 use App\Presentation\Actions\Protocols\HttpErrors\UnprocessableEntityException;

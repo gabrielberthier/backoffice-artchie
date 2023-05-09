@@ -2,12 +2,10 @@
 
 namespace App\Data\UseCases\Authentication;
 
-use App\Data\Protocols\Auth\SignUpServiceInterface;
-use App\Domain\DTO\AccountDto;
-use App\Domain\DTO\TokenLoginResponse;
-use App\Domain\Models\Account;
+use App\Domain\Dto\AccountDto;
+use App\Domain\Dto\TokenLoginResponse;
 use App\Domain\Repositories\AccountRepository;
-use Exception;
+use App\Data\Protocols\Auth\SignUpServiceInterface;
 
 class SignUp implements SignUpServiceInterface
 {
@@ -15,8 +13,15 @@ class SignUp implements SignUpServiceInterface
     {
     }
 
-    public function register(AccountDto $account): TokenLoginResponse
+    /**
+     * Receives Account and return TokenLoginResponse.
+     *
+     * @param AccountDto
+     */
+    public function register(AccountDto $accountDto): TokenLoginResponse
     {
-        return new TokenLoginResponse($this->accountRepository->insert($account));
+        $account = $this->accountRepository->insert($accountDto);
+
+        return new TokenLoginResponse($account);
     }
 }

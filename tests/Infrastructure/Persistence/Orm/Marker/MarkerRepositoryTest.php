@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Infrastructure\Persistence\ORM\Marker;
+namespace Tests\Infrastructure\Persistence\Orm\Marker;
 
 use App\Domain\Models\Assets\PictureAsset;
 use App\Domain\Models\Marker\Marker;

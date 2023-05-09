@@ -5,8 +5,8 @@ namespace App\Data\UseCases\Authentication;
 use App\Data\Protocols\Auth\LoginServiceInterface;
 use App\Data\Protocols\Cryptography\ComparerInterface;
 use App\Data\UseCases\Authentication\Errors\IncorrectPasswordException;
-use App\Domain\DTO\Credentials;
-use App\Domain\DTO\TokenLoginResponse;
+use App\Domain\Dto\Credentials;
+use App\Domain\Dto\TokenLoginResponse;
 use App\Domain\Exceptions\NoAccountFoundException;
 use App\Domain\Repositories\AccountRepository;
 

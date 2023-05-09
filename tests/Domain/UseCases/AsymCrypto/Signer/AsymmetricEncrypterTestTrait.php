@@ -3,7 +3,7 @@
 namespace Tests\Domain\UseCases\AsymCrypto\Signer;
 
 use App\Data\Protocols\Cryptography\AsymmetricEncrypter;
-use App\Domain\DTO\Signature;
+use App\Domain\Dto\Signature;
 use App\Domain\Models\Museum;
 use Ramsey\Uuid\Uuid;
 
@@ -12,10 +12,10 @@ trait AsymmetricEncrypterTestTrait
     public function testIfAsymmetricEncrypterReceivesValues()
     {
         /**
-         * @var MockObject
+         * @var \PHPUnit\Framework\MockObject\MockObject
          */
         $encrypter = $this->sut->encrypter;
-        /** @var MockObject */
+        /** @var \PHPUnit\Framework\MockObject\MockObject */
         $repo = $this->sut->repository;
         $uuid = Uuid::fromString('5a4bd710-aab8-4ebc-b65d-0c059a960cfb');
         $museum = new Museum(2, email: '', name: 'test_museum');
@@ -39,10 +39,10 @@ trait AsymmetricEncrypterTestTrait
     public function testIfSignerReturnsValid64BasedString()
     {
         /**
-         * @var MockObject
+         * @var \PHPUnit\Framework\MockObject\MockObject
          */
         $encrypter = $this->sut->encrypter;
-        /** @var MockObject */
+        /** @var \PHPUnit\Framework\MockObject\MockObject */
         $repo = $this->sut->repository;
         $uuid = Uuid::fromString('5a4bd710-aab8-4ebc-b65d-0c059a960cfb');
         $museum = new Museum(2, email: '', name: 'test_museum');
@@ -75,7 +75,7 @@ trait AsymmetricEncrypterTestTrait
     /**
      * Create a mocked login service.
      *
-     * @return MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     private function createEncrypterMock()
     {

@@ -8,8 +8,8 @@ use App\Data\Protocols\Auth\LoginServiceInterface;
 use App\Data\Protocols\Cryptography\ComparerInterface;
 use App\Data\UseCases\Authentication\Errors\IncorrectPasswordException;
 use App\Data\UseCases\Authentication\Login;
-use App\Domain\DTO\Credentials;
-use App\Domain\DTO\TokenLoginResponse;
+use App\Domain\Dto\Credentials;
+use App\Domain\Dto\TokenLoginResponse;
 use App\Domain\Exceptions\NoAccountFoundException;
 use App\Domain\Models\Account;
 use App\Domain\Repositories\AccountRepository;
@@ -135,7 +135,10 @@ class LoginTest extends TestCase
     {
         $repository = $this->mockRepository();
         $repository->method('findByAccess')->willReturn(
-            new Account(2, password: 'hashed_password', email: 'mail.com', username: 'user')
+            new Account(2,
+                password: 'hashed_password',
+                email: 'mail.com',
+                username: 'user')
         );
 
         $this->expectException(IncorrectPasswordException::class);

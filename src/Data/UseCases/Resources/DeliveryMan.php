@@ -4,11 +4,11 @@ namespace App\Data\UseCases\Resources;
 
 use App\Data\Protocols\Media\MediaHostInterface;
 use App\Data\Protocols\Resources\ResourcesDownloaderInterface;
-use App\Domain\DTO\Asset\PlacementResource;
-use App\Domain\DTO\Asset\Transference\Asset as TransferenceAsset;
-use App\Domain\DTO\Asset\Transference\AssetInfo as TransferenceAssetInfo;
-use App\Domain\DTO\Asset\Transference\MarkerResource;
-use App\Domain\DTO\Asset\Transference\PlacementResource as TransferencePlacementResource;
+use App\Domain\Dto\Asset\PlacementResource;
+use App\Domain\Dto\Asset\Transference\Asset as TransferenceAsset;
+use App\Domain\Dto\Asset\Transference\AssetInfo as TransferenceAssetInfo;
+use App\Domain\Dto\Asset\Transference\MarkerResource;
+use App\Domain\Dto\Asset\Transference\PlacementResource as TransferencePlacementResource;
 use App\Domain\Exceptions\Museum\MuseumNotFoundException;
 use App\Domain\Exceptions\Protocols\DomainException;
 use App\Domain\Models\Assets\AbstractAsset;
@@ -43,7 +43,7 @@ class DeliveryMan implements ResourcesDownloaderInterface
     try {
       return $this->doOrThrowIf(
         isset($museum),
-        doCallback: fn () =>
+        doCallback: fn() =>
         $this->mapCollectionToAssets(
           $this->filterPlacementObjectsFromMarkers(
             $this->filterMarkers(
@@ -59,6 +59,8 @@ class DeliveryMan implements ResourcesDownloaderInterface
       );
     } catch (\Throwable $th) {
       echo ($th);
+
+      return [];
     }
   }
 
@@ -74,9 +76,11 @@ class DeliveryMan implements ResourcesDownloaderInterface
 
     return $this->preventNotFoundAssets(
       $markers->map(
-        fn (Marker $el) => (new MarkerResource(
+        fn(Marker $el) => (
+          new MarkerResource(
           ...$this->convertMediaMapperToAssetBase($el)
-        ))
+          )
+        )
           ->withInformation(
             new TransferenceAssetInfo($el->getTitle(), $el->getText())
           )
@@ -93,14 +97,14 @@ class DeliveryMan implements ResourcesDownloaderInterface
    *
    * @param Collection<PlacementObject> $resources
    *
-   * @return PlacementResource[]
+   * @return \App\Domain\Dto\Asset\Transference\PlacementResource[]
    */
   private function mapPlacementObjectsToPlacementResources(
     Collection $resources
   ): array {
     return $this->preventNotFoundAssets(
       $resources->map(
-        fn (PlacementObject $po) => new TransferencePlacementResource(
+        fn(PlacementObject $po) => new TransferencePlacementResource(
           ...$this->convertMediaMapperToAssetBase($po)
         )
       )
@@ -130,8 +134,8 @@ class DeliveryMan implements ResourcesDownloaderInterface
   private function preventNotFoundAssets(Collection $collection): Collection
   {
     return $collection->filter(
-      fn (TransferenceAsset $asset) =>
-      !($asset->getUrl() === null && $asset->getUrl() === "")
+      fn(TransferenceAsset $asset) =>
+      !($asset->url === null && $asset->url === "")
     );
   }
 

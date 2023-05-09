@@ -36,7 +36,7 @@ trait RequestManagerTrait
     }
 
     protected function constructPostRequest(
-        array | object $data,
+        array|object $data,
         string $method,
         string $path,
         array $headers = null,
@@ -63,7 +63,7 @@ trait RequestManagerTrait
         return $request;
     }
 
-    protected function setRequestParsedBody(ServerRequestInterface $request, array | object $data): ServerRequestInterface
+    protected function setRequestParsedBody(ServerRequestInterface $request, array|object $data): ServerRequestInterface
     {
         $encodedData = json_encode($data);
         $request->getBody()->write($encodedData);
@@ -76,13 +76,13 @@ trait RequestManagerTrait
      * Create a JSON request.
      *
      * @param string              $method The HTTP method
-     * @param string|UriInterface $uri    The URI
+     * @param string|\Psr\Http\Message\UriInterface $uri    The URI
      * @param null|array          $data   The json data
      */
     protected function createJsonRequest(
         string $method,
         $uri,
-        array | object $data = null
+        array|object $data = null
     ): ServerRequestInterface {
         /**
          * @var RequestInterface

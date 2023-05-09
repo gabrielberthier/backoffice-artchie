@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\Infrastructure\Persistence\User;
+namespace Tests\Infrastructure\Persistence\Orm\Account;
 
-use App\Domain\DTO\AccountDto;
+use App\Domain\Dto\AccountDto;
 use App\Domain\Models\Account;
 use App\Domain\Repositories\AccountRepository;
 use Doctrine\ORM\EntityManager;

@@ -11,8 +11,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
 
 function createAbstractAsset(): AbstractAsset
 {
-  return new class extends AbstractAsset
-  {
+  return new class extends AbstractAsset {
     public function __construct(public string $mediaType = "stub")
     {
     }
@@ -77,7 +76,7 @@ class VisitorCollectorTest extends TestCase
     $this->sut->visit($mhi->reveal());
 
     $this->assertEquals(1, count($this->sut->collect()));
-    $this->assertEquals($this->sut->collect()[0]->path(), "path");
+    $this->assertEquals($this->sut->collect()[0]->path, "path");
   }
 
   public function testShouldHaveFiveElementsInCollection()

@@ -2,14 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\DTO;
+namespace App\Domain\Dto;
 
 
 final readonly class AccountDto
 {
-    public string $email;
-    public string $username;
-    public string $password;
+    public function __construct(
+        public string $email,
+        public string $username,
+        public string $password
+    ) {
+
+    }
 
     public function getData(): array
     {

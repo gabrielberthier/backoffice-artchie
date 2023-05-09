@@ -2,7 +2,7 @@
 
 namespace App\Data\Protocols\Cryptography;
 
-use App\Domain\DTO\Signature;
+use App\Domain\Dto\Signature;
 
 interface AsymmetricEncrypter
 {

@@ -2,15 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\DTO;
+namespace App\Domain\Dto;
 
 use JsonSerializable;
 
 final readonly class Credentials implements JsonSerializable
 {
-    public string $access;
-    public string $password;
-    public string $role = '';
+    public function __construct(
+        public string $access,
+        public string $password,
+        public string $role = '',
+    ) {
+
+    }
 
     /**
      * @return array

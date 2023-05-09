@@ -3,7 +3,7 @@
 namespace App\Infrastructure\Cryptography\AsymmetricKeyGeneration;
 
 use App\Data\Protocols\Cryptography\AsymmetricEncrypter;
-use App\Domain\DTO\Signature;
+use App\Domain\Dto\Signature;
 
 class OpenSSLAsymmetricEncrypter implements AsymmetricEncrypter
 {

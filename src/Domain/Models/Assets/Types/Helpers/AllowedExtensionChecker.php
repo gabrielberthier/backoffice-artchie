@@ -2,7 +2,7 @@
 
 namespace App\Domain\Models\Assets\Types\Helpers;
 
-use App\Domain\DTO\Asset\Command\CreateAsset;
+use App\Domain\Dto\Asset\Command\CreateAsset;
 use App\Domain\Models\Assets\Types\Interfaces\ConstrainedAssetFactoryInterface;
 
 class AllowedExtensionChecker
