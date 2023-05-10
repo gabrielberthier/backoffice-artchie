@@ -10,6 +10,7 @@ use Core\Http\Routing\Interfaces\AbstractRouter;
 use Core\Http\Routing\Middlewares\AsymetricValidatorFactory;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\App;
+use Slim\Psr7\Request;
 
 class Router extends AbstractRouter
 {
@@ -32,5 +33,8 @@ class Router extends AbstractRouter
         $app
             ->get('/fetch-assets', ResourcesDownloaderAction::class)
             ->addMiddleware($asymValidator);
+        $app->get('/generate-google-login', function (Request $request, Response $response, array $args) {
+            dd($request->getQueryParams());
+        });
     }
 }
