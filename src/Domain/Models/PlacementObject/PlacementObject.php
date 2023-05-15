@@ -11,39 +11,39 @@ use App\Domain\Models\Assets\AbstractAsset;
 use App\Domain\Models\Marker\Marker;
 use App\Domain\Models\Traits\TimestampsTrait;
 use App\Domain\Models\Traits\UuidTrait;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToOne;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\Table;
 
-/**
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="placement_objects")
- */
+
+#[Entity, Table(name: 'placement_objects'), HasLifecycleCallbacks]
 class PlacementObject implements ModelInterface, MediaHostInterface
 {
     use TimestampsTrait;
     use UuidTrait;
 
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
     protected ?int $id;
 
-    /** @ORM\Column(type="string") */
+    #[Column(type: 'string')]
     private string $name;
-    /** @ORM\Column(type="boolean") */
+    #[Column(type: 'boolean')]
     private bool $isActive = true;
 
     /**
      * Many resources have one marker. This is the owning side.
      *
-     * @ORM\ManyToOne(targetEntity="App\Domain\Models\Marker\Marker", inversedBy="resources")
-     * @ORM\JoinColumn(name="marker_id", referencedColumnName="id", onDelete="CASCADE")
      */
+    #[
+        ManyToOne(targetEntity: Marker::class, inversedBy: "resources"),
+        JoinColumn(name: "marker_id", referencedColumnName: "id", onDelete: "CASCADE")
+    ]
     private ?Marker $marker;
 
-    /** @ORM\OneToOne(targetEntity="PosedAsset", mappedBy="posedObject", cascade={"persist", "remove"}) */
+    #[OneToOne(targetEntity: PosedAsset::class, mappedBy: "posedObject", cascade: ["persist", "remove"])]
     private ?PosedAsset $asset = null;
 
 

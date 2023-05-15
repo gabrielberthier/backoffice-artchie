@@ -5,11 +5,10 @@ namespace App\Domain\Models\Assets;
 use App\Domain\Models\Assets\AbstractAsset;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\Entity;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="three_dimensional_assets")
- */
+#[Entity, Table(name="three_dimensional_assets"]
 class ThreeDimensionalAsset extends AbstractAsset
 {
     public function __construct()

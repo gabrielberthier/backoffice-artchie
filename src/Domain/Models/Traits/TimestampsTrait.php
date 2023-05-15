@@ -3,22 +3,19 @@
 namespace App\Domain\Models\Traits;
 
 use DateTime;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\PreUpdate;
+use Doctrine\ORM\Mapping\PrePersist;
+use Doctrine\ORM\Mapping\Column;
 
 trait TimestampsTrait
 {
-    /** @ORM\Column(type="datetime", name="created_at") */
+    #[Column(type: 'datetime', name:"created_at")]
     private ?DateTime $createdAt = null;
 
-    /**
-     * @ORM\Column(type="datetime", name="updated_at")
-     */
+    #[Column(type: 'datetime', name:"updated_at")]
     private ?DateTime $updated = null;
 
-    /**
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
-     */
+    #[PreUpdate, PrePersist]
     public function updatedTimestamps(): void
     {
         $this->setUpdated(new DateTime('now'));

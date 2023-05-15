@@ -15,47 +15,53 @@ use App\Domain\Models\Traits\TimestampsTrait;
 use App\Domain\Models\Traits\UuidTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="markers")
- */
+use Doctrine\ORM\Mapping\OneToOne;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Table;
+
+#[Entity, Table(name: 'markers'), HasLifecycleCallbacks]
 class Marker implements ModelInterface, MediaHostParentInterface
 {
     use TimestampsTrait;
     use UuidTrait;
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+
+    #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
     protected ?int $id;
-    /**
-     * Many markers have one museum. This is the owning side.
-     *
-     * @ORM\ManyToOne(targetEntity="App\Domain\Models\Museum", inversedBy="markers")
-     * @ORM\JoinColumn(name="museum_id", referencedColumnName="id")
-     */
+
+    #[
+        ManyToOne(targetEntity: Museum::class, inversedBy: "markers"),
+        JoinColumn(name: "museum_id", referencedColumnName: "id")
+    ]
     private ?Museum $museum;
-    /** @ORM\Column(type="string", nullable=false) */
+
+    #[Column(type: "string", nullable: false)]
     private string $name;
-    /** @ORM\Column(type="text", nullable=true) */
+
+    #[Column(type: "text", nullable: true)]
     private ?string $text;
-    /** @ORM\Column(type="string", nullable=true) */
+
+    #[Column(type: "string", nullable: true)]
     private ?string $title;
-    /** @ORM\OneToOne(targetEntity="MarkerAsset", mappedBy="marker", cascade={"persist", "remove"}) */
+
+    #[OneToOne(targetEntity: MarkerAsset::class, mappedBy: "marker", cascade: ["persist", "remove"])]
     private ?MarkerAsset $asset = null;
 
-    /** @ORM\Column(type="boolean", nullable=false) */
+    #[Column(type: "boolean", nullable: false)]
     private bool $isActive = true;
 
     /**
      * One marker has one or many resources. This is the inverse side.
      *
-     * @ORM\OneToMany(targetEntity="App\Domain\Models\PlacementObject\PlacementObject", mappedBy="marker", cascade={"persist", "remove"})
      */
+    #[OneToMany(targetEntity: PlacementObject::class, mappedBy: "marker", cascade: ["persist", "remove"])]
     private Collection $resources;
 
     public function __construct()

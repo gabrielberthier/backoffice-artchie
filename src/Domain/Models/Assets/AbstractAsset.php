@@ -8,24 +8,35 @@ use App\Domain\Models\Traits\TimestampsTrait;
 use App\Domain\Models\Traits\UuidTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\InheritanceType;
+use Doctrine\ORM\Mapping\DiscriminatorColumn;
+use Doctrine\ORM\Mapping\DiscriminatorMap;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use Exception;
 
 /**
  * Abstract resource comprehends the entities which hold data such as medias, assets, etc.
- *
- * @ORM\Entity
- * @ORM\Table(name="assets")
- * @ORM\HasLifecycleCallbacks
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="asset_type", type="string")
- * @ORM\DiscriminatorMap({
- *      "3dObject" = "ThreeDimensionalAsset",
- *      "texture" = "TextureAsset",
- *      "video" = "VideoAsset",
- *      "picture" = "PictureAsset"
- * })
  */
+#[
+    Entity,
+    Table(name: 'markers'),
+    HasLifecycleCallbacks,
+    InheritanceType("SINGLE_TABLE"),
+    DiscriminatorColumn(name: "asset_type", type: "string"),
+    DiscriminatorMap([
+        "3dObject" => "ThreeDimensionalAsset",
+        "texture" => "TextureAsset",
+        "video" => "VideoAsset",
+        "picture" => "PictureAsset"
+    ])
+]
 abstract class AbstractAsset implements ModelInterface
 {
     use TimestampsTrait;
@@ -38,18 +49,19 @@ abstract class AbstractAsset implements ModelInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
     protected ?int $id;
-    /** @ORM\Column(type="string", unique=true) */
+    #[Column(type: 'string', unique: true)]
     private string $path;
-    /** @ORM\Column(type="string", unique=true) */
+    #[Column(type: 'string', unique: true)]
     private string $fileName;
-    /** @ORM\Column(type="string", nullable=true) */
+    #[Column(type: 'string', nullable: true)]
     private ?string $url;
-    /** @ORM\Column(type="string") */
+    #[Column(type: 'string')]
     private string $mediaType;
-    /** @ORM\Column(type="string") */
+    #[Column(type: 'string')]
     private string $originalName;
-    /** @ORM\Column(type="string") */
+    #[Column(type: 'string')]
     private string $mimeType;
 
     private ?string $temporaryLocation = null;
@@ -57,15 +69,15 @@ abstract class AbstractAsset implements ModelInterface
     /**
      * One Asset may have a set of sub assets, e.g., a 3D object can have many textures.
      * 
-     * @ORM\OneToMany(targetEntity="AbstractAsset", mappedBy="parent")
+     * @param Collection<AbstractAsset> $children
      */
+    #[OneToMany(targetEntity: AbstractAsset::class, mappedBy: "parent")]
     private Collection $children;
 
     /**
      * Many sub assets have a single parent.
-     * 
-     * @ORM\ManyToOne(targetEntity="AbstractAsset", inversedBy="children")
      */
+    #[ManyToOne(targetEntity: AbstractAsset::class, inversedBy: "children")]
     private self $parent;
 
     public function __construct(string $mediaType)

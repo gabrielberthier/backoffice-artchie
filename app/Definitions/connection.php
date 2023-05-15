@@ -2,7 +2,7 @@
 
 $mode = $_ENV['MODE'] ?? '';
 
-$scanDatabaseValues = function (): array {
+$scanDatabaseValues = static function (): array {
     if (isset($_ENV['DATABASE_URL'])) {
         return ['url' => $_ENV['DATABASE_URL']];
     }

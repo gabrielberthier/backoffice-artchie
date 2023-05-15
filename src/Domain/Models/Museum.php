@@ -8,55 +8,42 @@ use App\Domain\Contracts\ModelInterface;
 use App\Domain\Models\Marker\Marker;
 use App\Domain\Models\Traits\TimestampsTrait;
 use App\Domain\Models\Traits\UuidTrait;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\Table;
 
-/**
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="museums")
- */
+use DateTime;
+
+
+#[Entity, Table(name: 'museums'), HasLifecycleCallbacks]
 class Museum implements ModelInterface
 {
     use TimestampsTrait;
     use UuidTrait;
 
-    /**
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
+
     protected $id;
 
-    /**
-     * @ORM\Column(type="string", unique=true, nullable=false)
-     */
+    #[Column(type: 'string', unique: true, nullable: false)]
     private string $email;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[Column(type: 'string')]
     private string $name;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[Column(type: 'text', nullable: true)]
     private ?string $description;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[Column(type: 'string', nullable: true)]
     private ?string $info;
 
-    /**
-     * One museum has one or many markers. This is the inverse side.
-     *
-     * @ORM\OneToMany(targetEntity="App\Domain\Models\Marker\Marker", mappedBy="museum", cascade={"persist", "remove"})
-     */
+    #[OneToMany(targetEntity: Marker::class, mappedBy: "museum", cascade: ["persist", "remove"])]
     private Collection $markers;
 
     public function __construct(

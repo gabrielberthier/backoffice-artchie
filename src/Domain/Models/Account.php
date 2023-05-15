@@ -6,49 +6,36 @@ namespace App\Domain\Models;
 
 use App\Domain\Models\Traits\TimestampsTrait;
 use App\Domain\Models\Traits\UuidTrait;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\Table;
+
 use DateTime;
-use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 
-/**
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="accounts")
- */
+
+#[Entity, Table(name: 'accounts'), HasLifecycleCallbacks]
 class Account implements JsonSerializable
 {
     use TimestampsTrait;
     use UuidTrait;
 
-    /**
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
     protected $id;
 
-
-
-    /**
-     * @ORM\Column(type="string", unique=true, nullable=false)
-     */
+    #[Column(type: 'string', unique: true, nullable: false)]
     private string $email;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[Column(type: 'string')]
     private string $username;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[Column(type: 'string')]
     private string $password;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[Column(type: 'string')]
     private ?string $role = 'common';
 
     public function __construct(

@@ -2,26 +2,17 @@
 
 namespace App\Domain\Models\Traits;
 
-use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 use Ramsey\Uuid\Uuid;
+use Doctrine\ORM\Mapping\PrePersist;
+use Doctrine\ORM\Mapping\Column;
 
 trait UuidTrait
 {
-    /**
-     * The internal primary identity key.
-     *
-     * @ORM\Column(type="uuid", unique=true)
-     */
+    #[Column(type: 'uuid', unique:true)]
     private ?UuidInterface $uuid = null;
 
-    /**
-     * Generates a uuid before insert an item
-     *
-     * @return void
-     * 
-     * @ORM\PrePersist
-     */
+    #[PrePersist]
     public function generateUuid(): void
     {
         $this->uuid = Uuid::uuid4();

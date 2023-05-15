@@ -4,28 +4,32 @@ namespace App\Domain\Models\Marker;
 
 use App\Domain\Models\Assets\AbstractAsset;
 use App\Domain\Models\Traits\TimestampsTrait;
-use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="marker_assets")
- */
+use Doctrine\ORM\Mapping\OneToOne;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\Table;
+
+#[Entity, Table(name: 'marker_assets'), HasLifecycleCallbacks]
 class MarkerAsset
 {
     use TimestampsTrait;
-    /**
-     * @ORM\Id 
-     * @ORM\OneToOne(targetEntity="Marker")
-     * @ORM\JoinColumn(name="marker_id", referencedColumnName="id")
-     */
+
+    #[
+        Id,
+        OneToOne(targetEntity: Marker::class),
+        JoinColumn(name: "marker_id", referencedColumnName: "id")
+    ]
     private Marker $marker;
 
-    /**
-     * @ORM\Id 
-     * @ORM\ManyToOne(targetEntity="App\Domain\Models\Assets\AbstractAsset")
-     * @ORM\JoinColumn(name="asset_id", referencedColumnName="id")
-     */
+    #[
+        Id,
+        ManyToOne(targetEntity: AbstractAsset::class),
+        JoinColumn(name: "asset_id", referencedColumnName: "id")
+    ]
     private AbstractAsset $asset;
 
     public function __construct(Marker $marker, AbstractAsset $asset)
