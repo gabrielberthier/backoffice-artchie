@@ -6,47 +6,37 @@ namespace App\Domain\Models\Security;
 
 use App\Domain\Models\Museum;
 use App\Domain\Models\Traits\TimestampsTrait;
+use Doctrine\ORM\Mapping\OneToOne;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\Table;
+
 use DateInterval;
 use DateTime;
-use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 
-/**
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="signature_tokens")
- */
+
+#[Entity, Table(name: 'signature_tokens'), HasLifecycleCallbacks]
 class SignatureToken implements JsonSerializable
 {
     use TimestampsTrait;
 
-    /**
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
     protected $id;
 
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+    #[Column(type: 'text', nullable: false)]
     private string $signature;
 
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
+    #[Column(type: 'text', nullable: false)]
     private string $privateKey;
 
-    /** @ORM\Column(type="datetime", name="time_to_live") */
+    #[Column(type: 'datetime', name: 'time_to_live')]
     private DateTime $ttl;
 
-    /**
-     * One Product has One Shipment.
-     *
-     * @ORM\OneToOne(targetEntity="App\Domain\Models\Museum")
-     */
+    #[OneToOne(targetEntity: Museum::class)]
     private ?Museum $museum;
 
     public function __construct(

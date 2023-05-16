@@ -4,29 +4,34 @@ namespace App\Domain\Models\PlacementObject;
 
 use App\Domain\Models\Assets\AbstractAsset;
 use App\Domain\Models\Traits\TimestampsTrait;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OneToOne;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\Table;
 
-/**
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="posed_assets")
- */
+
+#[Entity, Table(name: 'posed_assets'), HasLifecycleCallbacks]
 class PosedAsset
 {
     use TimestampsTrait;
 
-    /**
-     * @ORM\Id 
-     * @ORM\OneToOne(targetEntity="PlacementObject", mappedBy="asset")
-     * @ORM\JoinColumn(name="placement_object_id", referencedColumnName="id")
-     */
+
+    #[
+        Id,
+        OneToOne(targetEntity: PlacementObject::class, mappedBy: "asset"),
+        JoinColumn(name: "placement_object_id", referencedColumnName: "id")
+    ]
     private PlacementObject $posedObject;
 
-    /**
-     * @ORM\Id 
-     * @ORM\ManyToOne(targetEntity="App\Domain\Models\Assets\AbstractAsset")
-     * @ORM\JoinColumn(name="asset_id", referencedColumnName="id")
-     */
+
+    #[
+        Id,
+        ManyToOne(targetEntity: AbstractAsset::class),
+        JoinColumn(name: "asset_id", referencedColumnName: "id")
+    ]
     private AbstractAsset $asset;
 
     public function __construct(PlacementObject $posedObject, AbstractAsset $asset)

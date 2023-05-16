@@ -3,11 +3,9 @@
 namespace App\Domain\Models\Assets;
 
 use App\Domain\Models\Assets\AbstractAsset;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
 
-/**
- * @ORM\Entity
- */
+#[Entity]
 class TextureAsset extends AbstractAsset
 {
   public function __construct()

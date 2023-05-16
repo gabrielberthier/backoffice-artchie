@@ -33,7 +33,7 @@ use S3DataTransfer\S3\Zip\S3StreamObjectsZipDownloader;
  $encrypter = new Encrypter($_SERVER['ENCRYPTION_KEY'] ?? '');
 
 return [
-    LoggerInterface::class => function (ContainerInterface $c) {
+    LoggerInterface::class => static function (ContainerInterface $c) {
         $settings = $c->get('settings');
 
         $loggerSettings = $settings['logger'];
@@ -53,7 +53,7 @@ return [
     DataEncrypter::class => $encrypter,
     AsymmetricEncrypter::class => new OpenSSLAsymmetricEncrypter(),
     AsymmetricVerifier::class => new AsymmetricOpenSSLVerifier(),
-    StreamCollectorInterface::class => function (ContainerInterface $c): StreamCollectorInterface {
+    StreamCollectorInterface::class => static function (ContainerInterface $c): StreamCollectorInterface {
         $factory = new S3AsyncDownloaderFactory();
         $key = $_ENV['S3KEY'];
         $secret = $_ENV['S3SECRET'];
@@ -62,7 +62,7 @@ return [
 
         return $factory->create($key, $secret, $region, $version);
     },
-    S3StreamObjectsZipDownloader::class => function (ContainerInterface $container): S3StreamObjectsZipDownloader {
+    S3StreamObjectsZipDownloader::class => static function (ContainerInterface $container): S3StreamObjectsZipDownloader {
         /**
          * @var StreamCollectorInterface
          */
@@ -70,7 +70,7 @@ return [
 
         return new S3StreamObjectsZipDownloader($streamCollector);
     },
-    UploadCollectorInterface::class => function (ContainerInterface $c): UploadCollectorInterface {
+    UploadCollectorInterface::class => static function (ContainerInterface $c): UploadCollectorInterface {
         $factory = new S3AsyncUploadingFactory();
         $key = $_ENV['S3KEY'];
         $secret = $_ENV['S3SECRET'];
