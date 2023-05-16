@@ -51,7 +51,7 @@ class LoginControllerTest extends TestCase
             ->handle($this->createMockRequest('any_mail@gmail.com', 'Password04'));
     }
 
-    public function testShouldReturn400IfValidationReturnsError()
+    public function testShouldReturn422IfValidationReturnsError()
     {
         $app = $this->app;
         $this->setUpErrorHandler($app);
