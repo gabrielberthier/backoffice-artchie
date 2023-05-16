@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Domain\UseCases\AsymCrypto;
+namespace Tests\Domain\UseCases\AsymCrypto\Signer;
 
 use App\Data\Protocols\Cryptography\AsymmetricEncrypter;
 use App\Data\UseCases\AsymCrypto\AsymmetricSigner;
