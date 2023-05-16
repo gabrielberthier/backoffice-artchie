@@ -2,13 +2,13 @@
 
 namespace Core\Builder\Factories;
 
-use App\Presentation\Handlers\HttpErrorHandler;
 use App\Presentation\Handlers\ShutdownHandler;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Interfaces\ErrorHandlerInterface;
 
 class ShutdownHandlerFactory
 {
-    public function __construct(private ServerRequestInterface $request, private HttpErrorHandler $httpErrorHandler)
+    public function __construct(private ServerRequestInterface $request, private ErrorHandlerInterface $httpErrorHandler)
     {
     }
 

@@ -4,7 +4,7 @@ namespace Tests\Traits\App;
 
 use Core\Builder\AppBuilderManager;
 use Core\Builder\Factories\ContainerFactory;
-use Core\Http\RequestFactory;
+use Core\Http\Factories\RequestFactory;
 use Psr\Container\ContainerInterface;
 use Slim\App;
 

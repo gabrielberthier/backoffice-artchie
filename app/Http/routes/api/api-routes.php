@@ -10,9 +10,9 @@ use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 return function (Group $group) {
     $group->get('/', HomeController::class);
 
-    $group->group('/museum', require __DIR__.'/Museum/MuseumRouter.php');
+    $group->group('/museum', require __DIR__ . '/museum/museum-routes.php');
 
-    $group->group('/marker', require __DIR__.'/Marker/MarkerRouter.php');
+    $group->group('/marker', require __DIR__ . '/marker/marker-routes.php');
 
     $group->post('/upload-file', UploadAction::class);
 

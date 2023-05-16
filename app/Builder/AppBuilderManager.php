@@ -2,17 +2,17 @@
 
 namespace Core\Builder;
 
-use App\Presentation\Handlers\HttpErrorHandler;
 use Core\Builder\Factories\ErrorFactory;
 use Core\Builder\Factories\ShutdownHandlerFactory;
 use Core\Http\Middlewares\Middleware;
-use Core\Http\Routing\Router;
+use Core\Http\RouterCollector;
 use Exception;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Respect\Validation\Factory;
 use Slim\App;
 use Slim\Factory\AppFactory;
+use Slim\Interfaces\ErrorHandlerInterface;
 
 class AppBuilderManager
 {
@@ -45,7 +45,7 @@ class AppBuilderManager
 
         $this->middleware->run($app);
 
-        $router = new Router($app);
+        $router = new RouterCollector($app);
 
         $router->run();
 
@@ -87,7 +87,7 @@ class AppBuilderManager
         $errorMiddleware->setDefaultErrorHandler($errorHandler);
     }
 
-    private function applyShutdownHandler(ServerRequestInterface $request, HttpErrorHandler $httpErrorHandler)
+    private function applyShutdownHandler(ServerRequestInterface $request, ErrorHandlerInterface $httpErrorHandler)
     {
         $shutdownHandler = new ShutdownHandlerFactory(
             $request,

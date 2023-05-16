@@ -7,6 +7,7 @@ namespace App\Presentation\Handlers;
 use App\Presentation\ResponseEmitter\ResponseEmitter;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpInternalServerErrorException;
+use Slim\Interfaces\ErrorHandlerInterface;
 
 class ShutdownHandler
 {
@@ -32,7 +33,7 @@ class ShutdownHandler
      */
     public function __construct(
         Request $request,
-        HttpErrorHandler $errorHandler,
+        ErrorHandlerInterface $errorHandler,
         bool $displayErrorDetails
     ) {
         $this->request = $request;

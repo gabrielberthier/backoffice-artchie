@@ -14,7 +14,7 @@ class SignUp implements SignUpServiceInterface
     }
 
     /**
-     * Receives Account and return TokenLoginResponse.
+     * Receives Account and returns TokenLoginResponse.
      *
      * @param AccountDto
      */

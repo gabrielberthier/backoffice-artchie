@@ -30,7 +30,6 @@ class Account implements JsonSerializable
     protected $id;
 
 
-
     /**
      * @ORM\Column(type="string", unique=true, nullable=false)
      */

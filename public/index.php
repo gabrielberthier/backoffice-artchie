@@ -5,7 +5,7 @@ declare(strict_types=1);
 use App\Presentation\ResponseEmitter\ResponseEmitter;
 use Core\Builder\AppBuilderManager;
 use Core\Builder\Factories\ContainerFactory;
-use Core\Http\RequestFactory;
+use Core\Http\Factories\RequestFactory;
 
 require __DIR__ . '/../configs/bootstrap.php';
 

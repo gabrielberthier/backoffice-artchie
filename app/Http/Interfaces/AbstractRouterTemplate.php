@@ -1,15 +1,15 @@
 <?php
-
 declare(strict_types=1);
 
-namespace Core\Http\Routing\Interfaces;
+namespace Core\Http\Interfaces;
+
 
 use Closure;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 
-abstract class AbstractRouter
+abstract class AbstractRouterTemplate
 {
   public function __construct(private App $app)
   {
@@ -38,6 +38,6 @@ abstract class AbstractRouter
 
   private function getRouteGroup(string $path): Closure
   {
-    return require __DIR__ . "/../Subs/{$path}.php";
+    return require __DIR__ . "/../routes/{$path}.php";
   }
 }
