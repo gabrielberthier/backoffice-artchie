@@ -34,7 +34,7 @@ trait RefreshTokenTestTrait
         ;
 
         /**
-         * @var Container
+         * @var \Psr\Container\ContainerInterface
          */
         $container = $this->getContainer();
 

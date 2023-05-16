@@ -59,12 +59,8 @@ class LoginTest extends TestCase
         return new Login($repository, $comparer);
     }
 
-    /**
-     * Create a mocked repository.
-     *
-     * @return MockObject
-     */
-    public function mockRepository()
+
+    public function mockRepository(): AccountRepository|MockObject
     {
         return $this->getMockBuilder(AccountRepository::class)
             ->disableOriginalConstructor()
@@ -133,22 +129,25 @@ class LoginTest extends TestCase
     // Test should throw if password provided differs from retrieved by repository
     public function testShouldThrowIfPasswordDiffersFromRetrievedOne()
     {
-        $repository = $this->mockRepository();
-        $repository->method('findByAccess')->willReturn(
-            new Account(2,
+        $mockRepository = $this->mockRepository();
+        $mockRepository->method('findByAccess')->willReturn(
+            new Account(
+                2,
                 password: 'hashed_password',
                 email: 'mail.com',
-                username: 'user')
+                username: 'user'
+            )
         );
 
         $this->expectException(IncorrectPasswordException::class);
-        /**
-         * @var MockObject
-         */
+
         $mock = $this->getMockBuilder(ComparerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
         $mock->expects($this->once())->method('compare')->willReturn(false);
+
+        /** @var AccountRepository */
+        $repository = $mockRepository;
 
         $loginService = $this->makeService($repository, $mock);
 

@@ -9,7 +9,6 @@ use App\Presentation\Helpers\Validation\Validators\Facade\ValidationFacade;
 use App\Presentation\Helpers\Validation\Validators\Interfaces\ValidationInterface;
 
 use function PHPUnit\Framework\assertNotNull;
-use function PHPUnit\Framework\assertTrue;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Tests\TestCase;
 
