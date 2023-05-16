@@ -11,6 +11,9 @@ use App\Domain\Models\Assets\AbstractAsset;
 use App\Domain\Models\Marker\Marker;
 use App\Domain\Models\Traits\TimestampsTrait;
 use App\Domain\Models\Traits\UuidTrait;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\ManyToOne;
@@ -45,8 +48,6 @@ class PlacementObject implements ModelInterface, MediaHostInterface
 
     #[OneToOne(targetEntity: PosedAsset::class, mappedBy: "posedObject", cascade: ["persist", "remove"])]
     private ?PosedAsset $asset = null;
-
-
 
     public function assetInformation(): ?AbstractAsset
     {

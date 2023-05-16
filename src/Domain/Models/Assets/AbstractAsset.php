@@ -26,7 +26,7 @@ use Exception;
  */
 #[
     Entity,
-    Table(name: 'markers'),
+    Table(name: 'assets'),
     HasLifecycleCallbacks,
     InheritanceType("SINGLE_TABLE"),
     DiscriminatorColumn(name: "asset_type", type: "string"),
@@ -207,7 +207,6 @@ abstract class AbstractAsset implements ModelInterface
             'created_at' => $this->getCreatedAt(),
             'last_update' => $this->getUpdated(),
             'mimeType' => $this->getMimeType(),
-            'mediaType' => $this->mediaType,
             'temporary_location' => $this->getTemporaryLocation(),
         ];
     }

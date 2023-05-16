@@ -15,7 +15,6 @@ use App\Domain\Models\Traits\TimestampsTrait;
 use App\Domain\Models\Traits\UuidTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-
 use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\ManyToOne;
@@ -132,7 +131,7 @@ class Marker implements ModelInterface, MediaHostParentInterface
      * @param PlacementObject ...$resource
      * @return self
      */
-    public function addResources(PlacementObject ...$resource): self
+    public function addResources(PlacementObject...$resource): self
     {
         foreach ($resource as $obj) {
             $obj->setMarker($this);
