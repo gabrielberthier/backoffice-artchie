@@ -4,7 +4,6 @@ namespace App\Domain\Models\Assets;
 
 use App\Domain\Models\Assets\AbstractAsset;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\Entity;
 
