@@ -4,6 +4,7 @@ namespace App\Presentation\Actions\Protocols\ActionTraits;
 
 use App\Presentation\Actions\Protocols\HttpErrors\UnprocessableEntityException;
 use App\Presentation\Helpers\Validation\Validators\Facade\ValidationFacade;
+use Psr\Http\Message\ServerRequestInterface;
 
 trait ValidationTrait
 {
@@ -20,8 +21,11 @@ trait ValidationTrait
     /**
      * @throws UnprocessableEntityException
      */
-    protected function validate(null|array|object $body)
+    protected function validate(ServerRequestInterface $request)
     {
+        $rawBody = $request->getBody()->__toString();
+        $body = json_decode($rawBody, true);
+
         $rules = $this->rules() ?? [];
         $messages = $this->messages() ?? [];
         $body = $body ?? [];

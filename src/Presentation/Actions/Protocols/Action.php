@@ -43,11 +43,7 @@ abstract class Action implements ActionInterface
         $this->args = $args;
 
         try {
-            $body = $request->getBody()->__toString();
-
-            $parsedBody = json_decode($body, true);
-
-            $this->validate($parsedBody);
+            $this->validate($request);
 
             return $this->action($request);
         } catch (HttpSpecializedAdapter $e) {
