@@ -13,9 +13,9 @@ class PresignedUrlMapper
 
     public function mapResponse(ResultSetInterface $set)
     {
-        foreach ($set->getItems() as $marker) {
+        foreach ($set->getItems() as $markerElement) {
             /** @var Marker */
-            $marker = $marker;
+            $marker = $markerElement;
             $markerAsset = $marker->assetInformation();
             if ($markerAsset) {
                 $presignedUrl = $this->presignedUrlCreator->setPresignedUrl($markerAsset);

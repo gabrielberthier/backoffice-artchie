@@ -7,6 +7,7 @@ namespace App\Presentation\Actions\Museum;
 use App\Domain\Repositories\MuseumRepository;
 use App\Presentation\Actions\Protocols\Action;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Respect\Validation\Validator;
 
 class UpdateMuseumAction extends Action
@@ -16,9 +17,9 @@ class UpdateMuseumAction extends Action
     ) {
     }
 
-    public function action(): Response
+    public function action(Request $request): Response
     {
-        $parsedBody = $this->request->getParsedBody();
+        $parsedBody = $request->getParsedBody();
         $name = $parsedBody['name'] ?? '';
         $parsedBody['name'] = htmlspecialchars($name);
 

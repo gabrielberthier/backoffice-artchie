@@ -7,6 +7,7 @@ namespace App\Presentation\Actions\Resources;
 use App\Data\Protocols\Resources\ResourcesDownloaderInterface;
 use App\Presentation\Actions\Protocols\Action;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 class ResourcesDownloaderAction extends Action
 {
@@ -15,9 +16,9 @@ class ResourcesDownloaderAction extends Action
     ) {
     }
 
-    public function action(): Response
+    public function action(Request $request): Response
     {
-        $id = $this->request->getAttribute('museum_id');
+        $id = $request->getAttribute('museum_id');
 
         $assets = $this->downloader->transport($id);
 

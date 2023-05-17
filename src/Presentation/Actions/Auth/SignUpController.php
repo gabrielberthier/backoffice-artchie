@@ -10,6 +10,7 @@ use App\Domain\Dto\AccountDto;
 use App\Presentation\Actions\Auth\Utilities\CookieTokenManager;
 use App\Presentation\Actions\Protocols\Action;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Respect\Validation\Validator;
 
 class SignUpController extends Action
@@ -23,9 +24,9 @@ class SignUpController extends Action
         $this->cookieManager = new CookieTokenManager();
     }
 
-    public function action(): Response
+    public function action(Request $request): Response
     {
-        $parsedBody = $this->request->getParsedBody();
+        $parsedBody = $request->getParsedBody();
         [
             'email' => $email,
             'username' => $username,

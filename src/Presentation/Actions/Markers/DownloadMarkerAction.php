@@ -7,6 +7,7 @@ namespace App\Presentation\Actions\Markers;
 use App\Data\Protocols\Markers\Downloader\MarkerDownloaderServiceInterface;
 use App\Presentation\Actions\Protocols\Action;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Psr7\Stream;
 
 class DownloadMarkerAction extends Action
@@ -16,7 +17,7 @@ class DownloadMarkerAction extends Action
     ) {
     }
 
-    public function action(): Response
+    public function action(Request $request): Response
     {
         $id = (int) $this->resolveArg('id');
 

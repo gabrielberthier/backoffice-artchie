@@ -4,7 +4,8 @@ namespace App\Presentation\Actions\Auth;
 
 use App\Presentation\Actions\Protocols\Action;
 use App\Presentation\Factories\RefreshTokenHandlerFactory;
-use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 class RefreshTokenAction extends Action
 {
@@ -12,9 +13,9 @@ class RefreshTokenAction extends Action
     {
     }
 
-    public function action(): ResponseInterface
+    public function action(Request $request): Response
     {
-        $refreshTokenHandler = $this->refreshTokenHandlerFactory->create($this->request);
+        $refreshTokenHandler = $this->refreshTokenHandlerFactory->create($request);
 
         return $refreshTokenHandler($this->response, []);
     }

@@ -25,7 +25,7 @@ abstract class AbstractRouterTemplate
 
   protected function setGroup(string $domain, string $handlerPath)
   {
-    $this->app->group($domain, $this->getRouteGroup($handlerPath));
+    return $this->app->group($domain, $this->getRouteGroup($handlerPath));
   }
 
   private function prepareOnTheFlyRequests()

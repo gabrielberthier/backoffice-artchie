@@ -69,6 +69,7 @@ RUN chmod u+rwx,g+rx,o+rx /var/www
 RUN find /var/www -type d -exec chmod u+rwx,g+rx,o+rx {} +
 RUN find /var/www -type f -exec chmod u+rw,g+rw,o+r {} +
 
+ENV X_LISTEN 0.0.0.0:9000
 
 CMD composer i -o ; vendor/bin/doctrine-migrations migrate ;  php-fpm 
 

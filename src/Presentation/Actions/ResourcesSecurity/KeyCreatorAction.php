@@ -7,6 +7,7 @@ namespace App\Presentation\Actions\ResourcesSecurity;
 use App\Data\Protocols\AsymCrypto\SignerInterface;
 use App\Presentation\Actions\Protocols\Action;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Ramsey\Uuid\Uuid;
 use Respect\Validation\Validator;
 
@@ -17,9 +18,9 @@ class KeyCreatorAction extends Action
     ) {
     }
 
-    public function action(): Response
+    public function action(Request $request): Response
     {
-        $parsedBody = json_decode((string) $this->request->getBody());
+        $parsedBody = json_decode((string) $request->getBody());
 
         $uuid = Uuid::fromString($parsedBody->uuid);
 

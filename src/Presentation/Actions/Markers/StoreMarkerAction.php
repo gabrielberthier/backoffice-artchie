@@ -10,6 +10,7 @@ use App\Presentation\Actions\Markers\MarkerValidations\MarkerValidation;
 use App\Presentation\Actions\Markers\MarkerValidations\PlacementObjectValidation;
 use App\Presentation\Actions\Protocols\Action;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Respect\Validation\Validator;
 
 class StoreMarkerAction extends Action
@@ -20,9 +21,9 @@ class StoreMarkerAction extends Action
     ) {
     }
 
-    public function action(): Response
+    public function action(Request $request): Response
     {
-        $parsedBody = $this->request->getParsedBody();
+        $parsedBody = $request->getParsedBody();
         $museumId = $parsedBody['museum_id'] ?? null;
         $builder = $this->markerBuilder;
         $marker = $parsedBody['marker'];

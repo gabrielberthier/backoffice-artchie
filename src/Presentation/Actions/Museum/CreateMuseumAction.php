@@ -8,6 +8,7 @@ use App\Domain\Models\Museum;
 use App\Domain\Repositories\MuseumRepository;
 use App\Presentation\Actions\Protocols\Action;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Respect\Validation\Validator;
 
 class CreateMuseumAction extends Action
@@ -17,9 +18,9 @@ class CreateMuseumAction extends Action
     ) {
     }
 
-    public function action(): Response
+    public function action(Request $request): Response
     {
-        $parsedBody = $this->request->getParsedBody();
+        $parsedBody = $request->getParsedBody();
         $parsedBody['name'] = htmlspecialchars($parsedBody['name']);
         $museum = new Museum(null, ...$parsedBody);
 

@@ -7,6 +7,7 @@ namespace App\Presentation\Actions\Markers;
 use App\Domain\Repositories\MarkerRepositoryInterface;
 use App\Presentation\Actions\Protocols\Action;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpBadRequestException;
 
 class GetAllMarkersByMuseumAction extends Action
@@ -16,14 +17,14 @@ class GetAllMarkersByMuseumAction extends Action
     ) {
     }
 
-    public function action(): Response
+    public function action(Request $request): Response
     {
         $markers = [];
-        $params = $this->request->getQueryParams();
+        $params = $request->getQueryParams();
         $museum_id = (int) $this->resolveArg('museum_id');
 
         if (!$museum_id) {
-            throw new HttpBadRequestException($this->request);
+            throw new HttpBadRequestException($request);
         }
 
         if (isset($params['paginate'])) {

@@ -7,6 +7,7 @@ namespace App\Presentation\Actions\Museum;
 use App\Domain\Repositories\MuseumRepository;
 use App\Presentation\Actions\Protocols\Action;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 class SelectOneMuseumAction extends Action
 {
@@ -15,7 +16,7 @@ class SelectOneMuseumAction extends Action
     ) {
     }
 
-    public function action(): Response
+    public function action(Request $request): Response
     {
         $id = (int) $this->resolveArg('id');
         $museum = $this->museumRepository->findByID($id);

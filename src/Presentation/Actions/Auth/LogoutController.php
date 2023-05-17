@@ -7,10 +7,11 @@ namespace App\Presentation\Actions\Auth;
 use App\Presentation\Actions\Auth\Utilities\CookieTokenManager;
 use App\Presentation\Actions\Protocols\Action;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 class LogoutController extends Action
 {
-    public function action(): Response
+    public function action(Request $request): Response
     {
         $cookieManager = new CookieTokenManager();
 

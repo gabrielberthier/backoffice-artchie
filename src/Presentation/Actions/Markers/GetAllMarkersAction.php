@@ -7,6 +7,7 @@ namespace App\Presentation\Actions\Markers;
 use App\Domain\Repositories\MarkerRepositoryInterface;
 use App\Presentation\Actions\Protocols\Action;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 class GetAllMarkersAction extends Action
 {
@@ -15,10 +16,10 @@ class GetAllMarkersAction extends Action
     ) {
     }
 
-    public function action(): Response
+    public function action(Request $request): Response
     {
         $markers = [];
-        $params = $this->request->getQueryParams();
+        $params = $request->getQueryParams();
         if (isset($params['paginate'])) {
             $params['paginate'] = (bool) $params['paginate'];
 

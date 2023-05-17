@@ -10,6 +10,7 @@ use App\Presentation\Errors\UploadError;
 use DateTime;
 use GuzzleHttp\Psr7\MimeType;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\UploadedFileInterface;
 use S3DataTransfer\Interfaces\Objects\UploadableObjectInterface;
 use S3DataTransfer\Interfaces\Upload\UploadCollectorInterface;
@@ -22,27 +23,27 @@ class UploadAction extends Action
     ) {
     }
 
-    public function action(): Response
+    public function action(Request $request): Response
     {
         $bucket = 'artchier-markers';
-        $params = $this->request->getQueryParams();
-        $prefix = $params['prefix'].'-' ?? '';
+        $params = $request->getQueryParams();
+        $prefix = $params['prefix'] . '-' ?? '';
         /**
          * @var UploadedFileInterface[]
          */
-        $files = $this->request->getUploadedFiles();
+        $files = $request->getUploadedFiles();
         /**
          * @var UploadableObjectInterface[]
          */
         $objects = [];
 
         foreach ($files as $file) {
-            $objects[$file->getClientFilename()] = $this->createUploadableObject($file, $prefix);
+            $objects[$file->getClientFilename()] = $this->createUploadableObject($request, $file, $prefix);
         }
 
         $results = $this->uploader->uploadObjects($bucket, ...$objects);
 
-        $returnValues = array_map(fn ($result, UploadableObjectInterface $object, string $originalName) => [
+        $returnValues = array_map(fn($result, UploadableObjectInterface $object, string $originalName) => [
             'URL' => $result['ObjectURL'],
             'fileName' => $object->key(),
             'created_at' => new DateTime(),
@@ -53,23 +54,16 @@ class UploadAction extends Action
         return $this->respondWithData($returnValues);
     }
 
-    private function createUploadableObject(UploadedFileInterface $uploadedFile, $prefix = ''): UploadableObjectInterface
+    private function createUploadableObject(Request $request, UploadedFileInterface $uploadedFile, $prefix = ''): UploadableObjectInterface
     {
         if (!$uploadedFile->getError()) {
             $fileName = FileNameConverter::convertFileName($uploadedFile);
 
             $stream = $uploadedFile->getStream();
 
-            return new UploadableObject($prefix.$fileName, $stream);
+            return new UploadableObject($prefix . $fileName, $stream);
         }
 
-        throw new UploadError($this->request, $uploadedFile->getClientFilename());
+        throw new UploadError($request, $uploadedFile->getClientFilename());
     }
-
-    /*
-v::objectType()->attribute('file', v::oneOf(
-    v::mimetype('application/pdf'),
-    v::mimetype('image/png')
-))->validate($uploadedFile);
-    */
 }

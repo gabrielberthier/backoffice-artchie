@@ -12,7 +12,6 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface as Middleware;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Psr\Log\LoggerInterface;
-use Slim\Exception\HttpForbiddenException;
 use Tuupola\Middleware\JwtAuthentication;
 
 class JWTAuthMiddleware implements Middleware
@@ -45,16 +44,6 @@ class JWTAuthMiddleware implements Middleware
     private function boot(?RefreshTokenHandler $refreshTokenHandler): JwtAuthentication
     {
         $secret = $_ENV['JWT_SECRET'];
-
-        // $shouldBeSecure = 'PRODUCTION' === $_ENV['MODE'];
-
-        // $beforeFunction = function (Request $request, $arguments) use ($refreshTokenHandler) {
-        //     if (!$refreshTokenHandler) {
-        //         throw new HttpForbiddenException($request, 'Insufficient privileges');
-        //     }
-
-        //     return $request;
-        // };
 
         $options = [
             'secret' => $secret,

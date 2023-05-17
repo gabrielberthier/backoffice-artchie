@@ -7,6 +7,7 @@ namespace App\Presentation\Actions\Markers;
 use App\Data\Protocols\Markers\Downloader\MarkerDownloaderServiceInterface;
 use App\Presentation\Actions\Protocols\Action;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Psr7\Stream;
 
 class OpenAppsDownloadMarkersAction extends Action
@@ -16,9 +17,9 @@ class OpenAppsDownloadMarkersAction extends Action
     ) {
     }
 
-    public function action(): Response
+    public function action(Request $request): Response
     {
-        $id = (int) $this->request->getAttribute('museum_id');
+        $id = (int) $request->getAttribute('museum_id');
 
         return $this->response
             ->withHeader('Content-Type', 'application/octet-stream')

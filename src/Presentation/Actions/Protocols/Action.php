@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Presentation\Actions\Protocols;
 
-use App\Domain\Exceptions\Protocols\DomainRecordNotFoundException;
 use App\Domain\Exceptions\Protocols\HttpSpecializedAdapter;
 use App\Presentation\Actions\Protocols\ActionTraits\ParseInputTrait;
 use App\Presentation\Actions\Protocols\ActionTraits\ResponderTrait;
 use App\Presentation\Actions\Protocols\ActionTraits\ValidationTrait;
+use Core\Http\Interfaces\ActionInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpException;
 
-abstract class Action
+abstract class Action implements ActionInterface
 {
     use ValidationTrait;
     use ParseInputTrait;
@@ -39,7 +39,6 @@ abstract class Action
      */
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $this->request = $request;
         $this->response = $response;
         $this->args = $args;
 
@@ -50,19 +49,13 @@ abstract class Action
 
             $this->validate($parsedBody);
 
-            return $this->action();
+            return $this->action($request);
         } catch (HttpSpecializedAdapter $e) {
-            $adaptedError = $e->wire($this->request);
+            $adaptedError = $e->wire($request);
 
             throw $adaptedError;
         }
     }
-
-    /**
-     * @throws DomainRecordNotFoundException
-     * @throws HttpBadRequestException
-     */
-    abstract protected function action(): Response;
 
     /**
      * @throws HttpBadRequestException
@@ -72,7 +65,17 @@ abstract class Action
     protected function resolveArg(string $name)
     {
         if (!isset($this->args[$name])) {
-            throw new HttpBadRequestException($this->request, "Could not resolve argument `{$name}`.");
+            $unresolvedArgumentException = new class ($name) extends HttpSpecializedAdapter {
+                public function __construct(private string $name)
+                {
+                }
+
+                public function wire(Request $request): HttpException
+                {
+                    return new HttpBadRequestException($request, "Could not resolve argument `{$this->name}`.");
+                }
+            };
+            throw $unresolvedArgumentException;
         }
 
         return $this->args[$name];
