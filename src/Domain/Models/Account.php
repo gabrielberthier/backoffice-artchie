@@ -38,18 +38,23 @@ class Account implements JsonSerializable
     #[Column(type: 'string')]
     private ?string $role = 'common';
 
+    #[Column(name: 'auth_type',type: 'string')]
+    private ?string $authType;
+
     public function __construct(
         ?int $id,
         string $email,
         string $username,
         string $password,
-        ?string $role = 'common'
+        ?string $authType,
+        ?string $role = 'common',
     ) {
         $this->id = $id;
         $this->email = $email;
         $this->username = $username;
         $this->password = $password;
         $this->role = $role;
+        $this->authType = $authType;
         $this->createdAt = new DateTime();
         $this->updated = new DateTime();
     }
@@ -59,7 +64,10 @@ class Account implements JsonSerializable
         return $this->id;
     }
 
-
+    public function getAuthType(): string
+    {
+        return $this->authType;
+    }
 
     public function getUsername(): string
     {
@@ -123,6 +131,13 @@ class Account implements JsonSerializable
         return $this;
     }
 
+    public function setAuthType(string $authAccountable): self
+    {
+        $this->authType = $authAccountable;
+
+        return $this;
+    }
+
     /**
      * Set the value of email.
      *
@@ -148,6 +163,7 @@ class Account implements JsonSerializable
             'username' => $this->username,
             'password' => $this->password,
             'role' => $this->role,
+            'authType' => $this->authType,
             'created_at' => $this->createdAt,
             'updated' => $this->updated,
         ];

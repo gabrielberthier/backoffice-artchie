@@ -29,7 +29,7 @@ class KeyCreatorAction extends Action
         return $this->respondWithData(['token' => $publicKey]);
     }
 
-    public function rules()
+    public function rules(Request $request)
     {
         return [
             'uuid' => Validator::uuid(),

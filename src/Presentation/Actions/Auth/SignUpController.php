@@ -55,7 +55,13 @@ class SignUpController extends Action
         ];
     }
 
-    public function rules(): ?array
+    /**
+     * Summary of rules
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * 
+     * @return array
+     */
+    public function rules(Request $request): ?array
     {
         $parsedBody = $this->request->getParsedBody();
         $password = $parsedBody['password'] ?? '';

@@ -5,6 +5,7 @@ namespace App\Infrastructure\Persistence\Account;
 use App\Domain\Dto\AccountDto;
 use App\Domain\Exceptions\Account\UserAlreadyRegisteredException;
 use App\Domain\Models\Account;
+use App\Domain\Models\Enums\AuthTypes;
 use App\Domain\Repositories\AccountRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
@@ -30,6 +31,10 @@ class DoctrineAccountRepository implements AccountRepository
     public function findByUUID(string $uuid): ?Account
     {
         return $this->em->getRepository(Account::class)->findOneBy(['uuid' => $uuid]);
+    }
+
+    public function findWithAuthType(string $email, AuthTypes $authType): ?Account{
+        return $this->em->getRepository(Account::class)->findOneBy(['email' => $email, 'authType' => $authType->value]);
     }
 
     public function insert(AccountDto $accountDto): Account

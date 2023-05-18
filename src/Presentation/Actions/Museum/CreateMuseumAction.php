@@ -37,7 +37,12 @@ class CreateMuseumAction extends Action
         ];
     }
 
-    public function rules(): ?array
+    /**
+     * Summary of rules
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @return array<\Respect\Validation\ChainedValidator>
+     */
+    public function rules(Request $request): ?array
     {
         return [
             'email' => Validator::email(),

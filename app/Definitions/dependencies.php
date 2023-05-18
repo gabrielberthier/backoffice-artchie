@@ -23,6 +23,7 @@ use S3DataTransfer\Interfaces\Upload\UploadCollectorInterface;
 use S3DataTransfer\S3\Factories\S3AsyncDownloaderFactory;
 use S3DataTransfer\S3\Factories\S3AsyncUploadingFactory;
 use S3DataTransfer\S3\Zip\S3StreamObjectsZipDownloader;
+use League\OAuth2\Client\Provider\Google;
 
 /*
  * Sets infrastructure dependencies
@@ -30,7 +31,7 @@ use S3DataTransfer\S3\Zip\S3StreamObjectsZipDownloader;
  * @param ContainerBuilder $containerBuilder
  */
 
- $encrypter = new Encrypter($_SERVER['ENCRYPTION_KEY'] ?? '');
+$encrypter = new Encrypter($_SERVER['ENCRYPTION_KEY'] ?? '');
 
 return [
     LoggerInterface::class => static function (ContainerInterface $c) {
@@ -79,4 +80,11 @@ return [
 
         return $factory->create($key, $secret, $region, $version);
     },
+    Google::class => static function (ContainerInterface $c): Google {
+        $clientId = $_ENV['GOOGLE_CLIENT_ID'];
+        $clientSecret = $_ENV['GOOGLE_CLIENT_SECRET'];
+        $redirectUri = $_ENV['GOOGLE_REDIRECT_URI'];
+        
+        return new Google(compact('clientId', 'clientSecret', 'redirectUri'));
+    }
 ];

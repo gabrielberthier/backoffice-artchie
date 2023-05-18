@@ -52,7 +52,14 @@ class StoreMarkerAction extends Action
         ];
     }
 
-    public function rules(): ?array
+
+    /**
+     * Summary of rules
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * 
+     * @return array
+     */
+    public function rules(Request $request): ?array
     {
         $markerValidation = new MarkerValidation();
         $posedObjectValidation = new PlacementObjectValidation();

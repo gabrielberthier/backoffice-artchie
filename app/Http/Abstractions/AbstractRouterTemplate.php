@@ -1,27 +1,26 @@
 <?php
 declare(strict_types=1);
 
-namespace Core\Http\Interfaces;
+namespace Core\Http\Abstractions;
 
 
 use Closure;
+use Core\Http\Interfaces\RouterInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 
-abstract class AbstractRouterTemplate
+abstract class AbstractRouterTemplate implements RouterInterface
 {
   public function __construct(private App $app)
   {
   }
 
-  public function run()
+  public function run(): void
   {
     $this->prepareOnTheFlyRequests();
-    $this->define($this->app);
+    $this->collect($this->app);
   }
-
-  public abstract function define(App $app): void;
 
   protected function setGroup(string $domain, string $handlerPath)
   {

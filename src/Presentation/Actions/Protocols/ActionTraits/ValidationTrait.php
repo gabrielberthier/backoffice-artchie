@@ -8,7 +8,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 trait ValidationTrait
 {
-    public function rules()
+    public function rules(ServerRequestInterface $request)
     {
         return null;
     }
@@ -26,7 +26,7 @@ trait ValidationTrait
         $rawBody = $request->getBody()->__toString();
         $body = json_decode($rawBody, true);
 
-        $rules = $this->rules() ?? [];
+        $rules = $this->rules($request) ?? [];
         $messages = $this->messages() ?? [];
         $body = $body ?? [];
         $validationFacade = new ValidationFacade($rules, $messages);

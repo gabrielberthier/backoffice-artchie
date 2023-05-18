@@ -2,7 +2,6 @@
 
 namespace App\Presentation\Actions\Protocols\HttpErrors;
 
-use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpSpecializedException;
 use Throwable;
 

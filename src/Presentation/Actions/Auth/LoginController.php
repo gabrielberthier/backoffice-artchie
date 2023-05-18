@@ -47,7 +47,7 @@ class LoginController extends Action
         ];
     }
 
-    public function rules(): ?array
+    public function rules(Request $request): ?array
     {
         return [
             'access' => Validator::anyOf(

@@ -36,7 +36,7 @@ class UpdateMuseumAction extends Action
         ];
     }
 
-    public function rules(): ?array
+    public function rules(Request $request): ?array
     {
         return [
             'email' => Validator::optional(Validator::email()),

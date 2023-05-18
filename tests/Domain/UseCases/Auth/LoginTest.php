@@ -86,7 +86,7 @@ class LoginTest extends TestCase
     {
         $mock = $this->sut->repository;
         $loginService = $this->sut->service;
-        $account = (new Account(null, '', '', ''));
+        $account = (new Account(null, '', '', '', ''));
         $account->generateUuid();
         $mock->expects($this->once())->method('findByAccess')->with('@mail.com')->willReturn($account);
         $accountStub = $this->makeCredentials();
@@ -117,7 +117,7 @@ class LoginTest extends TestCase
             ->method('compare')
             ->with('password', 'hashed_password');
         $repository = $this->sut->repository;
-        $account = new Account(id: 2, password: 'hashed_password', email: 'mail.com', username: 'user');
+        $account = new Account(id: 2, password: 'hashed_password', email: 'mail.com', username: 'user', authType: '');
         $account->generateUuid();
         $repository->method('findByAccess')->willReturn(
             $account
@@ -135,7 +135,8 @@ class LoginTest extends TestCase
                 2,
                 password: 'hashed_password',
                 email: 'mail.com',
-                username: 'user'
+                username: 'user',
+                authType: ''
             )
         );
 
@@ -161,7 +162,7 @@ class LoginTest extends TestCase
     {
         $sut = $this->sut->service;
         $repository = $this->sut->repository;
-        $account = new Account(2, password: 'hashed_password', email: 'mail.com', username: 'user');
+        $account = new Account(2, password: 'hashed_password', email: 'mail.com', username: 'user', authType: '');
         $account->generateUuid();
         $repository->method('findByAccess')->willReturn(
             $account
