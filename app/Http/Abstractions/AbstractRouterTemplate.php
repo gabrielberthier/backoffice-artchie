@@ -5,31 +5,31 @@ namespace Core\Http\Abstractions;
 
 
 use Closure;
+use Core\Http\Interfaces\RouteCollectorInterface;
 use Core\Http\Interfaces\RouterInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\App;
 
 abstract class AbstractRouterTemplate implements RouterInterface
 {
-  public function __construct(private App $app)
+  public function __construct(private RouteCollectorInterface $routeCollector)
   {
   }
 
   public function run(): void
   {
     $this->prepareOnTheFlyRequests();
-    $this->collect($this->app);
+    $this->collect($this->routeCollector);
   }
 
   protected function setGroup(string $domain, string $handlerPath)
   {
-    return $this->app->group($domain, $this->getRouteGroup($handlerPath));
+    return $this->routeCollector->group($domain, $this->getRouteGroup($handlerPath));
   }
 
   private function prepareOnTheFlyRequests()
   {
-    $this->app->options(
+    $this->routeCollector->options(
       '/{routes:.+}',
       fn(Request $request, Response $response, $args) => $response->withStatus(200)
     );

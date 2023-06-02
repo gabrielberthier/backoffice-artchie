@@ -63,7 +63,7 @@ class SignUpController extends Action
      */
     public function rules(Request $request): ?array
     {
-        $parsedBody = $this->request->getParsedBody();
+        $parsedBody = $request->getParsedBody();
         $password = $parsedBody['password'] ?? '';
 
         return [

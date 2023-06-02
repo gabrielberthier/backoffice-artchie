@@ -4,6 +4,7 @@ namespace Core\Builder;
 
 use Core\Builder\Factories\ErrorFactory;
 use Core\Builder\Factories\ShutdownHandlerFactory;
+use Core\Http\Adapters\SlimRouteCollector;
 use Core\Http\Middlewares\Middleware;
 use Core\Http\RouterCollector;
 use Exception;
@@ -45,7 +46,7 @@ class AppBuilderManager
 
         $this->middleware->run($app);
 
-        $router = new RouterCollector($app);
+        $router = new RouterCollector(new SlimRouteCollector($app));
 
         $router->run();
 

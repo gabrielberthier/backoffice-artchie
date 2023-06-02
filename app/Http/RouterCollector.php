@@ -6,17 +6,15 @@ namespace Core\Http;
 
 
 use Core\Http\Abstractions\AbstractRouterTemplate;
-use League\OAuth2\Client\Provider\Google;
-use Psr\Http\Message\ServerRequestInterface;
+use Core\Http\Interfaces\RouteCollectorInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Core\Http\Middlewares\AsymetricValidatorFactory;
 use App\Presentation\Actions\Resources\ResourcesDownloaderAction;
 use App\Presentation\Actions\Markers\OpenAppsDownloadMarkersAction;
-use Slim\Interfaces\RouteCollectorProxyInterface;
 
 class RouterCollector extends AbstractRouterTemplate
 {
-    public function collect(RouteCollectorProxyInterface $routeCollector): void
+    public function collect(RouteCollectorInterface $routeCollector): void
     {
         $routeCollector->get('/', function ($request, Response $response) {
             $response->getBody()->write('Welcome to ARtchie\'s');
