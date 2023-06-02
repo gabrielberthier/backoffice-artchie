@@ -1,5 +1,5 @@
 <?php
-namespace Core\Http\Adapters;
+namespace Core\Http\Adapters\SlimFramework;
 
 use Core\Http\Interfaces\GroupRouteInterface;
 use Slim\Interfaces\RouteGroupInterface;
