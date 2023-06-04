@@ -1,6 +1,6 @@
 {
-  "name": "slim/slim-skeleton",
-  "description": "ARTCHIE's backend",
+  "name": "berfi/rbac",
+  "description": "An RBAC backend",
   "keywords": [
     "microframework",
     "rest",

@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  roadrunner:
+    build:
+      context: ./containers/roadrunner
+      args:
+        PHP_IMAGE_VERSION: ${PHP_IMAGE_VERSION}
+    ports:
+      - 8080:8080
+    environment:
+      RR_VERSION: ${RR_VERSION}
+    working_dir: /var/www/
+    volumes:
+      - .:/var/www
+      - logs:/var/www/logs
+      - ./containers/roadrunner/config/.rr.yaml:/etc/rr.yaml:ro
+    depends_on:
+      - db
+    links:
+      - "db:database"

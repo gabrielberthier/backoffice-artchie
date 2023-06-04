@@ -15,4 +15,5 @@ return [
     RepositoriesProvider::class,
     ServicesProvider::class,
     SettingsProvider::class,
+    WorkerProvider::class,
 ];
