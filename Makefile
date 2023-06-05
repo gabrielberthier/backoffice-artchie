@@ -6,13 +6,13 @@ up: docker-compose.yml
 	docker compose up -d 
 
 up-rr: roadrunner-docker-compose.yml
-	docker-compose -f roadrunner-docker-compose.yml
+	docker compose -f roadrunner-docker-compose.yml -d
 
 build: docker-compose.yml
-   docker compose rm -vsf
-   docker compose down -v --remove-orphans
-   docker compose build
-   docker compose up -d
+	docker compose rm -vsf
+	docker compose down -v --remove-orphans
+	docker compose build
+	docker compose up -d
 
 down:
 	docker compose down
