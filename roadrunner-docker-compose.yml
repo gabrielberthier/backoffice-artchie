@@ -4,7 +4,7 @@ services:
   roadrunner:
     container_name: roadrunner
     build:
-      context: ./containers/roadrunner
+      context: ./.docker/roadrunner
       args:
         PHP_IMAGE_VERSION: ${PHP_IMAGE_VERSION}
     ports:
@@ -13,7 +13,7 @@ services:
     volumes:
       - .:/var/www
       - logs:/var/www/logs
-      - ./containers/roadrunner/config/.rr.yaml:/etc/rr.yaml:ro
+      - ./.docker/roadrunner/conf/rr.yaml:/etc/rr.yaml:ro
     depends_on:
       - db
     links:

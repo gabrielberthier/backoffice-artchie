@@ -3,7 +3,7 @@ version: "2.7"
 rpc:
   listen: tcp://127.0.0.1:6001
 server:
-  command: "php /app/worker.php"
+  command: "php /var/www/worker.php"
 
 http:
   address: :8080
@@ -17,4 +17,4 @@ reload:
   services:
     http:
       recursive: true
-      dirs: [ "/app" ]
+      dirs: [ "/var/www" ]
