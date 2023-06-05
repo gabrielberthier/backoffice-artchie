@@ -2,6 +2,7 @@ version: '3.9'
 
 services:
   roadrunner:
+    container_name: roadrunner
     build:
       context: ./containers/roadrunner
       args:

@@ -38,6 +38,7 @@
     "respect/validation": "^2.2",
     "slim/psr7": ">=1.0",
     "slim/slim": "^4.7",
+    "spiral/roadrunner": "^2023.1",
     "symfony/cache": "^5.4",
     "symfony/dotenv": "^5.2",
     "symfony/yaml": "^5.4",
