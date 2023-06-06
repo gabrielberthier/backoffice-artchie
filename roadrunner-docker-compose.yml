@@ -16,3 +16,17 @@ services:
     env_file:
       - .docker/roadrunner/conf/rr.env
       - .env
+    depends_on:
+      - db
+    links:
+      - "db:database"
+    # Postgres service
+  db:
+    image: postgres
+    container_name: db
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: POSTGRES_PASSWORD
+      POSTGRES_DB: backofficeapi
+    ports:
+      - "5432:5432"

@@ -15,7 +15,7 @@ interface UserRepository
     /**
      * @param int $id
      * @return User
-     * @throws UserNotFoundException
+     * @throws \App\Domain\Exceptions\UserNotFoundException
      */
     public function findUserOfId(int $id): User;
 }

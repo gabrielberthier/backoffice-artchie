@@ -4,10 +4,11 @@ namespace Core\Builder;
 
 use Core\Builder\Factories\ErrorFactory;
 use Core\Builder\Factories\ShutdownHandlerFactory;
+use Core\Http\Adapters\SlimFramework\SlimMiddlewareIncluder;
 use Core\Http\Adapters\SlimFramework\SlimRouteCollector;
-use Core\Http\Middlewares\Middleware;
 use Core\Http\RouterCollector;
 use Exception;
+use MiddlewareCollector;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Respect\Validation\Factory;
@@ -27,8 +28,6 @@ class AppBuilderManager
 
     private bool $enableShutdownHandler = true;
 
-    private Middleware $middleware;
-
     public function __construct(ContainerInterface $containerInterface)
     {
         $this->container = $containerInterface;
@@ -36,15 +35,15 @@ class AppBuilderManager
         $this->displayErrors = $this->container->get('settings')['displayErrorDetails'];
 
         $this->errorFactory = new ErrorFactory($this->container);
-
-        $this->middleware = new Middleware();
     }
 
     public function build(ServerRequestInterface $request): App
     {
         $app = $this->createApp();
 
-        $this->middleware->run($app);
+        $app->addRoutingMiddleware(); // Add the Slim built-in routing middleware
+
+        \Core\Builder\MiddlewareCollector::collect(new SlimMiddlewareIncluder($app));
 
         $router = new RouterCollector(new SlimRouteCollector($app));
 
