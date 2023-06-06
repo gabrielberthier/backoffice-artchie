@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Core\Providers\Services;
+namespace Core\Providers\Worker;
 
 use Core\Providers\Contract\AbstractProvider;
-use function DI\autowire;
 use DI\ContainerBuilder;
 
 class WorkerProvider extends AbstractProvider

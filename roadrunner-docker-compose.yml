@@ -12,11 +12,7 @@ services:
     working_dir: /var/www/
     volumes:
       - .:/var/www
-      - logs:/var/www/logs
-      - ./.docker/roadrunner/conf/rr.yaml:/etc/rr.yaml:ro
-    depends_on:
-      - db
-    links:
-      - "db:database"
+      - .docker/roadrunner/conf/rr.yaml:/etc/rr.yaml:ro
     env_file:
-      - ./.docker/roadrunner/conf/rr.env
+      - .docker/roadrunner/conf/rr.env
+      - .env

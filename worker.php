@@ -6,7 +6,8 @@ use Core\Builder\AppBuilderManager;
 use Core\Builder\Factories\ContainerFactory;
 use Core\Http\Factories\RequestFactory;
 
-require __DIR__ . '/../configs/bootstrap.php';
+
+require __DIR__ . '/configs/bootstrap.php';
 
 $containerFactory = new ContainerFactory();
 

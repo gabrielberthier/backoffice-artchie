@@ -3,6 +3,7 @@ use Core\Providers\Database\DatabaseProvider;
 use Core\Providers\Dependencies\DependenciesProvider;
 use Core\Providers\Repository\RepositoriesProvider;
 use Core\Providers\Services\ServicesProvider;
+use Core\Providers\Worker\WorkerProvider;
 use Core\Providers\Settings\SettingsProvider;
 
 
