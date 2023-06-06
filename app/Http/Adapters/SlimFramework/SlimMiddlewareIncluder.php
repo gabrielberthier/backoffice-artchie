@@ -2,11 +2,11 @@
 
 namespace Core\Http\Adapters\SlimFramework;
 
-use Core\Http\Interfaces\MiddlewareIncluder;
+use Core\Http\Interfaces\MIddlewareIncluderInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Slim\App;
 
-class SlimMiddlewareIncluder implements MiddlewareIncluder
+class SlimMiddlewareIncluder implements MIddlewareIncluderInterface
 {
     public function __construct(private App $app)
     {

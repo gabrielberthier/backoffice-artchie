@@ -2,14 +2,14 @@
 
 namespace Core\Builder;
 
-use Core\Http\Interfaces\MiddlewareIncluder;
+use Core\Http\Interfaces\MIddlewareIncluderInterface;
 use Core\ResourceLoader;
 use Middlewares\TrailingSlash;
 
 
 class MiddlewareCollector
 {
-    public static function collect(MiddlewareIncluder $root)
+    public static function collect(MIddlewareIncluderInterface $root)
     {
         $root->add(new TrailingSlash());
 

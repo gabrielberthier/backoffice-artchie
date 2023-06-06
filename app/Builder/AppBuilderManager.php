@@ -8,7 +8,6 @@ use Core\Http\Adapters\SlimFramework\SlimMiddlewareIncluder;
 use Core\Http\Adapters\SlimFramework\SlimRouteCollector;
 use Core\Http\RouterCollector;
 use Exception;
-use MiddlewareCollector;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Respect\Validation\Factory;
