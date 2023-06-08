@@ -8,7 +8,7 @@ use App\Domain\Models\Account;
 use App\Domain\Models\Enums\AuthTypes;
 use App\Domain\Repositories\AccountRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface as EntityManager;
 
 class DoctrineAccountRepository implements AccountRepository
 {

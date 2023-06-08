@@ -10,7 +10,7 @@ use App\Domain\Exceptions\Transaction\NameAlreadyInUse;
 use App\Domain\Models\Marker\Marker;
 use App\Domain\Repositories\MarkerRepositoryInterface;
 use App\Domain\Repositories\MuseumRepository;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface as EntityManager;
 use Exception;
 
 class MarkerServiceStore implements MarkerServiceStoreInterface

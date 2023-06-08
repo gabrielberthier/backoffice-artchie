@@ -5,11 +5,12 @@ namespace Core\Data\Doctrine;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMSetup;
 
 class EntityManagerBuilder
 {
-    public static function produce(array $doctrine): EntityManager
+    public static function produce(array $doctrine): EntityManagerInterface
     {
         $devMode = $doctrine['dev_mode'];
 

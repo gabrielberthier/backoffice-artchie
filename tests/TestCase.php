@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface as EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use PHPUnit\Framework\TestCase as PHPUnit_TestCase;
 use Tests\Traits\App\AppTestTrait;

@@ -7,7 +7,7 @@ namespace Tests\Infrastructure\Persistence\Orm\Account;
 use App\Domain\Dto\AccountDto;
 use App\Domain\Models\Account;
 use App\Domain\Repositories\AccountRepository;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface as EntityManager;
 use function PHPUnit\Framework\assertInstanceOf;
 use function PHPUnit\Framework\assertSame;
 use Tests\TestCase;

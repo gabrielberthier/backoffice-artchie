@@ -9,7 +9,7 @@ use App\Domain\Models\Marker\Marker;
 use App\Domain\Models\Marker\MarkerAsset;
 use App\Domain\Models\PlacementObject\PlacementObject;
 use App\Domain\Repositories\MarkerRepositoryInterface;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface as EntityManager;
 use function PHPUnit\Framework\assertInstanceOf;
 use function PHPUnit\Framework\assertSame;
 use Tests\TestCase;

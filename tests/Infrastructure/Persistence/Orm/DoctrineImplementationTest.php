@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Infrastructure\Persistence\Orm;
 
 use DI\Container;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface as EntityManager;
 use Tests\TestCase;
 
 use function PHPUnit\Framework\assertArrayHasKey;

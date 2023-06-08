@@ -8,7 +8,7 @@ use App\Domain\Models\Security\SignatureToken;
 use App\Domain\Repositories\SignatureTokenRepositoryInterface;
 use App\Domain\Repositories\SignatureTokenRetrieverInterface;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface as EntityManager;
 
 class SignatureTokenRepository implements SignatureTokenRepositoryInterface, SignatureTokenRetrieverInterface
 {

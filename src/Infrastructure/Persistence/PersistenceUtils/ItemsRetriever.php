@@ -5,7 +5,7 @@ namespace App\Infrastructure\Persistence\PersistenceUtils;
 use App\Domain\Repositories\PersistenceOperations\Responses\ResultSetInterface;
 use App\Domain\Repositories\PersistenceOperations\Responses\SearchResult;
 use App\Infrastructure\Persistence\Pagination\PaginationService;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface as EntityManager;
 
 class ItemsRetriever
 {

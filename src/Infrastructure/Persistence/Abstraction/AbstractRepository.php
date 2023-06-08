@@ -6,7 +6,7 @@ use App\Domain\Contracts\ModelInterface;
 use App\Domain\Repositories\PersistenceOperations\CrudOperationsInterface;
 use App\Domain\Repositories\PersistenceOperations\Responses\ResultSetInterface;
 use App\Infrastructure\Persistence\PersistenceUtils\ItemsRetriever;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface as EntityManager;
 use Doctrine\Persistence\ObjectRepository;
 
 abstract class AbstractRepository implements CrudOperationsInterface

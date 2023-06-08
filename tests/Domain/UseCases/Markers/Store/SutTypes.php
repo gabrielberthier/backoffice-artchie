@@ -6,7 +6,7 @@ use App\Data\Protocols\Markers\Store\MarkerServiceStoreInterface;
 use App\Data\UseCases\Markers\MarkerServiceStore;
 use App\Domain\Repositories\MarkerRepositoryInterface;
 use App\Domain\Repositories\MuseumRepository;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface as EntityManager;
 
 class SutTypes
 {
