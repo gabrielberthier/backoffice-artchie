@@ -9,7 +9,7 @@ use Psr\Container\ContainerInterface;
 class ContainerFactory
 {
     private ContainerBuilder $containerBuilder;
-    private bool $useAnnotations = true;
+    private bool $useAnnotations = false;
 
     public function __construct()
     {

@@ -19,6 +19,9 @@
   "require": {
     "php": "^8.2",
     "ext-json": "*",
+    "cycle/annotated": "^3.2",
+    "cycle/migrations": "^4.1",
+    "cycle/orm": "^2.3",
     "doctrine/annotations": "1.13.2",
     "doctrine/dbal": "^3.2",
     "doctrine/migrations": "^3.3",
