@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Monolog\Logger;
 use Psr\Container\ContainerInterface;
+use function Core\functions\isDev;
 
 return [
     'settings' => [
@@ -14,10 +15,9 @@ return [
             'level' => Logger::DEBUG,
         ],
         'doctrine' => static function (ContainerInterface $c): array {
-            $devMode = $c->get("environment") === "DEV";
             return [
                 // if true, metadata caching is forcefully disabled
-                'dev_mode' => $devMode,
+                'dev_mode' => isDev(),
     
                 // path where the compiled metadata info will be cached
                 // make sure the path exists and it is writable

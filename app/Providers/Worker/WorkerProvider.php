@@ -13,6 +13,9 @@ class WorkerProvider extends AbstractProvider
 
     public function provide(ContainerBuilder $container, array $definitions)
     {
-        $container->addDefinitions($definitions);
+        if (false) {
+            $container->addDefinitions($definitions);
+            
+        }
     }
 }

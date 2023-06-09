@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Cryptography;
 
 use App\Data\Protocols\Cryptography\HasherInterface;
+use function Core\functions\manoucheHash;
 
 class HashCreator implements HasherInterface
 {

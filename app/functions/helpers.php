@@ -1,5 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
+namespace Core\functions;
+
+
 define('REFRESH_TOKEN', 'refresh-token');
 define('JWT_NAME', 'jwt-token');
 
@@ -8,7 +13,7 @@ define('JWT_NAME', 'jwt-token');
  *
  * @param string $path
  */
-function redirect($path)
+function redirect($path): void
 {
     header("Location: /{$path}");
 }
@@ -36,9 +41,11 @@ if (!function_exists('d')) {
 /**
  * provides a hashed string.
  */
-function manoucheHash(string $password, array $options = ['cost' => 8]): string
-{
-    return password_hash($password, PASSWORD_BCRYPT, $options);
+if (!function_exists('manoucheHash')) {
+    function manoucheHash(string $password, array $options = ['cost' => 8]): string
+    {
+        return password_hash($password, PASSWORD_BCRYPT, $options);
+    }
 }
 
 /**
@@ -48,3 +55,36 @@ function manoucheCheck(string $plainText, string $hash): bool
 {
     return password_verify($plainText, $hash);
 }
+
+/**
+ * Provides information about the system's mode
+ */
+if (!function_exists('mode')) {
+    function mode(): string
+    {
+        return $_ENV['MODE'] ?? '';
+    }
+}
+
+/**
+ * Provides information about the system's mode, whether it is in production mode or not.
+ */
+if (!function_exists('isProd')) {
+    function isProd()
+    {
+        $mode = $_ENV['MODE'] ?? '';
+        return $mode === 'PRODUCTION';
+    }
+}
+
+/**
+ * Provides information about the system's mode, whether it is in dev mode or not.
+ */
+if (!function_exists('isDev')) {
+    function isDev(): bool
+    {
+        $mode = $_ENV['MODE'] ?? '';
+        return $mode === 'DEV';
+    }
+}
+
