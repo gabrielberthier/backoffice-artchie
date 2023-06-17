@@ -26,3 +26,7 @@
 [2023-06-06T15:18:40.994054+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"aa46db1"}
 [2023-06-06T18:15:20.409432+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"79e1405"}
 [2023-06-06T18:15:20.410457+00:00] slim-app.WARNING: Expired token ["eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2ODYwNjQwNDksImV4cCI6MTY4NjA2NDk0OSwianRpIjoia3luRUdiQ2hMQjdVak9hcHBwK1dRQT09Iiwic3ViIjoiYWRtaW4iLCJkYXRhIjp7ImVtYWlsIjoiYWRtaW5nQGFyY3RoaWUuY29tIiwidXVpZCI6IjBjMDRkN2Y1LTVlNDItNGZkZC05YmEyLWQxYjQ0Y2QyMmFjOSIsInJvbGUiOiJhZG1pbiIsInVzZXJuYW1lIjoiYWRtaW4ifSwiaXNzIjoiQVJUQ0hJRSJ9.lK7ZoPPvS5U6iIM2jIasGrV1cdMg8GaUL4A7JyfvvdU"] {"uid":"79e1405"}
+[2023-06-12T18:17:22.106751+00:00] slim-app.ERROR: O nome de usuário ou o email escolhido já foi utilizado [] {"uid":"4594dd7"}
+[2023-06-12T18:17:25.225778+00:00] slim-app.ERROR: O nome de usuário ou o email escolhido já foi utilizado [] {"uid":"ab746c4"}
+[2023-06-12T18:17:28.205764+00:00] slim-app.ERROR: O nome de usuário ou o email escolhido já foi utilizado [] {"uid":"98e6a6f"}
+[2023-06-12T18:17:42.794272+00:00] slim-app.ERROR: O nome de usuário ou o email escolhido já foi utilizado [] {"uid":"96be1f1"}

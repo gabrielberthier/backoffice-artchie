@@ -3,8 +3,8 @@
 namespace Core\Builder\Factories;
 
 use Core\Builder\ProvidersCollector;
+use DI\Container;
 use DI\ContainerBuilder;
-use Psr\Container\ContainerInterface;
 
 class ContainerFactory
 {
@@ -16,7 +16,7 @@ class ContainerFactory
         $this->containerBuilder = new ContainerBuilder();
     }
 
-    public function get(): ContainerInterface
+    public function get(): Container
     {
         $containerBuilder = $this->setContainerValues();
         $containerBuilder->useAnnotations($this->useAnnotations);

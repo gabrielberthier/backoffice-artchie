@@ -4,6 +4,7 @@ namespace Core\Decorators;
 
 use Core\Data\Doctrine\EntityManagerBuilder;
 use Doctrine\ORM\Decorator\EntityManagerDecorator;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerInterface;
 
 class ReopeningEntityManagerDecorator extends EntityManagerDecorator
@@ -13,7 +14,7 @@ class ReopeningEntityManagerDecorator extends EntityManagerDecorator
         parent::__construct(EntityManagerBuilder::produce($container->get('settings')['doctrine']));
     }
 
-    public function open(): void
+    public function open(): EntityManagerInterface
     {
         if (!$this->wrapped->isOpen()) {
             $settings = $this->container->get('settings');
@@ -21,5 +22,7 @@ class ReopeningEntityManagerDecorator extends EntityManagerDecorator
 
             $this->wrapped = EntityManagerBuilder::produce($doctrine);
         }
+
+        return $this->wrapped;
     }
 }

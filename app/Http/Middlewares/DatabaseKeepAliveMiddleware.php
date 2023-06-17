@@ -4,23 +4,31 @@ namespace Core\Http\Middlewares;
 
 
 use Core\Decorators\ReopeningEntityManagerDecorator;
-use Psr\Container\ContainerInterface;
+use DI\Container;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+use function Core\functions\dd;
+
 class DatabaseKeepAliveMiddleware implements MiddlewareInterface
 {
+    private ReopeningEntityManagerDecorator $reopeningEntityManagerDecorator;
+
     public function __construct(
-        private ReopeningEntityManagerDecorator $reopeningEntityManagerDecorator,
-        private ContainerInterface $containerInterface
+        private Container $container
     ) {
+        $this->reopeningEntityManagerDecorator = new ReopeningEntityManagerDecorator($container);
+        $container->set(EntityManagerInterface::class, $this->reopeningEntityManagerDecorator->open());
     }
 
     function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $this->reopeningEntityManagerDecorator->open();
+        echo "cALLED";
+        $em = $this->reopeningEntityManagerDecorator->open();
+        $this->container->set(EntityManagerInterface::class, $em);
 
         try {
             return $handler->handle($request);

@@ -10,10 +10,12 @@ use Core\Http\RouterCollector;
 use Exception;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use Respect\Validation\Factory;
 use Slim\App;
 use Slim\Factory\AppFactory;
 use Slim\Interfaces\ErrorHandlerInterface;
+
 
 class AppBuilderManager
 {
@@ -27,6 +29,9 @@ class AppBuilderManager
 
     private bool $enableShutdownHandler = true;
 
+    /** @var MiddlewareInterface[] */
+    private array $preMiddlewares = [];
+
     public function __construct(ContainerInterface $containerInterface)
     {
         $this->container = $containerInterface;
@@ -36,11 +41,19 @@ class AppBuilderManager
         $this->errorFactory = new ErrorFactory($this->container);
     }
 
+    public function appendMiddlewares(MiddlewareInterface $middlewareInterface){
+        $this->preMiddlewares[] = $middlewareInterface;
+    }
+
     public function build(ServerRequestInterface $request): App
     {
         $app = $this->createApp();
 
         $app->addRoutingMiddleware(); // Add the Slim built-in routing middleware
+
+        foreach ($this->preMiddlewares as $preMiddleware) {
+            $app->addMiddleware($preMiddleware);
+        }
 
         \Core\Builder\MiddlewareCollector::collect(new SlimMiddlewareIncluder($app));
 

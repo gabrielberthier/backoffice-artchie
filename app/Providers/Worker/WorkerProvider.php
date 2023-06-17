@@ -13,9 +13,8 @@ class WorkerProvider extends AbstractProvider
 
     public function provide(ContainerBuilder $container, array $definitions)
     {
-        if (false) {
+        if (boolval(getenv("RR"))) {
             $container->addDefinitions($definitions);
-            
         }
     }
 }

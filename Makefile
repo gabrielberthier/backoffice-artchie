@@ -7,7 +7,7 @@ up: docker-compose.yml
 	docker compose up -d 
 
 up-rr: roadrunner-docker-compose.yml
-	PHP_IMAGE_VERSION=${PHP_IMAGE_VERSION} docker compose -f roadrunner-docker-compose.yml up -d
+	PHP_IMAGE_VERSION=${PHP_IMAGE_VERSION} RR=true docker compose -f roadrunner-docker-compose.yml up -d
 	echo ${PHP_IMAGE_VERSION}
 
 build: docker-compose.yml
