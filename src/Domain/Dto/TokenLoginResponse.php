@@ -25,7 +25,7 @@ class TokenLoginResponse implements JsonSerializable
         $secretBody = $_ENV['JWT_SECRET'] ?? '';
         $secretCookie = $_ENV['JWT_SECRET_COOKIE'] ?? '';
 
-        $this->tokenHandler = new CookieTokenCreator($this->account->getUuid());
+        $this->tokenHandler = new CookieTokenCreator($this->account->uuid);
         $this->renewToken = $this->tokenHandler->createToken($secretCookie);
 
         $this->tokenHandler = new BodyTokenCreator($this->account);
