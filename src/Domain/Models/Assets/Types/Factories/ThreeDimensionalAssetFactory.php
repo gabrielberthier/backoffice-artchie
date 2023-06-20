@@ -10,19 +10,14 @@ use App\Domain\Models\Assets\Types\Interfaces\ConstrainedAssetFactoryInterface;
 
 class ThreeDimensionalAssetFactory implements ConstrainedAssetFactoryInterface
 {
-    public function __construct(private TextureAssetFactory $textureAssetFactory)
+    public function __construct()
     {
     }
 
     function create(CreateAsset $command): AbstractAsset
     {
         $asset = new ThreeDimensionalAsset();
-        $asset->fromCommand($command);
-        foreach ($command->children() as $child) {
-            $asset->addTexture($this->textureAssetFactory->create($child));
-        }
-
-        return $asset;
+        return $asset->fromCommand($command);
     }
 
     function allowedFormats(): array|string

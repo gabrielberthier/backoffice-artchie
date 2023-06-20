@@ -9,8 +9,6 @@ use DateTimeInterface;
 use JsonSerializable;
 use Ramsey\Uuid\UuidInterface;
 
-
-
 readonly class Account implements JsonSerializable
 {
     public function __construct(

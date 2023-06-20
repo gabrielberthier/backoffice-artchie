@@ -33,6 +33,8 @@ readonly class Museum implements ModelInterface
             'name' => $this->name,
             'info' => $this->info,
             'description' => $this->description,
+            'created_at' => $this->createdAt,
+            'updated' => $this->updated,
         ];
     }
 }

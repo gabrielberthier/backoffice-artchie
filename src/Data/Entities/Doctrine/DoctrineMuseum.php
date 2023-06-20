@@ -18,8 +18,6 @@ use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 
-use DateTime;
-
 
 #[Entity, Table(name: 'museums'), HasLifecycleCallbacks]
 class DoctrineMuseum implements ModelInterface
@@ -58,8 +56,6 @@ class DoctrineMuseum implements ModelInterface
         $this->name = $name;
         $this->description = $description;
         $this->info = $info;
-        $this->createdAt = new DateTime();
-        $this->updated = new DateTime();
         $this->markers = new ArrayCollection();
     }
 

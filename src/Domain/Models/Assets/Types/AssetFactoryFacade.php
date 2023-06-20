@@ -11,6 +11,7 @@ use App\Domain\Models\Assets\Types\Factories\ThreeDimensionalAssetFactory;
 use App\Domain\Models\Assets\Types\Factories\VideoAssetFactory;
 use App\Domain\Models\Assets\Types\Helpers\AllowedExtensionChecker;
 use App\Domain\Models\Assets\Types\Interfaces\AssetFactoryInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class AssetFactoryFacade implements AssetFactoryInterface
 {
@@ -25,18 +26,22 @@ class AssetFactoryFacade implements AssetFactoryInterface
   {
     $this->factories[] = new PictureAssetFactory();
     $this->factories[] = new VideoAssetFactory();
-    $this->factories[] = new ThreeDimensionalAssetFactory(
-      new TextureAssetFactory(
-        $this->allowedExtensionChecker
-      )
-    );
+    $this->factories[] = new ThreeDimensionalAssetFactory();
+    $this->factories[] = new TextureAssetFactory();
   }
 
   public function create(CreateAsset $command): AbstractAsset
   {
     foreach ($this->factories as $factory) {
       if ($this->allowedExtensionChecker->isAllowed($command, $factory)) {
-        return $factory->create($command);
+        $childrenAssets = [];
+        foreach ($command->children() as $child) {
+          $childrenAssets[] = $this->create($child);
+        }
+        $asset = $factory->create($command);
+        $asset->setChildren(new ArrayCollection($childrenAssets));
+
+        return $asset;
       }
     }
 

@@ -14,9 +14,7 @@ class PictureAssetFactory implements ConstrainedAssetFactoryInterface
   function create(CreateAsset $command): AbstractAsset
   {
     $asset = new PictureAsset();
-    $asset->fromCommand($command);
-
-    return $asset;
+    return $asset->fromCommand($command);
   }
 
   public function allowedFormats(): array|string
