@@ -53,13 +53,17 @@ class DoctrineAsset implements ModelInterface
      * @param Collection<static> $children
      */
     #[OneToMany(targetEntity: self::class, mappedBy: "parent")]
-    private Collection $children = new ArrayCollection();
+    private Collection $children;
 
     /**
      * Many sub assets have a single parent.
      */
     #[ManyToOne(targetEntity: self::class, inversedBy: "children")]
     private self $parent;
+
+    public function __construct() {
+        $this->children = new ArrayCollection();
+    }
 
     /**
      * Get the value of id.
@@ -76,7 +80,7 @@ class DoctrineAsset implements ModelInterface
      *
      * @return self
      */
-    public function setId(int $id)
+    public function setId(int $id): self
     {
         $this->id = $id;
 
@@ -96,7 +100,7 @@ class DoctrineAsset implements ModelInterface
      *
      * @return self
      */
-    public function setPath(string $path)
+    public function setPath(string $path): self
     {
         $this->path = $path;
 
@@ -116,7 +120,7 @@ class DoctrineAsset implements ModelInterface
      *
      * @return self
      */
-    public function setFileName(string $fileName)
+    public function setFileName(string $fileName): self
     {
         $this->fileName = $fileName;
 
@@ -136,7 +140,7 @@ class DoctrineAsset implements ModelInterface
      *
      * @return self
      */
-    public function setUrl(?string $url)
+    public function setUrl(?string $url): self
     {
         $this->url = $url;
 
@@ -158,7 +162,7 @@ class DoctrineAsset implements ModelInterface
      *
      * @return self
      */
-    public function setMediaType(string $mediaType)
+    public function setMediaType(string $mediaType): self
     {
         $this->mediaType = $mediaType;
 
@@ -196,7 +200,7 @@ class DoctrineAsset implements ModelInterface
      *
      * @return self
      */
-    public function setTemporaryLocation(?string $temporaryLocation)
+    public function setTemporaryLocation(?string $temporaryLocation): self
     {
         $this->temporaryLocation = $temporaryLocation;
 
@@ -218,7 +222,7 @@ class DoctrineAsset implements ModelInterface
      *
      * @return self
      */
-    public function setOriginalName(string $originalName)
+    public function setOriginalName(string $originalName): self
     {
         $this->originalName = $originalName;
 
@@ -238,7 +242,7 @@ class DoctrineAsset implements ModelInterface
      *
      * @return self
      */
-    public function setMimeType(string $mimeType)
+    public function setMimeType(string $mimeType): self
     {
         $this->mimeType = $mimeType;
 
@@ -258,7 +262,7 @@ class DoctrineAsset implements ModelInterface
      *
      * @return  self
      */
-    public function setParent(self $parent)
+    public function setParent(self $parent): self
     {
         $this->parent = $parent;
 
@@ -267,8 +271,10 @@ class DoctrineAsset implements ModelInterface
 
     /**
      * Get one Asset may have a set of sub assets, e.g., a 3D object can have many textures.
+     * 
+     * @var Collection<DoctrineAsset>
      */
-    protected function getChildren(): Collection
+    public function getChildren(): Collection
     {
         return $this->children;
     }
@@ -287,9 +293,11 @@ class DoctrineAsset implements ModelInterface
         return $this;
     }
 
-    protected function setChildren(Collection $collection)
+    public function setChildren(Collection $collection): self
     {
         $this->children = $collection;
+
+        return $this;
     }
 
     public function fromCommand(CreateAsset $createAsset)

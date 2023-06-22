@@ -32,8 +32,12 @@ class MarkerServiceStore implements MarkerServiceStoreInterface
             if (!$museum) {
                 throw new InstanceNotFoundException('Museum');
             }
+            $input = [...$marker->jsonSerialize()];
+            $input['museum'] = $museum;
+            $marker = new Marker(
+                ...$input
+            );
 
-            $marker->setMuseum($museum);
             $this->markerRepository->add($marker);
             $this->em->getConnection()->commit();
 

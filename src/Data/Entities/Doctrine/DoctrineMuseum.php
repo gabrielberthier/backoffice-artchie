@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Data\Entities\Doctrine;
 
 use App\Domain\Contracts\ModelInterface;
-use App\Domain\Models\Marker\Marker;
 use App\Data\Entities\Doctrine\Traits\TimestampsTrait;
 use App\Data\Entities\Doctrine\Traits\UuidTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -41,7 +40,8 @@ class DoctrineMuseum implements ModelInterface
     #[Column(type: 'string', nullable: true)]
     private ?string $info;
 
-    #[OneToMany(targetEntity: Marker::class, mappedBy: "museum", cascade: ["persist", "remove"])]
+    /** @var Collection<DoctrineMarker> */
+    #[OneToMany(targetEntity: DoctrineMarker::class, mappedBy: "museum", cascade: ["persist", "remove"])]
     private Collection $markers;
 
     public function __construct(
@@ -64,56 +64,50 @@ class DoctrineMuseum implements ModelInterface
         return $this->id;
     }
 
-    public function setId(int $id)
+    public function setId(int $id): self
     {
         $this->id = $id;
+
+        return $this;
     }
 
-    /**
-     * Get the value of email.
-     */
     public function getEmail()
     {
         return $this->email;
     }
 
-    /**
-     * Set the value of email.
-     *
-     * @param mixed $email
-     *
-     * @return self
-     */
-    public function setEmail($email)
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 
         return $this;
     }
 
-    /**
-     * Get the value of name.
-     */
     public function getName()
     {
         return $this->name;
     }
 
-    /**
-     * Set the value of name.
-     *
-     * @param mixed $name
-     *
-     * @return self
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    public function addMarker(Marker $marker)
+    public function getMarkers(): Collection
+    {
+        return $this->markers;
+    }
+
+    public function setMarkers(Collection $markers): self
+    {
+        $this->markers = $markers;
+
+        return $this;
+    }
+
+    public function addMarker(DoctrineMarker $marker)
     {
         $this->markers->add($marker);
     }
@@ -130,44 +124,25 @@ class DoctrineMuseum implements ModelInterface
         ];
     }
 
-    /**
-     * Get the value of description.
-     */
     public function getDescription()
     {
         return $this->description;
     }
 
-    /**
-     * Set the value of description.
-     *
-     * @param mixed $description
-     *
-     * @return self
-     */
-    public function setDescription($description)
+
+    public function setDescription(string $description): self
     {
         $this->description = $description;
 
         return $this;
     }
 
-    /**
-     * Get the value of info.
-     */
     public function getInfo()
     {
         return $this->info;
     }
 
-    /**
-     * Set the value of info.
-     *
-     * @param mixed $info
-     *
-     * @return self
-     */
-    public function setInfo($info)
+    public function setInfo(string $info): self
     {
         $this->info = $info;
 

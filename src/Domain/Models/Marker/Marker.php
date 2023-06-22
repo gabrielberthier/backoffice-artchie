@@ -11,10 +11,13 @@ use App\Domain\Contracts\ModelInterface;
 use App\Domain\Models\Assets\AbstractAsset;
 use App\Domain\Models\Museum;
 use App\Domain\Models\PlacementObject\PlacementObject;
+use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Ramsey\Uuid\UuidInterface;
 
-readonly class Marker implements ModelInterface, MediaHostParentInterface
+class Marker implements ModelInterface, MediaHostParentInterface
 {
     public function __construct(
         public ?int $id,
@@ -22,16 +25,20 @@ readonly class Marker implements ModelInterface, MediaHostParentInterface
         public string $name,
         public ?string $text,
         public ?string $title,
-        public ?MarkerAsset $asset = null,
+        public ?AbstractAsset $asset = null,
         public bool $isActive = true,
-        public Collection $resources = new ArrayCollection())
+        /** @var Collection<PlacementObject> */
+        public Collection $resources = new ArrayCollection(),
+        public ?DateTimeInterface $createdAt = new DateTimeImmutable(), 
+        public ?DateTimeInterface $updated = new DateTimeImmutable(),
+        public ?UuidInterface $uuid = null)
     {
     }
 
 
     public function assetInformation(): ?AbstractAsset
     {
-        return $this->asset?->asset;
+        return $this->asset;
     }
 
     public function namedBy(): string
@@ -58,8 +65,6 @@ readonly class Marker implements ModelInterface, MediaHostParentInterface
         return $this->resources->toArray();
     }
 
-
-
     public function jsonSerialize(): mixed
     {
         return [
@@ -69,7 +74,7 @@ readonly class Marker implements ModelInterface, MediaHostParentInterface
                 'text' => $this->text,
                 'title' => $this->title,
             ],
-            'asset' => $this->asset?->asset,
+            'asset' => $this->asset,
             'resources' => $this->resources->toArray(),
             'isActive' => $this->isActive,
         ];
@@ -120,6 +125,6 @@ readonly class Marker implements ModelInterface, MediaHostParentInterface
 
     public function getMediaAsset(): ?AbstractAsset
     {
-        return $this->asset?->asset;
+        return $this->asset;
     }
 }

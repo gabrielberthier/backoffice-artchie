@@ -22,7 +22,7 @@ class Login implements LoginServiceInterface
     {
         $account = $this->accountRepository->findByAccess($credentials->access);
         if ($account) {
-            $passwordsMatch = $this->hashComparer->compare($credentials->password, $account->getPassword());
+            $passwordsMatch = $this->hashComparer->compare($credentials->password, $account->password);
             if ($passwordsMatch) {
                 return new TokenLoginResponse($account);
             }

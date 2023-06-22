@@ -4,7 +4,6 @@ namespace App\Domain\Models\Assets;
 
 use App\Domain\Contracts\ModelInterface;
 use App\Domain\Dto\Asset\Command\CreateAsset;
-use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -23,8 +22,8 @@ abstract class AbstractAsset implements ModelInterface
     private string $mimeType;
     private ?string $temporaryLocation = null;
     private ?UuidInterface $uuid = null;
-    private DateTimeInterface $createdAt = new DateTimeImmutable();
-    private DateTimeInterface $updated = new DateTimeImmutable();
+    private ?DateTimeInterface $createdAt = null;
+    private ?DateTimeInterface $updated = null;
 
     /**
      * One Asset may have a set of sub assets, e.g., a 3D object can have many textures.

@@ -21,13 +21,13 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Table;
 
-#[Entity, Table(name: 'markers'), HasLifecycleCallbacks]
+#[Entity, Table(name: "markers"), HasLifecycleCallbacks]
 class DoctrineMarker
 {
     use TimestampsTrait;
     use UuidTrait;
 
-    #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
+    #[Id, Column(type: "integer"), GeneratedValue(strategy: "AUTO")]
     protected ?int $id;
 
     #[
@@ -45,7 +45,13 @@ class DoctrineMarker
     #[Column(type: "string", nullable: true)]
     private ?string $title;
 
-    #[OneToOne(targetEntity: DoctrineMarkerAsset::class, mappedBy: "marker", cascade: ["persist", "remove"])]
+    #[
+        OneToOne(
+        targetEntity: DoctrineMarkerAsset::class,
+        mappedBy: "marker",
+        cascade: ["persist", "remove"]
+    )
+    ]
     private ?DoctrineMarkerAsset $asset = null;
 
     #[Column(type: "boolean", nullable: false)]
@@ -54,15 +60,21 @@ class DoctrineMarker
     /**
      * One marker has one or many resources. This is the inverse side.
      *
+     * @var Collection<DoctrinePlacementObject>
      */
-    #[OneToMany(targetEntity: DoctrinePlacementObject::class, mappedBy: "marker", cascade: ["persist", "remove"])]
+    #[
+        OneToMany(
+        targetEntity: DoctrinePlacementObject::class,
+        mappedBy: "marker",
+        cascade: ["persist", "remove"]
+    )
+    ]
     private Collection $resources;
 
     public function __construct()
     {
         $this->resources = new ArrayCollection();
     }
-
 
     public function assetInformation(): ?DoctrineAsset
     {
@@ -77,34 +89,22 @@ class DoctrineMarker
     public function jsonSerialize(): mixed
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'dataInfo' => [
-                'text' => $this->text,
-                'title' => $this->title,
-            ],
-            'asset' => $this->asset?->getAsset(),
-            'resources' => $this->resources->toArray(),
-            'isActive' => $this->isActive,
+            "id" => $this->id,
+            "name" => $this->name,
+            "text" => $this->text,
+            "title" => $this->title,
+            "asset" => $this->asset?->getAsset(),
+            "resources" => $this->resources->toArray(),
+            "isActive" => $this->isActive,
         ];
     }
 
-    /**
-     * Get the value of resource.
-     *
-     * @return Collection<DoctrinePlacementObject>
-     */
+    /** @return Collection<DoctrinePlacementObject> */
     public function getResources()
     {
         return $this->resources;
     }
 
-    /**
-     * Add a resource variadic set to the collection
-     *
-     * @param DoctrinePlacementObject ...$resource
-     * @return self
-     */
     public function addResources(DoctrinePlacementObject...$resource): self
     {
         foreach ($resource as $obj) {
@@ -115,12 +115,6 @@ class DoctrineMarker
         return $this;
     }
 
-    /**
-     * Undocumented function
-     *
-     * @param Collection<DoctrinePlacementObject> $collection
-     * @return self
-     */
     public function setResources(Collection $collection): self
     {
         $this->resources->clear();
@@ -130,14 +124,7 @@ class DoctrineMarker
         return $this;
     }
 
-
-
-    /**
-     * Set the value of resource.
-     *
-     * @return self
-     */
-    public function addResource(DoctrinePlacementObject $resource)
+    public function addResource(DoctrinePlacementObject $resource): self
     {
         $resource->setMarker($this);
         $this->resources->add($resource);
@@ -145,156 +132,87 @@ class DoctrineMarker
         return $this;
     }
 
-    /**
-     * Get the value of name.
-     */
     public function getName()
     {
         return $this->name;
     }
 
-    /**
-     * Set the value of name.
-     *
-     * @param mixed $name
-     *
-     * @return self
-     */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * Get the value of text.
-     */
     public function getText()
     {
         return $this->text;
     }
 
-    /**
-     * Set the value of text.
-     *
-     * @param mixed $text
-     *
-     * @return self
-     */
-    public function setText($text)
+    public function setText($text): self
     {
         $this->text = $text;
 
         return $this;
     }
 
-    /**
-     * Get the value of title.
-     */
     public function getTitle()
     {
         return $this->title;
     }
 
-    /**
-     * Set the value of title.
-     *
-     * @param mixed $title
-     *
-     * @return self
-     */
-    public function setTitle($title)
+    public function setTitle($title): self
     {
         $this->title = $title;
 
         return $this;
     }
 
-    /**
-     * Get many markers have one museum. This is the owning side.
-     */
     public function getMuseum(): ?DoctrineMuseum
     {
         return $this->museum;
     }
 
-    /**
-     * Set many markers have one museum. This is the owning side.
-     *
-     * @param mixed $museum
-     *
-     * @return self
-     */
-    public function setMuseum(DoctrineMuseum $museum)
+    public function setMuseum(?DoctrineMuseum $museum): self
     {
         $this->museum = $museum;
 
         return $this;
     }
 
-    /**
-     * Get the value of isActive.
-     */
     public function getIsActive(): bool
     {
         return $this->isActive;
     }
 
-    /**
-     * Set the value of isActive.
-     *
-     * @param mixed $isActive
-     *
-     * @return self
-     */
-    public function setIsActive(bool $isActive)
+    public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
 
         return $this;
     }
 
-    /**
-     * Get the value of asset.
-     */
     public function getAsset(): ?DoctrineMarkerAsset
     {
         return $this->asset;
     }
 
-    /**
-     * Set the value of asset.
-     *
-     * @return self
-     */
-    public function setAsset(?DoctrineMarkerAsset $asset)
+    public function setAsset(?DoctrineMarkerAsset $asset): self
     {
         $this->asset = $asset;
 
         return $this;
     }
 
-    /**
-     * Get the value of id.
-     */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * Set the value of id.
-     *
-     * @param mixed $id
-     *
-     * @return self
-     */
-    public function setId($id)
+    public function setId($id): self
     {
         $this->id = $id;
 
         return $this;
     }
-
 }

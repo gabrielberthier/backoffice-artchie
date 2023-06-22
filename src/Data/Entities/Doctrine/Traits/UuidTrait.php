@@ -33,7 +33,7 @@ trait UuidTrait
      *
      * @return self
      */
-    public function setUuid(UuidInterface|string $uuid): self
+    public function setUuid(UuidInterface|string|null $uuid): self
     {
         $this->uuid = is_string($uuid) ? Uuid::fromString($uuid) : $uuid;
 

@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Account;
 
+use App\Data\Entities\Doctrine\DoctrineAccount;
 use App\Domain\Dto\AccountDto;
 use App\Domain\Exceptions\Account\UserAlreadyRegisteredException;
 use App\Domain\Models\Account;
@@ -20,31 +21,46 @@ class DoctrineAccountRepository implements AccountRepository
     {
         $findBy = filter_var($access, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-        return $this->em->getRepository(Account::class)->findOneBy([$findBy => $access]);
+        $doctrineAccount = $this->em->getRepository(DoctrineAccount::class)->findOneBy([$findBy => $access]);
+
+        return new Account(...$doctrineAccount->jsonSerialize());
     }
 
     public function findByMail(string $mail): ?Account
     {
-        return $this->em->getRepository(Account::class)->findOneBy(['email' => $mail]);
+        $doctrineAccount = $this->em->getRepository(DoctrineAccount::class)->findOneBy(['email' => $mail]);
+
+        return new Account(...$doctrineAccount->jsonSerialize());
+
     }
 
     public function findByUUID(string $uuid): ?Account
     {
-        return $this->em->getRepository(Account::class)->findOneBy(['uuid' => $uuid]);
+        $doctrineAccount = $this->em->getRepository(DoctrineAccount::class)->findOneBy(['uuid' => $uuid]);
+
+        return new Account(...$doctrineAccount->jsonSerialize());
     }
 
-    public function findWithAuthType(string $email, AuthTypes $authType): ?Account{
-        return $this->em->getRepository(Account::class)->findOneBy(['email' => $email, 'authType' => $authType->value]);
+    public function findWithAuthType(string $email, AuthTypes $authType): ?Account
+    {
+        $doctrineAccount = $this->em->getRepository(DoctrineAccount::class)->findOneBy(
+            [
+                'email' => $email,
+                'authType' => $authType->value
+            ]
+        );
+
+        return new Account(...$doctrineAccount->jsonSerialize());
     }
 
     public function insert(AccountDto $accountDto): Account
     {
         try {
-            $account = new Account(null, ...$accountDto->getData());
-            $this->em->persist($account);
+            $doctrineAccount = new DoctrineAccount(null, ...$accountDto->getData());
+            $this->em->persist($doctrineAccount);
             $this->em->flush();
 
-            return $account;
+            return new Account(...$doctrineAccount->jsonSerialize());
         } catch (UniqueConstraintViolationException) {
             throw new UserAlreadyRegisteredException();
         }

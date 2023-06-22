@@ -34,20 +34,20 @@ class AsymmetricValidator implements Middleware
 
         if ($museum) {
             $signature = json_encode([
-                'uuid' => $museum->getUuid()->toString(),
-                'museum_name' => $museum->getName(),
+                'uuid' => $museum->uuid->toString(),
+                'museum_name' => $museum->name,
             ]);
 
             $dbToken = $this->tokenRepository->findFromMuseum($museum);
-            $raw_signature = base64_decode($dbToken->getSignature());
+            $raw_signature = base64_decode($dbToken->signature);
             $result = openssl_verify($signature, $raw_signature, $token, OPENSSL_ALGO_SHA256);
 
-            if (1 === $result) {
+            if ($result > 0) {
                 return $handler->handle(
                     $request
                         ->withAttribute(
                             'museum_id',
-                            $museum->getId()
+                            $museum->id
                         )
                 );
             }

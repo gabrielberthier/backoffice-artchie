@@ -16,18 +16,17 @@ use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 
-
-#[Entity, Table(name: 'placement_objects'), HasLifecycleCallbacks]
+#[Entity, Table(name: "placement_objects"), HasLifecycleCallbacks]
 class DoctrinePlacementObject
 {
     use TimestampsTrait;
     use UuidTrait;
 
-    #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
+    #[Id, Column(type: "integer"), GeneratedValue(strategy: "AUTO")]
     protected ?int $id;
-    #[Column(type: 'string')]
+    #[Column(type: "string")]
     private string $name;
-    #[Column(type: 'boolean')]
+    #[Column(type: "boolean")]
     private bool $isActive = true;
 
     /**
@@ -36,11 +35,21 @@ class DoctrinePlacementObject
      */
     #[
         ManyToOne(targetEntity: DoctrineMarker::class, inversedBy: "resources"),
-        JoinColumn(name: "marker_id", referencedColumnName: "id", onDelete: "CASCADE")
+        JoinColumn(
+            name: "marker_id",
+            referencedColumnName: "id",
+            onDelete: "CASCADE"
+        )
     ]
     private ?DoctrineMarker $marker;
 
-    #[OneToOne(targetEntity: DoctrinePosedAsset::class, mappedBy: "posedObject", cascade: ["persist", "remove"])]
+    #[
+        OneToOne(
+            targetEntity: DoctrinePosedAsset::class,
+            mappedBy: "posedObject",
+            cascade: ["persist", "remove"]
+        )
+    ]
     private ?DoctrinePosedAsset $asset = null;
 
     public function assetInformation(): ?DoctrineAsset
@@ -56,111 +65,67 @@ class DoctrinePlacementObject
     public function jsonSerialize(): mixed
     {
         return [
-            'id' => $this->id,
-            'uuid' => $this->uuid,
-            'name' => $this->name,
-            'asset' => $this->asset?->getAsset(),
+            "id" => $this->id,
+            "uuid" => $this->uuid,
+            "name" => $this->name,
+            "asset" => $this->asset?->getAsset(),
         ];
     }
 
-    /**
-     * Get the value of name.
-     */
     public function getName()
     {
         return $this->name;
     }
 
-    /**
-     * Set the value of name.
-     *
-     * @param mixed $name
-     *
-     * @return self
-     */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * Get the value of id.
-     */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * Set the value of id.
-     *
-     * @param mixed $id
-     *
-     * @return self
-     */
-    public function setId($id)
+    public function setId($id): self
     {
         $this->id = $id;
 
         return $this;
     }
 
-    /**
-     * Get many resources have one marker. This is the owning side.
-     */
     public function getMarker(): DoctrineMarker
     {
         return $this->marker;
     }
 
-    /**
-     * Set many resources have one marker. This is the owning side.
-     *
-     * @return self
-     */
-    public function setMarker(DoctrineMarker $marker)
+    public function setMarker(DoctrineMarker $marker): self
     {
         $this->marker = $marker;
 
         return $this;
     }
 
-    /**
-     * Get the value of isActive.
-     */
     public function getIsActive(): bool
     {
         return $this->isActive;
     }
 
-    /**
-     * Set the value of isActive.
-     *
-     * @return self
-     */
-    public function setIsActive(bool $isActive)
+    public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
 
         return $this;
     }
 
-    /**
-     * Get the value of asset.
-     */
     public function getAsset(): ?DoctrinePosedAsset
     {
         return $this->asset;
     }
 
-    /**
-     * Set the value of asset.
-     *
-     * @return self
-     */
-    public function setAsset(DoctrinePosedAsset $asset)
+    public function setAsset(DoctrinePosedAsset $asset): self
     {
         $this->asset = $asset;
 

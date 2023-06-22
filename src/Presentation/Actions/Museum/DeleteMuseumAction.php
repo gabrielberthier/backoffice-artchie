@@ -19,7 +19,7 @@ class DeleteMuseumAction extends Action
     public function action(Request $request): Response
     {
         $id = (int) $this->resolveArg('id');
-        $museum = $this->museumRepository->delete($id);
+        $museum = $this->museumRepository->remove($id);
 
         return $this->respondWithData(['message' => 'Success! Museum deleted', 'museum' => $museum]);
     }

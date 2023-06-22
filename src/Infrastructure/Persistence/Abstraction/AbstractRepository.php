@@ -9,6 +9,9 @@ use App\Infrastructure\Persistence\PersistenceUtils\ItemsRetriever;
 use Doctrine\ORM\EntityManagerInterface as EntityManager;
 use Doctrine\Persistence\ObjectRepository;
 
+/**
+ * @template T
+ */
 abstract class AbstractRepository implements CrudOperationsInterface
 {
 
@@ -28,7 +31,7 @@ abstract class AbstractRepository implements CrudOperationsInterface
     return $this->itemsRetriever->findAll($this->entity(), $paginate, $page, $limit);
   }
 
-  public function findByKey(string $key, mixed $value): ?ModelInterface
+  public function findByKey(string $key, mixed $value): ?object
   {
     return $this->repository()->findOneBy([$key => $value]);
   }
@@ -38,7 +41,7 @@ abstract class AbstractRepository implements CrudOperationsInterface
     return $this->repository()->findBy([$key => $value]);
   }
 
-  public function findByID(int $id): ?ModelInterface
+  public function findByID(int $id): ?object
   {
     return $this->em->find($this->entity(), $id);
   }
@@ -48,7 +51,7 @@ abstract class AbstractRepository implements CrudOperationsInterface
     return $this->repository()->findBy($conditions);
   }
 
-  public function delete(ModelInterface|int $subject): ?ModelInterface
+  public function delete(ModelInterface|int $subject): ?object
   {
     if (is_int($subject)) {
       $subject = $this->findByID($subject);

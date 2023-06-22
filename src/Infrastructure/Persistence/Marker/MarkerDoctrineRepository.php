@@ -3,12 +3,14 @@
 namespace App\Infrastructure\Persistence\Marker;
 
 
+use App\Data\Entities\Doctrine\DoctrineMarker;
 use App\Domain\Exceptions\Marker\MarkerNameRepeated;
 use App\Domain\Models\Marker\Marker;
 use App\Domain\Models\Museum;
 use App\Domain\Repositories\MarkerRepositoryInterface;
 use App\Domain\Repositories\PersistenceOperations\Responses\ResultSetInterface;
 use App\Domain\Repositories\PersistenceOperations\Responses\SearchResult;
+use App\Infrastructure\ModelBridge\MarkerBridge;
 use App\Infrastructure\Persistence\Abstraction\AbstractRepository;
 use App\Infrastructure\Persistence\Pagination\PaginationService;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -19,26 +21,31 @@ class MarkerDoctrineRepository extends AbstractRepository implements MarkerRepos
 
     function entity(): string
     {
-        return Marker::class;
+        return DoctrineMarker::class;
     }
 
     public function add(Marker $marker): bool
     {
         try {
+            $bridge = new MarkerBridge();
+            $doctrineMarker = $bridge->convertFromModel($marker);
+            
             $this->em->getConnection()->beginTransaction();
 
-            $asset = $marker->getMediaAsset();
+            $asset = $doctrineMarker->getAsset();
+            
             if ($asset) {
                 $this->em->persist($asset);
             }
-            foreach ($marker->getResources() as $resource) {
+            
+            foreach ($doctrineMarker->getResources() as $resource) {
                 $posedAsset = $resource->getAsset()?->getAsset();
                 if ($posedAsset) {
                     $this->em->persist($posedAsset);
                 }
             }
 
-            $this->em->persist($marker);
+            $this->em->persist($doctrineMarker);
             $this->em->flush();
 
             $this->em->getConnection()->commit();
@@ -53,6 +60,8 @@ class MarkerDoctrineRepository extends AbstractRepository implements MarkerRepos
             throw $exception;
         } catch (Exception $ex) {
             echo $ex;
+
+            return false;
         }
     }
 
@@ -60,7 +69,7 @@ class MarkerDoctrineRepository extends AbstractRepository implements MarkerRepos
     {
         $id = $museum;
         if ($museum instanceof Museum) {
-            $id = $museum->getId();
+            $id = $museum->id;
         }
 
         if ($paginate && $page && $limit) {
@@ -83,27 +92,28 @@ class MarkerDoctrineRepository extends AbstractRepository implements MarkerRepos
 
     public function update(int $id, array $values): ?Marker
     {
-        $marker = $this->findByID($id);
+        $dM = $this->em->getRepository(DoctrineMarker::class)->find($id);
 
-        if ($marker) {
+        if ($dM) {
             try {
-                $marker->setText($values['text'] ?? $marker->getText());
-                $marker->setName($values['name'] ?? $marker->getName());
-                $marker->setTitle($values['title'] ?? $marker->getTitle());
-                $marker->setIsActive($values['isActive'] ?? $marker->getIsActive());
+                $dMarker = new DoctrineMarker();
+                $dMarker->setText($values['text'] ?? $dM->getText());
+                $dMarker->setName($values['name'] ?? $dM->getName());
+                $dMarker->setTitle($values['title'] ?? $dM->getTitle());
+                $dMarker->setIsActive($values['isActive'] ?? $dM->getIsActive());
 
                 $this->em->flush();
             } catch (UniqueConstraintViolationException) {
                 throw new MarkerNameRepeated();
             }
-        }
-
-        return $marker;
+        }        
     }
 
 
     public function findByID(int $id): ?Marker
     {
-        return parent::findByID($id);
+        $bridge = new MarkerBridge();
+        return $bridge->toModel(parent::findByID($id));
     }
+
 }

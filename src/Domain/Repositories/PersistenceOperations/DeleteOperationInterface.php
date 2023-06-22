@@ -6,5 +6,5 @@ use App\Domain\Contracts\ModelInterface;
 
 interface DeleteOperationInterface
 {
-  public function delete(ModelInterface|int $id): ?ModelInterface;
+  public function delete(ModelInterface|int $id): ?object;
 }

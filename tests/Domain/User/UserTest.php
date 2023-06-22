@@ -31,10 +31,10 @@ class UserTest extends TestCase
     {
         $user = new User($id, $username, $firstName, $lastName);
 
-        $this->assertEquals($id, $user->getId());
-        $this->assertEquals($username, $user->getUsername());
-        $this->assertEquals($firstName, $user->getFirstName());
-        $this->assertEquals($lastName, $user->getLastName());
+        $this->assertEquals($id, $user->id);
+        $this->assertEquals($username, $user->username);
+        $this->assertEquals($firstName, $user->firstName);
+        $this->assertEquals($lastName, $user->lastName);
     }
 
     /**

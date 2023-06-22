@@ -25,21 +25,24 @@ class AsymmetricSigner implements SignerInterface
 
         if ($museum) {
             $signature = $this->encrypter->encrypt(json_encode([
-                'uuid' => $museum->getUuid()->toString(),
-                'museum_name' => $museum->getName(),
+                'uuid' => $museum->uuid->toString(),
+                'museum_name' => $museum->name,
             ]));
 
             $signatureToken = new SignatureToken(
                 null,
                 $signature->signature,
                 $signature->privateKey,
-                $museum
+                $museum,
+                null,
+                null,
+                null
             );
 
             $this->tokenRepository->save($signatureToken);
 
             return $this->createTokenResponse(
-                $museum->getUuid()->toString(),
+                $museum->uuid->toString(),
                 $signature->publicKey
             );
         }

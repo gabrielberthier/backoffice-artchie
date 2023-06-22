@@ -2,24 +2,30 @@
 
 namespace App\Infrastructure\Persistence\Museum;
 
+use App\Data\Entities\Doctrine\DoctrineMuseum;
 use App\Domain\Contracts\ModelInterface;
 use App\Domain\Exceptions\Museum\MuseumAlreadyRegisteredException;
 use App\Domain\Models\Museum;
 use App\Domain\Repositories\MuseumRepository;
+use App\Domain\Repositories\PersistenceOperations\Responses\ResultSetInterface;
+use App\Infrastructure\ModelBridge\MuseumBridge;
 use App\Infrastructure\Persistence\Abstraction\AbstractRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
-
+/**
+ * @extends AbstractRepository<\App\Data\Entities\Doctrine\DoctrineMuseum>
+ */
 class MuseumDoctrineRepository extends AbstractRepository implements MuseumRepository
 {
     public function entity(): string
     {
-        return Museum::class;
+        return DoctrineMuseum::class;
     }
 
     public function update(int $id, array $values): ?Museum
     {
-        $museum = $this->findByID($id);
+        /** @var DoctrineMuseum */
+        $museum = $this->repository()->find($id);
 
         if ($museum) {
             try {
@@ -32,33 +38,42 @@ class MuseumDoctrineRepository extends AbstractRepository implements MuseumRepos
             }
         }
 
-        return $museum;
+        $museumBridge = new MuseumBridge();
+
+        return $museumBridge->toModel($museum);
     }
 
     public function findByID(int $id): ?Museum
     {
-        return parent::findByID($id);
+        $museumBridge = new MuseumBridge();
+
+        return $museumBridge->toModel(parent::findByID($id));
     }
 
     public function findByMail(string $mail): ?Museum
     {
-        return $this->findByKey('email', $mail);
+        $museumBridge = new MuseumBridge();
+        return $museumBridge->toModel($this->findByKey('email', $mail));
     }
 
     public function findByUUID(string $uuid): ?Museum
     {
-        return $this->findByKey('uuid', $uuid);
+        $museumBridge = new MuseumBridge();
+        return $museumBridge->toModel($this->findByKey('uuid', $uuid));
     }
 
     public function findByName(string $name): ?Museum
     {
-        return $this->findByKey('name', $name);
+        $museumBridge = new MuseumBridge();
+        return $museumBridge->toModel($this->findByKey('name', $name));
     }
 
     public function insert(ModelInterface $museum): bool
     {
         try {
-            return parent::insert($museum);
+            $museumBridge = new MuseumBridge();
+            $museumDoctrine = $museumBridge->convertFromModel($museum);
+            return parent::insert($museumDoctrine);
         } catch (UniqueConstraintViolationException) {
             throw new MuseumAlreadyRegisteredException();
         }
@@ -69,8 +84,19 @@ class MuseumDoctrineRepository extends AbstractRepository implements MuseumRepos
         return $this->insert($museum);
     }
 
-    public function delete(ModelInterface|int $subject): ?Museum
+    public function remove(int $museum): ?Museum
     {
-        return parent::delete($subject);
+        $museumdb = parent::delete($museum);
+        $museumBridge = new MuseumBridge();
+        return is_null($museumdb) ? $museumdb : $museumBridge->toModel($museumdb);
+    }
+
+    public function all(bool $paginate = false, $page = 1, $limit = 20): ResultSetInterface
+    {
+        return parent::findAll(
+            $paginate,
+            $page,
+            $limit = 20
+        );
     }
 }

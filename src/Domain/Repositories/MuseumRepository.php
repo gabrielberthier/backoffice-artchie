@@ -7,6 +7,7 @@ namespace App\Domain\Repositories;
 use App\Domain\Contracts\ModelInterface;
 use App\Domain\Exceptions\Museum\MuseumAlreadyRegisteredException;
 use App\Domain\Models\Museum;
+use App\Domain\Repositories\PersistenceOperations\Responses\ResultSetInterface;
 
 interface MuseumRepository
 {
@@ -25,5 +26,7 @@ interface MuseumRepository
 
     public function add(Museum $model): bool;
 
-    public function delete(ModelInterface | int $museum): ?Museum;
+    public function remove(int $museum): ?Museum;
+
+    public function all(bool $paginate = false, $page = 1, $limit = 20): ResultSetInterface;
 }

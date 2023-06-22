@@ -37,44 +37,21 @@ class DoctrineMarkerAsset
         $this->marker = $marker;
     }
 
-    /**
-     * Get the value of marker.
-     */
     public function getMarker(): ?DoctrineMarker
     {
         return $this->marker;
     }
-
-    /**
-     * Get the value of asset.
-     */
     public function getAsset(): DoctrineAsset
     {
         return $this->asset;
     }
-
-    /**
-     * Set the value of marker.
-     *
-     * @param mixed $marker
-     *
-     * @return self
-     */
-    public function setMarker(DoctrineMarker $marker)
+    public function setMarker(DoctrineMarker $marker): self
     {
         $this->marker = $marker;
 
         return $this;
     }
-
-    /**
-     * Set the value of asset.
-     *
-     * @param mixed $asset
-     *
-     * @return self
-     */
-    public function setAsset(DoctrineAsset $asset)
+    public function setAsset(DoctrineAsset $asset): self
     {
         $this->asset = $asset;
 

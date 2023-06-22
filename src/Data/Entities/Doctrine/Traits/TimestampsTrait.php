@@ -3,6 +3,7 @@
 namespace App\Data\Entities\Doctrine\Traits;
 
 use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping\PreUpdate;
 use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\Column;
@@ -10,10 +11,10 @@ use Doctrine\ORM\Mapping\Column;
 trait TimestampsTrait
 {
     #[Column(type: 'datetime', name:"created_at")]
-    private ?DateTime $createdAt = null;
+    private ?DateTimeInterface $createdAt = null;
 
     #[Column(type: 'datetime', name:"updated_at")]
-    private ?DateTime $updated = null;
+    private ?DateTimeInterface $updated = null;
 
     #[PreUpdate, PrePersist]
     public function updatedTimestamps(): void
@@ -24,10 +25,12 @@ trait TimestampsTrait
         }
     }
 
-    public function setUpdated(DateTime $dateTime)
+    public function setUpdated(?DateTimeInterface $dateTime): self
     {
         // WILL be saved in the database
         $this->updated = $dateTime;
+
+        return $this;
     }
 
     /**
@@ -45,7 +48,7 @@ trait TimestampsTrait
      *
      * @return self
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(?DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 

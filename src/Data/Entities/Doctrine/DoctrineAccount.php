@@ -96,7 +96,7 @@ class DoctrineAccount implements JsonSerializable
      *
      * @return self
      */
-    public function setUsername($username)
+    public function setUsername($username): self
     {
         $this->username = $username;
 
@@ -110,7 +110,7 @@ class DoctrineAccount implements JsonSerializable
      *
      * @return self
      */
-    public function setPassword($password)
+    public function setPassword($password): self
     {
         $this->password = $password;
 
@@ -124,7 +124,7 @@ class DoctrineAccount implements JsonSerializable
      *
      * @return self
      */
-    public function setRole($role)
+    public function setRole($role): self
     {
         $this->role = $role;
 
@@ -145,7 +145,7 @@ class DoctrineAccount implements JsonSerializable
      *
      * @return self
      */
-    public function setEmail($email)
+    public function setEmail($email): self
     {
         $this->email = $email;
 

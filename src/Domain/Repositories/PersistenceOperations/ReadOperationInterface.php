@@ -9,9 +9,9 @@ interface ReadOperationInterface
 {
   public function findAll(bool $paginate = false, $page = 1, $limit = 20): ResultSetInterface;
 
-  public function findByID(int $id): ?ModelInterface;
+  public function findByID(int $id): ?object;
 
-  public function findByKey(string $key, mixed $value): ?ModelInterface;
+  public function findByKey(string $key, mixed $value): ?object;
 
   public function findItemsByKey(string $key, mixed $value): array;
 

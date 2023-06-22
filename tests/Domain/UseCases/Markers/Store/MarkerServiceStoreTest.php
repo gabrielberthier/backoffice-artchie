@@ -86,6 +86,13 @@ class MarkerServiceStoreTest extends TestCase
             ->with(13)
             ->willReturn(new Museum(1, email: 'email', name: 'name'));
 
-        $service->insert(13, new Marker());
+        $service->insert(13, new Marker(
+            null,
+            null,
+            "name",
+            "text",
+            "title",
+        )
+        );
     }
 }

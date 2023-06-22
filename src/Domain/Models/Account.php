@@ -19,8 +19,8 @@ readonly class Account implements JsonSerializable
         public ?string $authType,
         public ?UuidInterface $uuid = null,
         public ?string $role = 'common',
-        public DateTimeInterface $createdAt = new DateTimeImmutable(), 
-        public DateTimeInterface $updated = new DateTimeImmutable())
+        public ?DateTimeInterface $createdAt = new DateTimeImmutable(), 
+        public ?DateTimeInterface $updated = new DateTimeImmutable())
     {
     }
 
