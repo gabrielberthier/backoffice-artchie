@@ -3,13 +3,13 @@
 namespace App\Data\UseCases\Markers;
 
 use App\Data\Protocols\Markers\Store\MarkerServiceStoreInterface;
-use App\Domain\Exceptions\Protocols\HttpSpecializedAdapter;
 use App\Domain\Exceptions\Protocols\UniqueConstraintViolation\AbstractUniqueException;
 use App\Domain\Exceptions\Transaction\InstanceNotFoundException;
 use App\Domain\Exceptions\Transaction\NameAlreadyInUse;
 use App\Domain\Models\Marker\Marker;
 use App\Domain\Repositories\MarkerRepositoryInterface;
 use App\Domain\Repositories\MuseumRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface as EntityManager;
 use Exception;
 
@@ -34,6 +34,7 @@ class MarkerServiceStore implements MarkerServiceStoreInterface
             }
             $input = [...$marker->jsonSerialize()];
             $input['museum'] = $museum;
+            $input['resources'] = new ArrayCollection($input['resources']);
             $marker = new Marker(
                 ...$input
             );
@@ -44,8 +45,6 @@ class MarkerServiceStore implements MarkerServiceStoreInterface
             return $marker;
         } catch (AbstractUniqueException $exception) {
             throw new NameAlreadyInUse($exception->getResponseMessage(), 400, $exception);
-        } catch (HttpSpecializedAdapter $exception) {
-            throw $exception;
         } catch (Exception $ex) {
             $this->em->getConnection()->rollBack();
 

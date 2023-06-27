@@ -13,10 +13,14 @@ use App\Infrastructure\Persistence\Abstraction\AbstractRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 /**
- * @extends AbstractRepository<\App\Data\Entities\Doctrine\DoctrineMuseum>
+ * @extends AbstractRepository<\App\Domain\Models\Museum>
  */
 class MuseumDoctrineRepository extends AbstractRepository implements MuseumRepository
 {
+    public function __construct(private MuseumBridge $museumBridge)
+    {
+    }
+
     public function entity(): string
     {
         return DoctrineMuseum::class;
@@ -38,41 +42,33 @@ class MuseumDoctrineRepository extends AbstractRepository implements MuseumRepos
             }
         }
 
-        $museumBridge = new MuseumBridge();
-
-        return $museumBridge->toModel($museum);
+        return $this->museumBridge->toModel($museum);
     }
 
     public function findByID(int $id): ?Museum
     {
-        $museumBridge = new MuseumBridge();
-
-        return $museumBridge->toModel(parent::findByID($id));
+        return $this->museumBridge->toModel(parent::findByID($id));
     }
 
     public function findByMail(string $mail): ?Museum
     {
-        $museumBridge = new MuseumBridge();
-        return $museumBridge->toModel($this->findByKey('email', $mail));
+        return $this->museumBridge->toModel($this->findByKey('email', $mail));
     }
 
     public function findByUUID(string $uuid): ?Museum
     {
-        $museumBridge = new MuseumBridge();
-        return $museumBridge->toModel($this->findByKey('uuid', $uuid));
+        return $this->museumBridge->toModel($this->findByKey('uuid', $uuid));
     }
 
     public function findByName(string $name): ?Museum
     {
-        $museumBridge = new MuseumBridge();
-        return $museumBridge->toModel($this->findByKey('name', $name));
+        return $this->museumBridge->toModel($this->findByKey('name', $name));
     }
 
     public function insert(ModelInterface $museum): bool
     {
         try {
-            $museumBridge = new MuseumBridge();
-            $museumDoctrine = $museumBridge->convertFromModel($museum);
+            $museumDoctrine = $this->museumBridge->convertFromModel($museum);
             return parent::insert($museumDoctrine);
         } catch (UniqueConstraintViolationException) {
             throw new MuseumAlreadyRegisteredException();
@@ -87,8 +83,7 @@ class MuseumDoctrineRepository extends AbstractRepository implements MuseumRepos
     public function remove(int $museum): ?Museum
     {
         $museumdb = parent::delete($museum);
-        $museumBridge = new MuseumBridge();
-        return is_null($museumdb) ? $museumdb : $museumBridge->toModel($museumdb);
+        return is_null($museumdb) ? $museumdb : $this->museumBridge->toModel($museumdb);
     }
 
     public function all(bool $paginate = false, $page = 1, $limit = 20): ResultSetInterface

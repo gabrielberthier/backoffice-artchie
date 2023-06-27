@@ -4,7 +4,6 @@ namespace App\Data\UseCases\Resources;
 
 use App\Data\Protocols\Media\MediaHostInterface;
 use App\Data\Protocols\Resources\ResourcesDownloaderInterface;
-use App\Domain\Dto\Asset\PlacementResource;
 use App\Domain\Dto\Asset\Transference\Asset as TransferenceAsset;
 use App\Domain\Dto\Asset\Transference\AssetInfo as TransferenceAssetInfo;
 use App\Domain\Dto\Asset\Transference\MarkerResource;
@@ -82,11 +81,11 @@ class DeliveryMan implements ResourcesDownloaderInterface
           )
         )
           ->withInformation(
-            new TransferenceAssetInfo($el->getTitle(), $el->getText())
+            new TransferenceAssetInfo($el->title, $el->text)
           )
           ->attachPlacementResources(
             $this->mapPlacementObjectsToPlacementResources(
-              $el->getResources()
+              $el->resources
             )
           )
       )

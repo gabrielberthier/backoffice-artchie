@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Models\Security;
+namespace App\Data\Entities\Doctrine;
 
 use App\Data\Entities\Doctrine\Traits\TimestampsTrait;
-use App\Domain\Models\Museum;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping\OneToOne;
@@ -37,14 +36,14 @@ class DoctrineSignatureToken implements JsonSerializable
     #[Column(type: 'datetime', name: 'time_to_live')]
     private DateTimeInterface $ttl;
 
-    #[OneToOne(targetEntity: Museum::class)]
-    private ?Museum $museum;
+    #[OneToOne(targetEntity: DoctrineMuseum::class)]
+    private ?DoctrineMuseum $museum;
 
     public function __construct(
         ?int $id,
         string $signature,
         string $privateKey,
-        ?Museum $museum,
+        ?DoctrineMuseum $museum,
     ) {
         $this->id = $id;
         $this->signature = $signature;
@@ -125,11 +124,11 @@ class DoctrineSignatureToken implements JsonSerializable
     /**
      * Set one Product has One Shipment.
      *
-     * @param mixed $museum
+     * @param DoctrineMuseum $museum
      *
      * @return self
      */
-    public function setMuseum($museum)
+    public function setMuseum(DoctrineMuseum $museum)
     {
         $this->museum = $museum;
 

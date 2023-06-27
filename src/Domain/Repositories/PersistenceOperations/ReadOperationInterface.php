@@ -7,7 +7,7 @@ use App\Domain\Repositories\PersistenceOperations\Responses\ResultSetInterface;
 
 interface ReadOperationInterface
 {
-  public function findAll(bool $paginate = false, $page = 1, $limit = 20): ResultSetInterface;
+  public function findAll(bool $paginate = false, int $page = 1, int $limit = 20): ResultSetInterface;
 
   public function findByID(int $id): ?object;
 

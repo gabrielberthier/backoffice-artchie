@@ -10,5 +10,5 @@ class UnprocessableEntityException extends HttpSpecializedException
     protected $code = 422;
     protected ?Throwable $previous = null;
     protected string $title = '422 Unprocessable Entity';
-    protected string $description = 'The request was well-formed but was unable to be followed due to semantic errors.';
+    protected string $description = 'The request was well-formed but unable to be followed due to semantic errors.';
 }

@@ -38,7 +38,7 @@ class DoctrineAccount implements JsonSerializable
     #[Column(type: 'string')]
     private ?string $role = 'common';
 
-    #[Column(name: 'auth_type',type: 'string')]
+    #[Column(name: 'auth_type', type: 'string')]
     private ?string $authType;
 
     public function __construct(
@@ -163,7 +163,7 @@ class DoctrineAccount implements JsonSerializable
             'username' => $this->username,
             'password' => $this->password,
             'role' => $this->role,
-            'authType' => $this->authType,
+            'auth_type' => $this->authType,
             'created_at' => $this->createdAt,
             'updated' => $this->updated,
         ];

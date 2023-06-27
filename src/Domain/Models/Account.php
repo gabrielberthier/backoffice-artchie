@@ -19,8 +19,7 @@ readonly class Account implements JsonSerializable
         public ?string $authType,
         public ?UuidInterface $uuid = null,
         public ?string $role = 'common',
-        public ?DateTimeInterface $createdAt = new DateTimeImmutable(), 
-        public ?DateTimeInterface $updated = new DateTimeImmutable())
+        public ?DateTimeInterface $createdAt = new DateTimeImmutable(), public ?DateTimeInterface $updated = new DateTimeImmutable())
     {
     }
 
@@ -36,7 +35,7 @@ readonly class Account implements JsonSerializable
             'username' => $this->username,
             'password' => $this->password,
             'role' => $this->role,
-            'authType' => $this->authType,
+            'auth_type' => $this->authType,
             'created_at' => $this->createdAt,
             'updated' => $this->updated,
         ];

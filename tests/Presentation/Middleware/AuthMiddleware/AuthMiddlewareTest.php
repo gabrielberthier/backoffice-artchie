@@ -40,7 +40,7 @@ class AuthMiddlewareTest extends TestCase
 
     private function createRequestWithAuthentication(string $token)
     {
-        $bearer = 'Bearer '.$token;
+        $bearer = 'Bearer ' . $token;
 
         return $this->createRequest(
             'GET',

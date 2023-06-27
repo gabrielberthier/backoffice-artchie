@@ -31,7 +31,7 @@ class DoctrineAsset implements ModelInterface
     use UuidTrait;
 
     #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
-    protected ?int $id;
+    protected ?int $id = null;
     #[Column(type: 'string', unique: true)]
     private string $path;
     #[Column(type: 'string', unique: true)]
@@ -59,47 +59,31 @@ class DoctrineAsset implements ModelInterface
      * Many sub assets have a single parent.
      */
     #[ManyToOne(targetEntity: self::class, inversedBy: "children")]
-    private self $parent;
+    private ?self $parent = null;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->children = new ArrayCollection();
     }
 
-    /**
-     * Get the value of id.
-     *
-     * @return int
-     */
+
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * Set the value of id.
-     *
-     * @return self
-     */
-    public function setId(int $id): self
+    public function setId(?int $id): self
     {
         $this->id = $id;
 
         return $this;
     }
 
-    /**
-     * Get the value of path.
-     */
     public function getPath(): string
     {
         return $this->path;
     }
 
-    /**
-     * Set the value of path.
-     *
-     * @return self
-     */
     public function setPath(string $path): self
     {
         $this->path = $path;
@@ -107,19 +91,11 @@ class DoctrineAsset implements ModelInterface
         return $this;
     }
 
-    /**
-     * Get the value of fileName.
-     */
     public function getFileName(): string
     {
         return $this->fileName;
     }
 
-    /**
-     * Set the value of fileName.
-     *
-     * @return self
-     */
     public function setFileName(string $fileName): self
     {
         $this->fileName = $fileName;
@@ -127,19 +103,11 @@ class DoctrineAsset implements ModelInterface
         return $this;
     }
 
-    /**
-     * Get the value of url.
-     */
     public function getUrl(): ?string
     {
         return $this->url;
     }
 
-    /**
-     * Set the value of url.
-     *
-     * @return self
-     */
     public function setUrl(?string $url): self
     {
         $this->url = $url;
@@ -147,21 +115,13 @@ class DoctrineAsset implements ModelInterface
         return $this;
     }
 
-    /**
-     * Get the value of mediaType.
-     */
+
     public function getMediaType(): string
     {
         return $this->mediaType;
     }
 
-    /**
-     * Set the value of mediaType.
-     *
-     * @param mixed $mediaType
-     *
-     * @return self
-     */
+
     public function setMediaType(string $mediaType): self
     {
         $this->mediaType = $mediaType;
@@ -185,21 +145,11 @@ class DoctrineAsset implements ModelInterface
         ];
     }
 
-    /**
-     * Get the value of temporaryLocation.
-     */
+
     public function getTemporaryLocation(): ?string
     {
         return $this->temporaryLocation;
     }
-
-    /**
-     * Set the value of temporaryLocation.
-     *
-     * @param mixed $temporaryLocation
-     *
-     * @return self
-     */
     public function setTemporaryLocation(?string $temporaryLocation): self
     {
         $this->temporaryLocation = $temporaryLocation;
@@ -207,21 +157,13 @@ class DoctrineAsset implements ModelInterface
         return $this;
     }
 
-    /**
-     * Get the value of originalName.
-     */
+
     public function getOriginalName(): string
     {
         return $this->originalName;
     }
 
-    /**
-     * Set the value of originalName.
-     *
-     * @param mixed $originalName
-     *
-     * @return self
-     */
+
     public function setOriginalName(string $originalName): self
     {
         $this->originalName = $originalName;
@@ -229,19 +171,12 @@ class DoctrineAsset implements ModelInterface
         return $this;
     }
 
-    /**
-     * Get the value of mimeType.
-     */
+
     public function getMimeType(): string
     {
         return $this->mimeType;
     }
 
-    /**
-     * Set the value of mimeType.
-     *
-     * @return self
-     */
     public function setMimeType(string $mimeType): self
     {
         $this->mimeType = $mimeType;
@@ -249,19 +184,12 @@ class DoctrineAsset implements ModelInterface
         return $this;
     }
 
-    /**
-     * Get many sub assets have a single parent.
-     */
-    public function getParent(): self
+    public function getParent(): ?self
     {
         return $this->parent;
     }
 
-    /**
-     * Set many sub assets have a single parent.
-     *
-     * @return  self
-     */
+
     public function setParent(self $parent): self
     {
         $this->parent = $parent;
@@ -269,22 +197,11 @@ class DoctrineAsset implements ModelInterface
         return $this;
     }
 
-    /**
-     * Get one Asset may have a set of sub assets, e.g., a 3D object can have many textures.
-     * 
-     * @var Collection<DoctrineAsset>
-     */
     public function getChildren(): Collection
     {
         return $this->children;
     }
 
-    /**
-     * Set one Asset may have a set of sub assets, e.g., a 3D object can have many textures.
-     *
-     * @param self $element
-     * @return  self
-     */
     protected function addChild(self $element)
     {
         $this->children->add($element);

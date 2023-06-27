@@ -10,10 +10,10 @@ use Doctrine\ORM\Mapping\Column;
 
 trait TimestampsTrait
 {
-    #[Column(type: 'datetime', name:"created_at")]
+    #[Column(type: 'datetime', name: "created_at")]
     private ?DateTimeInterface $createdAt = null;
 
-    #[Column(type: 'datetime', name:"updated_at")]
+    #[Column(type: 'datetime', name: "updated_at")]
     private ?DateTimeInterface $updated = null;
 
     #[PreUpdate, PrePersist]
@@ -33,31 +33,17 @@ trait TimestampsTrait
         return $this;
     }
 
-    /**
-     * Get the value of createdAt.
-     */
     public function getCreatedAt()
     {
         return $this->createdAt;
     }
 
-    /**
-     * Set the value of createdAt.
-     *
-     * @param mixed $createdAt
-     *
-     * @return self
-     */
     public function setCreatedAt(?DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
-
-    /**
-     * Get the value of updated.
-     */
     public function getUpdated()
     {
         return $this->updated;

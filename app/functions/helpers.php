@@ -88,3 +88,27 @@ if (!function_exists('isDev')) {
     }
 }
 
+/**
+ * Makes a string camel case
+ */
+if (!function_exists('toCamelCase')) {
+    function toCamelCase(string $input, ?string $sepators = '_'): string
+    {
+        return str_replace("_", "", lcfirst(ucwords($input, $sepators)));
+    }
+}
+
+/**
+ * Creates a new array applying camel case to keys
+ */
+if (!function_exists('arrayToCamelCase')) {
+    function arrayToCamelCase(array $array): array
+    {
+        $result = [];
+        foreach ($array as $key => $value) {
+            $result[toCamelCase($key)] = $value;
+        }
+
+        return $result;
+    }
+}

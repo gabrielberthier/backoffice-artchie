@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Infrastructure\Persistence\Orm\Marker;
 
+use App\Data\Entities\Doctrine\DoctrineAsset;
 use App\Data\Entities\Doctrine\DoctrineMarker;
+use App\Data\Entities\Doctrine\DoctrineMarkerAsset;
+use App\Data\Entities\Doctrine\DoctrinePlacementObject;
 use App\Domain\Models\Assets\PictureAsset;
 use App\Domain\Models\Marker\Marker;
 use App\Domain\Models\Marker\MarkerAsset;
@@ -81,11 +84,11 @@ class MarkerRepositoryTest extends TestCase
 
         $this->repository->add($marker);
 
-        $new_marker = $this->entityManager->getRepository(DoctrineMarker::class)->findBy([], ['id' => 'DESC'], 1, 0)[0];
+        $new_marker = $this->entityManager->getRepository(DoctrineMarker::class)->findAll()[0];
 
         //print_r($account);
 
-        assertInstanceOf(Marker::class, $new_marker);
+        assertInstanceOf(DoctrineMarker::class, $new_marker);
     }
 
     public function testShouldInsertMarkerWithAsset()
@@ -107,14 +110,14 @@ class MarkerRepositoryTest extends TestCase
 
         $this->repository->add($marker);
 
-        $new_marker = $this->entityManager->getRepository(Marker::class)->findBy([], ['id' => 'DESC'], 1, 0)[0];
+        $new_marker = $this->entityManager->getRepository(DoctrineMarker::class)->findBy([], ['id' => 'DESC'], 1, 0)[0];
 
         //print_r($account);
 
-        $new_asset = $new_marker->asset;
+        $new_asset = $new_marker->getAsset();
 
-        assertInstanceOf(Marker::class, $new_marker);
-        assertInstanceOf(MarkerAsset::class, $new_asset);
+        assertInstanceOf(DoctrineMarker::class, $new_marker);
+        assertInstanceOf(DoctrineMarkerAsset::class, $new_asset);
     }
 
     public function testShouldInsertMarkerWithResources()
@@ -133,16 +136,16 @@ class MarkerRepositoryTest extends TestCase
 
         $this->repository->add($marker);
 
-        /** @var Marker */
+        /** @var DoctrineMarker */
         $new_marker = $this->entityManager->getRepository(DoctrineMarker::class)->findBy([], ['id' => 'DESC'], 1, 0)[0];
 
         //print_r($account);
 
-        $resources = $new_marker->resources;
+        $resources = $new_marker->getResources();
 
         assertSame($resources->count(), 1);
         $resource = $resources->get(0);
-        assertInstanceOf(PlacementObject::class, $resource);
+        assertInstanceOf(DoctrinePlacementObject::class, $resource);
     }
 
     private function getTotalCount(): int

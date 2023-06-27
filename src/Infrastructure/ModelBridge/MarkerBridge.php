@@ -12,6 +12,10 @@ class MarkerBridge
     {
         $doctrineMarker = new DoctrineMarker();
         $asset = $marker->asset;
+        # Basic info
+        $doctrineMarker->setName($marker->name);
+        $doctrineMarker->setText($marker->text);
+        $doctrineMarker->setTitle($marker->title);
 
         if ($asset) {
             $assetBridge = new AssetBridge();
@@ -24,6 +28,8 @@ class MarkerBridge
         $doctrineMarker->setCreatedAt($marker->createdAt);
         $doctrineMarker->setUpdated($marker->updated);
         $doctrineMarker->setUuid($marker->uuid);
+
+
         if ($marker->museum) {
             $museumBridge = new MuseumBridge();
             $doctrineMarker->setMuseum($museumBridge->convertFromModel($marker->museum));
@@ -46,7 +52,7 @@ class MarkerBridge
         );
         $assetBridge = new AssetBridge();
         $asset = is_null($doctrineMarker->getAsset()->getAsset()) ? null : $assetBridge->toModel($doctrineMarker->getAsset()->getAsset());
-        
+
         return new Marker(
             id: $doctrineMarker->getId(),
             museum: $doctrineMarker->getMuseum(),

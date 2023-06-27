@@ -17,7 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Ramsey\Uuid\UuidInterface;
 
-class Marker implements ModelInterface, MediaHostParentInterface
+readonly class Marker implements ModelInterface, MediaHostParentInterface
 {
     public function __construct(
         public ?int $id,
@@ -28,9 +28,9 @@ class Marker implements ModelInterface, MediaHostParentInterface
         public ?AbstractAsset $asset = null,
         public bool $isActive = true,
         /** @var Collection<PlacementObject> */
-        public Collection $resources = new ArrayCollection(),
+        public Collection $resources = new ArrayCollection(), 
         public ?DateTimeInterface $createdAt = new DateTimeImmutable(), 
-        public ?DateTimeInterface $updated = new DateTimeImmutable(),
+        public ?DateTimeInterface $updated = new DateTimeImmutable(), 
         public ?UuidInterface $uuid = null)
     {
     }
@@ -70,10 +70,8 @@ class Marker implements ModelInterface, MediaHostParentInterface
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'dataInfo' => [
-                'text' => $this->text,
-                'title' => $this->title,
-            ],
+            'text' => $this->text,
+            'title' => $this->title,
             'asset' => $this->asset,
             'resources' => $this->resources->toArray(),
             'isActive' => $this->isActive,

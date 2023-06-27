@@ -27,8 +27,7 @@ class TestCase extends PHPUnit_TestCase
 
     public static function createDatabase()
     {
-        /** @var \Psr\Container\ContainerInterface */
-        $container = self::$container;
+        $container = self::requireContainer();
         /** @var EntityManager */
         $entityManager = $container->get(EntityManager::class);
         $metadatas = $entityManager->getMetadataFactory()->getAllMetadata();
@@ -39,7 +38,7 @@ class TestCase extends PHPUnit_TestCase
     final public static function truncateDatabase()
     {
         /** @var \Psr\Container\ContainerInterface */
-        $container = self::$container;
+        $container = self::requireContainer();
         /** @var EntityManager */
         $entityManager = $container->get(EntityManager::class);
         $schemaTool = new SchemaTool($entityManager);

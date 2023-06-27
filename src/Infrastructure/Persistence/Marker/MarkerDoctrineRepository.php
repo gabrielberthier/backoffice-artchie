@@ -16,6 +16,9 @@ use App\Infrastructure\Persistence\Pagination\PaginationService;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Exception;
 
+/**
+ * @extends AbstractRepository<\App\Domain\Models\Marker\Marker>
+ */
 class MarkerDoctrineRepository extends AbstractRepository implements MarkerRepositoryInterface
 {
 
@@ -29,15 +32,15 @@ class MarkerDoctrineRepository extends AbstractRepository implements MarkerRepos
         try {
             $bridge = new MarkerBridge();
             $doctrineMarker = $bridge->convertFromModel($marker);
-            
+
             $this->em->getConnection()->beginTransaction();
 
             $asset = $doctrineMarker->getAsset();
-            
+
             if ($asset) {
                 $this->em->persist($asset);
             }
-            
+
             foreach ($doctrineMarker->getResources() as $resource) {
                 $posedAsset = $resource->getAsset()?->getAsset();
                 if ($posedAsset) {
@@ -60,6 +63,8 @@ class MarkerDoctrineRepository extends AbstractRepository implements MarkerRepos
             throw $exception;
         } catch (Exception $ex) {
             echo $ex;
+
+            $this->em->getConnection()->rollBack();
 
             return false;
         }
@@ -106,7 +111,7 @@ class MarkerDoctrineRepository extends AbstractRepository implements MarkerRepos
             } catch (UniqueConstraintViolationException) {
                 throw new MarkerNameRepeated();
             }
-        }        
+        }
     }
 
 

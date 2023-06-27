@@ -13,7 +13,7 @@ use Ramsey\Uuid\UuidInterface;
 
 abstract class AbstractAsset implements ModelInterface
 {
-    protected ?int $id;
+    protected ?int $id = null;
     private string $path;
     private string $fileName;
     private ?string $url;
@@ -61,7 +61,7 @@ abstract class AbstractAsset implements ModelInterface
      *
      * @return self
      */
-    public function setId(int $id)
+    public function setId(?int $id)
     {
         $this->id = $id;
 
@@ -204,16 +204,16 @@ abstract class AbstractAsset implements ModelInterface
     public function jsonSerialize(): mixed
     {
         return [
-            'id' => $this->getId(),
-            'uuid' => $this->getUuid(),
-            'path' => $this->getPath(),
-            'fileName' => $this->getFileName(),
-            'url' => $this->getUrl(),
-            'mediaType' => $this->getMediaType(),
-            'created_at' => $this->getCreatedAt(),
-            'last_update' => $this->getUpdated(),
-            'mimeType' => $this->getMimeType(),
-            'temporary_location' => $this->getTemporaryLocation(),
+            'id' => $this->id,
+            'uuid' => $this->uuid,
+            'path' => $this->path,
+            'fileName' => $this->fileName,
+            'url' => $this->url,
+            'mediaType' => $this->mediaType,
+            'created_at' => $this->createdAt,
+            'last_update' => $this->updated,
+            'mimeType' => $this->mimeType,
+            'temporary_location' => $this->temporaryLocation,
         ];
     }
 

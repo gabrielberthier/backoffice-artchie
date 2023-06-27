@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Infrastructure\Persistence\Orm\Account;
 
+use App\Data\Entities\Doctrine\DoctrineAccount;
 use App\Domain\Dto\AccountDto;
 use App\Domain\Models\Account;
 use App\Domain\Repositories\AccountRepository;
@@ -42,7 +43,7 @@ class AccountTest extends TestCase
     protected function tearDown(): void
     {
         $entityManager = $this->entityManager;
-        $collection = $entityManager->getRepository(Account::class)->findAll();
+        $collection = $entityManager->getRepository(DoctrineAccount::class)->findAll();
         foreach ($collection as $c) {
             $entityManager->remove($c);
         }
@@ -76,7 +77,7 @@ class AccountTest extends TestCase
         $qb = $this->entityManager->createQueryBuilder();
 
         $qb->select($qb->expr()->count('u'))
-            ->from(Account::class, 'u')
+            ->from(DoctrineAccount::class, 'u')
             // ->where('u.type = ?1')
             // ->setParameter(1, 'employee')
         ;

@@ -8,12 +8,13 @@ use App\Domain\Exceptions\Account\UserAlreadyRegisteredException;
 use App\Domain\Models\Account;
 use App\Domain\Models\Enums\AuthTypes;
 use App\Domain\Repositories\AccountRepository;
+use App\Infrastructure\ModelBridge\AccountBridge;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface as EntityManager;
 
 class DoctrineAccountRepository implements AccountRepository
 {
-    public function __construct(private EntityManager $em)
+    public function __construct(private EntityManager $em, private AccountBridge $accountBridge)
     {
     }
 
@@ -23,14 +24,14 @@ class DoctrineAccountRepository implements AccountRepository
 
         $doctrineAccount = $this->em->getRepository(DoctrineAccount::class)->findOneBy([$findBy => $access]);
 
-        return new Account(...$doctrineAccount->jsonSerialize());
+        return $this->accountBridge->toModel($doctrineAccount);
     }
 
     public function findByMail(string $mail): ?Account
     {
         $doctrineAccount = $this->em->getRepository(DoctrineAccount::class)->findOneBy(['email' => $mail]);
 
-        return new Account(...$doctrineAccount->jsonSerialize());
+        return $this->accountBridge->toModel($doctrineAccount);
 
     }
 
@@ -38,7 +39,7 @@ class DoctrineAccountRepository implements AccountRepository
     {
         $doctrineAccount = $this->em->getRepository(DoctrineAccount::class)->findOneBy(['uuid' => $uuid]);
 
-        return new Account(...$doctrineAccount->jsonSerialize());
+        return $this->accountBridge->toModel($doctrineAccount);
     }
 
     public function findWithAuthType(string $email, AuthTypes $authType): ?Account
@@ -50,7 +51,7 @@ class DoctrineAccountRepository implements AccountRepository
             ]
         );
 
-        return new Account(...$doctrineAccount->jsonSerialize());
+        return $this->accountBridge->toModel($doctrineAccount);
     }
 
     public function insert(AccountDto $accountDto): Account
@@ -60,7 +61,7 @@ class DoctrineAccountRepository implements AccountRepository
             $this->em->persist($doctrineAccount);
             $this->em->flush();
 
-            return new Account(...$doctrineAccount->jsonSerialize());
+            return $this->accountBridge->toModel($doctrineAccount);
         } catch (UniqueConstraintViolationException) {
             throw new UserAlreadyRegisteredException();
         }

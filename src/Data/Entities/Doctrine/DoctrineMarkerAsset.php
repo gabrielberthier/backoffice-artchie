@@ -2,7 +2,6 @@
 
 namespace App\Data\Entities\Doctrine;
 
-use App\Data\Entities\Doctrine\DoctrineAsset;
 use App\Data\Entities\Doctrine\Traits\TimestampsTrait;
 use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\ManyToOne;
@@ -19,14 +18,14 @@ class DoctrineMarkerAsset
 
     #[
         Id,
-        OneToOne(targetEntity: DoctrineMarker::class),
+        OneToOne(targetEntity: DoctrineMarker::class, cascade: ["persist", "remove"]),
         JoinColumn(name: "marker_id", referencedColumnName: "id")
     ]
     private DoctrineMarker $marker;
 
     #[
         Id,
-        ManyToOne(targetEntity: DoctrineAsset::class),
+        ManyToOne(targetEntity: DoctrineAsset::class, cascade: ["persist", "remove"]),
         JoinColumn(name: "asset_id", referencedColumnName: "id")
     ]
     private DoctrineAsset $asset;
