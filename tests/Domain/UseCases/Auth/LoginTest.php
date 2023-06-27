@@ -16,12 +16,13 @@ use App\Domain\Repositories\AccountRepository;
 use Ramsey\Uuid\Uuid;
 use function PHPUnit\Framework\assertTrue;
 use PHPUnit\Framework\MockObject\MockObject;
-use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophet;
 use Tests\TestCase;
 
 class SutTypes
 {
     public LoginServiceInterface $service;
+
 
     public function __construct(
         public $repository,
@@ -37,12 +38,13 @@ class SutTypes
  */
 class LoginTest extends TestCase
 {
-    use ProphecyTrait;
 
+    private Prophet $prophet;
     private SutTypes $sut;
 
     protected function setUp(): void
     {
+        $this->prophet = new Prophet();
         $this->sut = new SutTypes($this->mockRepository(), $this->makeComparer());
     }
 

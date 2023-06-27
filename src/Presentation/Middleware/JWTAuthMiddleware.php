@@ -11,8 +11,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface as Middleware;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
+use Core\Http\Middlewares\Jwt\JwtAuthentication;
 use Psr\Log\LoggerInterface;
-use Tuupola\Middleware\JwtAuthentication;
 
 class JWTAuthMiddleware implements Middleware
 {

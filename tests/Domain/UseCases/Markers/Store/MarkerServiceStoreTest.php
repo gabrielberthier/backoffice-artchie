@@ -12,7 +12,6 @@ use App\Domain\Repositories\MuseumRepository;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface as EntityManager;
 use PHPUnit\Framework\MockObject\MockObject;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Tests\TestCase;
 
 /**
@@ -23,12 +22,13 @@ use Tests\TestCase;
  */
 class MarkerServiceStoreTest extends TestCase
 {
-    use ProphecyTrait;
 
+    private \Prophecy\Prophet $prophet;
     private SutTypes $sut;
 
     protected function setUp(): void
     {
+        $this->prophet = new \Prophecy\Prophet;
         /** @var MuseumRepository */
         $museumRepository = $this->mockMuseumRepository();
         /** @var MarkerRepositoryInterface */
@@ -86,13 +86,15 @@ class MarkerServiceStoreTest extends TestCase
             ->with(13)
             ->willReturn(new Museum(1, email: 'email', name: 'name'));
 
-        $service->insert(13, new Marker(
-            null,
-            null,
-            "name",
-            "text",
-            "title",
-        )
+        $service->insert(
+            13,
+            new Marker(
+                null,
+                null,
+                "name",
+                "text",
+                "title",
+            )
         );
     }
 }

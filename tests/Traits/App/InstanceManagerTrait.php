@@ -52,7 +52,6 @@ trait InstanceManagerTrait
 
         $containerFactory
             ->enableCompilation(false)
-            ->withoutAnnotations()
         ;
 
         return $containerFactory->get();

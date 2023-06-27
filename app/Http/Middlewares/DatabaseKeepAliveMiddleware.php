@@ -11,8 +11,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-use function Core\functions\dd;
-
 class DatabaseKeepAliveMiddleware implements MiddlewareInterface
 {
     private ReopeningEntityManagerDecorator $reopeningEntityManagerDecorator;

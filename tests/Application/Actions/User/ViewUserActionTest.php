@@ -10,7 +10,7 @@ use App\Domain\Repositories\UserRepository;
 use App\Presentation\Actions\Protocols\ActionError;
 use App\Presentation\Actions\Protocols\ActionPayload;
 use DI\Container;
-use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophet;
 use Tests\TestCase;
 
 /**
@@ -19,7 +19,13 @@ use Tests\TestCase;
  */
 class ViewUserActionTest extends TestCase
 {
-    use ProphecyTrait;
+    private Prophet $prophet;
+
+
+    function setUp(): void
+    {
+        $this->prophet = new Prophet();
+    }
 
     public function testAction()
     {
@@ -30,7 +36,7 @@ class ViewUserActionTest extends TestCase
 
         $user = new User(1, 'bill.gates', 'Bill', 'Gates');
 
-        $userRepositoryProphecy = $this->prophesize(UserRepository::class);
+        $userRepositoryProphecy = $this->prophet->prophesize(UserRepository::class);
         $userRepositoryProphecy
             ->findUserOfId(1)
             ->willReturn($user)
@@ -58,7 +64,7 @@ class ViewUserActionTest extends TestCase
         /** @var Container $container */
         $container = $app->getContainer();
 
-        $userRepositoryProphecy = $this->prophesize(UserRepository::class);
+        $userRepositoryProphecy = $this->prophet->prophesize(UserRepository::class);
         $userRepositoryProphecy
             ->findUserOfId(1)
             ->willThrow(new UserNotFoundException())

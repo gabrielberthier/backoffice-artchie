@@ -12,7 +12,6 @@ use App\Presentation\Helpers\Validation\Validators\Interfaces\ValidationInterfac
 use DI\Container;
 use function PHPUnit\Framework\assertEquals;
 use PHPUnit\Framework\MockObject\MockObject;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophet;
 use Psr\Http\Message\ServerRequestInterface;
 use Tests\TestCase;
@@ -23,9 +22,7 @@ use Tests\TestCase;
  */
 class LoginControllerTest extends TestCase
 {
-    use ProphecyTrait;
-
-    private $prophet;
+    private Prophet $prophet;
 
     protected function setUp(): void
     {

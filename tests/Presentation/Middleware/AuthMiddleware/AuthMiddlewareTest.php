@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Presentation\Middleware\AuthMiddleware;
 
-use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -16,13 +15,15 @@ use Tests\TestCase;
  */
 class AuthMiddlewareTest extends TestCase
 {
-    use ProphecyTrait;
+
     use RefreshTokenTestTrait;
     use BearerTestTrait;
+    private \Prophecy\Prophet $prophet;
 
     public function setUp(): void
     {
         $this->app = $this->createAppInstance();
+        $this->prophet = new \Prophecy\Prophet;
         $this->app->group('/api', function ($group) {
             $group->get('/test-auth', function (RequestInterface $request, ResponseInterface $response): ResponseInterface {
                 $response->getBody()->write('Works');

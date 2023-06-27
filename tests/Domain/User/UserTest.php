@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class UserTest extends TestCase
 {
-    public function userProvider()
+    public static function userProvider()
     {
         return [
             [1, 'bill.gates', 'Bill', 'Gates'],

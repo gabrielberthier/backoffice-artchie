@@ -2,8 +2,6 @@
 
 namespace App\Domain\Dto\Asset\Command;
 
-use Mimey\MimeTypes;
-
 class CreateAsset
 {
   public function __construct(
@@ -17,9 +15,9 @@ class CreateAsset
 
   public function mimeType(): string
   {
-    $mimes = new MimeTypes();
+    $detector = new \League\MimeTypeDetection\FinfoMimeTypeDetector();
 
-    return $mimes->getMimeType($this->extension()) ?? "";
+    return $detector->detectMimeTypeFromPath($this->path) ?? "";
   }
 
   public function extension()

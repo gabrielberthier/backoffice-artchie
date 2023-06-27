@@ -8,7 +8,7 @@ use App\Data\Protocols\AsymCrypto\SignerInterface;
 use App\Presentation\Actions\Protocols\HttpErrors\UnprocessableEntityException;
 use App\Presentation\Actions\ResourcesSecurity\KeyCreatorAction;
 use PHPUnit\Framework\MockObject\MockObject;
-use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophet;
 use Psr\Http\Message\ServerRequestInterface;
 use Ramsey\Uuid\Uuid;
 use Slim\Psr7\Response;
@@ -20,14 +20,13 @@ use Tests\TestCase;
  */
 class KeyCreatorActionTest extends TestCase
 {
-    use ProphecyTrait;
-
-    private $prophet;
+    private Prophet $prophet;
 
     private KeyCreatorAction $sut;
 
     protected function setUp(): void
     {
+        $this->prophet = new Prophet();
         /** @var SignerInterface */
         $service = $this->createMockService();
         $this->sut = new KeyCreatorAction($service);
@@ -42,7 +41,7 @@ class KeyCreatorActionTest extends TestCase
 
     public function testShouldCallAsymmetricSignerWithCorrectValues()
     {
-        $prophecyService = $this->prophesize(SignerInterface::class);
+        $prophecyService = $this->prophet->prophesize(SignerInterface::class);
         $prophecyService->sign(Uuid::fromString('914e4c51-a049-4594-ae5c-921bbadf686b'))->willReturn('')
             ->shouldBeCalledOnce()
         ;
@@ -69,12 +68,19 @@ class KeyCreatorActionTest extends TestCase
     private function createMockRequest(): ServerRequestInterface
     {
         $request = $this->createRequest('POST', '/api/forge-credential');
+
         $request->getBody()
-            ->write(json_encode(['uuid' => '914e4c51-a049-4594-ae5c-921bbadf686b'], JSON_PRETTY_PRINT))
+            ->write(
+                json_encode(
+                    [
+                        'uuid' => '914e4c51-a049-4594-ae5c-921bbadf686b'
+                    ],
+                    JSON_PRETTY_PRINT
+                )
+            )
         ;
-        $request->getBody()
-            ->rewind()
-        ;
+
+        $request->getBody()->rewind();
 
         return $request;
     }

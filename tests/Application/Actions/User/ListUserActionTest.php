@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Tests\Application\Actions\User;
 
 use App\Domain\Models\User;
 use App\Domain\Repositories\UserRepository;
 use App\Presentation\Actions\Protocols\ActionPayload;
 use DI\Container;
-use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophet;
 use Tests\TestCase;
 
 /**
@@ -17,9 +15,19 @@ use Tests\TestCase;
  */
 class ListUserActionTest extends TestCase
 {
-    use ProphecyTrait;
+    private Prophet $prophet;
 
-    public function testAction()
+    function setUp(): void
+    {
+        $this->prophet = new Prophet();
+    }
+
+    function tearDown(): void
+    {
+        $this->prophet->checkPredictions();
+    }
+
+    public function testShouldCallActionSuccessfully()
     {
         $app = $this->createAppInstance();
 
@@ -28,7 +36,7 @@ class ListUserActionTest extends TestCase
 
         $user = new User(1, 'bill.gates', 'Bill', 'Gates');
 
-        $userRepositoryProphecy = $this->prophesize(UserRepository::class);
+        $userRepositoryProphecy = $this->prophet->prophesize()->willImplement(UserRepository::class);
         $userRepositoryProphecy
             ->findAll()
             ->willReturn([$user])
