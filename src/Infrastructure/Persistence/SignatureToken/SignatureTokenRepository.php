@@ -2,9 +2,9 @@
 
 namespace App\Infrastructure\Persistence\SignatureToken;
 
+use App\Data\Entities\Doctrine\DoctrineSignatureToken;
 use App\Domain\Exceptions\Security\DuplicatedTokenException;
 use App\Domain\Models\Museum;
-use App\Domain\Models\Security\DoctrineSignatureToken;
 use App\Domain\Models\Security\SignatureToken;
 use App\Domain\Repositories\SignatureTokenRepositoryInterface;
 use App\Domain\Repositories\SignatureTokenRetrieverInterface;
@@ -40,7 +40,11 @@ class SignatureTokenRepository implements SignatureTokenRepositoryInterface, Sig
     {
         $tokenBridge = new SignatureTokenBridge();
         $dbToken = $this->findWithMuseumId($museum);
-        return is_null($dbToken) ? null : $tokenBridge->toModel($dbToken);
+        if ($dbToken) {
+            return $tokenBridge->toModel($dbToken);
+        }
+
+        return null;
     }
 
     private function findWithMuseumId(Museum $museum): ?DoctrineSignatureToken

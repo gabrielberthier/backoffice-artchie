@@ -7,6 +7,7 @@ namespace Core\Http\Middlewares\Jwt;
 use Closure;
 use Core\Http\Middlewares\DoublePass\DoublePassTrait;
 use DomainException;
+use Firebase\JWT\Key;
 use InvalidArgumentException;
 use Exception;
 use Firebase\JWT\JWT;
@@ -284,13 +285,21 @@ final class JwtAuthentication implements MiddlewareInterface
      */
     private function decodeToken(string $token): array
     {
-        $algo = (array) $this->options["algorithm"];
+        $algo = $this->options["algorithm"];
+
+        if (is_array($algo)) {
+            $algo = array_shift($algo);
+        }
+
         try {
             $decoded = JWT::decode(
                 $token,
-                $this->options["secret"],
-                $algo
+                new Key(
+                    $this->options["secret"],
+                    $algo
+                )
             );
+
             return (array) $decoded;
         } catch (Exception $exception) {
             $this->log(LogLevel::WARNING, $exception->getMessage(), [$token]);

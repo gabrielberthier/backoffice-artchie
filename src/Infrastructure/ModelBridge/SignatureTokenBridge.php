@@ -1,7 +1,7 @@
 <?php
 namespace App\Infrastructure\ModelBridge;
 
-use App\Domain\Models\Security\DoctrineSignatureToken;
+use App\Data\Entities\Doctrine\DoctrineSignatureToken;
 use App\Domain\Models\Security\SignatureToken;
 use DateInterval;
 use DateTimeImmutable;
