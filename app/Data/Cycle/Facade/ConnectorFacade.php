@@ -8,6 +8,8 @@ use Core\Data\Cycle\DriverFactories\Factories\PostresDriverFactory;
 use Core\Data\Cycle\DriverFactories\Protocols\AbstractDriverFactory;
 use Core\Data\Cycle\DriverFactories\Protocols\ConfigurableDriverInterface;
 use Cycle\Database\Config\DriverConfig;
+use Core\Data\Cycle\ConnectionFactories\Connections\MySqlConfig;
+use Core\Data\Cycle\ConnectionFactories\Connections\PostgresConfig;
 
 class ConnectorFacade
 {
@@ -18,20 +20,21 @@ class ConnectorFacade
         /** @var string */
         $driver =
             $connection["DRIVER"] ??
-            explode("://", $connection["DATABASE_URL"])[0];
+            explode("://", $connection["url"])[0];
+
         $this->driverFactory = match ($driver) {
             "postgres",
             "postgresql",
             "pg",
             "pdo_pgsql",
             "pgsql"
-            => new PostresDriverFactory(),
-            
+            => new PostresDriverFactory(new PostgresConfig()),
+
             "mysql",
             "pdo_mysql",
-            "mysqli" 
-            => new MySqlDriverFactory(),
-            
+            "mysqli"
+            => new MySqlDriverFactory(new MySqlConfig()),
+
             default => throw new \Exception("Driver selection is not correct"),
         };
     }
@@ -40,7 +43,10 @@ class ConnectorFacade
         array $connectionOptions = []
     ): DriverConfig {
         return $this->driverFactory->getDriver(
-            $this->createInput($this->connection, $connectionOptions),
+            $this->createInput(
+                $this->connection,
+                $connectionOptions
+            ),
             $driverOptions
         );
     }
@@ -59,7 +65,7 @@ class ConnectorFacade
         $user = $connection["USER"] ?? null;
         $password = $connection["PASSWORD"] ?? null;
         $host = $connection["HOST"] ?? null;
-        $url = $connection["DATABASE_URL"] ?? null;
+        $url = $connection["url"] ?? null;
 
         return new ConnectionDefinitions(
             db: $db,

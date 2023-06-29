@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Core\Http;
 
-
+use App\Presentation\Actions\CycleTest\AccountGet;
+use App\Presentation\Actions\CycleTest\AccountInsertion;
 use Core\Http\Abstractions\AbstractRouterTemplate;
 use Core\Http\Interfaces\RouteCollectorInterface;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -34,5 +35,8 @@ class RouterCollector extends AbstractRouterTemplate
         $routeCollector
             ->get('/fetch-assets', ResourcesDownloaderAction::class)
             ->addMiddleware($asymValidator);
+
+        $routeCollector->get('/acc', AccountGet::class);
+        $routeCollector->post('/acc', AccountInsertion::class);
     }
 }

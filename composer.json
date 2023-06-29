@@ -20,6 +20,7 @@
     "php": "^8.2",
     "ext-json": "*",
     "cycle/annotated": "^3.2",
+    "cycle/entity-behavior-uuid": "^1.1",
     "cycle/migrations": "^4.1",
     "cycle/orm": "^2.3",
     "doctrine/dbal": "^3.6",

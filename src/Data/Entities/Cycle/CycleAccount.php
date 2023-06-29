@@ -2,19 +2,29 @@
 
 declare(strict_types=1);
 
-namespace App\Data\Entities\Doctrine;
+namespace App\Data\Entities\Cycle;
 
-use App\Data\Entities\Doctrine\Traits\TimestampsTrait;
-use App\Data\Entities\Doctrine\Traits\UuidTrait;
+
+use App\Data\Entities\Cycle\Traits\TimestampsTrait;
+use App\Data\Entities\Cycle\Traits\UuidTrait;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Column;
-use Cycle\ORM\Entity\Behavior\Uuid\Uuid4;
-use DateTime;
+use Cycle\ORM\Entity\Behavior\UpdatedAt;
+use Cycle\ORM\Entity\Behavior\Uuid\Listener\Uuid4;
+use Cycle\ORM\Entity\Behavior\CreatedAt;
 use JsonSerializable;
-
 
 #[Entity(table: 'cycle_accounts')]
 #[Uuid4]
+#[CreatedAt(
+    field: 'createdAt', // Required. By default 'createdAt'
+    column: 'created_at' // Optional. By default 'null'. If not set, will be used information from property declaration.
+)]
+#[UpdatedAt(
+    field: 'updated', // Required. By default 'updatedAt' 
+    column: 'updated', // Optional. By default 'null'. If not set, will be used information from property declaration.
+    nullable: true
+)]
 class CycleAccount implements JsonSerializable
 {
     use TimestampsTrait;
@@ -23,7 +33,7 @@ class CycleAccount implements JsonSerializable
     #[Column(type: "primary")]
     protected $id;
 
-    #[Column(type: 'string', unique: true, nullable: false)]
+    #[Column(type: 'string', nullable: false)]
     private string $email;
 
     #[Column(type: 'string')]
@@ -32,29 +42,11 @@ class CycleAccount implements JsonSerializable
     #[Column(type: 'string')]
     private string $password;
 
-    #[Column(type: 'string')]
+    #[Column(type: 'string', nullable: true)]
     private ?string $role = 'common';
 
-    #[Column(name: 'auth_type', type: 'string')]
+    #[Column(name: 'auth_type', type: 'string', nullable: true)]
     private ?string $authType;
-
-    public function __construct(
-        ?int $id,
-        string $email,
-        string $username,
-        string $password,
-        ?string $authType,
-        ?string $role = 'common',
-    ) {
-        $this->id = $id;
-        $this->email = $email;
-        $this->username = $username;
-        $this->password = $password;
-        $this->role = $role;
-        $this->authType = $authType;
-        $this->createdAt = new DateTime();
-        $this->updated = new DateTime();
-    }
 
     public function getId(): ?int
     {

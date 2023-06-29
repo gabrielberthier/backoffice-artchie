@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a38647828fe36a2bfcbd3485f24ce5fd",
+    "content-hash": "f490f4e9bf363bc32a047ee319ac7356",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -316,6 +316,93 @@
                 }
             ],
             "time": "2023-06-08T21:27:55+00:00"
+        },
+        {
+            "name": "cycle/entity-behavior",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cycle/entity-behavior.git",
+                "reference": "891fd972047a453afa43ee8d8117c6532d0971bf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cycle/entity-behavior/zipball/891fd972047a453afa43ee8d8117c6532d0971bf",
+                "reference": "891fd972047a453afa43ee8d8117c6532d0971bf",
+                "shasum": ""
+            },
+            "require": {
+                "cycle/orm": "^2.0",
+                "cycle/schema-builder": "^2.5",
+                "php": ">=8.0",
+                "psr/container": "^1.0|^2.0",
+                "psr/event-dispatcher": "^1",
+                "yiisoft/injector": "^1.0"
+            },
+            "require-dev": {
+                "cycle/annotated": "^3.0",
+                "phpunit/phpunit": "^9.5",
+                "ramsey/uuid": "^4.5",
+                "spiral/tokenizer": "^2.8 || ^3.0",
+                "vimeo/psalm": "^5.11"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Cycle\\ORM\\Entity\\Behavior\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Provides a collection of attributes that add behaviors to Cycle ORM entities",
+            "support": {
+                "issues": "https://github.com/cycle/entity-behavior/issues",
+                "source": "https://github.com/cycle/entity-behavior/tree/1.2.0"
+            },
+            "time": "2023-05-19T13:54:19+00:00"
+        },
+        {
+            "name": "cycle/entity-behavior-uuid",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cycle/entity-behavior-uuid.git",
+                "reference": "37728260297f8d5a5afaa3e89192d0f12eeb17e0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cycle/entity-behavior-uuid/zipball/37728260297f8d5a5afaa3e89192d0f12eeb17e0",
+                "reference": "37728260297f8d5a5afaa3e89192d0f12eeb17e0",
+                "shasum": ""
+            },
+            "require": {
+                "cycle/entity-behavior": "^1.0",
+                "php": ">=8.0",
+                "ramsey/uuid": "^4.5"
+            },
+            "require-dev": {
+                "cycle/annotated": "^3.0",
+                "phpunit/phpunit": "^9.5",
+                "spiral/tokenizer": "^2.8",
+                "vimeo/psalm": "^5.11"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Cycle\\ORM\\Entity\\Behavior\\Uuid\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "support": {
+                "issues": "https://github.com/cycle/entity-behavior-uuid/issues",
+                "source": "https://github.com/cycle/entity-behavior-uuid/tree/1.1.0"
+            },
+            "time": "2023-05-19T14:17:36+00:00"
         },
         {
             "name": "cycle/migrations",
@@ -3664,6 +3751,56 @@
             "time": "2021-11-05T16:47:00+00:00"
         },
         {
+            "name": "psr/event-dispatcher",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/event-dispatcher.git",
+                "reference": "dbefd12671e8a14ec7f180cab83036ed26714bb0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/event-dispatcher/zipball/dbefd12671e8a14ec7f180cab83036ed26714bb0",
+                "reference": "dbefd12671e8a14ec7f180cab83036ed26714bb0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\EventDispatcher\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Standard interfaces for event handling.",
+            "keywords": [
+                "events",
+                "psr",
+                "psr-14"
+            ],
+            "support": {
+                "issues": "https://github.com/php-fig/event-dispatcher/issues",
+                "source": "https://github.com/php-fig/event-dispatcher/tree/1.0.0"
+            },
+            "time": "2019-01-08T18:20:26+00:00"
+        },
+        {
             "name": "psr/http-client",
             "version": "1.0.2",
             "source": {
@@ -6883,6 +7020,71 @@
                 }
             ],
             "time": "2021-10-26T21:43:25+00:00"
+        },
+        {
+            "name": "yiisoft/injector",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/injector.git",
+                "reference": "e78a0da15625c59cc0969985bfa05f2ea1b6ddea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/injector/zipball/e78a0da15625c59cc0969985bfa05f2ea1b6ddea",
+                "reference": "e78a0da15625c59cc0969985bfa05f2ea1b6ddea",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4|^8.0",
+                "psr/container": "^1.0|^2.0"
+            },
+            "require-dev": {
+                "phpbench/phpbench": "^1.1",
+                "phpunit/phpunit": "^9.5",
+                "roave/infection-static-analysis-plugin": "^1.16",
+                "spatie/phpunit-watcher": "^1.23",
+                "vimeo/psalm": "^4.18",
+                "yiisoft/test-support": "^1.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Yiisoft\\Injector\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "PSR-11 compatible injector. Executes a callable and makes an instances by injecting dependencies from a given DI container.",
+            "homepage": "https://www.yiiframework.com/",
+            "keywords": [
+                "PSR-11",
+                "dependency injection",
+                "di",
+                "injector",
+                "reflection"
+            ],
+            "support": {
+                "chat": "https://t.me/yii3en",
+                "forum": "https://www.yiiframework.com/forum/",
+                "irc": "irc://irc.freenode.net/yii",
+                "issues": "https://github.com/yiisoft/injector/issues?state=open",
+                "source": "https://github.com/yiisoft/injector",
+                "wiki": "https://www.yiiframework.com/wiki/"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/yiisoft",
+                    "type": "github"
+                },
+                {
+                    "url": "https://opencollective.com/yiisoft",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2022-07-18T15:18:30+00:00"
         }
     ],
     "packages-dev": [
