@@ -68,20 +68,15 @@ class DoctrineSignatureToken implements JsonSerializable
         return $this->signature;
     }
 
-    /**
-     * Set the value of signature.
-     *
-     * @param mixed $signature
-     *
-     * @return self
-     */
-    public function setSignature($signature)
+
+    public function setSignature(string $signature): self
     {
         $this->signature = $signature;
 
         return $this;
     }
 
+    /** @return array */
     public function jsonSerialize(): mixed
     {
         return [
@@ -91,22 +86,14 @@ class DoctrineSignatureToken implements JsonSerializable
         ];
     }
 
-    /**
-     * Get the value of privateKey.
-     */
+
     public function getPrivateKey()
     {
         return $this->privateKey;
     }
 
-    /**
-     * Set the value of privateKey.
-     *
-     * @param mixed $privateKey
-     *
-     * @return self
-     */
-    public function setPrivateKey($privateKey)
+
+    public function setPrivateKey(string $privateKey): self
     {
         $this->privateKey = $privateKey;
 
@@ -121,14 +108,8 @@ class DoctrineSignatureToken implements JsonSerializable
         return $this->museum;
     }
 
-    /**
-     * Set one Product has One Shipment.
-     *
-     * @param DoctrineMuseum $museum
-     *
-     * @return self
-     */
-    public function setMuseum(DoctrineMuseum $museum)
+
+    public function setMuseum(DoctrineMuseum $museum): self
     {
         $this->museum = $museum;
 

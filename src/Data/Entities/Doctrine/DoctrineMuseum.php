@@ -112,6 +112,7 @@ class DoctrineMuseum implements ModelInterface
         $this->markers->add($marker);
     }
 
+    /** @return array */
     public function jsonSerialize(): mixed
     {
         return [

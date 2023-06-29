@@ -62,6 +62,7 @@ class DoctrinePlacementObject
         return $this->name;
     }
 
+    /** @return array */
     public function jsonSerialize(): mixed
     {
         return [

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Data\Entities\Cycle\Traits;
@@ -9,8 +10,8 @@ trait TimestampsTrait
 {
 
     #[Column(type: 'datetime')]
-    private \DateTimeInterface $createdAt;
+    private ?\DateTimeImmutable  $createdAt = null;
 
     #[Column(type: 'datetime', nullable: true)]
-    private ?\DateTimeInterface $updated = null;
+    private ?\DateTimeImmutable  $updated = null;
 }

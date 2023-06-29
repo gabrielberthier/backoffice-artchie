@@ -47,10 +47,10 @@ class DoctrineMarker
 
     #[
         OneToOne(
-        targetEntity: DoctrineMarkerAsset::class,
-        mappedBy: "marker",
-        cascade: ["persist", "remove"]
-    )
+            targetEntity: DoctrineMarkerAsset::class,
+            mappedBy: "marker",
+            cascade: ["persist", "remove"]
+        )
     ]
     private ?DoctrineMarkerAsset $asset = null;
 
@@ -64,10 +64,10 @@ class DoctrineMarker
      */
     #[
         OneToMany(
-        targetEntity: DoctrinePlacementObject::class,
-        mappedBy: "marker",
-        cascade: ["persist", "remove"]
-    )
+            targetEntity: DoctrinePlacementObject::class,
+            mappedBy: "marker",
+            cascade: ["persist", "remove"]
+        )
     ]
     private Collection $resources;
 
@@ -86,6 +86,7 @@ class DoctrineMarker
         return $this->name;
     }
 
+    /** @return array */
     public function jsonSerialize(): mixed
     {
         return [
@@ -105,7 +106,7 @@ class DoctrineMarker
         return $this->resources;
     }
 
-    public function addResources(DoctrinePlacementObject...$resource): self
+    public function addResources(DoctrinePlacementObject ...$resource): self
     {
         foreach ($resource as $obj) {
             $obj->setMarker($this);

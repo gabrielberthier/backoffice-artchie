@@ -16,6 +16,7 @@ use Cycle\Schema;
 use Cycle\Annotated;
 use Spiral\Core\Exception\ConfigException;
 use Cycle\ORM;
+use Cycle\ORM\Entity\Behavior\EventDrivenCommandGenerator;
 use Cycle\ORM\EntityManager as CycleEntityManager;
 
 return [
@@ -89,8 +90,10 @@ return [
             // sync table changes to database
             new Schema\Generator\GenerateTypecast(), // typecast non string columns
         ]);
+        $schema = new ORM\Schema($schema);
+        $commandGenerator = new EventDrivenCommandGenerator($schema, $container);
 
-        $orm = new ORM\ORM(new ORM\Factory($database), new ORM\Schema($schema));
+        $orm = new ORM\ORM(new ORM\Factory($database), $schema, $commandGenerator);
 
         return $orm;
     },

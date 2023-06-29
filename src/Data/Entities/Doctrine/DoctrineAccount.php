@@ -152,9 +152,7 @@ class DoctrineAccount implements JsonSerializable
         return $this;
     }
 
-    /**
-     * @return array
-     */
+    /** @return array */
     public function jsonSerialize(): mixed
     {
         return [

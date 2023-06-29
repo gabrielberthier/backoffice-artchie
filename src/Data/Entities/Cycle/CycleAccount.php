@@ -9,25 +9,25 @@ use App\Data\Entities\Cycle\Traits\TimestampsTrait;
 use App\Data\Entities\Cycle\Traits\UuidTrait;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Column;
-use Cycle\ORM\Entity\Behavior\UpdatedAt;
-use Cycle\ORM\Entity\Behavior\Uuid\Listener\Uuid4;
-use Cycle\ORM\Entity\Behavior\CreatedAt;
+use Cycle\Annotated\Annotation\Table\Index;
+use Cycle\ORM\Entity\Behavior;
+use Cycle\ORM\Entity\Behavior\Uuid\Uuid4;
+use DateTime;
+use DateTimeImmutable;
 use JsonSerializable;
 
 #[Entity(table: 'cycle_accounts')]
 #[Uuid4]
-#[CreatedAt(
-    field: 'createdAt', // Required. By default 'createdAt'
-    column: 'created_at' // Optional. By default 'null'. If not set, will be used information from property declaration.
+#[Behavior\CreatedAt(
+    field: 'createdAt',   // Required. By default 'createdAt'
+    column: 'created_at'  // Optional. By default 'null'. If not set, will be used information from property declaration.
 )]
-#[UpdatedAt(
-    field: 'updated', // Required. By default 'updatedAt' 
-    column: 'updated', // Optional. By default 'null'. If not set, will be used information from property declaration.
-    nullable: true
+#[Behavior\UpdatedAt(
+    field: 'updated',   // Required. By default 'updatedAt' 
+    column: 'updated_at'  // Optional. By default 'null'. If not set, will be used information from property declaration.
 )]
 class CycleAccount implements JsonSerializable
 {
-    use TimestampsTrait;
     use UuidTrait;
 
     #[Column(type: "primary")]
@@ -47,6 +47,12 @@ class CycleAccount implements JsonSerializable
 
     #[Column(name: 'auth_type', type: 'string', nullable: true)]
     private ?string $authType;
+
+    #[Column(type: 'datetime', name: "created_at")]
+    private ?\DateTimeImmutable $createdAt;
+
+    #[Column(type: 'datetime', name: "updated_at", nullable: true)]
+    private ?\DateTimeImmutable  $updated = null;
 
     public function getId(): ?int
     {
@@ -78,42 +84,23 @@ class CycleAccount implements JsonSerializable
         return $this->role;
     }
 
-    /**
-     * Set the value of username.
-     *
-     * @param mixed $username
-     *
-     * @return self
-     */
-    public function setUsername($username): self
+
+    public function setUsername(string $username): self
     {
         $this->username = $username;
 
         return $this;
     }
 
-    /**
-     * Set the value of password.
-     *
-     * @param mixed $password
-     *
-     * @return self
-     */
-    public function setPassword($password): self
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
         return $this;
     }
 
-    /**
-     * Set the value of role.
-     *
-     * @param mixed $role
-     *
-     * @return self
-     */
-    public function setRole($role): self
+
+    public function setRole(string $role): self
     {
         $this->role = $role;
 
@@ -127,13 +114,6 @@ class CycleAccount implements JsonSerializable
         return $this;
     }
 
-    /**
-     * Set the value of email.
-     *
-     * @param mixed $email
-     *
-     * @return self
-     */
     public function setEmail($email): self
     {
         $this->email = $email;
@@ -141,13 +121,36 @@ class CycleAccount implements JsonSerializable
         return $this;
     }
 
-    /**
-     * @return array
-     */
+    public function setUpdated(?DateTimeImmutable $dateTime): self
+    {
+        // WILL be saved in the database
+        $this->updated = $dateTime;
+
+        return $this;
+    }
+
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /** @return array */
     public function jsonSerialize(): mixed
     {
         return [
             'id' => $this->id,
+            'uuid' => $this->uuid,
             'email' => $this->email,
             'username' => $this->username,
             'password' => $this->password,

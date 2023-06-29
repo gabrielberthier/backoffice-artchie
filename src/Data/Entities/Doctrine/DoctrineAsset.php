@@ -129,6 +129,7 @@ class DoctrineAsset implements ModelInterface
         return $this;
     }
 
+    /** @return array */
     public function jsonSerialize(): mixed
     {
         return [

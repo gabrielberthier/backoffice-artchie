@@ -18,13 +18,8 @@ class AccountInsertion extends Action
     }
     public function action(Request $request): Response
     {
-        $u = new CycleAccount(
-            null,
-            'gabs@mail.com',
-            'username',
-            'password',
-            'common'
-        );
+        $u = new CycleAccount();
+        $u->setEmail('gabsgabs@mail.com')->setUsername('elgabo')->setAuthType('common')->setPassword('hash');
         $this->em->persist(
             $u
         );
