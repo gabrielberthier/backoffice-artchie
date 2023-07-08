@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace App\Data\Entities\Cycle;
 
 
-use App\Data\Entities\Cycle\Traits\TimestampsTrait;
 use App\Data\Entities\Cycle\Traits\UuidTrait;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Table\Index;
 use Cycle\ORM\Entity\Behavior;
 use Cycle\ORM\Entity\Behavior\Uuid\Uuid4;
-use DateTime;
 use DateTimeImmutable;
 use JsonSerializable;
 
@@ -26,6 +24,8 @@ use JsonSerializable;
     field: 'updated',   // Required. By default 'updatedAt' 
     column: 'updated_at'  // Optional. By default 'null'. If not set, will be used information from property declaration.
 )]
+#[Index(columns: ['username'], unique: true)]
+#[Index(columns: ['email'], unique: true)]
 class CycleAccount implements JsonSerializable
 {
     use UuidTrait;

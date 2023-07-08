@@ -203,7 +203,7 @@ class DoctrineAsset implements ModelInterface
         return $this->children;
     }
 
-    protected function addChild(self $element)
+    public function addChild(self $element)
     {
         $this->children->add($element);
         $element->setParent($this);

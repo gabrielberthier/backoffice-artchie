@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Infrastructure\ModelBridge;
 
 use App\Data\Entities\Doctrine\DoctrineAsset;
@@ -28,6 +29,8 @@ class AssetBridge
             $doctrineAsset->setParent($this->convertFromModel($asset->getParent()));
         }
         foreach ($asset->getChildren() as $child) {
+            /** @var AbstractAsset */
+            $child = $child;
             $doctrineAsset->addChild(
                 $this->convertFromModel($child)
             );
@@ -38,7 +41,7 @@ class AssetBridge
 
     public function toModel(DoctrineAsset $doctrineAsset): AbstractAsset
     {
-        $children = $doctrineAsset->getChildren()->map(fn($el) => $this->toModel($el))->toArray();
+        $children = $doctrineAsset->getChildren()->map(fn ($el) => $this->toModel($el))->toArray();
         $createAsset = new CreateAsset(
             path: $doctrineAsset->getPath(),
             fileName: $doctrineAsset->getFileName(),

@@ -32,7 +32,6 @@ class DoctrineAccountRepository implements AccountRepository
         $doctrineAccount = $this->em->getRepository(DoctrineAccount::class)->findOneBy(['email' => $mail]);
 
         return $this->accountBridge->toModel($doctrineAccount);
-
     }
 
     public function findByUUID(string $uuid): ?Account

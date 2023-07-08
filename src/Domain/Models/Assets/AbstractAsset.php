@@ -302,7 +302,7 @@ abstract class AbstractAsset implements ModelInterface
     }
 
     /**
-     * Get one Asset may have a set of sub assets, e.g., a 3D object can have many textures.
+     * @return Collection<self>
      */
     public function getChildren(): Collection
     {
