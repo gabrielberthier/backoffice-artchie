@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Persistence\Marker;
+namespace App\Infrastructure\Persistence\Doctrine\Marker;
 
 
 use App\Data\Entities\Doctrine\DoctrineMarker;
@@ -12,6 +12,7 @@ use App\Domain\Repositories\PersistenceOperations\Responses\ResultSetInterface;
 use App\Domain\Repositories\PersistenceOperations\Responses\SearchResult;
 use App\Infrastructure\ModelBridge\MarkerBridge;
 use App\Infrastructure\Persistence\Abstraction\AbstractRepository;
+use App\Infrastructure\Persistence\Abstraction\DoctrineAbstractCrud;
 use App\Infrastructure\Persistence\Pagination\PaginationService;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Exception;
@@ -19,7 +20,7 @@ use Exception;
 /**
  * @extends AbstractRepository<\App\Domain\Models\Marker\Marker>
  */
-class MarkerDoctrineRepository extends AbstractRepository implements MarkerRepositoryInterface
+class MarkerDoctrineRepository extends DoctrineAbstractCrud implements MarkerRepositoryInterface
 {
 
     function entity(): string

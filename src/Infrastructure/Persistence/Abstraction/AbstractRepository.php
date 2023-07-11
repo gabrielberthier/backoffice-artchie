@@ -5,9 +5,8 @@ namespace App\Infrastructure\Persistence\Abstraction;
 use App\Domain\Contracts\ModelInterface;
 use App\Domain\Repositories\PersistenceOperations\CrudOperationsInterface;
 use App\Domain\Repositories\PersistenceOperations\Responses\ResultSetInterface;
+use App\Infrastructure\Persistence\Contracts\RepositoryInterface;
 use App\Infrastructure\Persistence\PersistenceUtils\ItemsRetriever;
-use Doctrine\ORM\EntityManagerInterface as EntityManager;
-use Doctrine\Persistence\ObjectRepository;
 
 /**
  * @template T of object
@@ -15,7 +14,7 @@ use Doctrine\Persistence\ObjectRepository;
 abstract class AbstractRepository implements CrudOperationsInterface
 {
 
-  public function __construct(protected EntityManager $em, protected ItemsRetriever $itemsRetriever)
+  public function __construct(protected ItemsRetriever $itemsRetriever)
   {
   }
 
@@ -25,12 +24,9 @@ abstract class AbstractRepository implements CrudOperationsInterface
   public abstract function entity(): string;
 
   /**
-   * @return ObjectRepository<T>
+   * @return RepositoryInterface<T>
    */
-  protected function repository(): ObjectRepository
-  {
-    return $this->em->getRepository($this->entity());
-  }
+  public abstract function repository(): RepositoryInterface;
 
   /**
    * @return ResultSetInterface
@@ -45,7 +41,7 @@ abstract class AbstractRepository implements CrudOperationsInterface
    */
   public function findByKey(string $key, mixed $value): ?object
   {
-    return $this->repository()->findOneBy([$key => $value]);
+    return $this->repository()->findOne([$key => $value]);
   }
 
   /**
@@ -61,7 +57,7 @@ abstract class AbstractRepository implements CrudOperationsInterface
    */
   public function findByID(int $id): ?object
   {
-    return $this->em->find($this->entity(), $id);
+    return $this->repository()->findByPK($id);
   }
 
   /**
@@ -79,29 +75,12 @@ abstract class AbstractRepository implements CrudOperationsInterface
    * 
    * @return ?T
    */
-  public function delete(ModelInterface|int $subject): ?object
-  {
-    if (is_int($subject)) {
-      $subject = $this->findByID($subject);
-    }
-    if ($subject) {
-      $this->em->remove($subject);
-      $this->em->flush();
-    }
-
-    return $subject;
-  }
+  public abstract function delete(ModelInterface|int $subject): ?object;
 
   /**
    * @param T
    * 
    * @return bool
    */
-  public function insert(ModelInterface $model): bool
-  {
-    $this->em->persist($model);
-    $this->em->flush();
-
-    return true;
-  }
+  public abstract function insert(ModelInterface $model): bool;
 }

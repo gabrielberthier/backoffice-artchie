@@ -5,6 +5,7 @@ namespace App\Presentation\Handlers;
 use App\Domain\Repositories\AccountRepository;
 use App\Infrastructure\Cryptography\BodyTokenCreator;
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
@@ -28,7 +29,11 @@ class RefreshTokenHandler
         $statusCode = 201;
 
         try {
-            $payload = JWT::decode($this->refreshToken, $this->secretToken, ['HS256']);
+            $key = new Key(
+                $this->secretToken,
+                'HS256'
+            );
+            $payload = JWT::decode($this->refreshToken, $key);
             $token = $this->createRenewToken($payload);
 
             $response = $response->withHeader('X-RENEW-TOKEN', $token);

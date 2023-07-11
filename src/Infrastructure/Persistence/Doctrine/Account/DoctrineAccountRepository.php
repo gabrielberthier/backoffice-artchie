@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Persistence\Account;
+namespace App\Infrastructure\Persistence\Doctrine\Account;
 
 use App\Data\Entities\Doctrine\DoctrineAccount;
 use App\Domain\Dto\AccountDto;

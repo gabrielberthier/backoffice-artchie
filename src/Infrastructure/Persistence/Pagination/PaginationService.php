@@ -13,7 +13,7 @@ class PaginationService implements PaginationInterface
 {
     private Paginator $paginator;
 
-    public function __construct(Query | QueryBuilder $query, $fetchJoinCollection = true)
+    public function __construct(Query|QueryBuilder $query, $fetchJoinCollection = true)
     {
         $this->paginator = new Paginator($query, $fetchJoinCollection);
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Persistence\SignatureToken;
+namespace App\Infrastructure\Persistence\Doctrine\SignatureToken;
 
 use App\Data\Entities\Doctrine\DoctrineSignatureToken;
 use App\Domain\Exceptions\Security\DuplicatedTokenException;

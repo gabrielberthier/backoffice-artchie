@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Persistence\Museum;
+namespace App\Infrastructure\Persistence\Doctrine\Museum;
 
 use App\Data\Entities\Doctrine\DoctrineMuseum;
 use App\Domain\Contracts\ModelInterface;
@@ -10,12 +10,13 @@ use App\Domain\Repositories\MuseumRepository;
 use App\Domain\Repositories\PersistenceOperations\Responses\ResultSetInterface;
 use App\Infrastructure\ModelBridge\MuseumBridge;
 use App\Infrastructure\Persistence\Abstraction\AbstractRepository;
+use App\Infrastructure\Persistence\Abstraction\DoctrineAbstractCrud;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 /**
  * @extends AbstractRepository<\App\Domain\Models\Museum>
  */
-class MuseumDoctrineRepository extends AbstractRepository implements MuseumRepository
+class MuseumDoctrineRepository extends DoctrineAbstractCrud implements MuseumRepository
 {
     public function __construct(private MuseumBridge $museumBridge)
     {
@@ -29,7 +30,7 @@ class MuseumDoctrineRepository extends AbstractRepository implements MuseumRepos
     public function update(int $id, array $values): ?Museum
     {
         /** @var DoctrineMuseum */
-        $museum = $this->repository()->find($id);
+        $museum = $this->repository()->findByPK($id);
 
         if ($museum) {
             try {

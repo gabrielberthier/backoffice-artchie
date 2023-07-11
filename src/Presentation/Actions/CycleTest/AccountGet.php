@@ -9,7 +9,6 @@ use App\Data\Entities\Cycle\CycleAccount;
 use Cycle\ORM\ORM;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use stdClass;
 
 class AccountGet extends Action
 {
