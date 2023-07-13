@@ -14,13 +14,13 @@ class PresignedUrlMapper
     public function mapResponse(ResultSetInterface $set)
     {
         foreach ($set->getItems() as $markerElement) {
-            /** @var Marker */
             $marker = $markerElement;
             $markerAsset = $marker->assetInformation();
-            if ($markerAsset) {
+            if ($markerAsset instanceof \App\Domain\Models\Assets\AbstractAsset) {
                 $presignedUrl = $this->presignedUrlCreator->setPresignedUrl($markerAsset);
                 $markerAsset->setTemporaryLocation($presignedUrl);
             }
+            
             foreach ($marker->getResources() as $resource) {
                 $resourceAsset = $resource->assetInformation();
                 if ($resourceAsset) {

@@ -11,21 +11,25 @@ use Closure;
 
 class ValidatorFactory
 {
-    public function create(mixed $validation, string $key, ?string $message = null): ?AbstractValidator
+    public function create(mixed $validation, string $key, string|array|null $message = null): ?AbstractValidator
     {
         if (is_array($validation)) {
-            $message = (is_array($message)) ? $message : [];
             $nestedValidationAdapter = new NestedValidationAdapter($key);
             foreach ($validation as $key => $value) {
-                $nestedMessage = $this->messages[$key] ?? null;
+                $nestedMessage = $message;
+                if (is_array($message)) {
+                    $nestedMessage = $message[$key] ?? null;
+                }
                 $nestedValidation = $this->create($value, $key, $nestedMessage);
                 $nestedValidationAdapter->pushValidation($nestedValidation);
             }
 
             return $nestedValidationAdapter;
-        } else if ($validation instanceof AbstractRule) {
+        }
+        if ($validation instanceof AbstractRule) {
             return new AwesomeValidationAdapter($key, $validation, $message);
-        } else if (is_callable($validation)) {
+        }
+        if (is_callable($validation)) {
             $closureValidation = Closure::fromCallable($validation);
             return new CallbackValidationAdapter($key, $closureValidation, $message);
         }

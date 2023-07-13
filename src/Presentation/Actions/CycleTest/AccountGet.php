@@ -16,6 +16,7 @@ class AccountGet extends Action
         private ORM $orm
     ) {
     }
+
     public function action(Request $request): Response
     {
         $data = $this->orm->getRepository(CycleAccount::class)->findAll();

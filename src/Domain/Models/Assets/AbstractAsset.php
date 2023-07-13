@@ -14,15 +14,25 @@ use Ramsey\Uuid\UuidInterface;
 abstract class AbstractAsset implements ModelInterface
 {
     protected ?int $id = null;
+    
     private string $path;
+    
     private string $fileName;
+    
     private ?string $url;
+    
     private string $mediaType;
+    
     private string $originalName;
+    
     private string $mimeType;
+    
     private ?string $temporaryLocation = null;
+    
     private ?UuidInterface $uuid = null;
+    
     private ?DateTimeInterface $createdAt = null;
+    
     private ?DateTimeInterface $updated = null;
 
     /**
@@ -37,9 +47,10 @@ abstract class AbstractAsset implements ModelInterface
 
     public function __construct(string $mediaType)
     {
-        if (empty($mediaType)) {
+        if ($mediaType === '') {
             throw new Exception("Cannot create an asset subtype without expliciting its media type");
         }
+        
         $this->mediaType = $mediaType;
         $this->children = new ArrayCollection();
     }
@@ -79,9 +90,7 @@ abstract class AbstractAsset implements ModelInterface
     /**
      * Set the internal primary identity key.
      *
-     * @param UuidInterface|string $uuid
      *
-     * @return self
      */
     public function setUuid(UuidInterface|string $uuid): self
     {
@@ -312,7 +321,6 @@ abstract class AbstractAsset implements ModelInterface
     /**
      * Set one Asset may have a set of sub assets, e.g., a 3D object can have many textures.
      *
-     * @param self $element
      * @return  self
      */
     public function addChild(self $element)

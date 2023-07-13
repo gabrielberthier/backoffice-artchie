@@ -22,8 +22,7 @@ class PaginationService implements PaginationInterface
         int $page = 1,
         int $limit = 20
     ): PaginationResponse {
-        $currentPage = intval($page) ?: 1;
-        $limit = intval($limit);
+        $currentPage = $page ?: 1;
         $query = $this->paginator
             ->getQuery()
             ->setFirstResult($limit * ($currentPage - 1))
@@ -51,9 +50,6 @@ class PaginationService implements PaginationInterface
 
     public function currentPageHasNoResult(): bool
     {
-        /**
-         * @var ArrayIterator
-         */
         $iterator = $this->paginator->getIterator();
 
         return !($iterator->count());

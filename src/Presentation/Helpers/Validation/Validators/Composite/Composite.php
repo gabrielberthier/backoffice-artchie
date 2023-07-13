@@ -31,7 +31,7 @@ class Composite implements ValidationInterface
     {
         foreach ($this->compositions as $validation) {
             $error = $validation->validate($input);
-            if ($error) {
+            if ($error instanceof ValidationError) {
                 $this->errorBag->push($error);
             }
         }

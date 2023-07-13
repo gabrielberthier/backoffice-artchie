@@ -20,7 +20,7 @@ class AssetFactoryFacade implements AssetFactoryInterface
    *
    * @var AssetFactoryInterface[]
    */
-  private array $factories;
+  private array $factories = [];
 
   public function __construct(private AllowedExtensionChecker $allowedExtensionChecker)
   {
@@ -38,6 +38,7 @@ class AssetFactoryFacade implements AssetFactoryInterface
         foreach ($command->children() as $child) {
           $childrenAssets[] = $this->create($child);
         }
+        
         $asset = $factory->create($command);
         $asset->setChildren(new ArrayCollection($childrenAssets));
 

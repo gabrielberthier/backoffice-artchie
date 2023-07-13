@@ -5,6 +5,7 @@ namespace App\Data\UseCases\AsymCrypto;
 use App\Data\Protocols\AsymCrypto\SignerInterface;
 use App\Data\Protocols\Cryptography\AsymmetricEncrypter;
 use App\Domain\Exceptions\Museum\MuseumNotFoundException;
+use App\Domain\Models\Museum;
 use App\Domain\Models\Security\SignatureToken;
 use App\Domain\Repositories\MuseumRepository;
 use App\Domain\Repositories\SignatureTokenRepositoryInterface;
@@ -23,7 +24,7 @@ class AsymmetricSigner implements SignerInterface
     {
         $museum = $this->museumRepository->findByUUID($uuidInterface);
 
-        if ($museum) {
+        if ($museum instanceof Museum) {
             $signature = $this->encrypter->encrypt(json_encode([
                 'uuid' => $museum->uuid->toString(),
                 'museum_name' => $museum->name,
@@ -55,6 +56,6 @@ class AsymmetricSigner implements SignerInterface
         $uuid = base64_encode($uuid);
         $publicKey = base64_encode($publicKey);
 
-        return "{$uuid}.{$publicKey}";
+        return sprintf('%s.%s', $uuid, $publicKey);
     }
 }

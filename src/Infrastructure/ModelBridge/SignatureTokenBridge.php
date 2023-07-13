@@ -10,15 +10,12 @@ class SignatureTokenBridge
 {
     public function convertFromModel(SignatureToken $signatureToken): DoctrineSignatureToken
     {
-        $token = new DoctrineSignatureToken(
+        return new DoctrineSignatureToken(
             id: $signatureToken->id,
             signature: $signatureToken->signature,
             privateKey: $signatureToken->privateKey,
             museum: $signatureToken->museum,
         );
-
-
-        return $token;
     }
 
     public function toModel(DoctrineSignatureToken $entity): SignatureToken

@@ -19,7 +19,6 @@ interface ReadOperationInterface
    * Match conditions within repository
    *
    * @param array<string, mixed> $conditions
-   * @return array
    */
   public function findWithConditions(array $conditions): array;
 }

@@ -44,6 +44,7 @@ trait TimestampsTrait
 
         return $this;
     }
+    
     public function getUpdated()
     {
         return $this->updated;

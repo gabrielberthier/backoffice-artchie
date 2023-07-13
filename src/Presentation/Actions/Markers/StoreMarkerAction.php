@@ -43,6 +43,7 @@ class StoreMarkerAction extends Action
         if (is_object($marker)) {
             $body = (array) $marker;
         }
+        
         [
             "marker_name" => $name,
             "marker_text" => $text,
@@ -77,8 +78,7 @@ class StoreMarkerAction extends Action
 
     /**
      * Summary of rules
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * 
+     *
      * @return array
      */
     public function rules(Request $request): ?array

@@ -10,6 +10,6 @@ final class AppHasNoDefinedSecrets extends Exception
 
     public function __construct($field)
     {
-        $this->message = "App has no defined secret for {$field}";
+        $this->message = sprintf('App has no defined secret for %s', $field);
     }
 }

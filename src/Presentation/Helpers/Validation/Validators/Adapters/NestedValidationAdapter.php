@@ -15,7 +15,7 @@ class NestedValidationAdapter extends AbstractValidator
   public function __construct(protected string $field)
   {
     $this->composite = new Composite();
-    $this->message = "$this->field should be set as a dictionary or object";
+    $this->message = sprintf('%s should be set as a dictionary or object', $this->field);
   }
 
   public function pushValidation(ValidationInterface $validation)
@@ -29,7 +29,7 @@ class NestedValidationAdapter extends AbstractValidator
     if (is_null($error)) {
       $subject = $input[$this->field];
       $response = $this->composite->validate($subject);
-      if ($response) {
+      if ($response instanceof ValidationError) {
 
         $errors = $this->mapErrors(
           $this->composite->getErrorBag()->getErrors()
@@ -38,6 +38,7 @@ class NestedValidationAdapter extends AbstractValidator
         foreach ($errors as $value) {
           $errorBag->push($value);
         }
+
         return $errorBag->forField($this->field);
       }
 
@@ -47,7 +48,7 @@ class NestedValidationAdapter extends AbstractValidator
     return $error;
   }
 
-  function makeValidation(mixed $subject): bool
+  protected function makeValidation(mixed $subject): bool
   {
     return isset($subject) && is_array($subject);
   }
@@ -68,7 +69,7 @@ class NestedValidationAdapter extends AbstractValidator
 
 
       return $newError->forField(
-        "{$parentField} -> " . $error->getField()
+        sprintf('%s -> ', $parentField) . $error->getField()
       );
     }, $validationErrors);
   }

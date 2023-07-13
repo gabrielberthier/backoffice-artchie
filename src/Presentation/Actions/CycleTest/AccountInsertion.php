@@ -16,6 +16,7 @@ class AccountInsertion extends Action
         private EntityManager $em
     ) {
     }
+
     public function action(Request $request): Response
     {
         $u = new CycleAccount();

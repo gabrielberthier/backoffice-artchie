@@ -29,7 +29,6 @@ class MuseumDoctrineRepository extends DoctrineAbstractCrud implements MuseumRep
 
     public function update(int $id, array $values): ?Museum
     {
-        /** @var DoctrineMuseum */
         $museum = $this->repository()->findByPK($id);
 
         if ($museum) {

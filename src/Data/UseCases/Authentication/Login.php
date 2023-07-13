@@ -21,7 +21,7 @@ class Login implements LoginServiceInterface
     public function auth(Credentials $credentials): TokenLoginResponse
     {
         $account = $this->accountRepository->findByAccess($credentials->access);
-        if ($account) {
+        if ($account instanceof \App\Domain\Models\Account) {
             $passwordsMatch = $this->hashComparer->compare($credentials->password, $account->password);
             if ($passwordsMatch) {
                 return new TokenLoginResponse($account);

@@ -18,7 +18,7 @@ class ViewUserAction extends UserAction
         $userId = (int) $this->resolveArg('id');
         $user = $this->userService->findUserOfId($userId);
 
-        $this->logger->info("User of id `{$userId}` was viewed.");
+        $this->logger->info(sprintf('User of id `%d` was viewed.', $userId));
 
         return $this->respondWithData($user);
     }

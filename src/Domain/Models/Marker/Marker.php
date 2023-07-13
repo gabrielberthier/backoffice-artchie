@@ -80,11 +80,8 @@ readonly class Marker implements ModelInterface, MediaHostParentInterface
 
     /**
      * Add a resource variadic set to the collection
-     *
-     * @param PlacementObject ...$resource
-     * @return self
      */
-    public function addResources(PlacementObject...$resource): self
+    public function addResources(array $resource = []): self
     {
         foreach ($resource as $obj) {
             $this->resources->add($obj);
@@ -97,7 +94,6 @@ readonly class Marker implements ModelInterface, MediaHostParentInterface
      * Undocumented function
      *
      * @param Collection<PlacementObject> $collection
-     * @return self
      */
     public function setResources(Collection $collection): self
     {

@@ -33,7 +33,8 @@ abstract class DoctrineAbstractCrud extends AbstractRepository
         if (is_int($subject)) {
             $subject = $this->findByID($subject);
         }
-        if ($subject) {
+
+        if ($subject !== null) {
             $this->em->remove($subject);
             $this->em->flush();
         }

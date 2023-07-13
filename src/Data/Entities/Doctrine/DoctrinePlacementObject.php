@@ -24,8 +24,10 @@ class DoctrinePlacementObject
 
     #[Id, Column(type: "integer"), GeneratedValue(strategy: "AUTO")]
     protected ?int $id;
+
     #[Column(type: "string")]
     private string $name;
+
     #[Column(type: "boolean")]
     private bool $isActive = true;
 

@@ -19,7 +19,6 @@ class AsymmetricValidator implements Middleware
 {
     public function __construct(
         private MuseumRepository $museumRepository,
-        private AsymmetricVerifier $asymmetricVerifier,
         private SignatureTokenRetrieverInterface $tokenRepository
     ) {
     }
@@ -32,7 +31,7 @@ class AsymmetricValidator implements Middleware
 
         $museum = $this->museumRepository->findByUUID($uuid);
 
-        if ($museum) {
+        if ($museum instanceof \App\Domain\Models\Museum) {
             $signature = json_encode([
                 'uuid' => $museum->uuid->toString(),
                 'museum_name' => $museum->name,
@@ -58,7 +57,7 @@ class AsymmetricValidator implements Middleware
 
     private function filterHeader(Request $request, array $headers)
     {
-        if (count($headers)) {
+        if ($headers !== []) {
             list($headerValue) = $headers;
 
             if (strpos($headerValue, '.')) {

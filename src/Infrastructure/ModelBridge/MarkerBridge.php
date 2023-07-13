@@ -4,7 +4,9 @@ namespace App\Infrastructure\ModelBridge;
 use App\Data\Entities\Doctrine\DoctrineMarker;
 use App\Data\Entities\Doctrine\DoctrineMarkerAsset;
 use App\Data\Entities\Doctrine\DoctrinePlacementObject;
+use App\Domain\Models\Assets\AbstractAsset;
 use App\Domain\Models\Marker\Marker;
+
 
 class MarkerBridge
 {
@@ -17,7 +19,7 @@ class MarkerBridge
         $doctrineMarker->setText($marker->text);
         $doctrineMarker->setTitle($marker->title);
 
-        if ($asset) {
+        if ($asset instanceof AbstractAsset) {
             $assetBridge = new AssetBridge();
             $doctrineAsset = $assetBridge->convertFromModel($asset);
             $doctrineMarkerAsset = new DoctrineMarkerAsset($doctrineMarker, $doctrineAsset);
@@ -30,7 +32,7 @@ class MarkerBridge
         $doctrineMarker->setUuid($marker->uuid);
 
 
-        if ($marker->museum) {
+        if ($marker->museum instanceof Museum) {
             $museumBridge = new MuseumBridge();
             $doctrineMarker->setMuseum($museumBridge->convertFromModel($marker->museum));
         }
@@ -44,11 +46,12 @@ class MarkerBridge
 
         return $doctrineMarker;
     }
+
     public function toModel(DoctrineMarker $doctrineMarker): Marker
     {
         $placementObjectBridge = new PlacementObjectBridge();
         $resources = $doctrineMarker->getResources()->map(
-            fn(DoctrinePlacementObject $el) => $placementObjectBridge->toModel($el)
+            static fn(DoctrinePlacementObject $el) => $placementObjectBridge->toModel($el)
         );
         $assetBridge = new AssetBridge();
         $asset = is_null($doctrineMarker->getAsset()->getAsset()) ? null : $assetBridge->toModel($doctrineMarker->getAsset()->getAsset());

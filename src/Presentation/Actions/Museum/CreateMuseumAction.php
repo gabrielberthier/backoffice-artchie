@@ -39,8 +39,7 @@ class CreateMuseumAction extends Action
 
     /**
      * Summary of rules
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * 
+     *
      * @return array<\Respect\Validation\ChainedValidator>
      */
     public function rules(Request $request): ?array

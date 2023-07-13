@@ -24,21 +24,21 @@ class GetOneMarkerByIdAction extends Action
     {
         $id = (int) $this->resolveArg('id');
 
-        if (!$id) {
+        if ($id === 0) {
             throw new HttpBadRequestException($request, 'A valid ID should be passed');
         }
 
         $marker = $this->repo->findByID($id);
 
-        if (!$marker) {
+        if (!$marker instanceof \App\Domain\Models\Marker\Marker) {
             throw new HttpNotFoundException($request, 'No marker found using this id');
         }
 
-        if ($asset = $marker->assetInformation()) {
+        if (($asset = $marker->assetInformation()) instanceof \App\Domain\Models\Assets\AbstractAsset) {
             $asset->setTemporaryLocation($this->presignedUrlCreator->setPresignedUrl($asset));
         }
 
-        foreach ($marker->getResources() as $res) {
+        foreach ($marker->resources as $res) {
             if ($asset = $res->assetInformation()) {
                 $asset->setTemporaryLocation($this->presignedUrlCreator->setPresignedUrl($asset));
             }

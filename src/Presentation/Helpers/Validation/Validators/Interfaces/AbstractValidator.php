@@ -7,6 +7,7 @@ use App\Presentation\Helpers\Validation\Validators\ValidationExceptions\Validati
 abstract class AbstractValidator implements ValidationInterface
 {
     protected string $field;
+    
     protected ?string $message;
 
     public function validate($input): ?ValidationError
@@ -18,9 +19,9 @@ abstract class AbstractValidator implements ValidationInterface
                 return null;
             }
 
-            $message = $this->message ?? "{$this->field} does not match the defined requirements";
+            $message = $this->message ?? sprintf('%s does not match the defined requirements', $this->field);
         } else {
-            $message = "{$this->field} is empty";
+            $message = sprintf('%s is empty', $this->field);
         }
 
         return (new ValidationError($message))->forField($this->field);

@@ -50,6 +50,7 @@
   "require-dev": {
     "phpspec/prophecy": "dev-master",
     "phpunit/phpunit": "^10",
+    "rector/rector": "^0.17.5",
     "squizlabs/php_codesniffer": "^3.6",
     "symfony/var-dumper": "^6.3"
   },

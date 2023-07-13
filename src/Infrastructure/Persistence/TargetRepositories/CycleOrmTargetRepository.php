@@ -16,14 +16,17 @@ class CycleOrmTargetRepository implements RepositoryInterface
     {
         return $this->repository->findByPK($id);
     }
+
     public function findOne(array $criteria = []): ?object
     {
         return $this->repository->findOne($criteria);
     }
+
     public function findAll(array $scope = []): iterable
     {
         return $this->repository->findAll();
     }
+
     public function findBy(
         array $criteria,
         ?array $orderBy = null,
@@ -34,9 +37,11 @@ class CycleOrmTargetRepository implements RepositoryInterface
         if ($orderBy) {
             $select = $select->orderBy(...$orderBy);
         }
+
         if ($limit) {
             $select = $select->limit($limit);
         }
+
         if ($offset) {
             $select = $select->offset($offset);
         }
@@ -44,6 +49,7 @@ class CycleOrmTargetRepository implements RepositoryInterface
         return $select->fetchAll();
 
     }
+
     public function entityTargetName(): string
     {
         return "";

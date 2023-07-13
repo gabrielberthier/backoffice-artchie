@@ -22,16 +22,17 @@ class SignatureTokenRepository implements SignatureTokenRepositoryInterface, Sig
     {
         try {
             $oldToken = $this->findWithMuseumId($token->museum);
-            if ($oldToken) {
+            if ($oldToken instanceof \App\Data\Entities\Doctrine\DoctrineSignatureToken) {
                 $this->em->remove($oldToken);
                 $this->em->flush();
             }
+
             $tokenBridge = new SignatureTokenBridge();
             $this->em->persist($tokenBridge->convertFromModel($token));
             $this->em->flush();
 
             return true;
-        } catch (UniqueConstraintViolationException $e) {
+        } catch (UniqueConstraintViolationException $uniqueConstraintViolationException) {
             throw new DuplicatedTokenException();
         }
     }
@@ -40,7 +41,7 @@ class SignatureTokenRepository implements SignatureTokenRepositoryInterface, Sig
     {
         $tokenBridge = new SignatureTokenBridge();
         $dbToken = $this->findWithMuseumId($museum);
-        if ($dbToken) {
+        if ($dbToken instanceof DoctrineSignatureToken) {
             return $tokenBridge->toModel($dbToken);
         }
 
@@ -53,6 +54,7 @@ class SignatureTokenRepository implements SignatureTokenRepositoryInterface, Sig
         if ($id) {
             return $this->em->getRepository(DoctrineSignatureToken::class)->findOneBy(['museum' => $id]);
         }
+
         return null;
     }
 }

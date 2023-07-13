@@ -9,6 +9,7 @@ class MarkerResource extends Asset
 {
   /** @var Collection<PlacementResource> */
   private Collection $placementResource;
+  
   private ?AssetInfo $dataInfo = null;
 
   public function __construct(
@@ -34,8 +35,6 @@ class MarkerResource extends Asset
   /**
    *
    * @param PlacementResource[] $placementResources
-   * 
-   * @return self
    */
   public function attachPlacementResources(array $placementResources): self
   {

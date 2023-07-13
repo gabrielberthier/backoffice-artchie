@@ -4,6 +4,7 @@ namespace App\Presentation\Actions\Protocols\ActionTraits;
 
 use App\Presentation\Actions\Protocols\HttpErrors\UnprocessableEntityException;
 use App\Presentation\Helpers\Validation\Validators\Facade\ValidationFacade;
+use App\Presentation\Helpers\Validation\Validators\ValidationExceptions\ValidationError;
 use Psr\Http\Message\ServerRequestInterface;
 
 trait ValidationTrait
@@ -33,7 +34,7 @@ trait ValidationTrait
         $validator = $validationFacade->createValidations();
         $result = $validator->validate($body);
 
-        if ($result) {
+        if ($result instanceof ValidationError) {
             throw new UnprocessableEntityException($request, $result->getMessage(), $result);
         }
     }

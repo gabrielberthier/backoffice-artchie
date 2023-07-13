@@ -30,8 +30,6 @@ trait UuidTrait
      * Set the internal primary identity key.
      *
      * @param UuidInterface|string $uuid
-     *
-     * @return self
      */
     public function setUuid(UuidInterface|string|null $uuid): self
     {

@@ -7,18 +7,19 @@ namespace App\Presentation\Helpers\Validation\Validators\ValidationExceptions;
 class ErrorBag extends ValidationError
 {
     private $messages = [];
+    
     private array $errors = [];
 
     public function push(ValidationError $error)
     {
         $this->errors[] = $error;
-        $this->messages[] = "[{$error->getField()}]: {$error->getMessage()}";
-        $this->message = join(PHP_EOL, $this->messages);
+        $this->messages[] = sprintf('[%s]: %s', $error->getField(), $error->getMessage());
+        $this->message = implode(PHP_EOL, $this->messages);
     }
 
     public function hasErrors(): bool
     {
-        return count($this->errors) > 0;
+        return $this->errors !== [];
     }
 
     /**

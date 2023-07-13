@@ -4,6 +4,7 @@ namespace App\Infrastructure\Persistence\Doctrine\Marker;
 
 
 use App\Data\Entities\Doctrine\DoctrineMarker;
+use App\Domain\Contracts\ModelInterface;
 use App\Domain\Exceptions\Marker\MarkerNameRepeated;
 use App\Domain\Models\Marker\Marker;
 use App\Domain\Models\Museum;
@@ -23,7 +24,7 @@ use Exception;
 class MarkerDoctrineRepository extends DoctrineAbstractCrud implements MarkerRepositoryInterface
 {
 
-    function entity(): string
+    public function entity(): string
     {
         return DoctrineMarker::class;
     }
@@ -38,13 +39,13 @@ class MarkerDoctrineRepository extends DoctrineAbstractCrud implements MarkerRep
 
             $asset = $doctrineMarker->getAsset();
 
-            if ($asset) {
+            if ($asset instanceof \App\Data\Entities\Doctrine\DoctrineMarkerAsset) {
                 $this->em->persist($asset);
             }
 
             foreach ($doctrineMarker->getResources() as $resource) {
                 $posedAsset = $resource->getAsset()?->getAsset();
-                if ($posedAsset) {
+                if ($posedAsset instanceof \App\Data\Entities\Doctrine\DoctrineAsset) {
                     $this->em->persist($posedAsset);
                 }
             }
@@ -100,7 +101,7 @@ class MarkerDoctrineRepository extends DoctrineAbstractCrud implements MarkerRep
     {
         $dM = $this->em->getRepository(DoctrineMarker::class)->find($id);
 
-        if ($dM) {
+        if ($dM instanceof DoctrineMarker) {
             try {
                 $dMarker = new DoctrineMarker();
                 $dMarker->setText($values['text'] ?? $dM->getText());
@@ -120,6 +121,11 @@ class MarkerDoctrineRepository extends DoctrineAbstractCrud implements MarkerRep
     {
         $bridge = new MarkerBridge();
         return $bridge->toModel(parent::findByID($id));
+    }
+
+    public function delete(ModelInterface|int $subject): ?Marker
+    {
+        return parent::delete($subject);
     }
 
 }

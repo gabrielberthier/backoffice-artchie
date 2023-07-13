@@ -14,6 +14,7 @@ class SocialLoginAuth
     ) {
 
     }
+
     public function authenticate(AccountDto $accountDto): TokenLoginResponse
     {
         $account = $this->accountRepository->findWithAuthType($accountDto->email, $accountDto->authType);

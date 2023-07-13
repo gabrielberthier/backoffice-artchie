@@ -33,7 +33,7 @@ class GoogleAuthProvider
 
             return new AccountDto($email, $userName, $password, AuthTypes::GOOGLE);
 
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             throw new CantGetUserInformationException();
         }
     }

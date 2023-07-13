@@ -32,16 +32,22 @@ class DoctrineAsset implements ModelInterface
 
     #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
     protected ?int $id = null;
+
     #[Column(type: 'string', unique: true)]
     private string $path;
+
     #[Column(type: 'string', unique: true)]
     private string $fileName;
+
     #[Column(type: 'string', nullable: true)]
     private ?string $url;
+
     #[Column(type: 'string')]
     private string $mediaType;
+
     #[Column(type: 'string')]
     private string $originalName;
+
     #[Column(type: 'string')]
     private string $mimeType;
 
@@ -151,6 +157,7 @@ class DoctrineAsset implements ModelInterface
     {
         return $this->temporaryLocation;
     }
+
     public function setTemporaryLocation(?string $temporaryLocation): self
     {
         $this->temporaryLocation = $temporaryLocation;

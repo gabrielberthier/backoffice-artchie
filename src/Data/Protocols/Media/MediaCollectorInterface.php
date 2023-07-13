@@ -8,12 +8,12 @@ use App\Domain\Dto\MediaResource;
 interface MediaCollectorInterface
 {
 
-  function visit(MediaHostInterface $mediaAdapters): void;
+  public function visit(MediaHostInterface $mediaAdapters): void;
 
   /**
    * Collection of media files
    *
    * @return MediaResource[]
    */
-  function collect(): array;
+  public function collect(): array;
 }

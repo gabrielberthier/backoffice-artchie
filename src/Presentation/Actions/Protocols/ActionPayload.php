@@ -15,9 +15,6 @@ class ActionPayload implements JsonSerializable
     ) {
     }
 
-    /**
-     * @return int
-     */
     public function getStatusCode(): int
     {
         return $this->statusCode;
@@ -31,9 +28,6 @@ class ActionPayload implements JsonSerializable
         return $this->data;
     }
 
-    /**
-     * @return ActionError|null
-     */
     public function getError(): ?ActionError
     {
         return $this->error;
@@ -50,7 +44,7 @@ class ActionPayload implements JsonSerializable
 
         if ($this->data !== null) {
             $payload['data'] = $this->data;
-        } elseif ($this->error !== null) {
+        } elseif ($this->error instanceof \App\Presentation\Actions\Protocols\ActionError) {
             $payload['error'] = $this->error;
         }
 

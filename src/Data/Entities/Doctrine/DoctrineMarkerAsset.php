@@ -40,16 +40,19 @@ class DoctrineMarkerAsset
     {
         return $this->marker;
     }
+
     public function getAsset(): DoctrineAsset
     {
         return $this->asset;
     }
+
     public function setMarker(DoctrineMarker $marker): self
     {
         $this->marker = $marker;
 
         return $this;
     }
+
     public function setAsset(DoctrineAsset $asset): self
     {
         $this->asset = $asset;

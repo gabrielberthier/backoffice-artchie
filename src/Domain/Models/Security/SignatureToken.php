@@ -15,8 +15,11 @@ use JsonSerializable;
 readonly class SignatureToken implements JsonSerializable
 {
     public ?DateTimeInterface $createdAt;
+    
     public ?DateTimeInterface $updated;
+    
     public ?DateTimeInterface $ttl;
+    
     public function __construct(
         public ?int $id,
         public string $signature,

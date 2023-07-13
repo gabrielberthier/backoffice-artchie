@@ -10,10 +10,13 @@ interface RepositoryInterface
 {
     /** @return TEntity|null */
     public function findByPK(mixed $id): ?object;
+
     /** @return TEntity|null */
     public function findOne(array $criteria = []): ?object;
+
     /** @return iterable<TEntity> */
     public function findAll(): iterable;
+
     /**
      * Finds objects by a set of criteria.
      *

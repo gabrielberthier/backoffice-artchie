@@ -20,13 +20,14 @@ class PlacementObjectBridge
             ->setUpdated($resource->updated)
             ->setUuid($resource->uuid);
 
-        if ($resource->asset) {
+        if ($resource->asset instanceof \App\Domain\Models\Assets\AbstractAsset) {
             $assetBridge = new AssetBridge();
             $doctrineAsset = $assetBridge->convertFromModel($resource->asset);
             $doctrinePosedAsset = new DoctrinePosedAsset($doctrinePlacementObject, $doctrineAsset);
             $doctrinePlacementObject->setAsset($doctrinePosedAsset);
         }
-        if ($resource->marker) {
+
+        if ($resource->marker instanceof \App\Domain\Models\Marker\Marker) {
             $markerBridge = new MarkerBridge();
             $doctrineMarker = $markerBridge->convertFromModel($resource->marker);
             $doctrinePlacementObject->setMarker($doctrineMarker);
@@ -34,12 +35,13 @@ class PlacementObjectBridge
 
         return $doctrinePlacementObject;
     }
+
     public function toModel(DoctrinePlacementObject $resource): PlacementObject
     {
         $assetBridge = new AssetBridge();
         $markerBridge = new MarkerBridge();
         $asset = is_null($resource->getAsset()->getAsset()) ? null : $assetBridge->toModel($resource->getAsset()->getAsset());
-        
+
         return new PlacementObject(
             id: $resource->getId(),
             name: $resource->getName(),

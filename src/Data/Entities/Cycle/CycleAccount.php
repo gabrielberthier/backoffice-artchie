@@ -17,12 +17,12 @@ use JsonSerializable;
 #[Entity(table: 'cycle_accounts')]
 #[Uuid4]
 #[Behavior\CreatedAt(
-    field: 'createdAt',   // Required. By default 'createdAt'
-    column: 'created_at'  // Optional. By default 'null'. If not set, will be used information from property declaration.
+    field: 'createdAt', // Required. By default 'createdAt'
+    column: 'created_at' // Optional. By default 'null'. If not set, will be used information from property declaration.
 )]
 #[Behavior\UpdatedAt(
-    field: 'updated',   // Required. By default 'updatedAt' 
-    column: 'updated_at'  // Optional. By default 'null'. If not set, will be used information from property declaration.
+    field: 'updated', // Required. By default 'updatedAt' 
+    column: 'updated_at' // Optional. By default 'null'. If not set, will be used information from property declaration.
 )]
 #[Index(columns: ['username'], unique: true)]
 #[Index(columns: ['email'], unique: true)]
@@ -49,10 +49,10 @@ class CycleAccount implements JsonSerializable
     private ?string $authType;
 
     #[Column(type: 'datetime', name: "created_at")]
-    private ?\DateTimeImmutable $createdAt;
+    private ?DateTimeImmutable $createdAt;
 
     #[Column(type: 'datetime', name: "updated_at", nullable: true)]
-    private ?\DateTimeImmutable  $updated = null;
+    private ?DateTimeImmutable $updated = null;
 
     public function getId(): ?int
     {
@@ -140,6 +140,7 @@ class CycleAccount implements JsonSerializable
 
         return $this;
     }
+
     public function getUpdated()
     {
         return $this->updated;

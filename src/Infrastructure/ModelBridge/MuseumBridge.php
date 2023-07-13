@@ -30,7 +30,7 @@ class MuseumBridge
     public function toModel(DoctrineMuseum $entity): Museum
     {
         $markerBridge = new MarkerBridge();
-        $markers = $entity->getMarkers()->map(fn(DoctrineMarker $doctrineMarker) => $markerBridge->toModel($doctrineMarker))->toArray();
+        $markers = $entity->getMarkers()->map(static fn(DoctrineMarker $doctrineMarker) => $markerBridge->toModel($doctrineMarker))->toArray();
         
         return new Museum(
             id: $entity->getId(),

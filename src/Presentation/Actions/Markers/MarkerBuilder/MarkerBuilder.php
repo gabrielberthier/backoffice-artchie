@@ -20,6 +20,7 @@ class MarkerBuilder
         if (is_object($body)) {
             $body = (array) $body;
         }
+        
         $name = $body["pose_object_name"];
 
         $asset = $this->prepareAsset($body["asset"]);
@@ -29,7 +30,6 @@ class MarkerBuilder
 
     public function prepareAsset(null|array|object $body): ?AbstractAsset
     {
-        /** @var null|AbstractAsset */
         $asset = null;
         if (is_object($body)) {
             $body = (array) $body;

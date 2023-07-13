@@ -28,9 +28,6 @@ abstract class AbstractRepository implements CrudOperationsInterface
    */
   public abstract function repository(): RepositoryInterface;
 
-  /**
-   * @return ResultSetInterface
-   */
   public function findAll(bool $paginate = false, int $page = 1, int $limit = 20): ResultSetInterface
   {
     return $this->itemsRetriever->findAll($this->entity(), $paginate, $page, $limit);
@@ -61,8 +58,6 @@ abstract class AbstractRepository implements CrudOperationsInterface
   }
 
   /**
-   * @param array $conditions
-   * 
    * @return T[]
    */
   public function findWithConditions(array $conditions): array
@@ -79,8 +74,6 @@ abstract class AbstractRepository implements CrudOperationsInterface
 
   /**
    * @param T
-   * 
-   * @return bool
    */
   public abstract function insert(ModelInterface $model): bool;
 }

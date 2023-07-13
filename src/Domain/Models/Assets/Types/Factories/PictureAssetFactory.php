@@ -11,7 +11,7 @@ use App\Domain\Models\Assets\Types\Interfaces\ConstrainedAssetFactoryInterface;
 
 class PictureAssetFactory implements ConstrainedAssetFactoryInterface
 {
-  function create(CreateAsset $command): AbstractAsset
+  public function create(CreateAsset $command): AbstractAsset
   {
     $asset = new PictureAsset();
     return $asset->fromCommand($command);

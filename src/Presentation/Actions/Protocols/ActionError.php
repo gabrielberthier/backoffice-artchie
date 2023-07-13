@@ -9,20 +9,25 @@ use JsonSerializable;
 class ActionError implements JsonSerializable
 {
     public const BAD_REQUEST = 'BAD_REQUEST';
+    
     public const INSUFFICIENT_PRIVILEGES = 'INSUFFICIENT_PRIVILEGES';
+    
     public const NOT_ALLOWED = 'NOT_ALLOWED';
+    
     public const NOT_IMPLEMENTED = 'NOT_IMPLEMENTED';
+    
     public const RESOURCE_NOT_FOUND = 'RESOURCE_NOT_FOUND';
+    
     public const SERVER_ERROR = 'SERVER_ERROR';
+    
     public const UNAUTHENTICATED = 'UNAUTHENTICATED';
+    
     public const VALIDATION_ERROR = 'VALIDATION_ERROR';
+    
     public const VERIFICATION_ERROR = 'VERIFICATION_ERROR';
+    
     public const UNPROCESSABLE_ENTITY = 'UNPROCESSABLE_ENTITY';
 
-    /**
-     * @param string      $type
-     * @param null|string $description
-     */
     public function __construct(private string $type, private ?string $description)
     {
     }

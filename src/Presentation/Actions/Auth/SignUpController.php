@@ -51,14 +51,13 @@ class SignUpController extends Action
             'email' => 'Email not valid',
             'username' => 'A valid username must be provided',
             'password' => 'Password must contain at least 6 characters with at least one uppercase letter, one lower case letter and a symbol',
-            'passwordConfirmation' => 'Password confirmation doesn\'t match.',
+            'passwordConfirmation' => "Password confirmation doesn't match.",
         ];
     }
 
     /**
      * Summary of rules
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * 
+     *
      * @return array
      */
     public function rules(Request $request): ?array
@@ -69,10 +68,10 @@ class SignUpController extends Action
         return [
             'email' => Validator::email(),
             'username' => Validator::alnum()->noWhitespace()->length(6, 20),
-            'password' => function ($value) {
+            'password' => static function ($value) {
                 return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[\w$@]{6,}$/m', $value);
             },
-            'passwordConfirmation' => fn($value) => $value === $password,
+            'passwordConfirmation' => static fn($value) => $value === $password,
         ];
     }
 }

@@ -10,17 +10,13 @@ use App\Domain\Models\Assets\Types\Interfaces\ConstrainedAssetFactoryInterface;
 
 class ThreeDimensionalAssetFactory implements ConstrainedAssetFactoryInterface
 {
-    public function __construct()
-    {
-    }
-
-    function create(CreateAsset $command): AbstractAsset
+    public function create(CreateAsset $command): AbstractAsset
     {
         $asset = new ThreeDimensionalAsset();
         return $asset->fromCommand($command);
     }
 
-    function allowedFormats(): array|string
+    public function allowedFormats(): array|string
     {
         return [
             'obj',

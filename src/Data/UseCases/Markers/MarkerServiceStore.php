@@ -29,9 +29,10 @@ class MarkerServiceStore implements MarkerServiceStoreInterface
         try {
             $museum = $this->museumRepository->findByID($museumId);
 
-            if (!$museum) {
+            if (!$museum instanceof \App\Domain\Models\Museum) {
                 throw new InstanceNotFoundException('Museum');
             }
+            
             $input = [...$marker->jsonSerialize()];
             $input['museum'] = $museum;
             $input['resources'] = new ArrayCollection($input['resources']);

@@ -43,7 +43,7 @@ class UploadAction extends Action
 
         $results = $this->uploader->uploadObjects($bucket, ...$objects);
 
-        $returnValues = array_map(fn($result, UploadableObjectInterface $object, string $originalName) => [
+        $returnValues = array_map(static fn($result, UploadableObjectInterface $object, string $originalName) => [
             'URL' => $result['ObjectURL'],
             'fileName' => $object->key(),
             'created_at' => new DateTime(),
@@ -56,7 +56,7 @@ class UploadAction extends Action
 
     private function createUploadableObject(Request $request, UploadedFileInterface $uploadedFile, $prefix = ''): UploadableObjectInterface
     {
-        if (!$uploadedFile->getError()) {
+        if ($uploadedFile->getError() === 0) {
             $fileName = FileNameConverter::convertFileName($uploadedFile);
 
             $stream = $uploadedFile->getStream();

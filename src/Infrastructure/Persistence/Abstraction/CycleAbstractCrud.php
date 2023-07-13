@@ -13,6 +13,7 @@ use Cycle\ORM\ORM;
 abstract class CycleAbstractCrud extends AbstractRepository
 {
     protected EntityManager $entityManager;
+
     public function __construct(protected ORM $orm)
     {
         $this->entityManager = new EntityManager($orm);
@@ -36,7 +37,8 @@ abstract class CycleAbstractCrud extends AbstractRepository
         if (is_int($subject)) {
             $subject = $this->findByID($subject);
         }
-        if ($subject) {
+
+        if ($subject !== null) {
             $this->entityManager->delete($subject);
             $this->entityManager->run();
         }

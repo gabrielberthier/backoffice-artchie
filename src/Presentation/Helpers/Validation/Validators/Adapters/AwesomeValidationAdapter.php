@@ -21,8 +21,8 @@ class AwesomeValidationAdapter extends AbstractValidator
             $this->rule->assert($subject);
 
             return true;
-        } catch (NestedValidationException $exception) {
-            $this->message ??= $exception->getFullMessage();
+        } catch (NestedValidationException $nestedValidationException) {
+            $this->message ??= $nestedValidationException->getFullMessage();
 
             return false;
         }

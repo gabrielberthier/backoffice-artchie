@@ -14,6 +14,7 @@ class DoctrineTargetRepository implements RepositoryInterface
     {
         return $this->repository->find($id);
     }
+
     public function findOne(array $criteria = []): ?object
     {
         return $this->repository->findOneBy($criteria);
@@ -27,10 +28,12 @@ class DoctrineTargetRepository implements RepositoryInterface
     ): iterable {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
+
     public function findAll(array $scope = []): iterable
     {
         return $this->repository->findAll();
     }
+
     public function entityTargetName(): string
     {
         return $this->repository->getClassName();

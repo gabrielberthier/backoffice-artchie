@@ -17,17 +17,17 @@ class MediaCollectorVisitor implements MediaCollectorInterface
   private array $collection = [];
 
 
-  function collect(): array
+  public function collect(): array
   {
     return $this->collection;
   }
 
 
-  function visit(MediaHostInterface $mediaAdapter): void
+  public function visit(MediaHostInterface $mediaAdapter): void
   {
     $info = $mediaAdapter->assetInformation();
 
-    if ($info) {
+    if ($info instanceof \App\Domain\Models\Assets\AbstractAsset) {
       $this->collection[] = $this->makeAssetInfo($info, $mediaAdapter->namedBy());
     }
   }

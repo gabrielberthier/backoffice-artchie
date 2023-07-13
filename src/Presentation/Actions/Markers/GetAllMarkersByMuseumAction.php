@@ -23,7 +23,7 @@ class GetAllMarkersByMuseumAction extends Action
         $params = $request->getQueryParams();
         $museum_id = (int) $this->resolveArg('museum_id');
 
-        if (!$museum_id) {
+        if ($museum_id === 0) {
             throw new HttpBadRequestException($request);
         }
 

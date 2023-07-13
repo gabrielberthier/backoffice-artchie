@@ -106,7 +106,7 @@ class DoctrineMarker
         return $this->resources;
     }
 
-    public function addResources(DoctrinePlacementObject ...$resource): self
+    public function addResources(array $resource = []): self
     {
         foreach ($resource as $obj) {
             $obj->setMarker($this);

@@ -13,11 +13,12 @@ use JsonSerializable;
 class TokenLoginResponse implements JsonSerializable
 {
     public readonly string $token;
+    
     public readonly string $renewToken;
+    
     private TokenGeneratorInterface $tokenHandler;
 
     /**
-     * @param Account                   $account
      * @param TokenGeneratorInterface[] $tokenizers
      */
     public function __construct(private Account $account)
