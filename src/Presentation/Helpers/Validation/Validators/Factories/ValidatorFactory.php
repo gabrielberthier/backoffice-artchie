@@ -2,12 +2,12 @@
 
 namespace App\Presentation\Helpers\Validation\Validators\Factories;
 
+use Closure;
+use Respect\Validation\Validatable;
 use App\Presentation\Helpers\Validation\Validators\Adapters\AwesomeValidationAdapter;
 use App\Presentation\Helpers\Validation\Validators\Adapters\CallbackValidationAdapter;
 use App\Presentation\Helpers\Validation\Validators\Adapters\NestedValidationAdapter;
 use App\Presentation\Helpers\Validation\Validators\Interfaces\AbstractValidator;
-use Respect\Validation\Rules\AbstractRule;
-use Closure;
 
 class ValidatorFactory
 {
@@ -26,7 +26,7 @@ class ValidatorFactory
 
             return $nestedValidationAdapter;
         }
-        if ($validation instanceof AbstractRule) {
+        if ($validation instanceof Validatable) {
             return new AwesomeValidationAdapter($key, $validation, $message);
         }
         if (is_callable($validation)) {

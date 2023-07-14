@@ -44,7 +44,6 @@ abstract class CycleAbstractCrud extends AbstractRepository
         }
 
         return $subject;
-
     }
 
     public function insert(ModelInterface $model): bool

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Repositories;
 
+use App\Domain\Contracts\ModelInterface;
 use App\Domain\Models\Marker\Marker;
 use App\Domain\Models\Museum;
 use App\Domain\Repositories\PersistenceOperations\Responses\ResultSetInterface;
