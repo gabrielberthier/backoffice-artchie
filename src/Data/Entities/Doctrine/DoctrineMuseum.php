@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Data\Entities\Doctrine;
 
-use App\Domain\Contracts\ModelInterface;
+use App\Data\Entities\Contracts\ModelCoercionInterface;
+use App\Data\Entities\Contracts\ModelParsingInterface;
 use App\Data\Entities\Doctrine\Traits\TimestampsTrait;
 use App\Data\Entities\Doctrine\Traits\UuidTrait;
+use App\Domain\Models\Museum;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Entity;
@@ -19,20 +21,19 @@ use Doctrine\ORM\Mapping\Table;
 
 
 #[Entity, Table(name: 'museums'), HasLifecycleCallbacks]
-class DoctrineMuseum implements ModelInterface
+class DoctrineMuseum implements ModelCoercionInterface, ModelParsingInterface
 {
     use TimestampsTrait;
     use UuidTrait;
 
     #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
-
     protected $id;
 
     #[Column(type: 'string', unique: true, nullable: false)]
-    private string $email;
+    private ?string $email;
 
     #[Column(type: 'string')]
-    private string $name;
+    private ?string $name;
 
     #[Column(type: 'text', nullable: true)]
     private ?string $description;
@@ -44,18 +45,8 @@ class DoctrineMuseum implements ModelInterface
     #[OneToMany(targetEntity: DoctrineMarker::class, mappedBy: "museum", cascade: ["persist", "remove"])]
     private Collection $markers;
 
-    public function __construct(
-        ?int $id,
-        string $email,
-        string $name,
-        ?string $description = null,
-        ?string $info = null
-    ) {
-        $this->id = $id;
-        $this->email = $email;
-        $this->name = $name;
-        $this->description = $description;
-        $this->info = $info;
+    public function __construct()
+    {
         $this->markers = new ArrayCollection();
     }
 
@@ -146,6 +137,48 @@ class DoctrineMuseum implements ModelInterface
     public function setInfo(string $info): self
     {
         $this->info = $info;
+
+        return $this;
+    }
+
+    function toModel(): Museum
+    {
+        $markers = $this
+            ->getMarkers()
+            ->map(
+                static fn (DoctrineMarker $doctrineMarker) => $doctrineMarker->toModel()
+            )->toArray();
+
+        return new Museum(
+            id: $this->id,
+            email: $this->email,
+            name: $this->name,
+            description: $this->description,
+            info: $this->info,
+            markers: $markers,
+            uuid: $this->uuid,
+            createdAt: $this->createdAt,
+            updated: $this->updated,
+        );
+    }
+
+
+    /** @param Museum $model */
+    public function fromModel(object $model): static
+    {
+        $this->id = $model->id;
+        $this->email = $model->email;
+        $this->name = $model->name;
+        $this->description = $model->description;
+        $this->info = $model->info;
+
+
+        foreach ($model->markers as $marker) {
+            $doctrineMarker = new DoctrineMarker();
+            $this->addMarker(
+                $doctrineMarker->fromModel($marker)
+            );
+        }
 
         return $this;
     }

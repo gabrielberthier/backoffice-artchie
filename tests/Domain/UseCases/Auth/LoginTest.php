@@ -16,7 +16,6 @@ use App\Domain\Repositories\AccountRepository;
 use Ramsey\Uuid\Uuid;
 use function PHPUnit\Framework\assertTrue;
 use PHPUnit\Framework\MockObject\MockObject;
-use Prophecy\Prophet;
 use Tests\TestCase;
 
 class SutTypes
@@ -38,13 +37,10 @@ class SutTypes
  */
 class LoginTest extends TestCase
 {
-
-    private Prophet $prophet;
     private SutTypes $sut;
 
     protected function setUp(): void
     {
-        $this->prophet = new Prophet();
         $this->sut = new SutTypes($this->mockRepository(), $this->makeComparer());
     }
 

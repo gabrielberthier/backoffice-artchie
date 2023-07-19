@@ -35,26 +35,23 @@ class CompiledContainer extends DI\CompiledContainer{
   'App\\Domain\\Repositories\\AccountRepository' => 'get29',
   'subEntry19' => 'get30',
   'App\\Domain\\Repositories\\MuseumRepository' => 'get31',
-  'subEntry20' => 'get32',
-  'subEntry21' => 'get33',
-  'App\\Domain\\Repositories\\MarkerRepositoryInterface' => 'get34',
-  'subEntry22' => 'get35',
-  'subEntry23' => 'get36',
-  'App\\Domain\\Repositories\\SignatureTokenRepositoryInterface' => 'get37',
-  'subEntry24' => 'get38',
-  'App\\Domain\\Repositories\\SignatureTokenRetrieverInterface' => 'get39',
-  'subEntry25' => 'get40',
-  'Psr\\Log\\LoggerInterface' => 'get41',
-  'S3DataTransfer\\Interfaces\\Download\\StreamCollectorInterface' => 'get42',
-  'S3DataTransfer\\S3\\Zip\\S3StreamObjectsZipDownloader' => 'get43',
-  'S3DataTransfer\\Interfaces\\Upload\\UploadCollectorInterface' => 'get44',
-  'League\\OAuth2\\Client\\Provider\\Google' => 'get45',
-  'Doctrine\\ORM\\EntityManagerInterface' => 'get46',
-  'Cycle\\Database\\DatabaseManager' => 'get47',
-  'connection' => 'get48',
-  'App\\Presentation\\Actions\\Markers\\Utils\\PresignedUrlCreator' => 'get49',
-  'App\\Infrastructure\\Persistence\\PersistenceUtils\\ItemsRetriever' => 'get50',
-  'subEntry26' => 'get51',
+  'App\\Domain\\Repositories\\MarkerRepositoryInterface' => 'get32',
+  'subEntry20' => 'get33',
+  'App\\Domain\\Repositories\\SignatureTokenRepositoryInterface' => 'get34',
+  'subEntry21' => 'get35',
+  'App\\Domain\\Repositories\\SignatureTokenRetrieverInterface' => 'get36',
+  'subEntry22' => 'get37',
+  'Psr\\Log\\LoggerInterface' => 'get38',
+  'S3DataTransfer\\Interfaces\\Download\\StreamCollectorInterface' => 'get39',
+  'S3DataTransfer\\S3\\Zip\\S3StreamObjectsZipDownloader' => 'get40',
+  'S3DataTransfer\\Interfaces\\Upload\\UploadCollectorInterface' => 'get41',
+  'League\\OAuth2\\Client\\Provider\\Google' => 'get42',
+  'Doctrine\\ORM\\EntityManagerInterface' => 'get43',
+  'Cycle\\Database\\DatabaseManager' => 'get44',
+  'Cycle\\ORM\\ORM' => 'get45',
+  'Cycle\\ORM\\EntityManager' => 'get46',
+  'connection' => 'get47',
+  'App\\Presentation\\Actions\\Markers\\Utils\\PresignedUrlCreator' => 'get48',
 );
 
     protected function get2()
@@ -72,14 +69,14 @@ class CompiledContainer extends DI\CompiledContainer{
             return [
                 // if true, metadata caching is forcefully disabled
                 'dev_mode' => \Core\functions\isDev(),
-    
+
                 // path where the compiled metadata info will be cached
                 // make sure the path exists and it is writable
-                'cache_dir' => \getcwd().'/var/doctrine',
-    
+                'cache_dir' => \getcwd() . '/var/doctrine',
+
                 // you should add any other path containing annotated entity classes
-                'metadata_dirs' => [\getcwd().'/src/Domain/Models'],
-    
+                'metadata_dirs' => [\getcwd() . '/src/Data/Entities/Doctrine'],
+
                 'connection' => $c->get('connection'),
             ];
         }, 'subEntry2');
@@ -235,23 +232,24 @@ class CompiledContainer extends DI\CompiledContainer{
 
     protected function get29()
     {
-        $object = new App\Infrastructure\Persistence\Account\DoctrineAccountRepository($this->get30());
+        $object = new App\Infrastructure\Persistence\Doctrine\DoctrineAccountRepository($this->get30());
         return $object;
-    }
-
-    protected function get32()
-    {
-        return $this->delegateContainer->get('Doctrine\\ORM\\EntityManagerInterface');
-    }
-
-    protected function get33()
-    {
-        return $this->delegateContainer->get('App\\Infrastructure\\Persistence\\PersistenceUtils\\ItemsRetriever');
     }
 
     protected function get31()
     {
-        $object = new App\Infrastructure\Persistence\Museum\MuseumDoctrineRepository($this->get32(), $this->get33());
+        $object = new App\Infrastructure\Persistence\Doctrine\MuseumDoctrineRepository();
+        return $object;
+    }
+
+    protected function get33()
+    {
+        return $this->delegateContainer->get('Doctrine\\ORM\\EntityManagerInterface');
+    }
+
+    protected function get32()
+    {
+        $object = new App\Infrastructure\Persistence\Doctrine\MarkerDoctrineRepository($this->get33());
         return $object;
     }
 
@@ -260,40 +258,24 @@ class CompiledContainer extends DI\CompiledContainer{
         return $this->delegateContainer->get('Doctrine\\ORM\\EntityManagerInterface');
     }
 
-    protected function get36()
-    {
-        return $this->delegateContainer->get('App\\Infrastructure\\Persistence\\PersistenceUtils\\ItemsRetriever');
-    }
-
     protected function get34()
     {
-        $object = new App\Infrastructure\Persistence\Marker\MarkerDoctrineRepository($this->get35(), $this->get36());
+        $object = new App\Infrastructure\Persistence\Doctrine\SignatureTokenRepository($this->get35());
         return $object;
-    }
-
-    protected function get38()
-    {
-        return $this->delegateContainer->get('Doctrine\\ORM\\EntityManagerInterface');
     }
 
     protected function get37()
     {
-        $object = new App\Infrastructure\Persistence\SignatureToken\SignatureTokenRepository($this->get38());
-        return $object;
-    }
-
-    protected function get40()
-    {
         return $this->delegateContainer->get('Doctrine\\ORM\\EntityManagerInterface');
     }
 
-    protected function get39()
+    protected function get36()
     {
-        $object = new App\Infrastructure\Persistence\SignatureToken\SignatureTokenRepository($this->get40());
+        $object = new App\Infrastructure\Persistence\Doctrine\SignatureTokenRepository($this->get37());
         return $object;
     }
 
-    protected function get41()
+    protected function get38()
     {
         return $this->resolveFactory(static function (\Psr\Container\ContainerInterface $c) {
         $settings = $c->get('settings');
@@ -311,7 +293,7 @@ class CompiledContainer extends DI\CompiledContainer{
     }, 'Psr\\Log\\LoggerInterface');
     }
 
-    protected function get42()
+    protected function get39()
     {
         return $this->resolveFactory(static function (\Psr\Container\ContainerInterface $c): \S3DataTransfer\Interfaces\Download\StreamCollectorInterface {
         $factory = new \S3DataTransfer\S3\Factories\S3AsyncDownloaderFactory();
@@ -324,7 +306,7 @@ class CompiledContainer extends DI\CompiledContainer{
     }, 'S3DataTransfer\\Interfaces\\Download\\StreamCollectorInterface');
     }
 
-    protected function get43()
+    protected function get40()
     {
         return $this->resolveFactory(static function (\Psr\Container\ContainerInterface $container): \S3DataTransfer\S3\Zip\S3StreamObjectsZipDownloader {
         /**
@@ -336,7 +318,7 @@ class CompiledContainer extends DI\CompiledContainer{
     }, 'S3DataTransfer\\S3\\Zip\\S3StreamObjectsZipDownloader');
     }
 
-    protected function get44()
+    protected function get41()
     {
         return $this->resolveFactory(static function (\Psr\Container\ContainerInterface $c): \S3DataTransfer\Interfaces\Upload\UploadCollectorInterface {
         $factory = new \S3DataTransfer\S3\Factories\S3AsyncUploadingFactory();
@@ -349,7 +331,7 @@ class CompiledContainer extends DI\CompiledContainer{
     }, 'S3DataTransfer\\Interfaces\\Upload\\UploadCollectorInterface');
     }
 
-    protected function get45()
+    protected function get42()
     {
         return $this->resolveFactory(static function (\Psr\Container\ContainerInterface $c): \League\OAuth2\Client\Provider\Google {
         $clientId = $_ENV['GOOGLE_CLIENT_ID'];
@@ -360,20 +342,18 @@ class CompiledContainer extends DI\CompiledContainer{
     }, 'League\\OAuth2\\Client\\Provider\\Google');
     }
 
-    protected function get46()
+    protected function get43()
     {
-        return $this->resolveFactory(static fn (
-        \Psr\Container\ContainerInterface $container
-    ) => \Core\Data\Doctrine\EntityManagerBuilder::produce(
+        return $this->resolveFactory(static fn(
+    \Psr\Container\ContainerInterface $container
+) => \Core\Data\Doctrine\EntityManagerBuilder::produce(
         $container->get("settings")["doctrine"]
     ), 'Doctrine\\ORM\\EntityManagerInterface');
     }
 
-    protected function get47()
+    protected function get44()
     {
-        return $this->resolveFactory(static function (
-        \Psr\Container\ContainerInterface $container
-    ): \Cycle\Database\DatabaseManager {
+        return $this->resolveFactory(static function (\Psr\Container\ContainerInterface $container): \Cycle\Database\DatabaseManager {
         $connectorFacade = new \Core\Data\Cycle\Facade\ConnectorFacade(
             connection: $container->get("connection")
         );
@@ -402,55 +382,89 @@ class CompiledContainer extends DI\CompiledContainer{
     }, 'Cycle\\Database\\DatabaseManager');
     }
 
-    protected function get48()
+    protected function get45()
     {
-        return $this->resolveFactory(static function (\Psr\Container\ContainerInterface $c): array {
-        $scanDatabase = function (): array {
-            $connectionArray = [];
+        return $this->resolveFactory(static function (\Psr\Container\ContainerInterface $container) {
+        $root = \dirname(\dirname('/var/www/app/Definitions'));
+        $finder = (new \Symfony\Component\Finder\Finder())->files()->in([$root . '/src/Data/Entities/Cycle']);
+        $classLocator = new \Spiral\Tokenizer\ClassLocator($finder);
+        $database = $container->get(\Cycle\Database\DatabaseManager::class);
+        $schemaCompiler = new \Cycle\Schema\Compiler();
 
-            if (isset($_ENV['DATABASE_URL'])) {
-                $connectionArray['url'] = $_ENV['DATABASE_URL'];
-            } else {
-                $databaseSettings = ['DRIVER', 'HOST', 'DBNAME', 'PORT', 'USER', 'PASSWORD', 'CHARSET'];
 
-                foreach ($databaseSettings as $value) {
-                    $connectionArray[$value] = $_ENV[$value];
-                }
+        $schema = $schemaCompiler->compile(new \Cycle\Schema\Registry($database), [
+            new \Cycle\Schema\Generator\ResetTables(),
+                // re-declared table schemas (remove columns)
+            new \Cycle\Annotated\Embeddings($classLocator),
+                // register embeddable entities
+            new \Cycle\Annotated\Entities($classLocator),
+                // register annotated entities
+            new \Cycle\Annotated\TableInheritance(),
+                // register STI/JTI
+            new \Cycle\Annotated\MergeColumns(),
+                // add @Table column declarations
+            new \Cycle\Schema\Generator\GenerateRelations(),
+                // generate entity relations
+            new \Cycle\Schema\Generator\GenerateModifiers(),
+                // generate changes from schema modifiers
+            new \Cycle\Schema\Generator\ValidateEntities(),
+                // make sure all entity schemas are correct
+            new \Cycle\Schema\Generator\RenderTables(),
+                // declare table schemas
+            new \Cycle\Schema\Generator\RenderRelations(),
+                // declare relation keys and indexes
+            new \Cycle\Schema\Generator\RenderModifiers(),
+                // render all schema modifiers
+            new \Cycle\Annotated\MergeIndexes(),
+                // add @Table column declarations
+            new \Cycle\Schema\Generator\SyncTables(),
+                // sync table changes to database
+            new \Cycle\Schema\Generator\GenerateTypecast(), // typecast non string columns
+        ]);
+        $schema = new \Cycle\ORM\Schema($schema);
+        $commandGenerator = new \Cycle\ORM\Entity\Behavior\EventDrivenCommandGenerator($schema, $container);
+
+        $orm = new \Cycle\ORM\ORM(new \Cycle\ORM\Factory($database), $schema, $commandGenerator);
+
+        return $orm;
+    }, 'Cycle\\ORM\\ORM');
+    }
+
+    protected function get46()
+    {
+        return $this->resolveFactory(static fn(\Psr\Container\ContainerInterface $container) => new \Cycle\ORM\EntityManager($container->get(\Cycle\ORM\ORM::class)), 'Cycle\\ORM\\EntityManager');
+    }
+
+    protected function get47()
+    {
+        return $this->resolveFactory(static function (): array {
+        $exceptionMessage = 'An application mode should be specified at project level .env or _ENV' .
+            'variable containing one of the following values: PRODUCTION, TEST or DEV';
+        $connectionArray = [];
+
+        if (isset($_ENV['DATABASE_URL'])) {
+            $connectionArray['url'] = $_ENV['DATABASE_URL'];
+        } else {
+            $dbParams = ['DRIVER', 'HOST', 'DBNAME', 'PORT', 'USER', 'PASSWORD', 'CHARSET'];
+            foreach ($dbParams as $param) {
+                $connectionArray[$param] = $_ENV[$param];
             }
-
-            return $connectionArray;
-        };
+        }
 
         return match (\Core\functions\mode()) {
             'TEST' => [
                 'driver' => 'pdo_sqlite',
                 'memory' => 'true',
             ],
-            'PRODUCTION', 'DEV' => $scanDatabase(),
-            default => throw new \Exception(
-                'An application mode should be specified at project level'
-                . ' .env or _ENV variable and should contain one of the '
-                . 'following values: PRODUCTION, TEST or DEV',
-                500
-            )
+            'PRODUCTION', 'DEV' => $connectionArray,
+            default => throw new \Exception($exceptionMessage, 500)
         };
     }, 'connection');
     }
 
-    protected function get49()
+    protected function get48()
     {
         $object = new App\Presentation\Actions\Markers\Utils\PresignedUrlCreator();
-        return $object;
-    }
-
-    protected function get51()
-    {
-        return $this->delegateContainer->get('Doctrine\\ORM\\EntityManagerInterface');
-    }
-
-    protected function get50()
-    {
-        $object = new App\Infrastructure\Persistence\PersistenceUtils\ItemsRetriever($this->get51());
         return $object;
     }
 

@@ -8,6 +8,7 @@ use App\Data\UseCases\Authentication\Errors\IncorrectPasswordException;
 use App\Domain\Dto\Credentials;
 use App\Domain\Dto\TokenLoginResponse;
 use App\Domain\Exceptions\NoAccountFoundException;
+use App\Domain\Factories\TokenResponseFactory;
 use App\Domain\Repositories\AccountRepository;
 
 class Login implements LoginServiceInterface
@@ -24,7 +25,7 @@ class Login implements LoginServiceInterface
         if ($account instanceof \App\Domain\Models\Account) {
             $passwordsMatch = $this->hashComparer->compare($credentials->password, $account->password);
             if ($passwordsMatch) {
-                return new TokenLoginResponse($account);
+                return TokenResponseFactory::createToken($account);
             }
 
             throw new IncorrectPasswordException();

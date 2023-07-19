@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace App\Data\Entities\Doctrine;
 
+use App\Data\Entities\Contracts\ModelCoercionInterface;
+use App\Data\Entities\Contracts\ModelParsingInterface;
 use App\Data\Entities\Doctrine\DoctrineAsset;
 use App\Data\Entities\Doctrine\DoctrineMuseum;
 use App\Data\Entities\Doctrine\Traits\TimestampsTrait;
 use App\Data\Entities\Doctrine\Traits\UuidTrait;
+use App\Domain\Models\Assets\AbstractAsset;
+use App\Domain\Models\Marker\Marker;
+use App\Domain\Models\Museum;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\OneToOne;
@@ -21,8 +26,12 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Table;
 
+/**
+ * @implements ModelCoercionInterface<Marker>
+ * @implements ModelParsingInterface<Marker>
+ */
 #[Entity, Table(name: "markers"), HasLifecycleCallbacks]
-class DoctrineMarker
+class DoctrineMarker implements ModelCoercionInterface, ModelParsingInterface
 {
     use TimestampsTrait;
     use UuidTrait;
@@ -37,7 +46,7 @@ class DoctrineMarker
     private ?DoctrineMuseum $museum;
 
     #[Column(type: "string", nullable: false)]
-    private string $name;
+    private ?string $name;
 
     #[Column(type: "text", nullable: true)]
     private ?string $text;
@@ -213,6 +222,63 @@ class DoctrineMarker
     public function setId($id): self
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    public function toModel(): Marker
+    {
+        $resources = $this->getResources()->map(
+            static fn (DoctrinePlacementObject $el) => $el->toModel()
+        );
+
+        $asset = $this->getAsset()?->getAsset()?->toModel();
+
+        return new Marker(
+            id: $this->id,
+            museum: $this->museum,
+            name: $this->name,
+            text: $this->text,
+            title: $this->title,
+            isActive: $this->isActive,
+            createdAt: $this->createdAt,
+            updated: $this->updated,
+            uuid: $this->uuid,
+            resources: $resources,
+            asset: $asset,
+        );
+    }
+
+    /** @param Marker $model */
+    public function fromModel(object $model): static
+    {
+        $asset = $model->asset;
+        # Basic info
+        $this->name = $model->name;
+        $this->text = $model->text;
+        $this->title = $model->title;
+        $this->id = $model->id;
+        $this->createdAt = $model->createdAt;
+        $this->updated = $model->updated;
+        $this->uuid = $model->uuid;
+
+        if ($asset instanceof AbstractAsset) {
+            $doctrineAsset = new DoctrineAsset();
+            $markerAsset = new DoctrineMarkerAsset($this, $doctrineAsset->fromModel($asset));
+
+            $this->asset = $markerAsset;
+        }
+
+        if ($model->museum instanceof Museum) {
+            $doctrineMuseum = new DoctrineMuseum();
+            $this->setMuseum($doctrineMuseum->fromModel($model->museum));
+        }
+
+
+        foreach ($model->resources as $resource) {
+            $doctrinePlacementObject = new DoctrinePlacementObject();
+            $this->addResource($doctrinePlacementObject->fromModel($resource));
+        }
 
         return $this;
     }

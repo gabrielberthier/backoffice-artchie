@@ -2,10 +2,14 @@
 
 namespace App\Data\Entities\Doctrine;
 
+use App\Data\Entities\Contracts\ModelCoercionInterface;
+use App\Data\Entities\Contracts\ModelParsingInterface;
 use App\Data\Entities\Doctrine\Traits\TimestampsTrait;
 use App\Data\Entities\Doctrine\Traits\UuidTrait;
-use App\Domain\Contracts\ModelInterface;
 use App\Domain\Dto\Asset\Command\CreateAsset;
+use App\Domain\Models\Assets\AbstractAsset;
+use App\Domain\Models\Assets\Types\AssetFactoryFacade;
+use App\Domain\Models\Assets\Types\Helpers\AllowedExtensionChecker;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Entity;
@@ -18,14 +22,17 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 
 /**
- * Aseets resources comprehends the entities which hold data such as medias, assets, etc.
+ * Assets resources comprehend the entities which hold data such as medias, assets, etc.
+ * 
+ * @implements ModelCoercionInterface<AbstractAsset>
+ * @implements ModelParsingInterface<AbstractAsset>
  */
 #[
     Entity,
     Table(name: 'assets'),
     HasLifecycleCallbacks
 ]
-class DoctrineAsset implements ModelInterface
+class DoctrineAsset implements ModelCoercionInterface, ModelParsingInterface
 {
     use TimestampsTrait;
     use UuidTrait;
@@ -34,22 +41,22 @@ class DoctrineAsset implements ModelInterface
     protected ?int $id = null;
 
     #[Column(type: 'string', unique: true)]
-    private string $path;
+    private ?string $path;
 
     #[Column(type: 'string', unique: true)]
-    private string $fileName;
+    private ?string $fileName;
 
     #[Column(type: 'string', nullable: true)]
     private ?string $url;
 
     #[Column(type: 'string')]
-    private string $mediaType;
+    private ?string $mediaType;
 
     #[Column(type: 'string')]
-    private string $originalName;
+    private ?string $originalName;
 
     #[Column(type: 'string')]
-    private string $mimeType;
+    private ?string $mimeType;
 
     private ?string $temporaryLocation = null;
 
@@ -205,6 +212,9 @@ class DoctrineAsset implements ModelInterface
         return $this;
     }
 
+    /**
+     * @return Collection<DoctrineAsset>
+     */
     public function getChildren(): Collection
     {
         return $this->children;
@@ -232,5 +242,56 @@ class DoctrineAsset implements ModelInterface
         $this->url = $createAsset->url;
         $this->originalName = $createAsset->originalName;
         $this->mimeType = $createAsset->mimeType();
+    }
+
+    public function toModel(): AbstractAsset
+    {
+        $children = $this->getChildren()->map(fn (DoctrineAsset $el) => $el->toModel())->toArray();
+        $createAsset = new CreateAsset(
+            path: $this->getPath(),
+            fileName: $this->getFileName(),
+            originalName: $this->getOriginalName(),
+            url: $this->getUrl(),
+            children: $children,
+        );
+
+        $factoryFacade = new AssetFactoryFacade(new AllowedExtensionChecker());
+        $asset = $factoryFacade->create($createAsset);
+        $asset->setId($this->getId());
+        $asset->setUuid($this->getUuid());
+        $asset->setCreatedAt($this->getCreatedAt());
+        $asset->setUpdated($this->getUpdated());
+
+        return $asset;
+    }
+
+
+    /** @param AbstractAsset $model */
+    public function fromModel(object $model): static
+    {
+        $this
+            ->setCreatedAt($model->getCreatedAt())
+            ->setFileName($model->getFileName())
+            ->setId($model->getId())
+            ->setMediaType($model->getMediaType())
+            ->setMimeType($model->getMimeType())
+            ->setOriginalName($model->getOriginalName())
+            ->setPath($model->getPath())
+            ->setTemporaryLocation($model->getTemporaryLocation())
+            ->setUpdated($model->getUpdated())
+            ->setUrl($model->getUrl())
+            ->setUuid($model->getUuid());
+
+        if ($this->getParent() instanceof DoctrineAsset) {
+            $this->setParent($this->fromModel($model->getParent()));
+        }
+
+        foreach ($model->getChildren() as $child) {
+            $this->addChild(
+                $this->fromModel($child)
+            );
+        }
+
+        return $this;
     }
 }

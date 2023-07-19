@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace App\Data\Entities\Doctrine;
 
+use App\Data\Entities\Contracts\ModelCoercionInterface;
 use App\Data\Entities\Doctrine\Traits\TimestampsTrait;
 use App\Data\Entities\Doctrine\Traits\UuidTrait;
+use App\Domain\Models\Account;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
-
 use DateTime;
-use JsonSerializable;
 
 
 #[Entity, Table(name: 'accounts'), HasLifecycleCallbacks]
-class DoctrineAccount implements JsonSerializable
+class DoctrineAccount implements ModelCoercionInterface
 {
     use TimestampsTrait;
     use UuidTrait;
@@ -89,36 +89,24 @@ class DoctrineAccount implements JsonSerializable
         return $this->role;
     }
 
-    /**
-     * Set the value of username.
-     *
-     * @param mixed $username
-     */
-    public function setUsername($username): self
+
+    public function setUsername(string $username): self
     {
         $this->username = $username;
 
         return $this;
     }
 
-    /**
-     * Set the value of password.
-     *
-     * @param mixed $password
-     */
-    public function setPassword($password): self
+
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
         return $this;
     }
 
-    /**
-     * Set the value of role.
-     *
-     * @param mixed $role
-     */
-    public function setRole($role): self
+
+    public function setRole(string $role): self
     {
         $this->role = $role;
 
@@ -132,30 +120,25 @@ class DoctrineAccount implements JsonSerializable
         return $this;
     }
 
-    /**
-     * Set the value of email.
-     *
-     * @param mixed $email
-     */
-    public function setEmail($email): self
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 
         return $this;
     }
 
-    /** @return array */
-    public function jsonSerialize(): mixed
+    public function toModel(): Account
     {
-        return [
-            'id' => $this->id,
-            'email' => $this->email,
-            'username' => $this->username,
-            'password' => $this->password,
-            'role' => $this->role,
-            'auth_type' => $this->authType,
-            'created_at' => $this->createdAt,
-            'updated' => $this->updated,
-        ];
+        return new Account(
+            null,
+            $this->email,
+            $this->username,
+            $this->password,
+            $this->authType,
+            $this->uuid,
+            $this->role,
+            $this->createdAt,
+            $this->updated
+        );
     }
 }

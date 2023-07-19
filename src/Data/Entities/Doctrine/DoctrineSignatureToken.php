@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Data\Entities\Doctrine;
 
+use App\Data\Entities\Contracts\ModelCoercionInterface;
+use App\Data\Entities\Contracts\ModelParsingInterface;
 use App\Data\Entities\Doctrine\Traits\TimestampsTrait;
+use App\Domain\Models\Security\SignatureToken;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping\OneToOne;
@@ -16,11 +19,10 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 
 use DateInterval;
-use JsonSerializable;
 
 
 #[Entity, Table(name: 'signature_tokens'), HasLifecycleCallbacks]
-class DoctrineSignatureToken implements JsonSerializable
+class DoctrineSignatureToken implements ModelCoercionInterface, ModelParsingInterface
 {
     use TimestampsTrait;
 
@@ -28,10 +30,10 @@ class DoctrineSignatureToken implements JsonSerializable
     protected $id;
 
     #[Column(type: 'text', nullable: false)]
-    private string $signature;
+    private ?string $signature;
 
     #[Column(type: 'text', nullable: false)]
-    private string $privateKey;
+    private ?string $privateKey;
 
     #[Column(type: 'datetime', name: 'time_to_live')]
     private DateTimeInterface $ttl;
@@ -39,16 +41,8 @@ class DoctrineSignatureToken implements JsonSerializable
     #[OneToOne(targetEntity: DoctrineMuseum::class)]
     private ?DoctrineMuseum $museum;
 
-    public function __construct(
-        ?int $id,
-        string $signature,
-        string $privateKey,
-        ?DoctrineMuseum $museum,
-    ) {
-        $this->id = $id;
-        $this->signature = $signature;
-        $this->privateKey = $privateKey;
-        $this->museum = $museum;
+    public function __construct()
+    {
         $currentDate = new DateTimeImmutable();
         $this->createdAt = $currentDate;
         $this->updated = $currentDate;
@@ -112,6 +106,32 @@ class DoctrineSignatureToken implements JsonSerializable
     public function setMuseum(DoctrineMuseum $museum): self
     {
         $this->museum = $museum;
+
+        return $this;
+    }
+
+    public function toModel(): SignatureToken
+    {
+        $createdAt = DateTimeImmutable::createFromInterface($this->getCreatedAt());
+
+        return new SignatureToken(
+            id: $this->getId(),
+            signature: $this->getSignature(),
+            privateKey: $this->getPrivateKey(),
+            museum: $this->getMuseum(),
+            createdAt: $createdAt,
+            updated: $this->getUpdated(),
+            ttl: $createdAt->add(new DateInterval('P6M')),
+        );
+    }
+
+    /** @param SignatureToken $model */
+    function fromModel(object $model): static
+    {
+        $this->id = $model->id;
+        $this->signature = $model->signature;
+        $this->privateKey = $model->privateKey;
+        $this->museum = $model->museum;
 
         return $this;
     }

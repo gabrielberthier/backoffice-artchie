@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace App\Data\Entities\Doctrine;
 
+use App\Data\Entities\Contracts\ModelCoercionInterface;
+use App\Data\Entities\Contracts\ModelParsingInterface;
 use App\Data\Entities\Doctrine\Traits\TimestampsTrait;
 use App\Data\Entities\Doctrine\Traits\UuidTrait;
+use App\Domain\Models\Assets\AbstractAsset;
+use App\Domain\Models\Marker\Marker;
+use App\Domain\Models\PlacementObject\PlacementObject;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
@@ -16,8 +21,12 @@ use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 
+/**
+ * @implements ModelParsingInterface<PlacementObject>
+ * @implements ModelCoercionInterface<PlacementObject>
+ */
 #[Entity, Table(name: "placement_objects"), HasLifecycleCallbacks]
-class DoctrinePlacementObject
+class DoctrinePlacementObject implements ModelParsingInterface, ModelCoercionInterface
 {
     use TimestampsTrait;
     use UuidTrait;
@@ -26,7 +35,7 @@ class DoctrinePlacementObject
     protected ?int $id;
 
     #[Column(type: "string")]
-    private string $name;
+    private ?string $name;
 
     #[Column(type: "boolean")]
     private bool $isActive = true;
@@ -99,12 +108,12 @@ class DoctrinePlacementObject
         return $this;
     }
 
-    public function getMarker(): DoctrineMarker
+    public function getMarker(): ?DoctrineMarker
     {
         return $this->marker;
     }
 
-    public function setMarker(DoctrineMarker $marker): self
+    public function setMarker(?DoctrineMarker $marker): self
     {
         $this->marker = $marker;
 
@@ -138,5 +147,46 @@ class DoctrinePlacementObject
     public function getMediaAsset(): ?DoctrineAsset
     {
         return $this->asset?->getAsset();
+    }
+
+    public function toModel(): PlacementObject
+    {
+        $asset = $this->getAsset()?->getAsset()?->toModel();
+
+        return new PlacementObject(
+            id: $this->id,
+            name: $this->name,
+            isActive: $this->isActive,
+            marker: $this->marker?->toModel(),
+            createdAt: $this->createdAt,
+            updated: $this->updated,
+            uuid: $this->uuid,
+            asset: $asset,
+        );
+    }
+
+    /** @param PlacementObject $model */
+    public function fromModel(object $model): static
+    {
+        $this->createdAt = $model->createdAt;
+        $this->id = $model->id;
+        $this->isActive = $model->isActive;
+        $this->name = $model->name;
+        $this->updated = $model->updated;
+        $this->uuid = $model->uuid;
+
+        if ($model->asset instanceof AbstractAsset) {
+            $doctrineAsset = new DoctrineAsset();
+            $doctrineAsset->fromModel($model->asset);
+            $doctrinePosedAsset = new DoctrinePosedAsset($this, $doctrineAsset);
+            $this->setAsset($doctrinePosedAsset);
+        }
+
+        if ($model->marker instanceof Marker) {
+            $doctrineMarker = new DoctrineMarker();
+            $this->setMarker($doctrineMarker->fromModel($model->marker));
+        }
+
+        return $this;
     }
 }

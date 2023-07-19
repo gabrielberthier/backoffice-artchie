@@ -2,7 +2,6 @@
 
 namespace App\Domain\Repositories\PersistenceOperations;
 
-use App\Domain\Contracts\ModelInterface;
 
 interface UpdateOperationInterface
 {

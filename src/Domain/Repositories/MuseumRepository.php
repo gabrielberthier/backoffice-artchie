@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Repositories;
 
-use App\Domain\Contracts\ModelInterface;
-use App\Domain\Exceptions\Museum\MuseumAlreadyRegisteredException;
 use App\Domain\Models\Museum;
 use App\Domain\Repositories\PersistenceOperations\Responses\ResultSetInterface;
 
@@ -22,8 +20,6 @@ interface MuseumRepository
      *
      * @throws MuseumAlreadyRegisteredException
      */
-    public function insert(ModelInterface $model): bool;
-
     public function add(Museum $model): bool;
 
     public function remove(int $museum): ?Museum;

@@ -2,7 +2,6 @@
 
 namespace App\Domain\Repositories\PersistenceOperations;
 
-use App\Domain\Contracts\ModelInterface;
 use App\Domain\Repositories\PersistenceOperations\Responses\ResultSetInterface;
 
 interface ReadOperationInterface

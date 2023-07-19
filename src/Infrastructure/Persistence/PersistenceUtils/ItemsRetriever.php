@@ -4,7 +4,7 @@ namespace App\Infrastructure\Persistence\PersistenceUtils;
 
 use App\Domain\Repositories\PersistenceOperations\Responses\ResultSetInterface;
 use App\Domain\Repositories\PersistenceOperations\Responses\SearchResult;
-use App\Infrastructure\Persistence\Pagination\PaginationService;
+use App\Infrastructure\Persistence\Doctrine\Pagination\PaginationService;
 use Doctrine\ORM\EntityManagerInterface as EntityManager;
 
 class ItemsRetriever
@@ -19,8 +19,7 @@ class ItemsRetriever
             $query = $this->em
                 ->createQueryBuilder()
                 ->select('m')
-                ->from($className, 'm')
-            ;
+                ->from($className, 'm');
 
             $pagination = new PaginationService($query);
 

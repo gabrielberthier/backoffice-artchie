@@ -6,6 +6,7 @@ use App\Domain\Dto\AccountDto;
 use App\Domain\Dto\TokenLoginResponse;
 use App\Domain\Repositories\AccountRepository;
 use App\Data\Protocols\Auth\SignUpServiceInterface;
+use App\Domain\Factories\TokenResponseFactory;
 
 class SignUp implements SignUpServiceInterface
 {
@@ -22,6 +23,6 @@ class SignUp implements SignUpServiceInterface
     {
         $account = $this->accountRepository->insert($accountDto);
 
-        return new TokenLoginResponse($account);
+        return TokenResponseFactory::createToken($account);
     }
 }

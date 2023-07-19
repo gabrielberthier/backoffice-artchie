@@ -75,5 +75,5 @@ abstract class AbstractRepository implements CrudOperationsInterface
   /**
    * @param T
    */
-  public abstract function insert(ModelInterface $model): bool;
+  public abstract function insert(ModelInterface $model): void;
 }

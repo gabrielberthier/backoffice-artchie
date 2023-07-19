@@ -19,6 +19,8 @@ use Slim\Exception\HttpUnauthorizedException;
 use Slim\Handlers\ErrorHandler as SlimErrorHandler;
 use Throwable;
 
+use function Core\functions\mode;
+
 class HttpErrorHandler extends SlimErrorHandler
 {
     /**
@@ -33,14 +35,16 @@ class HttpErrorHandler extends SlimErrorHandler
             'An internal error has occurred while processing your request.'
         );
 
-        $this->logError($exception->getTraceAsString());
-        $this->logError($exception->getMessage());
+
+
+        $this->customLogError($exception->getTraceAsString());
+        $this->customLogError($exception->getMessage());
 
         if ($exception instanceof HttpException) {
             $statusCode = $exception->getCode();
             $error->setDescription($exception->getMessage());
 
-            $this->logError($exception->getMessage());
+            $this->customLogError($exception->getMessage());
 
             $errorType = match (true) {
                 $exception instanceof HttpNotFoundException => ActionError::RESOURCE_NOT_FOUND,
@@ -71,5 +75,14 @@ class HttpErrorHandler extends SlimErrorHandler
         $response->getBody()->write($encodedPayload);
 
         return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    private function customLogError(string $error)
+    {
+        if (mode() === "TEST") {
+            return;
+        }
+
+        $this->logError($error);
     }
 }

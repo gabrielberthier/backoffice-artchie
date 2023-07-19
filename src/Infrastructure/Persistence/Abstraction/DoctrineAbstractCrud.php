@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Infrastructure\Persistence\Abstraction;
 
 use App\Domain\Contracts\ModelInterface;
@@ -7,7 +8,9 @@ use Doctrine\ORM\EntityManagerInterface as EntityManager;
 use App\Infrastructure\Persistence\Contracts\RepositoryInterface;
 
 /**
- * @template T of object
+ * @template T
+ * 
+ * @extends AbstractRepository<T>
  */
 abstract class DoctrineAbstractCrud extends AbstractRepository
 {
@@ -20,7 +23,6 @@ abstract class DoctrineAbstractCrud extends AbstractRepository
         $repository = $this->em->getRepository($this->entity());
 
         return new DoctrineTargetRepository($repository);
-
     }
 
     /**
@@ -40,15 +42,14 @@ abstract class DoctrineAbstractCrud extends AbstractRepository
         }
 
         return $subject;
-
     }
 
-    public function insert(ModelInterface $model): bool
+    /**
+     * @param T $model
+     */
+    public function insert(object $model): void
     {
         $this->em->persist($model);
         $this->em->flush();
-
-        return true;
-
     }
 }
