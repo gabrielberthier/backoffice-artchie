@@ -130,7 +130,7 @@ class DoctrineAccount implements ModelCoercionInterface
     public function toModel(): Account
     {
         return new Account(
-            null,
+            $this->id,
             $this->email,
             $this->username,
             $this->password,

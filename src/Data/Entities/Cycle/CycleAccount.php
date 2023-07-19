@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Data\Entities\Cycle;
 
-
+use App\Data\Entities\Contracts\ModelCoercionInterface;
 use App\Data\Entities\Cycle\Traits\UuidTrait;
+use App\Domain\Models\Account;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Table\Index;
@@ -26,7 +27,7 @@ use JsonSerializable;
 )]
 #[Index(columns: ['username'], unique: true)]
 #[Index(columns: ['email'], unique: true)]
-class CycleAccount implements JsonSerializable
+class CycleAccount implements ModelCoercionInterface
 {
     use UuidTrait;
 
@@ -146,19 +147,18 @@ class CycleAccount implements JsonSerializable
         return $this->updated;
     }
 
-    /** @return array */
-    public function jsonSerialize(): mixed
+    public function toModel(): Account
     {
-        return [
-            'id' => $this->id,
-            'uuid' => $this->uuid,
-            'email' => $this->email,
-            'username' => $this->username,
-            'password' => $this->password,
-            'role' => $this->role,
-            'auth_type' => $this->authType,
-            'created_at' => $this->createdAt,
-            'updated' => $this->updated,
-        ];
+        return new Account(
+            $this->id,
+            $this->email,
+            $this->username,
+            $this->password,
+            $this->authType,
+            $this->uuid,
+            $this->role,
+            $this->createdAt,
+            $this->updated
+        );
     }
 }

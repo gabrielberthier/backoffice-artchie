@@ -1,3 +1,4 @@
 {
-    "editor.fontFamily": "Fira Code Retina"
+    "editor.fontFamily": "Fira Code Retina",
+    "php.suggest.basic": false
 }

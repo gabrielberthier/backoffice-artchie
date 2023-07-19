@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Presentation\Middleware;
 
-use App\Data\Protocols\AsymCrypto\AsymmetricVerifier;
 use App\Domain\Repositories\MuseumRepository;
 use App\Domain\Repositories\SignatureTokenRetrieverInterface;
 use Psr\Http\Message\ResponseInterface as Response;

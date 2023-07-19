@@ -17,7 +17,7 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 class CycleAccountRepository implements AccountRepository
 {
     private EntityManager $em;
-    public function __construct(private ORM $orm, private AccountBridge $accountBridge)
+    public function __construct(private ORM $orm)
     {
         $this->em = new EntityManager($this->orm);
     }
@@ -28,21 +28,21 @@ class CycleAccountRepository implements AccountRepository
 
         $cycleAccount = $this->repository()->findOne([$findBy => $access]);
 
-        return $this->accountBridge->toModel($cycleAccount);
+        return $cycleAccount?->toModel();
     }
 
     public function findByMail(string $mail): ?Account
     {
         $cycleAccount = $this->repository()->findOne(['email' => $mail]);
 
-        return $this->accountBridge->toModel($cycleAccount);
+        return $cycleAccount?->toModel();
     }
 
     public function findByUUID(string $uuid): ?Account
     {
         $cycleAccount = $this->repository()->findOne(['uuid' => $uuid]);
 
-        return $this->accountBridge->toModel($cycleAccount);
+        return $cycleAccount?->toModel();
     }
 
     public function findWithAuthType(string $email, AuthTypes $authType): ?Account
@@ -54,7 +54,7 @@ class CycleAccountRepository implements AccountRepository
             ]
         );
 
-        return $this->accountBridge->toModel($cycleAccount);
+        return $cycleAccount?->toModel();
     }
 
     public function insert(AccountDto $accountDto): Account
@@ -69,12 +69,15 @@ class CycleAccountRepository implements AccountRepository
 
             $this->em->run();
 
-            return $this->accountBridge->toModel($account);
+            return $account?->toModel();
         } catch (UniqueConstraintViolationException) {
             throw new UserAlreadyRegisteredException();
         }
     }
 
+    /**
+     * @return RepositoryInterface<CycleAccount>
+     */
     private function repository(): RepositoryInterface
     {
         return $this->orm->getRepository(CycleAccount::class);
