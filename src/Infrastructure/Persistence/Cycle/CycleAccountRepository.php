@@ -8,11 +8,10 @@ use App\Domain\Exceptions\Account\UserAlreadyRegisteredException;
 use App\Domain\Models\Account;
 use App\Domain\Models\Enums\AuthTypes;
 use App\Domain\Repositories\AccountRepository;
-use App\Infrastructure\ModelBridge\AccountBridge;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\ORM;
 use Cycle\ORM\RepositoryInterface;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Cycle\Database\Exception\StatementException\ConstrainException;
 
 class CycleAccountRepository implements AccountRepository
 {
@@ -70,7 +69,7 @@ class CycleAccountRepository implements AccountRepository
             $this->em->run();
 
             return $account?->toModel();
-        } catch (UniqueConstraintViolationException) {
+        } catch (ConstrainException) {
             throw new UserAlreadyRegisteredException();
         }
     }

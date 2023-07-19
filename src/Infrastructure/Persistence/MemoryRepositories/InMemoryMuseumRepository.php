@@ -15,7 +15,7 @@ use Ramsey\Uuid\Uuid;
 
 class InMemoryMuseumRepository implements MuseumRepository
 {
-    private Collection $museums = [];
+    private readonly Collection $museums;
 
     public function __construct()
     {
