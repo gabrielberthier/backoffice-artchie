@@ -51,6 +51,9 @@ class AccountTest extends TestCase
         $entityManager->clear();
     }
 
+    /**
+     * @group doctrine
+     */
     public function testShouldInsertAccount()
     {
         $account = new AccountDto(email: 'mail.com', username: 'user', password: 'pass');
@@ -60,6 +63,9 @@ class AccountTest extends TestCase
         assertSame($total, 1);
     }
 
+    /**
+     * @group doctrine
+     */
     public function testShouldRetrieveAccount()
     {
         $account = new AccountDto(email: 'mail.com', username: 'user', password: 'pass');

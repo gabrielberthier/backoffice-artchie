@@ -48,32 +48,32 @@ class InMemoryAccountRepository implements AccountRepository
 
     public function findByMail(string $mail): ?Account
     {
-        return $this->accounts->findFirst(fn (Account $el) => $el->email === $mail);
+        return $this->accounts->findFirst(fn(Account $el) => $el->email === $mail);
     }
 
     public function findByAccess(string $access): ?Account
     {
         $findBy = filter_var($access, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-        return $this->accounts->findFirst(fn (Account $el) => $el->$findBy === $access);
+        return $this->accounts->findFirst(fn(Account $el) => $el->$findBy === $access);
     }
 
     public function findByUUID(string $uuid): ?Account
     {
-        return $this->accounts->findFirst(fn (Account $el) => $el->uuid->equals(Uuid::fromString($uuid)));
+        return $this->accounts->findFirst(fn(Account $el) => $el->uuid->equals(Uuid::fromString($uuid)));
     }
 
     public function findWithAuthType(string $email, AuthTypes $authType): ?Account
     {
         return $this->accounts->findFirst(
-            fn (Account $el) => $el->email === $email && $el->authType === $authType->value
+            fn(Account $el) => $el->email === $email && $el->authType === $authType->value
         );
     }
 
     /**
      * Inserts a user account.
      *
-     * @throws UserAlreadyRegisteredException
+     * @throws \App\Domain\Exceptions\Account\UserAlreadyRegisteredException
      */
     public function insert(AccountDto $account): Account
     {

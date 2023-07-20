@@ -56,6 +56,9 @@ class MarkerRepositoryTest extends TestCase
         $entityManager->clear();
     }
 
+    /**
+     * @group doctrine
+     */
     public function testShouldInsertMarker()
     {
         $marker = new Marker(
@@ -72,6 +75,9 @@ class MarkerRepositoryTest extends TestCase
         assertSame($total, 1);
     }
 
+    /**
+     * @group doctrine
+     */
     public function testShouldRetrieveMarker()
     {
         $marker = new Marker(
@@ -91,6 +97,9 @@ class MarkerRepositoryTest extends TestCase
         assertInstanceOf(DoctrineMarker::class, $new_marker);
     }
 
+    /**
+     * @group doctrine
+     */
     public function testShouldInsertMarkerWithAsset()
     {
         $asset = new PictureAsset();
@@ -120,6 +129,9 @@ class MarkerRepositoryTest extends TestCase
         assertInstanceOf(DoctrineMarkerAsset::class, $new_asset);
     }
 
+    /**
+     * @group doctrine
+     */
     public function testShouldInsertMarkerWithResources()
     {
         $marker = new Marker(

@@ -11,14 +11,18 @@ use App\Domain\Repositories\MarkerRepositoryInterface;
 use App\Domain\Repositories\PersistenceOperations\Responses\PaginationResponse;
 use App\Domain\Repositories\PersistenceOperations\Responses\ResultSetInterface;
 use App\Domain\Repositories\PersistenceOperations\Responses\SearchResult;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
 
 class InMemoryMarkerRepository implements MarkerRepositoryInterface
 {
-    private readonly array $markers;
+    /** @var Collection<Marker> */
+    private readonly Collection $markers;
 
     public function __construct()
     {
-        $this->markers = [];
+        $this->markers = new ArrayCollection();
     }
 
     /**
@@ -26,7 +30,7 @@ class InMemoryMarkerRepository implements MarkerRepositoryInterface
      */
     public function findAll(): array
     {
-        return array_values($this->markers);
+        return $this->markers->toArray();
     }
 
     /**
@@ -34,14 +38,12 @@ class InMemoryMarkerRepository implements MarkerRepositoryInterface
      */
     public function findByID(int $id): ?Marker
     {
-        $all = $this->findAll();
-
-        return $all[$id] ?? null;
+        return $this->markers->get($id);
     }
 
     public function add(Marker $model): bool
     {
-        $this->markers[] = $model;
+        $this->markers->add($model);
 
         return true;
     }
@@ -55,14 +57,15 @@ class InMemoryMarkerRepository implements MarkerRepositoryInterface
     public function findAllByMuseum(int|Museum $museum, bool $paginate = false, $page = 1, $limit = 20): ResultSetInterface
     {
         if ($paginate) {
-            $count = count($this->markers);
+            $count = $this->markers->count();
             $offset = $page * $limit;
-            $items = array_slice($this->markers, $offset, $limit, true);
+            // $items = array_slice($this->markers, (int) $offset, $limit, true);
+            $items = $this->markers->slice((int) $offset, $limit);
 
             return new PaginationResponse($count, (int) ceil($count / $limit), !!count($items), $items);
         }
 
-        return new SearchResult($this->markers);
+        return new SearchResult($this->markers->toArray());
     }
 
 
@@ -87,24 +90,12 @@ class InMemoryMarkerRepository implements MarkerRepositoryInterface
 
     public function delete(ModelInterface|int $subject): ?Marker
     {
-        $key = $subject;
-
         if (!is_int($subject)) {
-            /** @var ?Marker */
-            $el = array_search($subject, $this->markers);
-            if ($el === null) {
-                return null;
-            }
-            $key = $el->id;
+            $jsonId = $subject->jsonSerialize()['id'];
+
+            return $this->markers->remove($jsonId);
         }
 
-        if (!isset($this->markers[$key]) && !array_key_exists($key, $this->markers)) {
-            return null;
-        }
-
-        $removed = $this->markers[$key];
-        unset($this->markers[$key]);
-
-        return $removed;
+        return $this->markers->remove($subject);
     }
 }

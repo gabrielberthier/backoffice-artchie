@@ -16,6 +16,10 @@ use Cycle\Annotated;
 use Cycle\ORM;
 use Cycle\ORM\Entity\Behavior\EventDrivenCommandGenerator;
 use Cycle\ORM\EntityManager as CycleEntityManager;
+use Cycle\Database\Config\DriverConfig;
+use function Core\functions\inTesting;
+
+
 
 return [
     EntityManagerInterface::class => static fn(
@@ -25,28 +29,39 @@ return [
     ),
 
     DatabaseManager::class => static function (ContainerInterface $container): DatabaseManager {
-        $connectorFacade = new ConnectorFacade(
-            connection: $container->get("connection")
-        );
+        $getProductionConnection = static function (ContainerInterface $container): ?DriverConfig {
+            if (!inTesting()) {
+                $connectorFacade = new ConnectorFacade(
+                    connection: $container->get("connection"),
+                    connectionOptions: []
+                );
 
-        // Configure connector as you wish
-        $connectorFacade
-            ->configureFactory()
-            ->withQueryCache(true)
-            ->withSchema("public");
+                // Configure connector as you wish
+                $connectorFacade
+                    ->configureFactory()
+                    ->withQueryCache(true)
+                    ->withSchema("public");
+
+                return $connectorFacade->produceDriverConnection(
+                    driverOptions: []
+                );
+            }
+
+            return null;
+        };
 
         return new DatabaseManager(
             new DatabaseConfig([
                 "default" => "default",
                 "databases" => [
-                    "default" => ["connection" => "production"],
+                    "default" => ["connection" => inTesting() ? "sqlite" : "production"],
                 ],
                 "connections" => [
                     "sqlite" => new Config\SQLiteDriverConfig(
                         connection: new Config\SQLite\MemoryConnectionConfig(),
                         queryCache: true
                     ),
-                    "production" => $connectorFacade->produceDriverConnection(),
+                    "production" => $getProductionConnection($container),
                 ],
             ])
         );
@@ -57,7 +72,6 @@ return [
         $classLocator = new ClassLocator($finder);
         $database = $container->get(DatabaseManager::class);
         $schemaCompiler = new Schema\Compiler();
-
 
         $schema = $schemaCompiler->compile(new Schema\Registry($database), [
             new Schema\Generator\ResetTables(),
@@ -96,5 +110,8 @@ return [
         return $orm;
     },
 
-    CycleEntityManager::class => static fn(ContainerInterface $container) => new CycleEntityManager($container->get(ORM\ORM::class))
+    CycleEntityManager::class =>
+    static fn(ContainerInterface $container) => new CycleEntityManager(
+        $container->get(ORM\ORM::class)
+    )
 ];

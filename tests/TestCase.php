@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Core\Data\BehaviourComponents\DatabaseCleaner;
+use Core\Data\BehaviourComponents\DatabaseCreator;
 use Doctrine\ORM\EntityManagerInterface as EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use PHPUnit\Framework\TestCase as PHPUnit_TestCase;
@@ -28,20 +30,16 @@ class TestCase extends PHPUnit_TestCase
     public static function createDatabase()
     {
         $container = self::requireContainer();
-        /** @var EntityManager */
-        $entityManager = $container->get(EntityManager::class);
-        $metadatas = $entityManager->getMetadataFactory()->getAllMetadata();
-        $schemaTool = new SchemaTool($entityManager);
-        $schemaTool->updateSchema($metadatas);
+
+        DatabaseCreator::create($container);
     }
 
     final public static function truncateDatabase()
     {
-        /** @var \Psr\Container\ContainerInterface */
         $container = self::requireContainer();
-        /** @var EntityManager */
-        $entityManager = $container->get(EntityManager::class);
-        $schemaTool = new SchemaTool($entityManager);
-        $schemaTool->dropDatabase();
+
+        DatabaseCleaner::truncate($container);
     }
+
+
 }

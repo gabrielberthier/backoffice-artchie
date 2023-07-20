@@ -42,3 +42,9 @@ exec-rr:
 
 migrate:
 	docker compose exec ${CONTAINER} sh -c "vendor/bin/doctrine-migrations migrate;" 
+
+test:
+	composer run test --exclude doctrine
+
+doctrine-test:
+	composer run test --group doctrine

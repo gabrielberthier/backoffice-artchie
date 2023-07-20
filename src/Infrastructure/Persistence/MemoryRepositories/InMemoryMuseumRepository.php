@@ -61,18 +61,18 @@ class InMemoryMuseumRepository implements MuseumRepository
 
     public function findByName(string $name): ?Museum
     {
-        return $this->museums->findFirst(fn (Museum $el) => $el->name === $name);
+        return $this->museums->findFirst(fn(Museum $el) => $el->name === $name);
     }
 
     public function findByUUID(string $uuid): ?Museum
     {
-        return $this->museums->findFirst(fn (Museum $el) => $el->uuid->equals(Uuid::fromString($uuid)));
+        return $this->museums->findFirst(fn(Museum $el) => $el->uuid->equals(Uuid::fromString($uuid)));
     }
 
     /**
      * Inserts a museum model.
      *
-     * @throws MuseumAlreadyRegisteredException
+     * @throws \App\Domain\Exceptions\Museum\MuseumAlreadyRegisteredException
      */
     public function add(Museum $model): bool
     {
@@ -91,7 +91,9 @@ class InMemoryMuseumRepository implements MuseumRepository
         if ($paginate) {
             $count = $this->museums->count();
 
-            $items = $this->museums->slice($page * $limit, $limit);
+            $offset = $page * $limit;
+
+            $items = $this->museums->slice((int) $offset, $limit);
 
             return new PaginationResponse($count, (int) ceil($count / $limit), !!count($items), $items);
         }

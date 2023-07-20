@@ -69,6 +69,17 @@ if (!function_exists('mode')) {
 /**
  * Provides information about the system's mode, whether it is in production mode or not.
  */
+if (!function_exists('inTesting')) {
+    function inTesting()
+    {
+        $mode = $_ENV['MODE'] ?? '';
+        return $mode === 'TEST';
+    }
+}
+
+/**
+ * Provides information about the system's mode, whether it is in production mode or not.
+ */
 if (!function_exists('isProd')) {
     function isProd()
     {
