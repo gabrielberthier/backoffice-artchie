@@ -100,3 +100,119 @@
 [2023-07-20T19:14:41.850681+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"bf250db"}
 [2023-07-20T19:14:42.028762+00:00] slim-app.WARNING: Token not found [] {"uid":"c60e046"}
 [2023-07-20T19:14:42.160593+00:00] slim-app.WARNING: Token not found [] {"uid":"3734313"}
+[2023-07-20T19:25:06.580637+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"57d5fbb"}
+[2023-07-20T19:25:07.033296+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"818cc1a"}
+[2023-07-20T19:25:11.863137+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"5feb206"}
+[2023-07-20T19:25:12.030858+00:00] slim-app.WARNING: Token not found [] {"uid":"e03fce1"}
+[2023-07-20T19:25:12.196104+00:00] slim-app.WARNING: Token not found [] {"uid":"c44a148"}
+[2023-07-20T19:30:18.002292+00:00] slim-app.ERROR: #0 /var/www/src/Presentation/Actions/Protocols/Action.php(43): App\Presentation\Actions\Protocols\Action->validate(Object(Nyholm\Psr7\ServerRequest)) #1 /var/www/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(38): App\Presentation\Actions\Protocols\Action->__invoke(Object(Nyholm\Psr7\ServerRequest), Object(Slim\Psr7\Response), Array) #2 /var/www/vendor/slim/slim/Slim/Routing/Route.php(358): Slim\Handlers\Strategies\RequestResponse->__invoke(Array, Object(Nyholm\Psr7\ServerRequest), Object(Slim\Psr7\Response), Array) #3 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(65): Slim\Routing\Route->handle(Object(Nyholm\Psr7\ServerRequest)) #4 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(65): Slim\MiddlewareDispatcher->handle(Object(Nyholm\Psr7\ServerRequest)) #5 /var/www/vendor/slim/slim/Slim/Routing/Route.php(315): Slim\MiddlewareDispatcher->handle(Object(Nyholm\Psr7\ServerRequest)) #6 /var/www/vendor/slim/slim/Slim/Routing/RouteRunner.php(68): Slim\Routing\Route->run(Object(Nyholm\Psr7\ServerRequest)) #7 /var/www/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Slim\Routing\RouteRunner->handle(Object(Nyholm\Psr7\ServerRequest)) #8 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(121): Slim\Middleware\RoutingMiddleware->process(Object(Nyholm\Psr7\ServerRequest), Object(Slim\Routing\RouteRunner)) #9 /var/www/vendor/middlewares/trailing-slash/src/TrailingSlash.php(56): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Nyholm\Psr7\ServerRequest)) #10 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(121): Middlewares\TrailingSlash->process(Object(Nyholm\Psr7\ServerRequest), Object(Psr\Http\Server\RequestHandlerInterface@anonymous)) #11 /var/www/src/Presentation/Middleware/SessionMiddleware.php(23): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Nyholm\Psr7\ServerRequest)) #12 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(168): App\Presentation\Middleware\SessionMiddleware->process(Object(Nyholm\Psr7\ServerRequest), Object(Psr\Http\Server\RequestHandlerInterface@anonymous)) #13 /var/www/app/Http/Middlewares/Jwt/JwtAuthentication.php(132): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Nyholm\Psr7\ServerRequest)) #14 /var/www/src/Presentation/Middleware/JWTAuthMiddleware.php(41): Core\Http\Middlewares\Jwt\JwtAuthentication->process(Object(Nyholm\Psr7\ServerRequest), Object(Psr\Http\Server\RequestHandlerInterface@anonymous)) #15 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(168): App\Presentation\Middleware\JWTAuthMiddleware->process(Object(Nyholm\Psr7\ServerRequest), Object(Psr\Http\Server\RequestHandlerInterface@anonymous)) #16 /var/www/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Nyholm\Psr7\ServerRequest)) #17 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(168): Slim\Middleware\BodyParsingMiddleware->process(Object(Nyholm\Psr7\ServerRequest), Object(Psr\Http\Server\RequestHandlerInterface@anonymous)) #18 /var/www/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(76): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Nyholm\Psr7\ServerRequest)) #19 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(121): Slim\Middleware\ErrorMiddleware->process(Object(Nyholm\Psr7\ServerRequest), Object(Psr\Http\Server\RequestHandlerInterface@anonymous)) #20 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(65): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Nyholm\Psr7\ServerRequest)) #21 /var/www/vendor/slim/slim/Slim/App.php(199): Slim\MiddlewareDispatcher->handle(Object(Nyholm\Psr7\ServerRequest)) #22 /var/www/worker.php(34): Slim\App->handle(Object(Nyholm\Psr7\ServerRequest)) #23 {main} [] {"uid":"63086af"}
+[2023-07-20T19:30:18.052466+00:00] slim-app.ERROR: [email]: email is empty [username]: username is empty [passwordConfirmation]: passwordConfirmation is empty [] {"uid":"63086af"}
+[2023-07-20T19:30:18.052657+00:00] slim-app.ERROR: [email]: email is empty [username]: username is empty [passwordConfirmation]: passwordConfirmation is empty [] {"uid":"63086af"}
+[2023-07-20T19:30:42.869889+00:00] slim-app.ERROR: #0 /var/www/src/Presentation/Actions/Protocols/Action.php(47): App\Domain\Exceptions\Account\UserAlreadyRegisteredException->wire(Object(Nyholm\Psr7\ServerRequest)) #1 /var/www/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(38): App\Presentation\Actions\Protocols\Action->__invoke(Object(Nyholm\Psr7\ServerRequest), Object(Slim\Psr7\Response), Array) #2 /var/www/vendor/slim/slim/Slim/Routing/Route.php(358): Slim\Handlers\Strategies\RequestResponse->__invoke(Array, Object(Nyholm\Psr7\ServerRequest), Object(Slim\Psr7\Response), Array) #3 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(65): Slim\Routing\Route->handle(Object(Nyholm\Psr7\ServerRequest)) #4 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(65): Slim\MiddlewareDispatcher->handle(Object(Nyholm\Psr7\ServerRequest)) #5 /var/www/vendor/slim/slim/Slim/Routing/Route.php(315): Slim\MiddlewareDispatcher->handle(Object(Nyholm\Psr7\ServerRequest)) #6 /var/www/vendor/slim/slim/Slim/Routing/RouteRunner.php(68): Slim\Routing\Route->run(Object(Nyholm\Psr7\ServerRequest)) #7 /var/www/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Slim\Routing\RouteRunner->handle(Object(Nyholm\Psr7\ServerRequest)) #8 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(121): Slim\Middleware\RoutingMiddleware->process(Object(Nyholm\Psr7\ServerRequest), Object(Slim\Routing\RouteRunner)) #9 /var/www/vendor/middlewares/trailing-slash/src/TrailingSlash.php(56): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Nyholm\Psr7\ServerRequest)) #10 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(121): Middlewares\TrailingSlash->process(Object(Nyholm\Psr7\ServerRequest), Object(Psr\Http\Server\RequestHandlerInterface@anonymous)) #11 /var/www/src/Presentation/Middleware/SessionMiddleware.php(23): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Nyholm\Psr7\ServerRequest)) #12 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(168): App\Presentation\Middleware\SessionMiddleware->process(Object(Nyholm\Psr7\ServerRequest), Object(Psr\Http\Server\RequestHandlerInterface@anonymous)) #13 /var/www/app/Http/Middlewares/Jwt/JwtAuthentication.php(132): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Nyholm\Psr7\ServerRequest)) #14 /var/www/src/Presentation/Middleware/JWTAuthMiddleware.php(41): Core\Http\Middlewares\Jwt\JwtAuthentication->process(Object(Nyholm\Psr7\ServerRequest), Object(Psr\Http\Server\RequestHandlerInterface@anonymous)) #15 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(168): App\Presentation\Middleware\JWTAuthMiddleware->process(Object(Nyholm\Psr7\ServerRequest), Object(Psr\Http\Server\RequestHandlerInterface@anonymous)) #16 /var/www/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Nyholm\Psr7\ServerRequest)) #17 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(168): Slim\Middleware\BodyParsingMiddleware->process(Object(Nyholm\Psr7\ServerRequest), Object(Psr\Http\Server\RequestHandlerInterface@anonymous)) #18 /var/www/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(76): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Nyholm\Psr7\ServerRequest)) #19 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(121): Slim\Middleware\ErrorMiddleware->process(Object(Nyholm\Psr7\ServerRequest), Object(Psr\Http\Server\RequestHandlerInterface@anonymous)) #20 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(65): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Nyholm\Psr7\ServerRequest)) #21 /var/www/vendor/slim/slim/Slim/App.php(199): Slim\MiddlewareDispatcher->handle(Object(Nyholm\Psr7\ServerRequest)) #22 /var/www/worker.php(34): Slim\App->handle(Object(Nyholm\Psr7\ServerRequest)) #23 {main} [] {"uid":"b4d688b"}
+[2023-07-20T19:30:42.923523+00:00] slim-app.ERROR: O nome de usuário ou o email escolhido já foi utilizado [] {"uid":"b4d688b"}
+[2023-07-20T19:30:42.923755+00:00] slim-app.ERROR: O nome de usuário ou o email escolhido já foi utilizado [] {"uid":"b4d688b"}
+[2023-07-20T19:31:00.519364+00:00] slim-app.ERROR: #0 /var/www/src/Presentation/Actions/Protocols/Action.php(47): App\Domain\Exceptions\Account\UserAlreadyRegisteredException->wire(Object(Nyholm\Psr7\ServerRequest)) #1 /var/www/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(38): App\Presentation\Actions\Protocols\Action->__invoke(Object(Nyholm\Psr7\ServerRequest), Object(Slim\Psr7\Response), Array) #2 /var/www/vendor/slim/slim/Slim/Routing/Route.php(358): Slim\Handlers\Strategies\RequestResponse->__invoke(Array, Object(Nyholm\Psr7\ServerRequest), Object(Slim\Psr7\Response), Array) #3 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(65): Slim\Routing\Route->handle(Object(Nyholm\Psr7\ServerRequest)) #4 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(65): Slim\MiddlewareDispatcher->handle(Object(Nyholm\Psr7\ServerRequest)) #5 /var/www/vendor/slim/slim/Slim/Routing/Route.php(315): Slim\MiddlewareDispatcher->handle(Object(Nyholm\Psr7\ServerRequest)) #6 /var/www/vendor/slim/slim/Slim/Routing/RouteRunner.php(68): Slim\Routing\Route->run(Object(Nyholm\Psr7\ServerRequest)) #7 /var/www/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(45): Slim\Routing\RouteRunner->handle(Object(Nyholm\Psr7\ServerRequest)) #8 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(121): Slim\Middleware\RoutingMiddleware->process(Object(Nyholm\Psr7\ServerRequest), Object(Slim\Routing\RouteRunner)) #9 /var/www/vendor/middlewares/trailing-slash/src/TrailingSlash.php(56): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Nyholm\Psr7\ServerRequest)) #10 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(121): Middlewares\TrailingSlash->process(Object(Nyholm\Psr7\ServerRequest), Object(Psr\Http\Server\RequestHandlerInterface@anonymous)) #11 /var/www/src/Presentation/Middleware/SessionMiddleware.php(23): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Nyholm\Psr7\ServerRequest)) #12 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(168): App\Presentation\Middleware\SessionMiddleware->process(Object(Nyholm\Psr7\ServerRequest), Object(Psr\Http\Server\RequestHandlerInterface@anonymous)) #13 /var/www/app/Http/Middlewares/Jwt/JwtAuthentication.php(132): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Nyholm\Psr7\ServerRequest)) #14 /var/www/src/Presentation/Middleware/JWTAuthMiddleware.php(41): Core\Http\Middlewares\Jwt\JwtAuthentication->process(Object(Nyholm\Psr7\ServerRequest), Object(Psr\Http\Server\RequestHandlerInterface@anonymous)) #15 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(168): App\Presentation\Middleware\JWTAuthMiddleware->process(Object(Nyholm\Psr7\ServerRequest), Object(Psr\Http\Server\RequestHandlerInterface@anonymous)) #16 /var/www/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Nyholm\Psr7\ServerRequest)) #17 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(168): Slim\Middleware\BodyParsingMiddleware->process(Object(Nyholm\Psr7\ServerRequest), Object(Psr\Http\Server\RequestHandlerInterface@anonymous)) #18 /var/www/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(76): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Nyholm\Psr7\ServerRequest)) #19 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(121): Slim\Middleware\ErrorMiddleware->process(Object(Nyholm\Psr7\ServerRequest), Object(Psr\Http\Server\RequestHandlerInterface@anonymous)) #20 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(65): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Nyholm\Psr7\ServerRequest)) #21 /var/www/vendor/slim/slim/Slim/App.php(199): Slim\MiddlewareDispatcher->handle(Object(Nyholm\Psr7\ServerRequest)) #22 /var/www/worker.php(34): Slim\App->handle(Object(Nyholm\Psr7\ServerRequest)) #23 {main} [] {"uid":"34f0bdd"}
+[2023-07-20T19:31:00.581082+00:00] slim-app.ERROR: O nome de usuário ou o email escolhido já foi utilizado [] {"uid":"34f0bdd"}
+[2023-07-20T19:31:00.581288+00:00] slim-app.ERROR: O nome de usuário ou o email escolhido já foi utilizado [] {"uid":"34f0bdd"}
+[2023-07-20T19:35:18.246372+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"e90a473"}
+[2023-07-20T19:35:18.553308+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"ea68cb7"}
+[2023-07-20T19:35:22.521063+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"fa61ab8"}
+[2023-07-20T19:35:22.688104+00:00] slim-app.WARNING: Token not found [] {"uid":"5cdfa43"}
+[2023-07-20T19:35:22.829962+00:00] slim-app.WARNING: Token not found [] {"uid":"8188c28"}
+[2023-07-21T12:43:27.726875+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"2818938"}
+[2023-07-21T12:43:28.042314+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"9d80d97"}
+[2023-07-21T12:43:32.058331+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"e4e6827"}
+[2023-07-21T12:43:32.214498+00:00] slim-app.WARNING: Token not found [] {"uid":"d86d9fa"}
+[2023-07-21T12:43:32.355894+00:00] slim-app.WARNING: Token not found [] {"uid":"669e5a0"}
+[2023-08-04T15:39:11.266148+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"22a3490"}
+[2023-08-04T15:39:11.628000+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"ca72595"}
+[2023-08-04T15:40:24.408656+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"3351518"}
+[2023-08-04T15:40:24.733810+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"82daa5c"}
+[2023-08-04T15:40:29.365493+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"11b925c"}
+[2023-08-04T15:40:29.564830+00:00] slim-app.WARNING: Token not found [] {"uid":"4cf6fc1"}
+[2023-08-04T15:40:29.734230+00:00] slim-app.WARNING: Token not found [] {"uid":"2436dad"}
+[2023-08-04T15:41:15.442211+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"b7c5a8a"}
+[2023-08-04T15:41:15.786631+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"9c4bd85"}
+[2023-08-04T15:41:20.565529+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"c4c7ce3"}
+[2023-08-04T15:41:20.752463+00:00] slim-app.WARNING: Token not found [] {"uid":"f4d5855"}
+[2023-08-04T15:41:20.910191+00:00] slim-app.WARNING: Token not found [] {"uid":"1c9c2dd"}
+[2023-08-09T15:09:54.618638+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"515b164"}
+[2023-08-09T15:09:55.100982+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"a37f7e1"}
+[2023-08-09T15:10:01.896846+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"4945155"}
+[2023-08-09T15:10:02.106843+00:00] slim-app.WARNING: Token not found [] {"uid":"4b88fa8"}
+[2023-08-09T15:10:02.320442+00:00] slim-app.WARNING: Token not found [] {"uid":"f1113ce"}
+[2023-08-09T15:14:06.959771+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"771ca50"}
+[2023-08-09T15:14:07.329327+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"4e0a170"}
+[2023-08-09T15:14:12.330209+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"cebd2b8"}
+[2023-08-09T15:14:12.529776+00:00] slim-app.WARNING: Token not found [] {"uid":"0330d07"}
+[2023-08-09T15:14:12.698555+00:00] slim-app.WARNING: Token not found [] {"uid":"058b592"}
+[2023-08-09T15:15:49.643286+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"8837151"}
+[2023-08-09T15:15:50.043676+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"8ec3de1"}
+[2023-08-09T15:15:56.411267+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"eacdca6"}
+[2023-08-09T15:15:56.734788+00:00] slim-app.WARNING: Token not found [] {"uid":"6f5bf63"}
+[2023-08-09T15:15:56.930942+00:00] slim-app.WARNING: Token not found [] {"uid":"701ca5a"}
+[2023-08-09T15:16:29.799468+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"107fb4e"}
+[2023-08-09T15:16:30.186862+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"9604597"}
+[2023-08-09T15:16:34.944744+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"8effcc2"}
+[2023-08-09T15:16:35.131448+00:00] slim-app.WARNING: Token not found [] {"uid":"715c543"}
+[2023-08-09T15:16:35.301411+00:00] slim-app.WARNING: Token not found [] {"uid":"20da6c5"}
+[2023-08-09T15:20:39.827178+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"4262d5f"}
+[2023-08-09T15:20:40.211400+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"a7df38d"}
+[2023-08-09T15:20:44.985214+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"9adee5c"}
+[2023-08-09T15:20:45.185474+00:00] slim-app.WARNING: Token not found [] {"uid":"9a75ebe"}
+[2023-08-09T15:20:45.373569+00:00] slim-app.WARNING: Token not found [] {"uid":"19c9895"}
+[2023-08-09T15:23:15.999293+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"735ff84"}
+[2023-08-09T15:23:16.376720+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"adc8994"}
+[2023-08-09T15:23:21.295830+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"ca45dd1"}
+[2023-08-09T15:23:21.517109+00:00] slim-app.WARNING: Token not found [] {"uid":"2dc16d9"}
+[2023-08-09T15:23:21.681217+00:00] slim-app.WARNING: Token not found [] {"uid":"4645f46"}
+[2023-08-09T15:26:51.235822+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"7a1c6da"}
+[2023-08-09T15:26:51.615477+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"38900df"}
+[2023-08-09T15:26:56.531218+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"f6ecd5f"}
+[2023-08-09T15:26:56.724972+00:00] slim-app.WARNING: Token not found [] {"uid":"b6e8e2d"}
+[2023-08-09T15:26:56.924884+00:00] slim-app.WARNING: Token not found [] {"uid":"c788e84"}
+[2023-08-09T15:27:48.813290+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"fc2df32"}
+[2023-08-09T15:27:49.120522+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"1289cb1"}
+[2023-08-09T15:27:53.616776+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"93c7746"}
+[2023-08-09T15:27:53.797592+00:00] slim-app.WARNING: Token not found [] {"uid":"a30eb41"}
+[2023-08-09T15:27:53.949266+00:00] slim-app.WARNING: Token not found [] {"uid":"53e71b8"}
+[2023-08-09T15:34:38.051720+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"25ededb"}
+[2023-08-09T15:34:38.422586+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"c616295"}
+[2023-08-09T15:34:43.198419+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"8064a1d"}
+[2023-08-09T15:34:43.387757+00:00] slim-app.WARNING: Token not found [] {"uid":"a5086cd"}
+[2023-08-09T15:34:43.542516+00:00] slim-app.WARNING: Token not found [] {"uid":"d314fbc"}
+[2023-08-09T16:37:36.565674+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"22921d0"}
+[2023-08-09T16:37:36.967011+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"ed553f6"}
+[2023-08-09T16:37:42.020656+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"87ed73a"}
+[2023-08-09T16:37:42.214158+00:00] slim-app.WARNING: Token not found [] {"uid":"3668d24"}
+[2023-08-09T16:37:42.376544+00:00] slim-app.WARNING: Token not found [] {"uid":"34b051c"}
+[2023-08-09T16:38:41.928093+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"79b5db7"}
+[2023-08-09T16:38:42.268888+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"801c3a9"}
+[2023-08-09T16:38:47.039436+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"4863ac6"}
+[2023-08-09T16:38:47.222929+00:00] slim-app.WARNING: Token not found [] {"uid":"c03fde7"}
+[2023-08-09T16:38:47.387892+00:00] slim-app.WARNING: Token not found [] {"uid":"9d4fe9b"}
+[2023-08-09T16:39:20.770689+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"f5245d9"}
+[2023-08-09T16:39:21.192640+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"6bdef98"}
+[2023-08-09T16:39:26.157426+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"33fbd4b"}
+[2023-08-09T16:39:26.336609+00:00] slim-app.WARNING: Token not found [] {"uid":"1782812"}
+[2023-08-09T16:39:26.493345+00:00] slim-app.WARNING: Token not found [] {"uid":"da1d23c"}
+[2023-08-09T16:41:16.419311+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"c9a6559"}
+[2023-08-09T16:41:16.793899+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"73006ed"}
+[2023-08-09T16:41:21.325533+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"95ff385"}
+[2023-08-09T16:41:21.517588+00:00] slim-app.WARNING: Token not found [] {"uid":"c08e1bd"}
+[2023-08-09T16:41:21.688954+00:00] slim-app.WARNING: Token not found [] {"uid":"951b251"}
+[2023-08-09T16:41:50.911950+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"e106131"}
+[2023-08-09T16:41:51.257396+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"550e908"}
+[2023-08-09T16:41:56.197594+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"29f7014"}
+[2023-08-09T16:41:56.432312+00:00] slim-app.WARNING: Token not found [] {"uid":"91076ac"}
+[2023-08-09T16:41:56.626644+00:00] slim-app.WARNING: Token not found [] {"uid":"63f4ee7"}
+[2023-08-09T16:42:22.330611+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"7510534"}
+[2023-08-09T16:42:22.804984+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"0be7c4e"}
+[2023-08-09T16:42:29.095445+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"6402cde"}
+[2023-08-09T16:42:29.312721+00:00] slim-app.WARNING: Token not found [] {"uid":"01ed4d1"}
+[2023-08-09T16:42:29.480689+00:00] slim-app.WARNING: Token not found [] {"uid":"1b5aa92"}
+[2023-08-09T16:43:29.425105+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"a0d89c4"}
+[2023-08-09T16:43:29.793804+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"8f94e7e"}
+[2023-08-09T16:43:35.328300+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"318b2ac"}
+[2023-08-09T16:43:35.553614+00:00] slim-app.WARNING: Token not found [] {"uid":"5349be3"}
+[2023-08-09T16:43:35.751604+00:00] slim-app.WARNING: Token not found [] {"uid":"83a0d47"}
