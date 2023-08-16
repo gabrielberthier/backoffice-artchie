@@ -23,8 +23,10 @@ trait ResourceAccessManageTrait
 
     public function createResource(string $name, string $description): Resource
     {
-        $resource = new Resource($name, $description);
-        $this->resources[$name] = $resource;
+        if (!in_array($name, $this->resources, true)) {
+            $resource = new Resource($name, $description);
+            $this->resources[$name] = $resource;
+        }
 
         return $resource;
     }

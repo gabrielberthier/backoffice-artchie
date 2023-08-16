@@ -60,7 +60,7 @@ class AccessControl implements \JsonSerializable
         Resource|string $resource,
         ContextIntent|Permission $permission,
         ?callable $fallback = null
-    ) {
+    ): bool {
         if (
             $this->getRole($role)->canAcess(
                 $this->getResource($resource),
@@ -72,4 +72,6 @@ class AccessControl implements \JsonSerializable
 
         return is_null($fallback) ? false : $fallback($role, $resource, $permission);
     }
+
+
 }

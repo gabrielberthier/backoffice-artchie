@@ -8,12 +8,18 @@ trait RoleAccessManageTrait
 {
     /** @var array<string, Role> */
     public array $roles = [];
-    public function forgeRole(string $roleName, string $description = ''): self
-    {
-        $this->roles[$roleName] = new Role(
-            $roleName,
-            $description
-        );
+    public function forgeRole(
+        string $roleName,
+        string $description = ''
+    ): self {
+        if (!in_array($roleName, $this->roles, true)) {
+            $role = new Role(
+                $roleName,
+                $description
+            );
+
+            $this->roles[$roleName] = $role;
+        }
 
         return $this;
     }
