@@ -16,6 +16,6 @@ class RoleCreator
         string $roleName,
         string $description = ""
     ) {
-        $role = $this->accessControl->forgeRole($roleName, $description);
+        $role = $this->accessControl->forgeRole($roleName, $description)->getRole($roleName);
     }
 }

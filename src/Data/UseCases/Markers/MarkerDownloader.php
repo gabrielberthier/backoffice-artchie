@@ -15,8 +15,11 @@ class MarkerDownloader implements MarkerDownloaderServiceInterface
 {
     private string $bucket = "artchier-markers";
 
-    public function __construct(private S3StreamObjectsZipDownloader $zipper, private MarkerRepositoryInterface $repository, private MediaCollectorInterface $visitor)
-    {
+    public function __construct(
+        private S3StreamObjectsZipDownloader $zipper,
+        private MarkerRepositoryInterface $repository,
+        private MediaCollectorInterface $visitor
+    ) {
     }
 
     /**

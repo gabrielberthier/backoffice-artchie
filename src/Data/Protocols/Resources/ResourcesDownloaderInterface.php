@@ -2,7 +2,7 @@
 
 namespace App\Data\Protocols\Resources;
 
-use App\Domain\Dto\Asset\MarkerResource;
+
 use App\Domain\Exceptions\Museum\MuseumNotFoundException;
 
 interface ResourcesDownloaderInterface
@@ -14,7 +14,7 @@ interface ResourcesDownloaderInterface
    * 
    * @param string $uuid
    * 
-   * @return MarkerResource[]
+   * @return \App\Domain\Dto\Asset\Transference\MarkerResource[]
    */
   public function transport(int $id): array;
 }

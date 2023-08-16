@@ -2,7 +2,7 @@
 namespace App\Domain\Models\RBAC;
 
 use App\Domain\Models\Account;
-use App\Domain\Models\Enums\AuthTypes;
+
 
 class Executor
 {
@@ -18,7 +18,6 @@ class Executor
 
         foreach ($accountRole->roles as $role) {
             if ($role->canAcess($resource, ContextIntent::CREATE)) {
-                echo 'Found i5';
                 return true;
             }
         }
