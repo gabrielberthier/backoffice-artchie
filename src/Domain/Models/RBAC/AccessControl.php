@@ -1,7 +1,10 @@
 <?php
 namespace App\Domain\Models\RBAC;
 
-use App\Domain\Models\RBAC\Traits\{ResourceAccessManageTrait, RoleAccessManageTrait};
+use App\Domain\Models\RBAC\Traits\{
+    ResourceAccessManageTrait,
+    RoleAccessManageTrait
+};
 use App\Domain\Models\RBAC\Utilities\ExtractNameUtility;
 
 class AccessControl implements \JsonSerializable
@@ -12,15 +15,22 @@ class AccessControl implements \JsonSerializable
         Role|string $role,
         Resource|string $resource,
         ContextIntent $intent,
-        string $permissionName = ''
+        string $permissionName = ""
     ): self {
-        if ($permissionName === '') {
-            $permissionName = 'can:' . strtolower($intent->value) . ":" . strtolower($resource->name);
+        if ($permissionName === "") {
+            $permissionName =
+                "can:" .
+                strtolower($intent->value) .
+                ":" .
+                strtolower($resource->name);
         }
         $permission = new Permission($permissionName, $intent);
         $roleRef = ExtractNameUtility::extractName($role);
         $resourceRef = ExtractNameUtility::extractName($resource);
-        $this->roles[$roleRef]->addPermissionToResource($permission, $this->resources[$resourceRef]);
+        $this->roles[$roleRef]->addPermissionToResource(
+            $permission,
+            $this->resources[$resourceRef]
+        );
 
         return $this;
     }
@@ -37,7 +47,10 @@ class AccessControl implements \JsonSerializable
     ): self {
         $roleRef = ExtractNameUtility::extractName($role);
         foreach ($permissions as $permission) {
-            $this->roles[$roleRef]->addPermissionToResource($permission, $resource);
+            $this->roles[$roleRef]->addPermissionToResource(
+                $permission,
+                $resource
+            );
         }
 
         return $this;
@@ -51,7 +64,7 @@ class AccessControl implements \JsonSerializable
     public function jsonSerialize(): mixed
     {
         return [
-            'roles' => $this->roles
+            "roles" => $this->roles,
         ];
     }
 
@@ -61,17 +74,24 @@ class AccessControl implements \JsonSerializable
         ContextIntent|Permission $permission,
         ?callable $fallback = null
     ): bool {
-        if (
-            $this->getRole($role)->canAcess(
-                $this->getResource($resource),
-                $permission
+        $result = $this->getResource($resource)
+            ->map(
+                fn(Resource $resource): bool => $this->getRole($role)->mapOr(
+                    false,
+                    static fn(Role $role): bool => $role->canAcess(
+                        $resource,
+                        $permission
+                    )
+                )
             )
-        ) {
-            return true;
+            ->unwrapOr(false);
+
+        if (!$result) {
+            return is_null($fallback)
+                ? false
+                : $fallback($role, $resource, $permission);
         }
 
-        return is_null($fallback) ? false : $fallback($role, $resource, $permission);
+        return true;
     }
-
-
 }

@@ -3,6 +3,10 @@ namespace App\Domain\Models\RBAC\Traits;
 
 use App\Domain\Models\RBAC\Resource;
 use App\Domain\Models\RBAC\Utilities\ExtractNameUtility;
+use App\Domain\OptionalApi\Option;
+use App\Domain\OptionalApi\Option\None;
+use App\Domain\OptionalApi\Option\Some;
+use Exception;
 
 trait ResourceAccessManageTrait
 {
@@ -16,15 +20,23 @@ trait ResourceAccessManageTrait
     {
         return array_values($this->roles);
     }
-    public function getResource(Resource|string $resource): Resource
+    /** @return Option<Resource> */
+    public function getResource(Resource|string $resource): Option
     {
-        return $this->resources[ExtractNameUtility::extractName($resource)];
+        $nameUtility = ExtractNameUtility::extractName($resource);
+
+        $exists = key_exists($nameUtility, $this->resources);
+
+        return $exists
+            ? new Some($this->resources[$nameUtility])
+            : new None();
     }
 
     public function createResource(string $name, string $description): Resource
     {
-        if (!in_array($name, $this->resources, true)) {
-            $resource = new Resource($name, $description);
+        $resource = new Resource($name, $description);
+
+        if (!key_exists($name, $this->resources)) {
             $this->resources[$name] = $resource;
         }
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Presentation\Middleware\AuthMiddleware;
+namespace Tests\Presentation\Middleware;
 
 use App\Domain\Dto\AccountDto;
 use App\Domain\Repositories\AccountRepository;

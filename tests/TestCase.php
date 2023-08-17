@@ -6,8 +6,6 @@ namespace Tests;
 
 use Core\Data\BehaviourComponents\DatabaseCleaner;
 use Core\Data\BehaviourComponents\DatabaseCreator;
-use Doctrine\ORM\EntityManagerInterface as EntityManager;
-use Doctrine\ORM\Tools\SchemaTool;
 use PHPUnit\Framework\TestCase as PHPUnit_TestCase;
 use Tests\Traits\App\AppTestTrait;
 use Tests\Traits\App\DoublesTrait;

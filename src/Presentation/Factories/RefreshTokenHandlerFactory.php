@@ -22,10 +22,6 @@ class RefreshTokenHandlerFactory
 
         $refreshToken = $this->interceptor->interceptRefreshToken($request);
 
-        // if ('' === $refreshToken) {
-        //     return null;
-        // }
-
         return new RefreshTokenHandler($this->repository, $refreshToken, $secretBody, $secretToken);
     }
 }

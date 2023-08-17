@@ -3,6 +3,9 @@ namespace App\Domain\Models\RBAC\Traits;
 
 use App\Domain\Models\RBAC\Role;
 use App\Domain\Models\RBAC\Utilities\ExtractNameUtility;
+use App\Domain\OptionalApi\Option;
+use App\Domain\OptionalApi\Option\None;
+use App\Domain\OptionalApi\Option\Some;
 
 trait RoleAccessManageTrait
 {
@@ -24,9 +27,16 @@ trait RoleAccessManageTrait
         return $this;
     }
 
-    public function getRole(Role|string $role): Role
+    /**
+     * @return Option<Role>
+     */
+    public function getRole(Role|string $role): Option
     {
-        return $this->roles[ExtractNameUtility::extractName($role)];
+        $nameUtility = ExtractNameUtility::extractName($role);
+
+        return key_exists($nameUtility, $this->roles)
+            ? new Some($this->roles[$nameUtility])
+            : new None();
     }
 
     public function getRoles()
@@ -41,13 +51,14 @@ trait RoleAccessManageTrait
 
     public function extendRole(Role|string $targetRole, Role|string ...$roles)
     {
-        $target = $this->roles[ExtractNameUtility::extractName($targetRole)];
-        foreach ($roles as $includer) {
-            $ref = ExtractNameUtility::extractName($includer);
-            if (!in_array($ref, $this->roles)) {
-                continue;
+        $this->getRole($targetRole)->map(function (Role $role) use ($roles) {
+            foreach ($roles as $includer) {
+                $ref = ExtractNameUtility::extractName($includer);
+                if (!key_exists($ref, $this->roles)) {
+                    continue;
+                }
+                $role->extendRole($this->roles[$ref]);
             }
-            $target->extendRole($this->roles[$ref]);
-        }
+        });
     }
 }

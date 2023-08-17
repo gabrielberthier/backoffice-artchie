@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
 /**
- * @docs This class is called once the validation of a user's JWT throws invalid.
+ * This class is called once the validation of a user's JWT throws invalid.
  * Then, this class instance is responsible to verify the user's refresh token existence and
  * forge a new JWT in case the Refresh Token exists.
  */
@@ -24,7 +24,7 @@ class RefreshTokenHandler
     ) {
     }
 
-    public function __invoke(ResponseInterface $response, $arguments): ResponseInterface
+    public function __invoke(ResponseInterface $response, array $arguments = []): ResponseInterface
     {
         $statusCode = 201;
 

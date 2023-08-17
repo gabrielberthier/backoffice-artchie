@@ -17,8 +17,7 @@ use Psr\Log\LoggerInterface;
 class JWTAuthMiddleware implements Middleware
 {
     public function __construct(
-        private LoggerInterface $logger,
-        private RefreshTokenHandlerFactory $refreshTokenHandlerFactory
+        private LoggerInterface $logger
     ) {
         $shouldHave = ['JWT_SECRET', 'JWT_SECRET_COOKIE'];
 
@@ -34,15 +33,6 @@ class JWTAuthMiddleware implements Middleware
      */
     public function process(Request $request, RequestHandler $handler): Response
     {
-        $refreshTokenHandler = $this->refreshTokenHandlerFactory->create($request);
-
-        $authMiddleware = $this->boot($refreshTokenHandler);
-
-        return $authMiddleware->process($request, $handler);
-    }
-
-    private function boot(?RefreshTokenHandler $refreshTokenHandler): JwtAuthentication
-    {
         $secret = $_ENV['JWT_SECRET'];
 
         $options = [
@@ -55,10 +45,8 @@ class JWTAuthMiddleware implements Middleware
             'secure' => false,
         ];
 
-        if ('DEV' === $_ENV['MODE']) {
-            $options['error'] = $refreshTokenHandler;
-        }
+        $jwtAuth = new JwtAuthentication($options);
 
-        return new JwtAuthentication($options);
+        return $jwtAuth->process($request, $handler);
     }
 }
