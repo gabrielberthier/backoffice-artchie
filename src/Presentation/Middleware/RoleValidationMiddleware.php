@@ -1,0 +1,156 @@
+<?php
+namespace App\Presentation\Middleware;
+
+use App\Data\Protocols\Rbac\ResourceFetcherInterface;
+use App\Data\Protocols\Rbac\RoleFetcherInterface;
+use App\Domain\Models\RBAC\AccessControl;
+use App\Domain\Models\RBAC\ContextIntent;
+use App\Domain\Models\RBAC\Permission;
+use App\Domain\Models\RBAC\Resource;
+use App\Domain\Models\RBAC\Role;
+use App\Domain\Models\Token;
+use App\Domain\OptionalApi\Option;
+use App\Presentation\Protocols\RbacFallbackInterface;
+use Closure;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Server\MiddlewareInterface as Middleware;
+use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
+use Slim\Exception\HttpForbiddenException;
+
+class RoleValidationMiddleware implements Middleware
+{
+    private ?RbacFallbackInterface $bypassFallback = null;
+    private ?Permission $predefinedPermission = null;
+
+    public function __construct(
+        public readonly AccessControl $accessControl,
+        public readonly Resource|string $resource,
+        public readonly RoleFetcherInterface $roleFetcher,
+        public readonly ResourceFetcherInterface $resourceFetcher
+    ) {
+    }
+    public function process(Request $request, RequestHandler $handler): Response
+    {
+        /** @var array */
+        $rawToken = $request->getAttribute("token");
+        $token = new Token(...$rawToken["data"]);
+
+        $permission = $this->getAccessGrantRequest($request);
+        $maybeRole = $this->getOptionRole($token->role);
+        $maybeResource = $this->getOptionResource();
+
+        if ($maybeRole->isSome() && $maybeResource->isSome()) {
+            $role = $maybeRole->unwrap();
+            $resource = $maybeResource->unwrap();
+
+            $canAccess = $this->accessControl->tryAccess(
+                $role,
+                $resource,
+                $permission, $this->getFallback()
+            );
+
+            if ($canAccess) {
+                return $handler->handle($request);
+            }
+        }
+
+        throw new HttpForbiddenException($request, "Access forbidden");
+    }
+
+    public function setByPassFallback(RbacFallbackInterface $fallback): void
+    {
+        $this->bypassFallback = $fallback;
+    }
+
+    public function setPredefinedPermission(Permission $permission): void
+    {
+        $this->predefinedPermission = $permission;
+    }
+
+    public function getAccessGrantRequest(Request $request): Permission|ContextIntent
+    {
+        return
+            $this->predefinedPermission ??
+            $this->makeGrantBasedOnRequestMethod($request->getMethod());
+    }
+
+    /**
+     * Will fetch a role from access control instance, and case it does not find it
+     * will use a fallback method to fetch from another mean using an implementation
+     * of RoleFetcherInterface. 
+     * 
+     * @return Option<Role>
+     */
+    public function getOptionRole(string $role): Option
+    {
+        return $this->accessControl
+            ->getRole($role)
+            ->or($this->roleFallback($role));
+    }
+
+    /**
+     * Will fetch a resource from the access control instance, 
+     * and in case it does not find it
+     * will use a fallback method to fetch from another mean using an implementation
+     * of ResourceFetcherInterface. 
+     * 
+     * @return Option<Resource>
+     */
+    public function getOptionResource(): Option
+    {
+        return $this->accessControl
+            ->getResource($this->resource)
+            ->orElse($this->resourceFallback(...));
+    }
+
+    private function makeGrantBasedOnRequestMethod(
+        string $method
+    ): ContextIntent {
+        $contextIntent = match (strtoupper($method)) {
+            "GET" => ContextIntent::READ,
+            "POST" => ContextIntent::CREATE,
+            "PATCH", "PUT" => ContextIntent::UPDATE,
+            "DELETE" => ContextIntent::DELETE,
+        };
+
+        return $contextIntent;
+    }
+
+    /** @return Option<Role> */
+    private function roleFallback(string $role): Option
+    {
+        return $this->roleFetcher
+            ->getRole($role)
+            ->map(
+                function (Role $role): Role {
+                    $this->accessControl->appendRole($role);
+
+                    return $role;
+                }
+            );
+    }
+
+    /** @return Option<Resource> */
+    private function resourceFallback(): Option
+    {
+        return $this->resourceFetcher
+            ->getResource($this->resource)
+            ->map(
+                function (Resource $resource): Resource {
+                    $this->accessControl->appendResource($resource);
+
+                    return $resource;
+                }
+            );
+    }
+
+    private function getFallback(): ?Closure
+    {
+        if (is_null($this->bypassFallback)) {
+            return null;
+        }
+
+        return $this->bypassFallback->retry(...);
+    }
+}

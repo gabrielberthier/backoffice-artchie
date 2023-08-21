@@ -38,12 +38,14 @@ class BodyTokenCreator implements TokenGeneratorInterface
         $uuid = $this->account->uuid;
         $role = $this->account->role;
         $username = $this->account->username;
+        $authType = $this->account->authType;
 
         return [
             'email' => $email,
             'uuid' => $uuid,
             'role' => $role,
             'username' => $username,
+            'auth_type' => $authType
         ];
     }
 }

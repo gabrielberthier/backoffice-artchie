@@ -11,6 +11,15 @@ trait RoleAccessManageTrait
 {
     /** @var array<string, Role> */
     public array $roles = [];
+
+    public function appendRole(Role $role): self
+    {
+        if (!in_array($role->name, $this->roles, true)) {
+            $this->roles[$role->name] = $role;
+        }
+
+        return $this;
+    }
     public function forgeRole(
         string $roleName,
         string $description = ''

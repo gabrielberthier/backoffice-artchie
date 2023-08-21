@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Presentation\Middleware;
 
 use App\Infrastructure\Cryptography\Exceptions\AppHasNoDefinedSecrets;
-use App\Presentation\Factories\RefreshTokenHandlerFactory;
-use App\Presentation\Handlers\RefreshTokenHandler;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface as Middleware;

@@ -42,4 +42,13 @@ trait ResourceAccessManageTrait
 
         return $resource;
     }
+
+    public function appendResource(Resource $resource): self
+    {
+        if (!key_exists($resource->name, $this->resources)) {
+            $this->resources[$resource->name] = $resource;
+        }
+
+        return $this;
+    }
 }
