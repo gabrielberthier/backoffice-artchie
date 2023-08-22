@@ -9,9 +9,11 @@ use App\Domain\Models\RBAC\Permission;
 use App\Domain\Models\RBAC\Resource;
 use App\Domain\Models\RBAC\Role;
 use App\Domain\Models\Token;
-use App\Domain\OptionalApi\Option;
+use PhpOption\LazyOption;
+use PhpOption\Option;
 use App\Presentation\Protocols\RbacFallbackInterface;
 use Closure;
+use PhpOption\Some;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface as Middleware;
@@ -40,14 +42,15 @@ class RoleValidationMiddleware implements Middleware
         $maybeRole = $this->getOptionRole($token->role);
         $maybeResource = $this->getOptionResource();
 
-        if ($maybeRole->isSome() && $maybeResource->isSome()) {
-            $role = $maybeRole->unwrap();
-            $resource = $maybeResource->unwrap();
+        if ($maybeRole->isDefined() && $maybeResource->isDefined()) {
+            $role = $maybeRole->get();
+            $resource = $maybeResource->get();
 
             $canAccess = $this->accessControl->tryAccess(
                 $role,
                 $resource,
-                $permission, $this->getFallback()
+                $permission,
+                $this->getFallback()
             );
 
             if ($canAccess) {
@@ -86,7 +89,11 @@ class RoleValidationMiddleware implements Middleware
     {
         return $this->accessControl
             ->getRole($role)
-            ->or($this->roleFallback($role));
+            ->orElse(
+                new LazyOption(
+                    fn(): Option => $this->roleFallback($role)
+                )
+            );
     }
 
     /**
@@ -101,12 +108,19 @@ class RoleValidationMiddleware implements Middleware
     {
         return $this->accessControl
             ->getResource($this->resource)
-            ->orElse($this->resourceFallback(...));
+            ->orElse(
+                new LazyOption(
+                    $this->resourceFallback(...)
+                )
+            );
     }
 
+    /**
+     * Creates a Permission object based on request method.
+     */
     private function makeGrantBasedOnRequestMethod(
         string $method
-    ): ContextIntent {
+    ): Permission {
         $contextIntent = match (strtoupper($method)) {
             "GET" => ContextIntent::READ,
             "POST" => ContextIntent::CREATE,
@@ -114,13 +128,19 @@ class RoleValidationMiddleware implements Middleware
             "DELETE" => ContextIntent::DELETE,
         };
 
-        return $contextIntent;
+        $permissionName =
+            "can:" .
+            strtolower($contextIntent->value) .
+            ":" .
+            strtolower($this->resource->name);
+
+        return new Permission($permissionName, $contextIntent);
     }
 
     /** @return Option<Role> */
     private function roleFallback(string $role): Option
     {
-        return $this->roleFetcher
+        $returned = $this->roleFetcher
             ->getRole($role)
             ->map(
                 function (Role $role): Role {
@@ -129,6 +149,8 @@ class RoleValidationMiddleware implements Middleware
                     return $role;
                 }
             );
+
+        return $returned;
     }
 
     /** @return Option<Resource> */

@@ -3,10 +3,9 @@ namespace App\Domain\Models\RBAC\Traits;
 
 use App\Domain\Models\RBAC\Resource;
 use App\Domain\Models\RBAC\Utilities\ExtractNameUtility;
-use App\Domain\OptionalApi\Option;
-use App\Domain\OptionalApi\Option\None;
-use App\Domain\OptionalApi\Option\Some;
-use Exception;
+use PhpOption\None;
+use PhpOption\Option;
+use PhpOption\Some;
 
 trait ResourceAccessManageTrait
 {
@@ -27,9 +26,7 @@ trait ResourceAccessManageTrait
 
         $exists = key_exists($nameUtility, $this->resources);
 
-        return $exists
-            ? new Some($this->resources[$nameUtility])
-            : new None();
+        return $exists ? new Some($this->resources[$nameUtility]) : None::create();
     }
 
     public function createResource(string $name, string $description): Resource

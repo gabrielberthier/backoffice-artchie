@@ -3,9 +3,9 @@ namespace App\Domain\Models\RBAC\Traits;
 
 use App\Domain\Models\RBAC\Role;
 use App\Domain\Models\RBAC\Utilities\ExtractNameUtility;
-use App\Domain\OptionalApi\Option;
-use App\Domain\OptionalApi\Option\None;
-use App\Domain\OptionalApi\Option\Some;
+use PhpOption\None;
+use PhpOption\Option;
+use PhpOption\Some;
 
 trait RoleAccessManageTrait
 {
@@ -45,7 +45,7 @@ trait RoleAccessManageTrait
 
         return key_exists($nameUtility, $this->roles)
             ? new Some($this->roles[$nameUtility])
-            : new None();
+            : None::create();
     }
 
     public function getRoles()

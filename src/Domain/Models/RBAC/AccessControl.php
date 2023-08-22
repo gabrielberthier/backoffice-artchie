@@ -7,6 +7,10 @@ use App\Domain\Models\RBAC\Traits\{
 };
 use App\Domain\Models\RBAC\Utilities\ExtractNameUtility;
 
+/**
+ * AccessControl is a Facade to interact with Roles available in the system.
+ * It will handle most authorization functions and 
+ */
 class AccessControl implements \JsonSerializable
 {
     use ResourceAccessManageTrait, RoleAccessManageTrait;
@@ -74,17 +78,19 @@ class AccessControl implements \JsonSerializable
         ContextIntent|Permission $permission,
         ?callable $fallback = null
     ): bool {
-        $result = $this->getResource($resource)
+        $result = $this
+            ->getResource($resource)
             ->map(
-                fn(Resource $resource): bool => $this->getRole($role)->mapOr(
-                    false,
-                    static fn(Role $role): bool => $role->canAcess(
-                        $resource,
-                        $permission
-                    )
-                )
+                fn(Resource $resource): bool => $this
+                    ->getRole($role)
+                    ->map(
+                        static fn(Role $role): bool => $role->canAcess(
+                            $resource,
+                            $permission
+                        )
+                    )->get()
             )
-            ->unwrapOr(false);
+            ->getOrElse(false);
 
         if (!$result) {
             return is_null($fallback)

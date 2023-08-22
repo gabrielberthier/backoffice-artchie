@@ -2,7 +2,7 @@
 
 namespace App\Data\Protocols\Rbac;
 
-use App\Domain\OptionalApi\Option;
+use PhpOption\Option;
 use App\Domain\Models\RBAC\Resource;
 
 interface ResourceFetcherInterface

@@ -2,7 +2,7 @@
 namespace App\Data\Protocols\Rbac;
 
 use App\Domain\Models\RBAC\Role;
-use App\Domain\OptionalApi\Option;
+use PhpOption\Option;
 
 interface RoleFetcherInterface
 {

@@ -54,7 +54,7 @@ class ExecutorTest extends TestCase
         $role = $accessControl
             ->forgeRole('image:role')
             ->addPermissionToRole('image:role', $resource, ContextIntent::CREATE)
-            ->getRole("image:role")->unwrap();
+            ->getRole("image:role")->get();
 
         $this->assertStringContainsStringIgnoringCase(
             json_encode($role->jsonSerialize()),
