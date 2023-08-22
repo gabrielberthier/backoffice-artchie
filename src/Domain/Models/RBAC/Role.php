@@ -53,7 +53,10 @@ class Role implements JsonSerializable
     public function canAcess(Resource $resource, Permission|ContextIntent $permission): bool
     {
         if ($this->isActive) {
-            $permissionSet = $this->keyMap->offsetGet($resource) ?? null;
+            $permissionSet =
+                $this->keyMap->offsetExists($resource) ?
+                $this->keyMap->offsetGet($resource) :
+                null;
 
             if ($permissionSet) {
                 foreach ($permissionSet as $rolePermission) {

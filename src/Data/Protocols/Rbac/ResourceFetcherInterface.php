@@ -8,5 +8,5 @@ use App\Domain\Models\RBAC\Resource;
 interface ResourceFetcherInterface
 {
     /** @return Option<Resource> */
-    public function getResource(string $role): Option;
+    public function getResource(string $resource): Option;
 }

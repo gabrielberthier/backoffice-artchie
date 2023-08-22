@@ -21,14 +21,10 @@ class AccessControl implements \JsonSerializable
         ContextIntent $intent,
         string $permissionName = ""
     ): self {
-        if ($permissionName === "") {
-            $permissionName =
-                "can:" .
-                strtolower($intent->value) .
-                ":" .
-                strtolower($resource->name);
-        }
-        $permission = new Permission($permissionName, $intent);
+        $permission = $permissionName === "" ?
+            Permission::makeWithPreferableName($intent, $resource) :
+            new Permission($permissionName, $intent);
+
         $roleRef = ExtractNameUtility::extractName($role);
         $resourceRef = ExtractNameUtility::extractName($resource);
         $this->roles[$roleRef]->addPermissionToResource(

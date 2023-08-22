@@ -71,7 +71,7 @@ class RoleValidationMiddleware implements Middleware
         $this->predefinedPermission = $permission;
     }
 
-    public function getAccessGrantRequest(Request $request): Permission|ContextIntent
+    public function getAccessGrantRequest(Request $request): Permission
     {
         return
             $this->predefinedPermission ??
@@ -128,13 +128,10 @@ class RoleValidationMiddleware implements Middleware
             "DELETE" => ContextIntent::DELETE,
         };
 
-        $permissionName =
-            "can:" .
-            strtolower($contextIntent->value) .
-            ":" .
-            strtolower($this->resource->name);
-
-        return new Permission($permissionName, $contextIntent);
+        return Permission::makeWithPreferableName(
+            $contextIntent,
+            $this->resource
+        );
     }
 
     /** @return Option<Role> */
