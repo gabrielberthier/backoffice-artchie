@@ -10,8 +10,6 @@ use Core\Http\Abstractions\AbstractRouterTemplate;
 use Core\Http\Interfaces\RouteCollectorInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Core\Http\Middlewares\AsymetricValidatorFactory;
-use App\Presentation\Actions\Resources\ResourcesDownloaderAction;
-use App\Presentation\Actions\Markers\OpenAppsDownloadMarkersAction;
 
 class RouterCollector extends AbstractRouterTemplate
 {
@@ -27,14 +25,14 @@ class RouterCollector extends AbstractRouterTemplate
         $this->setGroup('/auth', 'auth-routes');
         $this->setGroup('/api', 'api/api-routes');
         $this->setGroup('/social-login/google', 'social-login/google');
-
-        $asymValidator = AsymetricValidatorFactory::createMiddleware($routeCollector->getContainer());
-        $routeCollector
-            ->get('/download-assets', OpenAppsDownloadMarkersAction::class)
-            ->addMiddleware($asymValidator);
-        $routeCollector
-            ->get('/fetch-assets', ResourcesDownloaderAction::class)
-            ->addMiddleware($asymValidator);
+        $this->setGroup(
+            '/asymmetric-downloads',
+            'asymmetric-protected/download-routes'
+        )->addMiddleware(
+                AsymetricValidatorFactory::createMiddleware(
+                    $routeCollector->getContainer()
+                )
+            );
 
         $routeCollector->get('/acc', AccountGet::class);
         $routeCollector->post('/acc', AccountInsertion::class);

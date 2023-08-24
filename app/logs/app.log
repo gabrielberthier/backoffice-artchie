@@ -514,3 +514,21 @@
 [2023-08-22T18:26:52.389980+00:00] slim-app.WARNING: Token not found [] {"uid":"337eace"}
 [2023-08-22T18:26:52.449982+00:00] slim-app.WARNING: Token not found [] {"uid":"7a2bce7"}
 [2023-08-22T18:26:52.503446+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"9acae17"}
+[2023-08-22T18:28:41.467605+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"ed906c4"}
+[2023-08-22T18:28:41.717618+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"edc1272"}
+[2023-08-22T18:28:50.324161+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"d19c6f1"}
+[2023-08-22T18:28:50.400707+00:00] slim-app.WARNING: Token not found [] {"uid":"dd97192"}
+[2023-08-22T18:28:50.470772+00:00] slim-app.WARNING: Token not found [] {"uid":"a9482f6"}
+[2023-08-22T18:28:50.528022+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"e40a39c"}
+[2023-08-22T19:20:00.153213+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"975ea7e"}
+[2023-08-22T19:20:00.408724+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"6273a15"}
+[2023-08-22T19:20:08.054106+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"2014b28"}
+[2023-08-22T19:20:08.136713+00:00] slim-app.WARNING: Token not found [] {"uid":"3231a5f"}
+[2023-08-22T19:20:08.207307+00:00] slim-app.WARNING: Token not found [] {"uid":"fe43437"}
+[2023-08-22T19:20:08.261816+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"2fb6a88"}
+[2023-08-24T18:40:04.677263+00:00] slim-app.INFO: Users list was viewed. [] {"uid":"a2b5312"}
+[2023-08-24T18:40:04.999601+00:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"6be9d3c"}
+[2023-08-24T18:40:13.011844+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"119c2ec"}
+[2023-08-24T18:40:13.079088+00:00] slim-app.WARNING: Token not found [] {"uid":"bcb5d05"}
+[2023-08-24T18:40:13.142240+00:00] slim-app.WARNING: Token not found [] {"uid":"ebf830e"}
+[2023-08-24T18:40:13.182965+00:00] slim-app.DEBUG: Using token from request header [] {"uid":"77b6f6a"}

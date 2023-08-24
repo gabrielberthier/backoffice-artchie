@@ -44,10 +44,11 @@ class RoleValidationMiddlewareTest extends TestCase
 
         $this->sut = new RoleValidationMiddleware(
             $this->accessControl,
-            "video",
             $roleFetcher,
             $resourceFetcher
         );
+
+        $this->sut->setResourceTarget("video");
     }
 
     public function testShouldRetrieveRoleIfItExistsInAccessControl()

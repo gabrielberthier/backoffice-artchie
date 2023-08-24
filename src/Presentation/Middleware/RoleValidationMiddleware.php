@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Presentation\Middleware;
 
 use App\Data\Protocols\Rbac\ResourceFetcherInterface;
@@ -13,7 +14,6 @@ use PhpOption\LazyOption;
 use PhpOption\Option;
 use App\Presentation\Protocols\RbacFallbackInterface;
 use Closure;
-use PhpOption\Some;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface as Middleware;
@@ -24,10 +24,10 @@ class RoleValidationMiddleware implements Middleware
 {
     private ?RbacFallbackInterface $bypassFallback = null;
     private ?Permission $predefinedPermission = null;
+    private Resource|string $resource;
 
     public function __construct(
         public readonly AccessControl $accessControl,
-        public readonly Resource|string $resource,
         public readonly RoleFetcherInterface $roleFetcher,
         public readonly ResourceFetcherInterface $resourceFetcher
     ) {
@@ -61,14 +61,25 @@ class RoleValidationMiddleware implements Middleware
         throw new HttpForbiddenException($request, "Access forbidden");
     }
 
-    public function setByPassFallback(RbacFallbackInterface $fallback): void
+    public function setResourceTarget(Resource|string $resource): self
     {
-        $this->bypassFallback = $fallback;
+        $this->resource = $resource;
+
+        return $this;
     }
 
-    public function setPredefinedPermission(Permission $permission): void
+    public function setByPassFallback(RbacFallbackInterface $fallback): self
+    {
+        $this->bypassFallback = $fallback;
+
+        return $this;
+    }
+
+    public function setPredefinedPermission(Permission $permission): self
     {
         $this->predefinedPermission = $permission;
+
+        return $this;
     }
 
     public function getAccessGrantRequest(Request $request): Permission
