@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Data\Entities\Cycle;
 
 use App\Data\Entities\Contracts\ModelCoercionInterface;
+use App\Data\Entities\Cycle\Traits\TimestampsTrait;
 use App\Data\Entities\Cycle\Traits\UuidTrait;
 use App\Domain\Models\Account;
 use Cycle\Annotated\Annotation\Entity;
@@ -12,8 +13,6 @@ use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Table\Index;
 use Cycle\ORM\Entity\Behavior;
 use Cycle\ORM\Entity\Behavior\Uuid\Uuid4;
-use DateTimeImmutable;
-use JsonSerializable;
 
 #[Entity(table: 'cycle_accounts')]
 #[Uuid4]
@@ -29,7 +28,7 @@ use JsonSerializable;
 #[Index(columns: ['email'], unique: true)]
 class CycleAccount implements ModelCoercionInterface
 {
-    use UuidTrait;
+    use UuidTrait, TimestampsTrait;
 
     #[Column(type: "primary")]
     protected $id;
@@ -49,11 +48,7 @@ class CycleAccount implements ModelCoercionInterface
     #[Column(name: 'auth_type', type: 'string', nullable: true)]
     private ?string $authType;
 
-    #[Column(type: 'datetime', name: "created_at")]
-    private ?DateTimeImmutable $createdAt;
 
-    #[Column(type: 'datetime', name: "updated_at", nullable: true)]
-    private ?DateTimeImmutable $updated = null;
 
     public function getId(): ?int
     {
@@ -120,31 +115,6 @@ class CycleAccount implements ModelCoercionInterface
         $this->email = $email;
 
         return $this;
-    }
-
-    public function setUpdated(?DateTimeImmutable $dateTime): self
-    {
-        // WILL be saved in the database
-        $this->updated = $dateTime;
-
-        return $this;
-    }
-
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(?DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdated()
-    {
-        return $this->updated;
     }
 
     public function toModel(): Account

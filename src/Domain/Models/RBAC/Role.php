@@ -12,8 +12,6 @@ class Role implements JsonSerializable
     public WeakMap $keyMap;
     /** @var Role[] */
     public readonly array $extendedRoles;
-    /** @var Role[] */
-    public readonly array $childrenRoles;
     public DateTimeInterface $createdAt;
     public DateTimeInterface $updatedAt;
 
@@ -24,7 +22,6 @@ class Role implements JsonSerializable
     ) {
         $this->keyMap = new WeakMap();
         $this->extendedRoles = [];
-        $this->childrenRoles = [];
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
     }
