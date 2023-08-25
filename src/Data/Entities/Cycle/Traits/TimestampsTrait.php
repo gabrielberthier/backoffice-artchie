@@ -12,7 +12,7 @@ trait TimestampsTrait
     #[Column(type: 'datetime')]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[Column(type: 'datetime', nullable: true)]
+    #[Column(type: 'datetime', nullable: true, name: 'updated_at')]
     private ?\DateTimeImmutable $updated = null;
 
     public function setUpdated(?\DateTimeImmutable $dateTime): self
