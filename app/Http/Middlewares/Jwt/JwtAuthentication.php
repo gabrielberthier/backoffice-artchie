@@ -270,8 +270,7 @@ final class JwtAuthentication implements MiddlewareInterface
                 return $matches[1];
             }
             return $cookieParams[$this->options["cookie"]];
-        }
-        ;
+        };
 
         /* If everything fails log and throw. */
         $this->log(LogLevel::WARNING, "Token not found");

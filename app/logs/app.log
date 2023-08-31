@@ -640,3 +640,46 @@
 [2023-08-31T12:51:21.133155-03:00] slim-app.WARNING: Token not found [] {"uid":"7de97ce"}
 [2023-08-31T12:51:21.194593-03:00] slim-app.WARNING: Token not found [] {"uid":"1623e13"}
 [2023-08-31T12:51:21.248332-03:00] slim-app.DEBUG: Using token from request header [] {"uid":"e61bd87"}
+[2023-08-31T12:56:44.086767-03:00] slim-app.INFO: Users list was viewed. [] {"uid":"dd67046"}
+[2023-08-31T12:56:44.327558-03:00] slim-app.INFO: User of id `1` was viewed. [] {"uid":"f0bfd52"}
+[2023-08-31T12:56:53.037169-03:00] slim-app.DEBUG: Using token from request header [] {"uid":"f27d69f"}
+[2023-08-31T12:56:53.108452-03:00] slim-app.WARNING: Token not found [] {"uid":"b90fd82"}
+[2023-08-31T12:56:53.161643-03:00] slim-app.WARNING: Token not found [] {"uid":"15b84b3"}
+[2023-08-31T12:56:53.207345-03:00] slim-app.DEBUG: Using token from request header [] {"uid":"958842d"}
+[2023-08-31T14:24:29.770053-03:00] slim-app.WARNING: Token not found [] {"uid":"216cff0"}
+[2023-08-31T14:24:46.943579-03:00] slim-app.WARNING: Token not found [] {"uid":"e47f03d"}
+[2023-08-31T14:24:51.798877-03:00] slim-app.WARNING: Token not found [] {"uid":"17cf1a4"}
+[2023-08-31T14:26:49.623352-03:00] slim-app.WARNING: Token not found [] {"uid":"00506bd"}
+[2023-08-31T14:26:50.694737-03:00] slim-app.WARNING: Token not found [] {"uid":"216cff0"}
+[2023-08-31T14:26:51.374123-03:00] slim-app.WARNING: Token not found [] {"uid":"e47f03d"}
+[2023-08-31T14:26:52.122499-03:00] slim-app.WARNING: Token not found [] {"uid":"17cf1a4"}
+[2023-08-31T14:26:52.839601-03:00] slim-app.WARNING: Token not found [] {"uid":"00506bd"}
+[2023-08-31T14:26:53.620557-03:00] slim-app.WARNING: Token not found [] {"uid":"216cff0"}
+[2023-08-31T14:26:54.444240-03:00] slim-app.WARNING: Token not found [] {"uid":"e47f03d"}
+[2023-08-31T14:27:03.243223-03:00] slim-app.WARNING: Token not found [] {"uid":"43583cc"}
+[2023-08-31T14:43:37.106678-03:00] slim-app.WARNING: Token not found [] {"uid":"e5d7ce5"}
+[2023-08-31T14:43:46.972800-03:00] slim-app.WARNING: Token not found [] {"uid":"9543d58"}
+[2023-08-31T14:43:53.568950-03:00] slim-app.WARNING: Token not found [] {"uid":"d786833"}
+[2023-08-31T14:43:54.037703-03:00] slim-app.ERROR: #0 /var/www/vendor/slim/slim/Slim/Middleware/RoutingMiddleware.php(44): Slim\Middleware\RoutingMiddleware->performRouting(Object(Nyholm\Psr7\ServerRequest)) #1 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(121): Slim\Middleware\RoutingMiddleware->process(Object(Nyholm\Psr7\ServerRequest), Object(Slim\Routing\RouteRunner)) #2 /var/www/vendor/middlewares/trailing-slash/src/TrailingSlash.php(56): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Nyholm\Psr7\ServerRequest)) #3 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(121): Middlewares\TrailingSlash->process(Object(Nyholm\Psr7\ServerRequest), Object(Psr\Http\Server\RequestHandlerInterface@anonymous)) #4 /var/www/src/Presentation/Middleware/SessionMiddleware.php(23): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Nyholm\Psr7\ServerRequest)) #5 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(168): App\Presentation\Middleware\SessionMiddleware->process(Object(Nyholm\Psr7\ServerRequest), Object(Psr\Http\Server\RequestHandlerInterface@anonymous)) #6 /var/www/app/Http/Middlewares/Jwt/JwtAuthentication.php(132): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Nyholm\Psr7\ServerRequest)) #7 /var/www/src/Presentation/Middleware/JWTAuthMiddleware.php(48): Core\Http\Middlewares\Jwt\JwtAuthentication->process(Object(Nyholm\Psr7\ServerRequest), Object(Psr\Http\Server\RequestHandlerInterface@anonymous)) #8 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(168): App\Presentation\Middleware\JWTAuthMiddleware->process(Object(Nyholm\Psr7\ServerRequest), Object(Psr\Http\Server\RequestHandlerInterface@anonymous)) #9 /var/www/vendor/slim/slim/Slim/Middleware/BodyParsingMiddleware.php(64): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Nyholm\Psr7\ServerRequest)) #10 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(168): Slim\Middleware\BodyParsingMiddleware->process(Object(Nyholm\Psr7\ServerRequest), Object(Psr\Http\Server\RequestHandlerInterface@anonymous)) #11 /var/www/vendor/slim/slim/Slim/Middleware/ErrorMiddleware.php(76): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Nyholm\Psr7\ServerRequest)) #12 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(121): Slim\Middleware\ErrorMiddleware->process(Object(Nyholm\Psr7\ServerRequest), Object(Psr\Http\Server\RequestHandlerInterface@anonymous)) #13 /var/www/vendor/slim/slim/Slim/MiddlewareDispatcher.php(65): Psr\Http\Server\RequestHandlerInterface@anonymous->handle(Object(Nyholm\Psr7\ServerRequest)) #14 /var/www/vendor/slim/slim/Slim/App.php(199): Slim\MiddlewareDispatcher->handle(Object(Nyholm\Psr7\ServerRequest)) #15 /var/www/worker.php(34): Slim\App->handle(Object(Nyholm\Psr7\ServerRequest)) #16 {main} [] {"uid":"43583cc"}
+[2023-08-31T14:43:54.037949-03:00] slim-app.ERROR: Method not allowed. Must be one of: OPTIONS [] {"uid":"43583cc"}
+[2023-08-31T14:43:54.038179-03:00] slim-app.ERROR: Method not allowed. Must be one of: OPTIONS [] {"uid":"43583cc"}
+[2023-08-31T14:46:45.468440-03:00] slim-app.WARNING: Token not found [] {"uid":"e5d7ce5"}
+[2023-08-31T14:46:46.381620-03:00] slim-app.WARNING: Token not found [] {"uid":"9543d58"}
+[2023-08-31T14:46:47.169523-03:00] slim-app.WARNING: Token not found [] {"uid":"d786833"}
+[2023-08-31T14:46:47.936704-03:00] slim-app.WARNING: Token not found [] {"uid":"43583cc"}
+[2023-08-31T14:46:48.654443-03:00] slim-app.WARNING: Token not found [] {"uid":"e5d7ce5"}
+[2023-08-31T14:46:49.624577-03:00] slim-app.WARNING: Token not found [] {"uid":"9543d58"}
+[2023-08-31T14:46:50.311159-03:00] slim-app.WARNING: Token not found [] {"uid":"d786833"}
+[2023-08-31T14:47:34.319538-03:00] slim-app.WARNING: Token not found [] {"uid":"43583cc"}
+[2023-08-31T14:47:35.724548-03:00] slim-app.WARNING: Token not found [] {"uid":"e5d7ce5"}
+[2023-08-31T14:47:37.193671-03:00] slim-app.WARNING: Token not found [] {"uid":"9543d58"}
+[2023-08-31T14:47:37.993922-03:00] slim-app.WARNING: Token not found [] {"uid":"d786833"}
+[2023-08-31T14:47:38.736941-03:00] slim-app.WARNING: Token not found [] {"uid":"43583cc"}
+[2023-08-31T14:47:40.257163-03:00] slim-app.WARNING: Token not found [] {"uid":"e5d7ce5"}
+[2023-08-31T14:47:41.470118-03:00] slim-app.WARNING: Token not found [] {"uid":"9543d58"}
+[2023-08-31T14:47:42.521253-03:00] slim-app.WARNING: Token not found [] {"uid":"d786833"}
+[2023-08-31T14:47:43.462268-03:00] slim-app.WARNING: Token not found [] {"uid":"43583cc"}
+[2023-08-31T14:47:45.442527-03:00] slim-app.WARNING: Token not found [] {"uid":"e5d7ce5"}
+[2023-08-31T14:47:53.789999-03:00] slim-app.WARNING: Token not found [] {"uid":"1027cf7"}
+[2023-08-31T14:47:55.762968-03:00] slim-app.WARNING: Token not found [] {"uid":"06a5274"}
+[2023-08-31T14:47:57.227334-03:00] slim-app.WARNING: Token not found [] {"uid":"3531af3"}

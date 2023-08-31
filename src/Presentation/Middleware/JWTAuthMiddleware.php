@@ -14,10 +14,9 @@ use Psr\Log\LoggerInterface;
 
 class JWTAuthMiddleware implements Middleware
 {
-    public function __construct(
-        private LoggerInterface $logger
-    ) {
-        $shouldHave = ['JWT_SECRET', 'JWT_SECRET_COOKIE'];
+    public function __construct(private LoggerInterface $logger)
+    {
+        $shouldHave = ["JWT_SECRET", "JWT_SECRET_COOKIE"];
 
         foreach ($shouldHave as $field) {
             if (!array_key_exists($field, $_ENV)) {
@@ -31,16 +30,30 @@ class JWTAuthMiddleware implements Middleware
      */
     public function process(Request $request, RequestHandler $handler): Response
     {
-        $secret = $_ENV['JWT_SECRET'];
+        $secret = $_ENV["JWT_SECRET"];
+
+        function onError(Response $response, array $args)
+        {
+            $response
+                ->getBody()
+                ->write(
+                    json_encode([
+                        "message" =>
+                        "You are not allowed to acess this resource",
+                    ])
+                );
+        }
+
 
         $options = [
-            'secret' => $secret,
-            'path' => '/api',
-            'ignore' => ['/api/auth', '/admin/ping'],
+            "secret" => $secret,
+            "path" => "/api",
+            "ignore" => ["/api/auth", "/admin/ping"],
             // 'before' => $beforeFunction,
-            'logger' => $this->logger,
-            'relaxed' => ['localhost', 'dev.example.com'],
-            'secure' => false,
+            "logger" => $this->logger,
+            "relaxed" => ["localhost", "dev.example.com"],
+            "secure" => false,
+            "error" => onError(...)
         ];
 
         $jwtAuth = new JwtAuthentication($options);
