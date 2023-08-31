@@ -6,7 +6,12 @@ use Monolog\Logger;
 use Psr\Container\ContainerInterface;
 use function Core\functions\isDev;
 
+$root = dirname(dirname(__DIR__));
+
 return [
+    'root' => $root,
+    'temp' => $root . '/tmp',
+    'public' => $root . '/public',
     'settings' => [
         'displayErrorDetails' => true,
         // Should be set to false in production
@@ -29,6 +34,6 @@ return [
 
                 'connection' => $c->get('connection'),
             ];
-        }
+        },
     ],
 ];

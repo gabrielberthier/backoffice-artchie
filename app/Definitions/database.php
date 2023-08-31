@@ -70,7 +70,8 @@ return [
         );
     },
     ORM\ORM::class => function (ContainerInterface $container) {
-        $root = dirname(dirname(__DIR__));
+        $root = $container->get('root');
+
         $finder = (new Finder())
             ->files()
             ->in([
