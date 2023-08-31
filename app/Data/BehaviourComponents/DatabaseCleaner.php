@@ -17,7 +17,7 @@ class DatabaseCleaner
         }
     }
 
-    private static function truncateDoctrineDatabase(ContainerInterface $containerInterface): void
+    public static function truncateDoctrineDatabase(ContainerInterface $containerInterface): void
     {
         /** @var EntityManager */
         $entityManager = $containerInterface->get(EntityManager::class);
@@ -25,7 +25,7 @@ class DatabaseCleaner
         $schemaTool->dropDatabase();
     }
 
-    private static function truncateCycleDatabase(ContainerInterface $containerInterface): void
+    public static function truncateCycleDatabase(ContainerInterface $containerInterface): void
     {
         /** @var DatabaseManager */
         $dbal = $containerInterface->get(DatabaseManager::class);
