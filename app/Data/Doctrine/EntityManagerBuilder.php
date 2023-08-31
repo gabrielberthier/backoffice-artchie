@@ -23,7 +23,6 @@ class EntityManagerBuilder
             Type::addType('uuid', 'Ramsey\Uuid\Doctrine\UuidType');
         }
 
-
         $connection = DriverManager::getConnection(
             $doctrine['connection'],
             $config

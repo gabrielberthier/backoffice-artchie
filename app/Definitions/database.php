@@ -18,15 +18,16 @@ use Cycle\ORM\Entity\Behavior\EventDrivenCommandGenerator;
 use Cycle\ORM\EntityManager as CycleEntityManager;
 use Cycle\Database\Config\DriverConfig;
 use function Core\functions\inTesting;
-
-
+use Core\Decorators\ReopeningEntityManagerDecorator;
 
 return [
+    ReopeningEntityManagerDecorator::class => static fn(
+    ContainerInterface $container
+) => new ReopeningEntityManagerDecorator($container),
+
     EntityManagerInterface::class => static fn(
     ContainerInterface $container
-) => EntityManagerBuilder::produce(
-        $container->get("settings")["doctrine"]
-    ),
+) => $container->get(ReopeningEntityManagerDecorator::class),
 
     DatabaseManager::class => static function (ContainerInterface $container): DatabaseManager {
         $getProductionConnection = static function (ContainerInterface $container): ?DriverConfig {
@@ -54,7 +55,9 @@ return [
             new DatabaseConfig([
                 "default" => "default",
                 "databases" => [
-                    "default" => ["connection" => inTesting() ? "sqlite" : "production"],
+                    "default" => [
+                        "connection" => inTesting() ? "sqlite" : "production",
+                    ],
                 ],
                 "connections" => [
                     "sqlite" => new Config\SQLiteDriverConfig(
@@ -68,7 +71,12 @@ return [
     },
     ORM\ORM::class => function (ContainerInterface $container) {
         $root = dirname(dirname(__DIR__));
-        $finder = (new Finder())->files()->in([$root . '/src/Data/Entities/Cycle']);
+        $finder = (new Finder())
+            ->files()
+            ->in([
+                $root . "/src/Data/Entities/Cycle",
+                $root . "/src/Data/Entities/Cycle/Rbac",
+            ]);
         $classLocator = new ClassLocator($finder);
         $database = $container->get(DatabaseManager::class);
         $schemaCompiler = new Schema\Compiler();
@@ -103,15 +111,21 @@ return [
             new Schema\Generator\GenerateTypecast(), // typecast non string columns
         ]);
         $schema = new ORM\Schema($schema);
-        $commandGenerator = new EventDrivenCommandGenerator($schema, $container);
+        $commandGenerator = new EventDrivenCommandGenerator(
+            $schema,
+            $container
+        );
 
-        $orm = new ORM\ORM(new ORM\Factory($database), $schema, $commandGenerator);
+        $orm = new ORM\ORM(
+            new ORM\Factory($database),
+            $schema,
+            $commandGenerator
+        );
 
         return $orm;
     },
 
-    CycleEntityManager::class =>
-    static fn(ContainerInterface $container) => new CycleEntityManager(
-        $container->get(ORM\ORM::class)
-    )
+    CycleEntityManager::class => static fn(
+    ContainerInterface $container
+) => new CycleEntityManager($container->get(ORM\ORM::class)),
 ];

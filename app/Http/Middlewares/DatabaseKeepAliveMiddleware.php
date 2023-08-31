@@ -4,35 +4,46 @@ namespace Core\Http\Middlewares;
 
 
 use Core\Decorators\ReopeningEntityManagerDecorator;
-use DI\Container;
-use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception as DBALException;
+use Psr\Log\LoggerInterface;
+
 
 class DatabaseKeepAliveMiddleware implements MiddlewareInterface
 {
-    private ReopeningEntityManagerDecorator $reopeningEntityManagerDecorator;
-
     public function __construct(
-        private Container $container
+        private LoggerInterface $logger,
+        private ReopeningEntityManagerDecorator $reopeningEntityManagerDecorator
     ) {
-        $this->reopeningEntityManagerDecorator = new ReopeningEntityManagerDecorator($container);
-        $container->set(EntityManagerInterface::class, $this->reopeningEntityManagerDecorator->open());
     }
 
     function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        echo "cALLED";
         $em = $this->reopeningEntityManagerDecorator->open();
-        $this->container->set(EntityManagerInterface::class, $em);
+        $connection = $em->getConnection();
 
+        if ($connection->isConnected() && !$this->ping($connection)) {
+            $this->logger->debug('Doctrine connection was not re-usable, it has been closed');
+
+            $connection->close();
+        }
+
+        return $handler->handle($request);
+    }
+
+    private function ping(Connection $con): bool
+    {
         try {
-            return $handler->handle($request);
-        } finally {
-            $this->reopeningEntityManagerDecorator->getConnection()->close();
-            $this->reopeningEntityManagerDecorator->clear();
+            $con->executeQuery($con->getDatabasePlatform()->getDummySelectSQL());
+
+            return true;
+        } catch (Exception | DBALException) {
+            return false;
         }
     }
 }
