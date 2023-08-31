@@ -17,7 +17,7 @@ return [
         // Should be set to false in production
         'logger' => [
             'name' => 'slim-app',
-            'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
+            'path' => isset($_ENV['docker']) ? 'php://stdout' : $root . '/logs/app.log',
             'level' => Logger::DEBUG,
         ],
         'doctrine' => static function (ContainerInterface $c): array {
