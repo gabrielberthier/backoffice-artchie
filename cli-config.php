@@ -15,7 +15,7 @@ $containerFactory = new ContainerFactory();
 
 $container = $containerFactory->get();
 
-$config = new PhpFile('migrations.php');
+$config = new PhpFile('./app/definitions/doctrine-migrations.php');
 
 $em = $container->get(EntityManager::class);
 
