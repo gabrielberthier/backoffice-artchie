@@ -37,8 +37,6 @@ class CycleResource
     {
         return $this->description;
     }
-
-
     public function setDescription(string $description): self
     {
         $this->description = $description;

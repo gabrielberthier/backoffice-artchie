@@ -9,6 +9,7 @@ use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Table\Index;
 use Cycle\ORM\Entity\Behavior\{CreatedAt, UpdatedAt};
 use Cycle\ORM\Entity\Behavior\Uuid\Uuid4;
+use Cycle\Schema\Relation\HasMany;
 
 #[Entity(table: 'cycle_roles')]
 #[Uuid4]
@@ -32,6 +33,18 @@ class CycleRole
     private string $description;
     #[Column(type: 'bool', nullable: false)]
     private bool $isActive = true;
+
+    /**
+     * @var CycleRole[] $extendedRoles
+     */
+    #[HasMany(target: CycleRole::class)]
+    private array $extendedRoles;
+
+    /**
+     * @var CyclePermission[] $extendedRoles
+     */
+    #[HasMany(target: CyclePermission::class)]
+    private array $permissions;
 
 
     public function getDescription(): string
@@ -82,6 +95,26 @@ class CycleRole
     {
         $this->isActive = $isActive;
 
+        return $this;
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    public function getExtendedRoles(): array
+    {
+        return $this->extendedRoles;
+    }
+
+    /**
+     * 
+     * @param array $extendedRoles 
+     * @return self
+     */
+    public function setExtendedRoles(array $extendedRoles): self
+    {
+        $this->extendedRoles = $extendedRoles;
         return $this;
     }
 }

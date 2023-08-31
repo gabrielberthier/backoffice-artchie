@@ -32,57 +32,40 @@ class CyclePermission
     #[Column(type: 'string', nullable: false)]
     private string $context;
 
-    /**
-     * @return string
-     */
     public function getContext(): string
     {
         return $this->context;
     }
 
-    /**
-     * @param string $context 
-     * @return self
-     */
     public function setContext(string $context): self
     {
         $this->context = $context;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
+
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name 
-     * @return self
-     */
     public function setName(string $name): self
     {
         $this->name = $name;
+
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id 
-     * @return self
-     */
     public function setId(int $id): self
     {
         $this->id = $id;
+
         return $this;
     }
 }
