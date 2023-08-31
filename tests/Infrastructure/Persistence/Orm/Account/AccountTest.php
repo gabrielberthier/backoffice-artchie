@@ -24,12 +24,13 @@ class AccountTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::createDatabase();
+        putenv('RR=');
+        self::createDatabaseDoctrine();
     }
 
     public static function tearDownAfterClass(): void
     {
-        self::truncateDatabase();
+        self::createDatabaseDoctrine();
     }
 
     public function setUp(): void
@@ -60,7 +61,7 @@ class AccountTest extends TestCase
         $this->repository->insert($account);
         $total = $this->getTotalCount();
 
-        assertSame($total, 1);
+        $this->assertEquals($total, 1);
     }
 
     /**

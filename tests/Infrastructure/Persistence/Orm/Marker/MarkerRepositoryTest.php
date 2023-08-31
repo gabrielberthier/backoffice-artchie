@@ -4,18 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Infrastructure\Persistence\Orm\Marker;
 
-use App\Data\Entities\Doctrine\DoctrineAsset;
 use App\Data\Entities\Doctrine\DoctrineMarker;
 use App\Data\Entities\Doctrine\DoctrineMarkerAsset;
 use App\Data\Entities\Doctrine\DoctrinePlacementObject;
 use App\Domain\Models\Assets\PictureAsset;
 use App\Domain\Models\Marker\Marker;
-use App\Domain\Models\Marker\MarkerAsset;
 use App\Domain\Models\PlacementObject\PlacementObject;
 use App\Domain\Repositories\MarkerRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface as EntityManager;
 use function PHPUnit\Framework\assertInstanceOf;
-use function PHPUnit\Framework\assertSame;
 use Tests\TestCase;
 
 /**
@@ -29,12 +26,13 @@ class MarkerRepositoryTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::createDatabase();
+        putenv('RR=');
+        self::createDatabaseDoctrine();
     }
 
     public static function tearDownAfterClass(): void
     {
-        self::truncateDatabase();
+        self::createDatabaseDoctrine();
     }
 
     public function setUp(): void
@@ -72,7 +70,7 @@ class MarkerRepositoryTest extends TestCase
         $this->repository->add($marker);
         $total = $this->getTotalCount();
 
-        assertSame($total, 1);
+        $this->assertEquals($total, 1);
     }
 
     /**
@@ -155,7 +153,7 @@ class MarkerRepositoryTest extends TestCase
 
         $resources = $new_marker->getResources();
 
-        assertSame($resources->count(), 1);
+        $this->assertEquals($resources->count(), 1);
         $resource = $resources->get(0);
         assertInstanceOf(DoctrinePlacementObject::class, $resource);
     }

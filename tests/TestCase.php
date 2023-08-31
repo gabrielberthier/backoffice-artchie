@@ -39,5 +39,19 @@ class TestCase extends PHPUnit_TestCase
         DatabaseCleaner::truncate($container);
     }
 
+    public static function createDatabaseDoctrine()
+    {
+        $container = self::requireContainer();
+
+        DatabaseCreator::createDoctrineDatabase($container);
+    }
+
+    final public static function truncateDatabaseDoctrine()
+    {
+        $container = self::requireContainer();
+
+        DatabaseCleaner::truncateDoctrineDatabase($container);
+    }
+
 
 }
