@@ -32,19 +32,6 @@ class JWTAuthMiddleware implements Middleware
     {
         $secret = $_ENV["JWT_SECRET"];
 
-        function onError(Response $response, array $args)
-        {
-            $response
-                ->getBody()
-                ->write(
-                    json_encode([
-                        "message" =>
-                        "You are not allowed to acess this resource",
-                    ])
-                );
-        }
-
-
         $options = [
             "secret" => $secret,
             "path" => "/api",
@@ -53,7 +40,20 @@ class JWTAuthMiddleware implements Middleware
             "logger" => $this->logger,
             "relaxed" => ["localhost", "dev.example.com"],
             "secure" => false,
-            "error" => onError(...)
+            "error" => function (Response $response, array $args): Response {
+                $response = $response->withHeader('Content-Type', 'application/json');
+
+                $response
+                    ->getBody()
+                    ->write(
+                        json_encode([
+                            "message" =>
+                            "You are not allowed to acess this resource",
+                        ])
+                    );
+
+                return $response;
+            }
         ];
 
         $jwtAuth = new JwtAuthentication($options);
