@@ -2,8 +2,8 @@
 
 namespace Core\Builder;
 
-use Core\Builder\Factories\ErrorFactory;
-use Core\Builder\Factories\ShutdownHandlerFactory;
+use App\Presentation\Handlers\ShutdownHandler;
+use Core\Builder\MiddlewareCollector;
 use Core\Http\Adapters\SlimFramework\SlimMiddlewareIncluder;
 use Core\Http\Adapters\SlimFramework\SlimRouteCollector;
 use Core\Http\RouterCollector;
@@ -11,37 +11,28 @@ use Exception;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
+use Psr\Log\LoggerInterface;
 use Respect\Validation\Factory;
 use Slim\App;
 use Slim\Factory\AppFactory;
 use Slim\Interfaces\ErrorHandlerInterface;
+use App\Presentation\Handlers\HttpErrorHandler;
 
 
 class AppBuilderManager
 {
-    private ContainerInterface $container;
-
-    private ErrorFactory $errorFactory;
-
     private bool $displayErrors;
-
-    private bool $enableErrorHandler = true;
-
-    private bool $enableShutdownHandler = true;
-
-    /** @var MiddlewareInterface[] */
-    private array $preMiddlewares = [];
-
-    public function __construct(ContainerInterface $containerInterface)
-    {
-        $this->container = $containerInterface;
-
+    public function __construct(
+        private ContainerInterface $container,
+        private bool $enableErrorHandler = true,
+        private bool $enableShutdownHandler = true,
+        private array $preMiddlewares = []
+    ) {
         $this->displayErrors = $this->container->get('settings')['displayErrorDetails'];
-
-        $this->errorFactory = new ErrorFactory($this->container);
     }
 
-    public function appendMiddlewares(MiddlewareInterface $middlewareInterface){
+    public function appendMiddlewares(MiddlewareInterface $middlewareInterface)
+    {
         $this->preMiddlewares[] = $middlewareInterface;
     }
 
@@ -55,7 +46,7 @@ class AppBuilderManager
             $app->addMiddleware($preMiddleware);
         }
 
-        \Core\Builder\MiddlewareCollector::collect(new SlimMiddlewareIncluder($app));
+        MiddlewareCollector::collect(new SlimMiddlewareIncluder($app));
 
         $router = new RouterCollector(new SlimRouteCollector($app));
 
@@ -65,11 +56,7 @@ class AppBuilderManager
             $this->setErrorHandler($app, $request);
         }
 
-        Factory::setDefaultInstance(
-            (new Factory())
-                ->withRuleNamespace('App\\Presentation\\Helpers\\Validation\\Rules')
-                ->withExceptionNamespace('App\\Presentation\\Helpers\\Validation\\Exceptions')
-        );
+        $this->setCustomValidations();
 
         return $app;
     }
@@ -87,25 +74,37 @@ class AppBuilderManager
         $this->enableShutdownHandler = $enable;
     }
 
+    private function setCustomValidations()
+    {
+        Factory::setDefaultInstance(
+            (new Factory())
+                ->withRuleNamespace('App\\Presentation\\Helpers\\Validation\\Rules')
+                ->withExceptionNamespace('App\\Presentation\\Helpers\\Validation\\Exceptions')
+        );
+    }
+
     private function setErrorHandler(App $app, ServerRequestInterface $request)
     {
         $callableResolver = $app->getCallableResolver();
         $responseFactory = $app->getResponseFactory();
-        $errorHandler = $this->errorFactory->createErrorHandler($callableResolver, $responseFactory);
+
+        $logger = $this->container->get(LoggerInterface::class);
+
+        $errorHandler = new HttpErrorHandler($callableResolver, $responseFactory, $logger);
+
         if ($this->enableShutdownHandler) {
             $this->applyShutdownHandler($request, $errorHandler);
         }
+
         $errorMiddleware = $app->addErrorMiddleware($this->displayErrors, false, false);
         $errorMiddleware->setDefaultErrorHandler($errorHandler);
     }
 
     private function applyShutdownHandler(ServerRequestInterface $request, ErrorHandlerInterface $httpErrorHandler)
     {
-        $shutdownHandler = new ShutdownHandlerFactory(
-            $request,
-            $httpErrorHandler
-        );
-        $shutdownHandler->setShutdownHandler($this->displayErrors);
+        $shutdownHandler = new ShutdownHandler($request, $httpErrorHandler, $this->displayErrors);
+
+        register_shutdown_function($shutdownHandler);
     }
 
     // Instantiate the app

@@ -6,6 +6,7 @@ namespace App\Presentation\Handlers;
 
 use App\Presentation\Actions\Protocols\ActionError;
 use App\Presentation\Actions\Protocols\ActionPayload;
+use App\Presentation\Actions\Protocols\ErrorsEnum;
 use App\Presentation\Actions\Protocols\HttpErrors\UnprocessableEntityException;
 use Exception;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -30,43 +31,38 @@ class HttpErrorHandler extends SlimErrorHandler
     {
         $exception = $this->exception;
         $statusCode = 500;
-        $error = new ActionError(
-            ActionError::SERVER_ERROR,
-            'An internal error has occurred while processing your request.'
-        );
+        $message = "";
+        $errorType = ErrorsEnum::SERVER_ERROR;
 
-
-
-        $this->customLogError($exception->getTraceAsString());
-        $this->customLogError($exception->getMessage());
+        $this->logError($exception->getTraceAsString());
+        $this->logError($exception->getMessage());
 
         if ($exception instanceof HttpException) {
             $statusCode = $exception->getCode();
-            $error->setDescription($exception->getMessage());
 
-            $this->customLogError($exception->getMessage());
+            $this->logError($exception->getMessage());
+
+            $message = $exception->getMessage();
 
             $errorType = match (true) {
-                $exception instanceof HttpNotFoundException => ActionError::RESOURCE_NOT_FOUND,
-                $exception instanceof HttpMethodNotAllowedException => ActionError::NOT_ALLOWED,
-                $exception instanceof HttpUnauthorizedException => ActionError::UNAUTHENTICATED,
-                $exception instanceof UnprocessableEntityException => ActionError::UNPROCESSABLE_ENTITY,
-                $exception instanceof HttpForbiddenException => ActionError::INSUFFICIENT_PRIVILEGES,
-                $exception instanceof HttpBadRequestException => ActionError::BAD_REQUEST,
-                $exception instanceof HttpNotImplementedException => ActionError::NOT_IMPLEMENTED,
-                default => ActionError::SERVER_ERROR,
+                $exception instanceof HttpNotFoundException => ErrorsEnum::RESOURCE_NOT_FOUND,
+                $exception instanceof HttpMethodNotAllowedException => ErrorsEnum::NOT_ALLOWED,
+                $exception instanceof HttpUnauthorizedException => ErrorsEnum::UNAUTHENTICATED,
+                $exception instanceof UnprocessableEntityException => ErrorsEnum::UNPROCESSABLE_ENTITY,
+                $exception instanceof HttpForbiddenException => ErrorsEnum::INSUFFICIENT_PRIVILEGES,
+                $exception instanceof HttpBadRequestException => ErrorsEnum::BAD_REQUEST,
+                $exception instanceof HttpNotImplementedException => ErrorsEnum::NOT_IMPLEMENTED,
+                default => ErrorsEnum::SERVER_ERROR,
             };
-
-            $error->setType($errorType);
-        }
-
-        if (
+        } else if (
             !($exception instanceof HttpException)
             && ($exception instanceof Exception || $exception instanceof Throwable)
             && $this->displayErrorDetails
         ) {
-            $error->setDescription($exception->getMessage());
+            $message = $exception->getMessage();
         }
+
+        $error = new ActionError($errorType->value, $message);
 
         $payload = new ActionPayload($statusCode, null, $error);
         $encodedPayload = json_encode($payload, JSON_PRETTY_PRINT);
@@ -77,12 +73,12 @@ class HttpErrorHandler extends SlimErrorHandler
         return $response->withHeader('Content-Type', 'application/json');
     }
 
-    private function customLogError(string $error)
+    protected function logError(string $error): void
     {
         if (mode() === "TEST") {
             return;
         }
 
-        $this->logError($error);
+        $this->logger->error($error);
     }
 }

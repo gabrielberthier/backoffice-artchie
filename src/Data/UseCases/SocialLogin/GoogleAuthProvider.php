@@ -3,7 +3,6 @@ namespace App\Data\UseCases\SocialLogin;
 
 use App\Data\UseCases\SocialLogin\Errors\CantGetUserInformationException;
 use App\Domain\Dto\AccountDto;
-use App\Domain\Exceptions\Protocols\HttpSpecializedAdapter;
 use App\Domain\Models\Enums\AuthTypes;
 use League\OAuth2\Client\Provider\Google;
 

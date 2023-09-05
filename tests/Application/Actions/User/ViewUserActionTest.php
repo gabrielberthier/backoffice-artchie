@@ -9,6 +9,7 @@ use App\Domain\Models\User;
 use App\Domain\Repositories\UserRepository;
 use App\Presentation\Actions\Protocols\ActionError;
 use App\Presentation\Actions\Protocols\ActionPayload;
+use App\Presentation\Actions\Protocols\ErrorsEnum;
 use DI\Container;
 use Prophecy\Prophet;
 use Tests\TestCase;
@@ -77,7 +78,7 @@ class ViewUserActionTest extends TestCase
         $response = $app->handle($request);
 
         $payload = (string) $response->getBody();
-        $expectedError = new ActionError(ActionError::RESOURCE_NOT_FOUND, 'The user you requested does not exist.');
+        $expectedError = new ActionError(ErrorsEnum::RESOURCE_NOT_FOUND->value, 'The user you requested does not exist.');
         $expectedPayload = new ActionPayload(404, null, $expectedError);
         $serializedPayload = json_encode($expectedPayload, JSON_PRETTY_PRINT);
 

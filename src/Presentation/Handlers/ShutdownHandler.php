@@ -11,34 +11,11 @@ use Slim\Interfaces\ErrorHandlerInterface;
 
 class ShutdownHandler
 {
-    /**
-     * @var Request
-     */
-    private $request;
-
-    /**
-     * @var HttpErrorHandler
-     */
-    private $errorHandler;
-
-    /**
-     * @var bool
-     */
-    private $displayErrorDetails;
-
-    /**
-     * ShutdownHandler constructor.
-     *
-     * @param $errorHandler $errorHandler
-     */
     public function __construct(
-        Request $request,
-        ErrorHandlerInterface $errorHandler,
-        bool $displayErrorDetails
+        private Request $request,
+        private ErrorHandlerInterface $errorHandler,
+        private bool $displayErrorDetails
     ) {
-        $this->request = $request;
-        $this->errorHandler = $errorHandler;
-        $this->displayErrorDetails = $displayErrorDetails;
     }
 
     public function __invoke()
