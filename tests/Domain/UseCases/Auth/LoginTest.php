@@ -13,14 +13,15 @@ use App\Domain\Dto\TokenLoginResponse;
 use App\Domain\Exceptions\NoAccountFoundException;
 use App\Domain\Models\Account;
 use App\Domain\Repositories\AccountRepository;
+use Ramsey\Uuid\Uuid;
 use function PHPUnit\Framework\assertTrue;
 use PHPUnit\Framework\MockObject\MockObject;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Tests\TestCase;
 
 class SutTypes
 {
     public LoginServiceInterface $service;
+
 
     public function __construct(
         public $repository,
@@ -36,8 +37,6 @@ class SutTypes
  */
 class LoginTest extends TestCase
 {
-    use ProphecyTrait;
-
     private SutTypes $sut;
 
     protected function setUp(): void
@@ -86,8 +85,8 @@ class LoginTest extends TestCase
     {
         $mock = $this->sut->repository;
         $loginService = $this->sut->service;
-        $account = (new Account(null, '', '', '', ''));
-        $account->generateUuid();
+        $uuid = Uuid::fromString('5a4bd710-aab8-4ebc-b65d-0c059a960cfb');
+        $account = new Account(null, '', '', '', '', $uuid);
         $mock->expects($this->once())->method('findByAccess')->with('@mail.com')->willReturn($account);
         $accountStub = $this->makeCredentials();
         $loginService->auth($accountStub);
@@ -117,8 +116,8 @@ class LoginTest extends TestCase
             ->method('compare')
             ->with('password', 'hashed_password');
         $repository = $this->sut->repository;
-        $account = new Account(id: 2, password: 'hashed_password', email: 'mail.com', username: 'user', authType: '');
-        $account->generateUuid();
+        $uuid = Uuid::fromString('5a4bd710-aab8-4ebc-b65d-0c059a960cfb');
+        $account = new Account(id: 2, password: 'hashed_password', email: 'mail.com', username: 'user', authType: '', uuid: $uuid);
         $repository->method('findByAccess')->willReturn(
             $account
         );
@@ -162,8 +161,10 @@ class LoginTest extends TestCase
     {
         $sut = $this->sut->service;
         $repository = $this->sut->repository;
-        $account = new Account(2, password: 'hashed_password', email: 'mail.com', username: 'user', authType: '');
-        $account->generateUuid();
+        $uuid = Uuid::fromString('5a4bd710-aab8-4ebc-b65d-0c059a960cfb');
+
+        $account = new Account(2, password: 'hashed_password', email: 'mail.com', username: 'user', authType: '', uuid: $uuid);
+
         $repository->method('findByAccess')->willReturn(
             $account
         );

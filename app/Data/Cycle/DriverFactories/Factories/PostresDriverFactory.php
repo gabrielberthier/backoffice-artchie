@@ -1,4 +1,5 @@
 <?php
+
 namespace Core\Data\Cycle\DriverFactories\Factories;
 
 use Core\Data\Cycle\ConnectionFactories\Input\ConnectionDefinitions;
@@ -9,10 +10,6 @@ use Cycle\Database\Config\PostgresDriverConfig;
 
 class PostresDriverFactory extends AbstractDriverFactory
 {
-    public function __construct()
-    {
-        parent::__construct(connectionConfig: new PostgresConfig());
-    }
     function getDriver(
         ConnectionDefinitions $connectionDefinitions,
         array $options

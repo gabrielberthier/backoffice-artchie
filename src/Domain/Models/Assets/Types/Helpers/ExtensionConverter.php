@@ -11,7 +11,7 @@ class ExtensionConverter
   {
     $formats = $assetFactoryInterface->allowedFormats();
     if (is_array($formats)) {
-      return array_map(fn (string $format) => strtoupper($format), $formats);
+      return array_map(static fn(string $format) => strtoupper($format), $formats);
     }
 
     return [

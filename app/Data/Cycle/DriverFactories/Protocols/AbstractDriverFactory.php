@@ -1,4 +1,5 @@
 <?php
+
 namespace Core\Data\Cycle\DriverFactories\Protocols;
 
 use Core\Data\Cycle\ConnectionFactories\Input\ConnectionDefinitions;
@@ -13,11 +14,12 @@ abstract class AbstractDriverFactory implements DriverFactoryInterface, Configur
         protected ?string $timezone = null,
         protected ?bool $queryCache = null,
         protected ?bool $readonlySchema = null,
-        protected ?bool $readonly
+        protected ?bool $readonly = false
     ) {
     }
 
-    public function factory(): DriverFactoryInterface{
+    public function factory(): DriverFactoryInterface
+    {
         return $this;
     }
 

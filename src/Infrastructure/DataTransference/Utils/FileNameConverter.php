@@ -6,7 +6,7 @@ use Psr\Http\Message\UploadedFileInterface;
 
 class FileNameConverter
 {
-    public static function convertFileName(UploadedFileInterface $uploadedFile)
+    public static function convertFileName(UploadedFileInterface $uploadedFile): string
     {
         $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
 

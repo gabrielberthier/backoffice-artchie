@@ -5,132 +5,41 @@ declare(strict_types=1);
 namespace App\Domain\Models\Security;
 
 use App\Domain\Models\Museum;
-use App\Domain\Models\Traits\TimestampsTrait;
-use Doctrine\ORM\Mapping\OneToOne;
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Table;
+use DateTimeImmutable;
+use DateTimeInterface;
 
 use DateInterval;
 use DateTime;
 use JsonSerializable;
 
-
-#[Entity, Table(name: 'signature_tokens'), HasLifecycleCallbacks]
-class SignatureToken implements JsonSerializable
+readonly class SignatureToken implements JsonSerializable
 {
-    use TimestampsTrait;
-
-    #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
-    protected $id;
-
-    #[Column(type: 'text', nullable: false)]
-    private string $signature;
-
-    #[Column(type: 'text', nullable: false)]
-    private string $privateKey;
-
-    #[Column(type: 'datetime', name: 'time_to_live')]
-    private DateTime $ttl;
-
-    #[OneToOne(targetEntity: Museum::class)]
-    private ?Museum $museum;
-
+    public ?DateTimeInterface $createdAt;
+    
+    public ?DateTimeInterface $updated;
+    
+    public ?DateTimeInterface $ttl;
+    
     public function __construct(
-        ?int $id,
-        string $signature,
-        string $privateKey,
-        ?Museum $museum,
+        public ?int $id,
+        public string $signature,
+        public string $privateKey,
+        public ?Museum $museum,
+        ?DateTimeInterface $createdAt,
+        ?DateTimeInterface $updated,
+        ?DateTimeInterface $ttl
     ) {
-        $this->id = $id;
-        $this->signature = $signature;
-        $this->privateKey = $privateKey;
-        $this->museum = $museum;
-        $this->createdAt = new DateTime();
-        $this->updated = new DateTime();
-        $this->ttl = $this->createdAt->add(new DateInterval('P6M'));
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get the value of signature.
-     */
-    public function getSignature()
-    {
-        return $this->signature;
-    }
-
-    /**
-     * Set the value of signature.
-     *
-     * @param mixed $signature
-     *
-     * @return self
-     */
-    public function setSignature($signature)
-    {
-        $this->signature = $signature;
-
-        return $this;
+        $this->createdAt = $createdAt ?? new DateTimeImmutable();
+        $this->updated = $updated ?? new DateTimeImmutable();
+        $this->ttl = $ttl ?? (new DateTime())->add(new DateInterval('P6M'));
     }
 
     public function jsonSerialize(): mixed
     {
         return [
-            'id' => $this->getId(),
-            'signature' => $this->getSignature(),
-            'privateKey' => $this->getPrivateKey(),
+            'id' => $this->id,
+            'signature' => $this->signature,
+            'privateKey' => $this->privateKey,
         ];
-    }
-
-    /**
-     * Get the value of privateKey.
-     */
-    public function getPrivateKey()
-    {
-        return $this->privateKey;
-    }
-
-    /**
-     * Set the value of privateKey.
-     *
-     * @param mixed $privateKey
-     *
-     * @return self
-     */
-    public function setPrivateKey($privateKey)
-    {
-        $this->privateKey = $privateKey;
-
-        return $this;
-    }
-
-    /**
-     * Get one Product has One Shipment.
-     */
-    public function getMuseum()
-    {
-        return $this->museum;
-    }
-
-    /**
-     * Set one Product has One Shipment.
-     *
-     * @param mixed $museum
-     *
-     * @return self
-     */
-    public function setMuseum($museum)
-    {
-        $this->museum = $museum;
-
-        return $this;
     }
 }

@@ -23,7 +23,7 @@ class UuidEncoder
         try {
             return Uuid::fromString(array_reduce(
                 [20, 16, 12, 8],
-                function ($uuid, $offset) {
+                static function ($uuid, $offset) {
                     return substr_replace($uuid, '-', $offset, 0);
                 },
                 str_pad(
@@ -36,7 +36,7 @@ class UuidEncoder
                     STR_PAD_LEFT
                 )
             ));
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             return null;
         }
     }

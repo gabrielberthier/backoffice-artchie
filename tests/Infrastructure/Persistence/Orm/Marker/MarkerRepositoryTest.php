@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Infrastructure\Persistence\Orm\Marker;
 
+use App\Data\Entities\Doctrine\DoctrineMarker;
+use App\Data\Entities\Doctrine\DoctrineMarkerAsset;
+use App\Data\Entities\Doctrine\DoctrinePlacementObject;
 use App\Domain\Models\Assets\PictureAsset;
 use App\Domain\Models\Marker\Marker;
-use App\Domain\Models\Marker\MarkerAsset;
 use App\Domain\Models\PlacementObject\PlacementObject;
 use App\Domain\Repositories\MarkerRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface as EntityManager;
 use function PHPUnit\Framework\assertInstanceOf;
-use function PHPUnit\Framework\assertSame;
 use Tests\TestCase;
 
 /**
@@ -25,12 +26,13 @@ class MarkerRepositoryTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::createDatabase();
+        putenv('RR=');
+        self::createDatabaseDoctrine();
     }
 
     public static function tearDownAfterClass(): void
     {
-        self::truncateDatabase();
+        self::createDatabaseDoctrine();
     }
 
     public function setUp(): void
@@ -44,7 +46,7 @@ class MarkerRepositoryTest extends TestCase
     protected function tearDown(): void
     {
         $entityManager = $this->entityManager;
-        $collection = $entityManager->getRepository(Marker::class)->findAll();
+        $collection = $entityManager->getRepository(DoctrineMarker::class)->findAll();
         foreach ($collection as $c) {
             $entityManager->remove($c);
         }
@@ -52,89 +54,108 @@ class MarkerRepositoryTest extends TestCase
         $entityManager->clear();
     }
 
+    /**
+     * @group doctrine
+     */
     public function testShouldInsertMarker()
     {
-        $marker = new Marker();
-        $marker->setName('Boy with apple.png');
-        $marker->setText('The boy with an apple is a famous portrait of a boy with an apple');
-        $marker->setTitle('Boy with an apple');
+        $marker = new Marker(
+            null,
+            null,
+            'Boy with apple.png',
+            'The boy with an apple is a famous portrait of a boy with an apple',
+            'Boy with an apple'
+        );
 
         $this->repository->add($marker);
         $total = $this->getTotalCount();
 
-        assertSame($total, 1);
+        $this->assertEquals($total, 1);
     }
 
+    /**
+     * @group doctrine
+     */
     public function testShouldRetrieveMarker()
     {
-        $marker = new Marker();
-        $marker->setName('Boy with apple.png');
-        $marker->setText('The boy with an apple is a famous portrait of a boy with an apple');
-        $marker->setTitle('Boy with an apple');
+        $marker = new Marker(
+            null,
+            null,
+            'Boy with apple.png',
+            'The boy with an apple is a famous portrait of a boy with an apple',
+            'Boy with an apple'
+        );
 
         $this->repository->add($marker);
 
-        $new_marker = $this->entityManager->getRepository(Marker::class)->findBy([], ['id' => 'DESC'], 1, 0)[0];
+        $new_marker = $this->entityManager->getRepository(DoctrineMarker::class)->findAll()[0];
 
         //print_r($account);
 
-        assertInstanceOf(Marker::class, $new_marker);
+        assertInstanceOf(DoctrineMarker::class, $new_marker);
     }
 
+    /**
+     * @group doctrine
+     */
     public function testShouldInsertMarkerWithAsset()
     {
-        $marker = new Marker();
-        $marker->setName('Boy with apple.png');
-        $marker->setText('The boy with an apple is a famous portrait of a boy with an apple');
-        $marker->setTitle('Boy with an apple');
-
         $asset = new PictureAsset();
         $asset->setFileName('boyapple.png');
         $asset->setPath('domain/path/boyaple.png');
         $asset->setUrl('www.name.com');
         $asset->setOriginalName('boyapp.png');
         $asset->setMimeType('file/png');
-        $markerAsset = new MarkerAsset($marker, $asset);
-
-        $marker->setAsset($markerAsset);
+        $marker = new Marker(
+            null,
+            null,
+            'Boy with apple.png',
+            'The boy with an apple is a famous portrait of a boy with an apple',
+            'Boy with an apple',
+            $asset
+        );
 
         $this->repository->add($marker);
 
-        $new_marker = $this->entityManager->getRepository(Marker::class)->findBy([], ['id' => 'DESC'], 1, 0)[0];
+        $new_marker = $this->entityManager->getRepository(DoctrineMarker::class)->findBy([], ['id' => 'DESC'], 1, 0)[0];
 
         //print_r($account);
 
         $new_asset = $new_marker->getAsset();
 
-        assertInstanceOf(Marker::class, $new_marker);
-        assertInstanceOf(MarkerAsset::class, $new_asset);
+        assertInstanceOf(DoctrineMarker::class, $new_marker);
+        assertInstanceOf(DoctrineMarkerAsset::class, $new_asset);
     }
 
+    /**
+     * @group doctrine
+     */
     public function testShouldInsertMarkerWithResources()
     {
-        $marker = new Marker();
-        $marker->setName('Boy with apple.png');
-        $marker->setText('The boy with an apple is a famous portrait of a boy with an apple');
-        $marker->setTitle('Boy with an apple');
+        $marker = new Marker(
+            null,
+            null,
+            'Boy with apple.png',
+            'The boy with an apple is a famous portrait of a boy with an apple',
+            'Boy with an apple'
+        );
 
-        $placementObject = new PlacementObject();
-
-        $placementObject->setName('Object to place over pictyre');
+        $placementObject = new PlacementObject(null, 'Object to place over pictyre', null);
 
         $marker->addResource($placementObject);
 
         $this->repository->add($marker);
 
-        /** @var Marker */
-        $new_marker = $this->entityManager->getRepository(Marker::class)->findBy([], ['id' => 'DESC'], 1, 0)[0];
+        /** @var DoctrineMarker */
+        $new_marker = $this->entityManager->getRepository(DoctrineMarker::class)->findBy([], ['id' => 'DESC'], 1, 0)[0];
 
         //print_r($account);
 
         $resources = $new_marker->getResources();
 
-        assertSame($resources->count(), 1);
+        $this->assertEquals($resources->count(), 1);
         $resource = $resources->get(0);
-        assertInstanceOf(PlacementObject::class, $resource);
+        assertInstanceOf(DoctrinePlacementObject::class, $resource);
     }
 
     private function getTotalCount(): int
@@ -142,7 +163,7 @@ class MarkerRepositoryTest extends TestCase
         $qb = $this->entityManager->createQueryBuilder();
 
         $qb->select($qb->expr()->count('u'))
-            ->from(Marker::class, 'u')
+            ->from(DoctrineMarker::class, 'u')
             // ->where('u.type = ?1')
             // ->setParameter(1, 'employee')
         ;

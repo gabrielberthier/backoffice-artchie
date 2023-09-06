@@ -15,7 +15,7 @@ class InstanceNotFoundException extends HttpSpecializedAdapter
 
     public function wire(ServerRequestInterface $request): HttpException
     {
-        $message = "The requested {$this->object} does not exist";
+        $message = sprintf('The requested %s does not exist', $this->object);
         $message .= $this->message;
 
         return new HttpBadRequestException($request, $message);

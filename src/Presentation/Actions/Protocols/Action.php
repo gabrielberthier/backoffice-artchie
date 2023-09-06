@@ -27,9 +27,6 @@ abstract class Action implements ActionInterface
 
     protected array $args;
 
-    /**
-     * @param LoggerInterface $logger
-     */
     public function __construct(protected LoggerInterface $logger)
     {
     }
@@ -46,8 +43,8 @@ abstract class Action implements ActionInterface
             $this->validate($request);
 
             return $this->action($request);
-        } catch (HttpSpecializedAdapter $e) {
-            $adaptedError = $e->wire($request);
+        } catch (HttpSpecializedAdapter $httpSpecializedAdapter) {
+            $adaptedError = $httpSpecializedAdapter->wire($request);
 
             throw $adaptedError;
         }
@@ -68,7 +65,7 @@ abstract class Action implements ActionInterface
 
                 public function wire(Request $request): HttpException
                 {
-                    return new HttpBadRequestException($request, "Could not resolve argument `{$this->name}`.");
+                    return new HttpBadRequestException($request, sprintf('Could not resolve argument `%s`.', $this->name));
                 }
             };
             throw $unresolvedArgumentException;

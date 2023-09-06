@@ -15,7 +15,6 @@ $containerFactory = new ContainerFactory();
 $containerFactory
     // Set to true in production
     ->enableCompilation(isProd())
-    ->withoutAnnotations()
 ;
 
 $appBuilder = new AppBuilderManager($containerFactory->get());

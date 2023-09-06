@@ -10,10 +10,4 @@ interface PaginationInterface
         int $page = 1,
         int $limit = 20
     ): PaginationResponse;
-
-    public function lastPage(): int;
-
-    public function total(): int;
-
-    public function currentPageHasNoResult(): bool;
 }

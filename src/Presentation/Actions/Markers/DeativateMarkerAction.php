@@ -22,7 +22,7 @@ class DeativateMarkerAction extends Action
     {
         $id = (int) $this->resolveArg('id');
 
-        if (!$id) {
+        if ($id === 0) {
             throw new HttpBadRequestException($request, 'A valid ID should be passed');
         }
 

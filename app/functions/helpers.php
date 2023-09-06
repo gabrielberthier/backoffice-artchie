@@ -69,6 +69,17 @@ if (!function_exists('mode')) {
 /**
  * Provides information about the system's mode, whether it is in production mode or not.
  */
+if (!function_exists('inTesting')) {
+    function inTesting()
+    {
+        $mode = $_ENV['MODE'] ?? '';
+        return $mode === 'TEST';
+    }
+}
+
+/**
+ * Provides information about the system's mode, whether it is in production mode or not.
+ */
 if (!function_exists('isProd')) {
     function isProd()
     {
@@ -88,3 +99,27 @@ if (!function_exists('isDev')) {
     }
 }
 
+/**
+ * Makes a string camel case
+ */
+if (!function_exists('toCamelCase')) {
+    function toCamelCase(string $input, ?string $sepators = '_'): string
+    {
+        return str_replace("_", "", lcfirst(ucwords($input, $sepators)));
+    }
+}
+
+/**
+ * Creates a new array applying camel case to keys
+ */
+if (!function_exists('arrayToCamelCase')) {
+    function arrayToCamelCase(array $array): array
+    {
+        $result = [];
+        foreach ($array as $key => $value) {
+            $result[toCamelCase($key)] = $value;
+        }
+
+        return $result;
+    }
+}

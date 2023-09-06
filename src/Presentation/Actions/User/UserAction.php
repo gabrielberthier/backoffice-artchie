@@ -11,10 +11,6 @@ use Psr\Log\LoggerInterface;
 abstract class UserAction extends Action
 {
 
-    /**
-     * @param LoggerInterface $logger
-     * @param UserUseCaseInterface  $userRepository
-     */
     public function __construct(protected LoggerInterface $logger, protected UserUseCaseInterface $userService)
     {
     }

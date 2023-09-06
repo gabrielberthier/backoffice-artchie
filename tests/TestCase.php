@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use Doctrine\ORM\EntityManagerInterface as EntityManager;
-use Doctrine\ORM\Tools\SchemaTool;
+use Core\Data\BehaviourComponents\DatabaseCleaner;
+use Core\Data\BehaviourComponents\DatabaseCreator;
 use PHPUnit\Framework\TestCase as PHPUnit_TestCase;
 use Tests\Traits\App\AppTestTrait;
 use Tests\Traits\App\DoublesTrait;
@@ -27,22 +27,31 @@ class TestCase extends PHPUnit_TestCase
 
     public static function createDatabase()
     {
-        /** @var \Psr\Container\ContainerInterface */
-        $container = self::$container;
-        /** @var EntityManager */
-        $entityManager = $container->get(EntityManager::class);
-        $metadatas = $entityManager->getMetadataFactory()->getAllMetadata();
-        $schemaTool = new SchemaTool($entityManager);
-        $schemaTool->updateSchema($metadatas);
+        $container = self::requireContainer();
+
+        DatabaseCreator::create($container);
     }
 
     final public static function truncateDatabase()
     {
-        /** @var \Psr\Container\ContainerInterface */
-        $container = self::$container;
-        /** @var EntityManager */
-        $entityManager = $container->get(EntityManager::class);
-        $schemaTool = new SchemaTool($entityManager);
-        $schemaTool->dropDatabase();
+        $container = self::requireContainer();
+
+        DatabaseCleaner::truncate($container);
     }
+
+    public static function createDatabaseDoctrine()
+    {
+        $container = self::requireContainer();
+
+        DatabaseCreator::createDoctrineDatabase($container);
+    }
+
+    final public static function truncateDatabaseDoctrine()
+    {
+        $container = self::requireContainer();
+
+        DatabaseCleaner::truncateDoctrineDatabase($container);
+    }
+
+
 }

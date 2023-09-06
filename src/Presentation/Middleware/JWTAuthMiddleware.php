@@ -5,22 +5,18 @@ declare(strict_types=1);
 namespace App\Presentation\Middleware;
 
 use App\Infrastructure\Cryptography\Exceptions\AppHasNoDefinedSecrets;
-use App\Presentation\Factories\RefreshTokenHandlerFactory;
-use App\Presentation\Handlers\RefreshTokenHandler;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface as Middleware;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
+use Core\Http\Middlewares\Jwt\JwtAuthentication;
 use Psr\Log\LoggerInterface;
-use Tuupola\Middleware\JwtAuthentication;
 
 class JWTAuthMiddleware implements Middleware
 {
-    public function __construct(
-        private LoggerInterface $logger,
-        private RefreshTokenHandlerFactory $refreshTokenHandlerFactory
-    ) {
-        $shouldHave = ['JWT_SECRET', 'JWT_SECRET_COOKIE'];
+    public function __construct(private LoggerInterface $logger)
+    {
+        $shouldHave = ["JWT_SECRET", "JWT_SECRET_COOKIE"];
 
         foreach ($shouldHave as $field) {
             if (!array_key_exists($field, $_ENV)) {
@@ -34,31 +30,34 @@ class JWTAuthMiddleware implements Middleware
      */
     public function process(Request $request, RequestHandler $handler): Response
     {
-        $refreshTokenHandler = $this->refreshTokenHandlerFactory->create($request);
-
-        $authMiddleware = $this->boot($refreshTokenHandler);
-
-        return $authMiddleware->process($request, $handler);
-    }
-
-    private function boot(?RefreshTokenHandler $refreshTokenHandler): JwtAuthentication
-    {
-        $secret = $_ENV['JWT_SECRET'];
+        $secret = $_ENV["JWT_SECRET"];
 
         $options = [
-            'secret' => $secret,
-            'path' => '/api',
-            'ignore' => ['/api/auth', '/admin/ping'],
+            "secret" => $secret,
+            "path" => "/api",
+            "ignore" => ["/api/auth", "/admin/ping"],
             // 'before' => $beforeFunction,
-            'logger' => $this->logger,
-            'relaxed' => ['localhost', 'dev.example.com'],
-            'secure' => false,
+            "logger" => $this->logger,
+            "relaxed" => ["localhost", "dev.example.com"],
+            "secure" => false,
+            "error" => function (Response $response, array $args): Response {
+                $response = $response->withHeader('Content-Type', 'application/json');
+
+                $response
+                    ->getBody()
+                    ->write(
+                        json_encode([
+                            "message" =>
+                            "You are not allowed to acess this resource",
+                        ])
+                    );
+
+                return $response;
+            }
         ];
 
-        if ('DEV' === $_ENV['MODE']) {
-            $options['error'] = $refreshTokenHandler;
-        }
+        $jwtAuth = new JwtAuthentication($options);
 
-        return new JwtAuthentication($options);
+        return $jwtAuth->process($request, $handler);
     }
 }

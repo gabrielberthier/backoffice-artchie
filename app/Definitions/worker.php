@@ -9,7 +9,7 @@ use Spiral\RoadRunner\Http\PSR7WorkerInterface;
 $psr17Factory = new Nyholm\Psr7\Factory\Psr17Factory();
 
 return [
-    sr\Http\Message\ResponseFactoryInterface::class => $psr17Factory,
+    Psr\Http\Message\ResponseFactoryInterface::class => $psr17Factory,
     Psr\Http\Message\ServerRequestFactoryInterface::class => $psr17Factory,
     Psr\Http\Message\StreamFactoryInterface::class => $psr17Factory,
     Psr\Http\Message\UploadedFileFactoryInterface::class => $psr17Factory,

@@ -5,11 +5,12 @@ namespace App\Presentation\Handlers;
 use App\Domain\Repositories\AccountRepository;
 use App\Infrastructure\Cryptography\BodyTokenCreator;
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
 /**
- * @docs This class is called once the validation of a user's JWT throws invalid.
+ * This class is called once the validation of a user's JWT throws invalid.
  * Then, this class instance is responsible to verify the user's refresh token existence and
  * forge a new JWT in case the Refresh Token exists.
  */
@@ -23,12 +24,16 @@ class RefreshTokenHandler
     ) {
     }
 
-    public function __invoke(ResponseInterface $response, $arguments): ResponseInterface
+    public function __invoke(ResponseInterface $response, array $arguments = []): ResponseInterface
     {
         $statusCode = 201;
 
         try {
-            $payload = JWT::decode($this->refreshToken, $this->secretToken, ['HS256']);
+            $key = new Key(
+                $this->secretToken,
+                'HS256'
+            );
+            $payload = JWT::decode($this->refreshToken, $key);
             $token = $this->createRenewToken($payload);
 
             $response = $response->withHeader('X-RENEW-TOKEN', $token);

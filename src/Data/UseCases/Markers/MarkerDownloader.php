@@ -13,14 +13,13 @@ use S3DataTransfer\S3\Zip\S3StreamObjectsZipDownloader;
 
 class MarkerDownloader implements MarkerDownloaderServiceInterface
 {
-    private string $bucket;
+    private string $bucket = "artchier-markers";
 
     public function __construct(
         private S3StreamObjectsZipDownloader $zipper,
         private MarkerRepositoryInterface $repository,
         private MediaCollectorInterface $visitor
     ) {
-        $this->bucket = "artchier-markers";
     }
 
     /**
@@ -56,7 +55,7 @@ class MarkerDownloader implements MarkerDownloaderServiceInterface
         );
 
         $mappedArray = array_map(
-            fn(MediaResource $resource) => new ResourceObject(
+            static fn(MediaResource $resource) => new ResourceObject(
                 $resource->path,
                 $resource->name
             ),

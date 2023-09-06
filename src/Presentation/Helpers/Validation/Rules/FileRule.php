@@ -31,7 +31,7 @@ class FileRule extends AbstractRule
     public function validate($input): bool
     {
         $joinedFormats = implode("|", $this->allowedFormats);
-        $groupAllowedFormats = "({$joinedFormats})";
+        $groupAllowedFormats = sprintf('(%s)', $joinedFormats);
         $fullRegex =
             "/^" .
             $this->gourpAllowedChars .

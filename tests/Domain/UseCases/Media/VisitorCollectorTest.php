@@ -7,7 +7,7 @@ use App\Data\Protocols\Media\MediaHostInterface;
 use App\Data\UseCases\Media\MediaCollectorVisitor;
 use App\Domain\Models\Assets\AbstractAsset;
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophet;
 
 function createAbstractAsset(): AbstractAsset
 {
@@ -48,17 +48,18 @@ class MediaHostInterfaceStub implements MediaHostInterface
 
 class VisitorCollectorTest extends TestCase
 {
-  use ProphecyTrait;
+  private Prophet $prophet;
   private MediaCollectorInterface $sut;
 
   function setUp(): void
   {
+    $this->prophet = new Prophet();
     $this->sut = new MediaCollectorVisitor();
   }
 
   public function testShouldHaveNoElementsInVisitorArraySetForEmptyAbstractAsset()
   {
-    $mhi = $this->prophesize(MediaHostInterfaceStub::class);
+    $mhi = $this->prophet->prophesize(MediaHostInterfaceStub::class);
     $mhi->assetInformation()->willReturn(null);
     $this->sut->visit($mhi->reveal());
 
@@ -67,7 +68,7 @@ class VisitorCollectorTest extends TestCase
 
   public function testShouldHaveOneElementWhenAssetIsPresent()
   {
-    $mhi = $this->prophesize(MediaHostInterfaceStub::class);
+    $mhi = $this->prophet->prophesize(MediaHostInterfaceStub::class);
 
     $mhi->namedBy()->willReturn("");
 

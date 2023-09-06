@@ -34,11 +34,7 @@ trait InstanceManagerTrait
 
     protected function getContainer(bool $forceUpdate = false): ContainerInterface
     {
-        if (null === self::$container || $forceUpdate) {
-            self::$container = $this->setUpContainer();
-        }
-
-        return self::$container;
+        return self::requireContainer($forceUpdate);
     }
 
     protected function autowireContainer($key, $instance)
@@ -50,17 +46,23 @@ trait InstanceManagerTrait
         $container->set($key, $instance);
     }
 
-    private function setUpContainer(): ContainerInterface
+    static function setUpContainer(): ContainerInterface
     {
         $containerFactory = new ContainerFactory();
 
         $containerFactory
-            // Set to true in production
             ->enableCompilation(false)
-            // Make use of annotations in classes
-            ->withAnnotations()
         ;
 
         return $containerFactory->get();
+    }
+
+    static function requireContainer(bool $forceUpdate = false): ContainerInterface
+    {
+        if (null === self::$container || $forceUpdate) {
+            self::$container = self::setUpContainer();
+        }
+
+        return self::$container;
     }
 }

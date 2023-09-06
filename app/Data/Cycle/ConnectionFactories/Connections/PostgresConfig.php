@@ -1,4 +1,5 @@
 <?php
+
 namespace Core\Data\Cycle\ConnectionFactories\Connections;
 
 use Core\Data\Cycle\ConnectionFactories\Protocols\ConnectionConfigInterface;
@@ -30,11 +31,15 @@ class PostgresConfig implements ConnectionConfigInterface
     {
         $options ??= [];
 
-        return new Config\Postgres\DsnConnectionConfig(
-            $dsn,
+        $conn = new Config\Postgres\DsnConnectionConfig(
+            "pgsql:host=db;port=5432;dbname=backofficeapi;user=postgres;password=POSTGRES_PASSWORD",
             $user,
             $password,
             $options
         );
+
+
+
+        return $conn;
     }
 }

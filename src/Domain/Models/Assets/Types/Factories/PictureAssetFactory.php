@@ -11,12 +11,10 @@ use App\Domain\Models\Assets\Types\Interfaces\ConstrainedAssetFactoryInterface;
 
 class PictureAssetFactory implements ConstrainedAssetFactoryInterface
 {
-  function create(CreateAsset $command): AbstractAsset
+  public function create(CreateAsset $command): AbstractAsset
   {
     $asset = new PictureAsset();
-    $asset->fromCommand($command);
-
-    return $asset;
+    return $asset->fromCommand($command);
   }
 
   public function allowedFormats(): array|string

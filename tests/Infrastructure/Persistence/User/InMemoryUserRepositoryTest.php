@@ -6,7 +6,7 @@ namespace Tests\Infrastructure\Persistence\User;
 
 use App\Domain\Exceptions\UserNotFoundException;
 use App\Domain\Models\User;
-use App\Infrastructure\Persistence\User\InMemoryUserRepository;
+use App\Infrastructure\Persistence\MemoryRepositories\InMemoryUserRepository;
 use Tests\TestCase;
 
 /**

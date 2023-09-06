@@ -8,11 +8,11 @@ use App\Data\Protocols\Auth\LoginServiceInterface;
 use App\Domain\Dto\Credentials;
 use App\Presentation\Actions\Protocols\ActionError;
 use App\Presentation\Actions\Protocols\ActionPayload;
+use App\Presentation\Actions\Protocols\ErrorsEnum;
 use App\Presentation\Helpers\Validation\Validators\Interfaces\ValidationInterface;
 use DI\Container;
 use function PHPUnit\Framework\assertEquals;
 use PHPUnit\Framework\MockObject\MockObject;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophet;
 use Psr\Http\Message\ServerRequestInterface;
 use Tests\TestCase;
@@ -23,9 +23,7 @@ use Tests\TestCase;
  */
 class LoginControllerTest extends TestCase
 {
-    use ProphecyTrait;
-
-    private $prophet;
+    private Prophet $prophet;
 
     protected function setUp(): void
     {
@@ -61,7 +59,7 @@ class LoginControllerTest extends TestCase
         $response = $app->handle($request);
 
         $payload = (string) $response->getBody();
-        $expectedError = new ActionError(ActionError::UNPROCESSABLE_ENTITY, '[password]: Password wrong my dude');
+        $expectedError = new ActionError(ErrorsEnum::UNPROCESSABLE_ENTITY->value, '[password]: Password wrong my dude');
         $expectedPayload = new ActionPayload(statusCode: 422, error: $expectedError);
         $serializedPayload = json_encode($expectedPayload, JSON_PRETTY_PRINT);
 

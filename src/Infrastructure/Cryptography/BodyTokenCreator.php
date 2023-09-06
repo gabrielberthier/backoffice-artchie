@@ -24,7 +24,7 @@ class BodyTokenCreator implements TokenGeneratorInterface
             'iat' => $now->getTimeStamp(),
             'exp' => $future->getTimeStamp(),
             'jti' => $jti,
-            'sub' => $this->account->getUsername(),
+            'sub' => $this->account->username,
             'data' => $this->createData(),
             'iss' => 'ARTCHIE',
         ];
@@ -34,16 +34,18 @@ class BodyTokenCreator implements TokenGeneratorInterface
 
     private function createData(): array
     {
-        $email = $this->account->getEmail();
-        $uuid = $this->account->getUuid();
-        $role = $this->account->getRole();
-        $username = $this->account->getUsername();
+        $email = $this->account->email;
+        $uuid = $this->account->uuid;
+        $role = $this->account->role;
+        $username = $this->account->username;
+        $authType = $this->account->authType;
 
         return [
             'email' => $email,
             'uuid' => $uuid,
             'role' => $role,
             'username' => $username,
+            'auth_type' => $authType
         ];
     }
 }

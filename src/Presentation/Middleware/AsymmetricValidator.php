@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Presentation\Middleware;
 
-use App\Data\Protocols\AsymCrypto\AsymmetricVerifier;
 use App\Domain\Repositories\MuseumRepository;
 use App\Domain\Repositories\SignatureTokenRetrieverInterface;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -19,7 +18,6 @@ class AsymmetricValidator implements Middleware
 {
     public function __construct(
         private MuseumRepository $museumRepository,
-        private AsymmetricVerifier $asymmetricVerifier,
         private SignatureTokenRetrieverInterface $tokenRepository
     ) {
     }
@@ -32,22 +30,22 @@ class AsymmetricValidator implements Middleware
 
         $museum = $this->museumRepository->findByUUID($uuid);
 
-        if ($museum) {
+        if ($museum instanceof \App\Domain\Models\Museum) {
             $signature = json_encode([
-                'uuid' => $museum->getUuid()->toString(),
-                'museum_name' => $museum->getName(),
+                'uuid' => $museum->uuid->toString(),
+                'museum_name' => $museum->name,
             ]);
 
             $dbToken = $this->tokenRepository->findFromMuseum($museum);
-            $raw_signature = base64_decode($dbToken->getSignature());
+            $raw_signature = base64_decode($dbToken->signature);
             $result = openssl_verify($signature, $raw_signature, $token, OPENSSL_ALGO_SHA256);
 
-            if (1 === $result) {
+            if ($result > 0) {
                 return $handler->handle(
                     $request
                         ->withAttribute(
                             'museum_id',
-                            $museum->getId()
+                            $museum->id
                         )
                 );
             }
@@ -58,7 +56,7 @@ class AsymmetricValidator implements Middleware
 
     private function filterHeader(Request $request, array $headers)
     {
-        if (count($headers)) {
+        if ($headers !== []) {
             list($headerValue) = $headers;
 
             if (strpos($headerValue, '.')) {

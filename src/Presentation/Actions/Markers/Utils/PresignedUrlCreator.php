@@ -9,6 +9,7 @@ use S3DataTransfer\S3\Factories\ClientProvider;
 class PresignedUrlCreator
 {
     private S3Client $s3Client;
+    
     private string $bucket = 'artchier-markers';
 
     public function __construct()

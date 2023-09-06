@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Presentation\Actions\Markers;
 
 use App\Data\Protocols\Markers\Store\MarkerServiceStoreInterface;
+use App\Domain\Models\Marker\Marker;
 use App\Presentation\Actions\Markers\MarkerBuilder\MarkerBuilder;
 use App\Presentation\Actions\Markers\MarkerValidations\MarkerValidation;
 use App\Presentation\Actions\Markers\MarkerValidations\PlacementObjectValidation;
 use App\Presentation\Actions\Protocols\Action;
+use Doctrine\Common\Collections\ArrayCollection;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Respect\Validation\Validator;
@@ -27,18 +29,39 @@ class StoreMarkerAction extends Action
         $museumId = $parsedBody['museum_id'] ?? null;
         $builder = $this->markerBuilder;
         $marker = $parsedBody['marker'];
-        $builder->prepareMarker($marker);
+        $markerAsset = null;
+        $placementObject = null;
 
         if (isset($marker['asset'])) {
-            $builder->appendMarkerAsset($marker['asset']);
+            $markerAsset = $builder->prepareAsset($marker['asset']);
         }
 
         if (isset($parsedBody['pose_object'])) {
-            $builder->appendResource($parsedBody['pose_object']);
+            $placementObject = $builder->makePlacementObject($parsedBody['pose_object']);
         }
 
-        $marker = $builder->getMarker();
-        $this->markerServiceStore->insert($museumId, $marker);
+        if (is_object($marker)) {
+            $body = (array) $marker;
+        }
+        
+        [
+            "marker_name" => $name,
+            "marker_text" => $text,
+            "marker_title" => $title,
+        ] = $body;
+
+        $this->markerServiceStore->insert(
+            $museumId,
+            new Marker(
+                null,
+                null,
+                name: $name,
+                text: $text,
+                title: $title,
+                resources: new ArrayCollection([$placementObject]),
+                asset: $markerAsset
+            )
+        );
 
         return $this->respondWithData(['message' => 'Success! Marker created']);
     }
@@ -55,8 +78,7 @@ class StoreMarkerAction extends Action
 
     /**
      * Summary of rules
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * 
+     *
      * @return array
      */
     public function rules(Request $request): ?array

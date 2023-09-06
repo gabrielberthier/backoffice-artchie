@@ -12,13 +12,13 @@ class SlimGroupRoute implements GroupRouteInterface
     }
     function add($middleware): self
     {
-        $this->addMiddleware($middleware);
+        $this->group->add($middleware);
 
         return $this;
     }
     function addMiddleware(\Psr\Http\Server\MiddlewareInterface $middleware): self
     {
-        $this->addMiddleware($middleware);
+        $this->group->addMiddleware($middleware);
 
         return $this;
     }

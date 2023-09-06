@@ -4,7 +4,6 @@ namespace App\Data\UseCases\Resources;
 
 use App\Data\Protocols\Media\MediaHostInterface;
 use App\Data\Protocols\Resources\ResourcesDownloaderInterface;
-use App\Domain\Dto\Asset\PlacementResource;
 use App\Domain\Dto\Asset\Transference\Asset as TransferenceAsset;
 use App\Domain\Dto\Asset\Transference\AssetInfo as TransferenceAssetInfo;
 use App\Domain\Dto\Asset\Transference\MarkerResource;
@@ -33,9 +32,7 @@ class DeliveryMan implements ResourcesDownloaderInterface
   /**
    * Returns all mapped marker instances from a museum
    *
-   * @param string $id
-   * 
-   * @return array
+   *
    */
   public function transport(int $id): array
   {
@@ -57,8 +54,8 @@ class DeliveryMan implements ResourcesDownloaderInterface
           "Could not identify a museum by this code"
         )
       );
-    } catch (\Throwable $th) {
-      echo ($th);
+    } catch (\Throwable $throwable) {
+      echo ($throwable);
 
       return [];
     }
@@ -82,11 +79,11 @@ class DeliveryMan implements ResourcesDownloaderInterface
           )
         )
           ->withInformation(
-            new TransferenceAssetInfo($el->getTitle(), $el->getText())
+            new TransferenceAssetInfo($el->title, $el->text)
           )
           ->attachPlacementResources(
             $this->mapPlacementObjectsToPlacementResources(
-              $el->getResources()
+              $el->resources
             )
           )
       )
@@ -121,11 +118,6 @@ class DeliveryMan implements ResourcesDownloaderInterface
     ];
   }
 
-  /**
-   * @param AbstractAsset $abstractAsset
-   *
-   * @return string|null
-   */
   private function assignUrl(AbstractAsset $abstractAsset): ?string
   {
     return $this->presignedUrlCreator->setPresignedUrl($abstractAsset);
@@ -134,8 +126,7 @@ class DeliveryMan implements ResourcesDownloaderInterface
   private function preventNotFoundAssets(Collection $collection): Collection
   {
     return $collection->filter(
-      fn(TransferenceAsset $asset) =>
-      !($asset->url === null && $asset->url === "")
+      static fn(TransferenceAsset $asset) => !($asset->url === null && $asset->url === "")
     );
   }
 
@@ -162,8 +153,6 @@ class DeliveryMan implements ResourcesDownloaderInterface
   }
 
   /**
-   * @param Museum $museum
-   *
    * @return Collection<Marker>
    */
   private function gatherMarkersFromMuseum(Museum $museum): Collection
@@ -194,8 +183,8 @@ class DeliveryMan implements ResourcesDownloaderInterface
 
   private function getOnlySetAssets(Collection $collection)
   {
-    return $collection->filter(function (MediaHostInterface $el) {
-      return !is_null($el->assetInformation());
+    return $collection->filter(static function (MediaHostInterface $el) {
+        return !is_null($el->assetInformation());
     });
   }
 }

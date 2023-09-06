@@ -12,7 +12,7 @@ interface UserSelectionUseCaseInterface
     public function findAll(): array;
 
     /**
-     * @throws UserNotFoundException
+     * @throws \App\Domain\Exceptions\UserNotFoundException
      */
     public function findUserOfId(int $id): User;
 }

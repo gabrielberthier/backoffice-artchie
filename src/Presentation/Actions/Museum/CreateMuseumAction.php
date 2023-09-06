@@ -24,7 +24,7 @@ class CreateMuseumAction extends Action
         $parsedBody['name'] = htmlspecialchars($parsedBody['name']);
         $museum = new Museum(null, ...$parsedBody);
 
-        $this->museumRepository->insert($museum);
+        $this->museumRepository->add($museum);
 
         return $this->respondWithData(['message' => 'Success! Museum created', 'museum' => $museum]);
     }
@@ -39,7 +39,7 @@ class CreateMuseumAction extends Action
 
     /**
      * Summary of rules
-     * @param \Psr\Http\Message\ServerRequestInterface $request
+     *
      * @return array<\Respect\Validation\ChainedValidator>
      */
     public function rules(Request $request): ?array

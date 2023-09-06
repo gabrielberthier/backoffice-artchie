@@ -13,8 +13,6 @@ interface UserRepository
     public function findAll(): array;
 
     /**
-     * @param int $id
-     * @return User
      * @throws \App\Domain\Exceptions\UserNotFoundException
      */
     public function findUserOfId(int $id): User;

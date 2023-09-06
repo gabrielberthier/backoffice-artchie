@@ -4,87 +4,53 @@ namespace App\Domain\Models\Assets;
 
 use App\Domain\Contracts\ModelInterface;
 use App\Domain\Dto\Asset\Command\CreateAsset;
-use App\Domain\Models\Traits\TimestampsTrait;
-use App\Domain\Models\Traits\UuidTrait;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\InheritanceType;
-use Doctrine\ORM\Mapping\DiscriminatorColumn;
-use Doctrine\ORM\Mapping\DiscriminatorMap;
-use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\Table;
-use Doctrine\ORM\Mapping\ManyToOne;
-use Doctrine\ORM\Mapping\OneToMany;
 use Exception;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
-/**
- * Abstract resource comprehends the entities which hold data such as medias, assets, etc.
- */
-#[
-    Entity,
-    Table(name: 'assets'),
-    HasLifecycleCallbacks,
-    InheritanceType("SINGLE_TABLE"),
-    DiscriminatorColumn(name: "asset_type", type: "string"),
-    DiscriminatorMap([
-        "3dObject" => "ThreeDimensionalAsset",
-        "texture" => "TextureAsset",
-        "video" => "VideoAsset",
-        "picture" => "PictureAsset"
-    ])
-]
 abstract class AbstractAsset implements ModelInterface
 {
-    use TimestampsTrait;
-    use UuidTrait;
-
-    /**
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
-    protected ?int $id;
-    #[Column(type: 'string', unique: true)]
+    protected ?int $id = null;
+    
     private string $path;
-    #[Column(type: 'string', unique: true)]
+    
     private string $fileName;
-    #[Column(type: 'string', nullable: true)]
+    
     private ?string $url;
-    #[Column(type: 'string')]
+    
     private string $mediaType;
-    #[Column(type: 'string')]
+    
     private string $originalName;
-    #[Column(type: 'string')]
+    
     private string $mimeType;
-
+    
     private ?string $temporaryLocation = null;
+    
+    private ?UuidInterface $uuid = null;
+    
+    private ?DateTimeInterface $createdAt = null;
+    
+    private ?DateTimeInterface $updated = null;
 
     /**
      * One Asset may have a set of sub assets, e.g., a 3D object can have many textures.
      * 
      * @param Collection<AbstractAsset> $children
      */
-    #[OneToMany(targetEntity: AbstractAsset::class, mappedBy: "parent")]
+
     private Collection $children;
 
-    /**
-     * Many sub assets have a single parent.
-     */
-    #[ManyToOne(targetEntity: AbstractAsset::class, inversedBy: "children")]
     private self $parent;
 
     public function __construct(string $mediaType)
     {
-        if (empty($mediaType)) {
+        if ($mediaType === '') {
             throw new Exception("Cannot create an asset subtype without expliciting its media type");
         }
+        
         $this->mediaType = $mediaType;
         $this->children = new ArrayCollection();
     }
@@ -106,9 +72,29 @@ abstract class AbstractAsset implements ModelInterface
      *
      * @return self
      */
-    public function setId(int $id)
+    public function setId(?int $id)
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get the internal primary identity key.
+     */
+    public function getUuid(): ?UuidInterface
+    {
+        return $this->uuid;
+    }
+
+    /**
+     * Set the internal primary identity key.
+     *
+     *
+     */
+    public function setUuid(UuidInterface|string $uuid): self
+    {
+        $this->uuid = is_string($uuid) ? Uuid::fromString($uuid) : $uuid;
 
         return $this;
     }
@@ -195,19 +181,48 @@ abstract class AbstractAsset implements ModelInterface
         return $this;
     }
 
+    public function setUpdated(DateTimeInterface $dateTime)
+    {
+        // WILL be saved in the database
+        $this->updated = $dateTime;
+    }
+
+    /**
+     * Get the value of createdAt.
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(DateTimeInterface $createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of updated.
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
     public function jsonSerialize(): mixed
     {
         return [
-            'id' => $this->getId(),
-            'uuid' => $this->getUuid(),
-            'path' => $this->getPath(),
-            'fileName' => $this->getFileName(),
-            'url' => $this->getUrl(),
-            'mediaType' => $this->getMediaType(),
-            'created_at' => $this->getCreatedAt(),
-            'last_update' => $this->getUpdated(),
-            'mimeType' => $this->getMimeType(),
-            'temporary_location' => $this->getTemporaryLocation(),
+            'id' => $this->id,
+            'uuid' => $this->uuid,
+            'path' => $this->path,
+            'fileName' => $this->fileName,
+            'url' => $this->url,
+            'mediaType' => $this->mediaType,
+            'created_at' => $this->createdAt,
+            'last_update' => $this->updated,
+            'mimeType' => $this->mimeType,
+            'temporary_location' => $this->temporaryLocation,
         ];
     }
 
@@ -296,9 +311,9 @@ abstract class AbstractAsset implements ModelInterface
     }
 
     /**
-     * Get one Asset may have a set of sub assets, e.g., a 3D object can have many textures.
+     * @return Collection<self>
      */
-    protected function getChildren(): Collection
+    public function getChildren(): Collection
     {
         return $this->children;
     }
@@ -306,10 +321,9 @@ abstract class AbstractAsset implements ModelInterface
     /**
      * Set one Asset may have a set of sub assets, e.g., a 3D object can have many textures.
      *
-     * @param self $element
      * @return  self
      */
-    protected function addChild(self $element)
+    public function addChild(self $element)
     {
         $this->children->add($element);
         $element->setParent($this);
@@ -317,17 +331,19 @@ abstract class AbstractAsset implements ModelInterface
         return $this;
     }
 
-    protected function setChildren(Collection $collection)
+    public function setChildren(Collection $collection)
     {
         $this->children = $collection;
     }
 
-    public function fromCommand(CreateAsset $createAsset)
+    public function fromCommand(CreateAsset $createAsset): self
     {
         $this->fileName = $createAsset->fileName;
         $this->path = $createAsset->path;
         $this->url = $createAsset->url;
         $this->originalName = $createAsset->originalName;
         $this->mimeType = $createAsset->mimeType();
+
+        return $this;
     }
 }

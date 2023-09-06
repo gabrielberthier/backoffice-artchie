@@ -17,6 +17,6 @@ class RefreshTokenAction extends Action
     {
         $refreshTokenHandler = $this->refreshTokenHandlerFactory->create($request);
 
-        return $refreshTokenHandler($this->response, []);
+        return $refreshTokenHandler($this->response);
     }
 }

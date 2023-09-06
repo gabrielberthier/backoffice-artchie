@@ -11,34 +11,11 @@ use Slim\Interfaces\ErrorHandlerInterface;
 
 class ShutdownHandler
 {
-    /**
-     * @var Request
-     */
-    private $request;
-
-    /**
-     * @var HttpErrorHandler
-     */
-    private $errorHandler;
-
-    /**
-     * @var bool
-     */
-    private $displayErrorDetails;
-
-    /**
-     * ShutdownHandler constructor.
-     *
-     * @param $errorHandler $errorHandler
-     */
     public function __construct(
-        Request $request,
-        ErrorHandlerInterface $errorHandler,
-        bool $displayErrorDetails
+        private Request $request,
+        private ErrorHandlerInterface $errorHandler,
+        private bool $displayErrorDetails
     ) {
-        $this->request = $request;
-        $this->errorHandler = $errorHandler;
-        $this->displayErrorDetails = $displayErrorDetails;
     }
 
     public function __invoke()
@@ -54,24 +31,24 @@ class ShutdownHandler
             if ($this->displayErrorDetails) {
                 switch ($errorType) {
                     case E_USER_ERROR:
-                        $message = "FATAL ERROR: {$errorMessage}. ";
-                        $message .= " on line {$errorLine} in file {$errorFile}.";
+                        $message = sprintf('FATAL ERROR: %s. ', $errorMessage);
+                        $message .= sprintf(' on line %d in file %s.', $errorLine, $errorFile);
 
                         break;
 
                     case E_USER_WARNING:
-                        $message = "WARNING: {$errorMessage}";
+                        $message = sprintf('WARNING: %s', $errorMessage);
 
                         break;
 
                     case E_USER_NOTICE:
-                        $message = "NOTICE: {$errorMessage}";
+                        $message = sprintf('NOTICE: %s', $errorMessage);
 
                         break;
 
                     default:
-                        $message = "ERROR: {$errorMessage}";
-                        $message .= " on line {$errorLine} in file {$errorFile}.";
+                        $message = sprintf('ERROR: %s', $errorMessage);
+                        $message .= sprintf(' on line %d in file %s.', $errorLine, $errorFile);
 
                         break;
                 }

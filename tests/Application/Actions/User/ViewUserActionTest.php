@@ -9,8 +9,9 @@ use App\Domain\Models\User;
 use App\Domain\Repositories\UserRepository;
 use App\Presentation\Actions\Protocols\ActionError;
 use App\Presentation\Actions\Protocols\ActionPayload;
+use App\Presentation\Actions\Protocols\ErrorsEnum;
 use DI\Container;
-use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophet;
 use Tests\TestCase;
 
 /**
@@ -19,7 +20,13 @@ use Tests\TestCase;
  */
 class ViewUserActionTest extends TestCase
 {
-    use ProphecyTrait;
+    private Prophet $prophet;
+
+
+    function setUp(): void
+    {
+        $this->prophet = new Prophet();
+    }
 
     public function testAction()
     {
@@ -30,7 +37,7 @@ class ViewUserActionTest extends TestCase
 
         $user = new User(1, 'bill.gates', 'Bill', 'Gates');
 
-        $userRepositoryProphecy = $this->prophesize(UserRepository::class);
+        $userRepositoryProphecy = $this->prophet->prophesize(UserRepository::class);
         $userRepositoryProphecy
             ->findUserOfId(1)
             ->willReturn($user)
@@ -58,7 +65,7 @@ class ViewUserActionTest extends TestCase
         /** @var Container $container */
         $container = $app->getContainer();
 
-        $userRepositoryProphecy = $this->prophesize(UserRepository::class);
+        $userRepositoryProphecy = $this->prophet->prophesize(UserRepository::class);
         $userRepositoryProphecy
             ->findUserOfId(1)
             ->willThrow(new UserNotFoundException())
@@ -71,7 +78,7 @@ class ViewUserActionTest extends TestCase
         $response = $app->handle($request);
 
         $payload = (string) $response->getBody();
-        $expectedError = new ActionError(ActionError::RESOURCE_NOT_FOUND, 'The user you requested does not exist.');
+        $expectedError = new ActionError(ErrorsEnum::RESOURCE_NOT_FOUND->value, 'The user you requested does not exist.');
         $expectedPayload = new ActionPayload(404, null, $expectedError);
         $serializedPayload = json_encode($expectedPayload, JSON_PRETTY_PRINT);
 

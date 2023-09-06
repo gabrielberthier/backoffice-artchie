@@ -12,8 +12,9 @@ final class ValidationException extends HttpErrorsUnprocessableEntityException
     ) {
         $text = 'List of errors: ';
         foreach ($this->errors as $value) {
-            $text .= "\n{$value}";
+            $text .= PHP_EOL . $value;
         }
+        
         $this->setDescription($text);
     }
 

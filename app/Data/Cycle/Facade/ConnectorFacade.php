@@ -8,46 +8,70 @@ use Core\Data\Cycle\DriverFactories\Factories\PostresDriverFactory;
 use Core\Data\Cycle\DriverFactories\Protocols\AbstractDriverFactory;
 use Core\Data\Cycle\DriverFactories\Protocols\ConfigurableDriverInterface;
 use Cycle\Database\Config\DriverConfig;
+use Core\Data\Cycle\ConnectionFactories\Connections\MySqlConfig;
+use Core\Data\Cycle\ConnectionFactories\Connections\PostgresConfig;
+use Exception;
 
 class ConnectorFacade
 {
-    private AbstractDriverFactory $driverFactory;
+    private ?AbstractDriverFactory $driverFactory = null;
+    private string $driver;
 
-    public function __construct(private array $connection)
+    private ConnectionDefinitions $connectionDefinitions;
+
+    public function __construct(private array $connection, array $connectionOptions = [])
     {
         /** @var string */
-        $driver =
-            $connection["DRIVER"] ??
-            explode("://", $connection["DATABASE_URL"])[0];
-        $this->driverFactory = match ($driver) {
+        $this->driver = $this->prepareDriverSelection($connection);
+        $this->connectionDefinitions = $this->createInput($connection, $connectionOptions);
+    }
+
+    public function produceDriverConnection(
+        array $driverOptions = [],
+    ): DriverConfig {
+        return $this
+            ->getFactory()
+            ->getDriver(
+                $this->connectionDefinitions,
+                $driverOptions
+            );
+    }
+
+    public function configureFactory(): ConfigurableDriverInterface
+    {
+        return $this->getFactory();
+    }
+
+    private function getFactory(): AbstractDriverFactory
+    {
+        if ($this->driverFactory === null) {
+            $this->startFactory();
+        }
+        return $this->driverFactory;
+    }
+
+    private function prepareDriverSelection(array $connection): string
+    {
+        return $connection["DRIVER"] ?? explode("://", $connection["url"])[0];
+    }
+
+    private function startFactory()
+    {
+        $this->driverFactory = match ($this->driver) {
             "postgres",
             "postgresql",
             "pg",
             "pdo_pgsql",
             "pgsql"
-            => new PostresDriverFactory(),
-            
+            => new PostresDriverFactory(new PostgresConfig()),
+
             "mysql",
             "pdo_mysql",
-            "mysqli" 
-            => new MySqlDriverFactory(),
-            
-            default => throw new \Exception("Driver selection is not correct"),
-        };
-    }
-    public function produceDriverConnection(
-        array $driverOptions = [],
-        array $connectionOptions = []
-    ): DriverConfig {
-        return $this->driverFactory->getDriver(
-            $this->createInput($this->connection, $connectionOptions),
-            $driverOptions
-        );
-    }
+            "mysqli"
+            => new MySqlDriverFactory(new MySqlConfig()),
 
-    public function configureFactory(): ConfigurableDriverInterface
-    {
-        return $this->driverFactory;
+            default => throw new Exception("Driver selection is not correct"),
+        };
     }
 
     private function createInput(
@@ -59,7 +83,7 @@ class ConnectorFacade
         $user = $connection["USER"] ?? null;
         $password = $connection["PASSWORD"] ?? null;
         $host = $connection["HOST"] ?? null;
-        $url = $connection["DATABASE_URL"] ?? null;
+        $url = $connection["url"] ?? null;
 
         return new ConnectionDefinitions(
             db: $db,
