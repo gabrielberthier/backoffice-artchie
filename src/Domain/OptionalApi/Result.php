@@ -13,6 +13,7 @@ namespace App\Domain\OptionalApi;
 
 use App\Domain\OptionalApi\Result\ResultException;
 use Exception;
+use PhpOption\Option;
 
 
 /**

@@ -11,11 +11,9 @@ declare(strict_types=1);
 
 namespace App\Domain\OptionalApi\Result;
 
-use App\Domain\OptionalApi\Option;
-use App\Domain\OptionalApi\Option\None;
-use App\Domain\OptionalApi\Option\Some;
 use App\Domain\OptionalApi\Result;
 use Exception;
+use PhpOption\{Option, Some, None};
 
 
 /**

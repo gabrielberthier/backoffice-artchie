@@ -7,6 +7,7 @@ use App\Domain\Dto\AccountDto;
 use App\Domain\Exceptions\Account\UserAlreadyRegisteredException;
 use App\Domain\Models\Account;
 use App\Domain\Models\Enums\AuthTypes;
+use App\Domain\OptionalApi\Result\Ok;
 use App\Domain\Repositories\AccountRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface as EntityManager;
@@ -61,6 +62,7 @@ class DoctrineAccountRepository implements AccountRepository
 
             return $doctrineAccount->toModel();
         } catch (UniqueConstraintViolationException) {
+
             throw new UserAlreadyRegisteredException();
         }
     }

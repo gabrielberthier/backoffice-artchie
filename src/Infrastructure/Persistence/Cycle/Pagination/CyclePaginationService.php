@@ -33,7 +33,7 @@ class CyclePaginationService implements PaginationInterface
 
         return new PaginationResponse(
             $count,
-            (int)ceil($count / $limit),
+            (int) ceil($count / $limit),
             !(iterator_count($arrayItems)),
             $arrayItems
         );

@@ -6,6 +6,7 @@ use App\Data\Entities\Cycle\Traits\TimestampsTrait;
 use App\Data\Entities\Cycle\Traits\UuidTrait;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Column;
+use Cycle\Annotated\Annotation\Relation\HasMany;
 use Cycle\Annotated\Annotation\Table\Index;
 use Cycle\ORM\Entity\Behavior\{CreatedAt, UpdatedAt};
 use Cycle\ORM\Entity\Behavior\Uuid\Uuid4;
@@ -32,6 +33,12 @@ class CycleResource
     private string $description;
     #[Column(type: 'bool', nullable: false)]
     private bool $isActive = true;
+
+    /**
+     * @var CyclePermission[] $extendedRoles
+     */
+    #[HasMany(target: CyclePermission::class)]
+    private array $permissions;
 
     public function getDescription(): string
     {
@@ -75,5 +82,26 @@ class CycleResource
     {
         $this->isActive = $isActive;
         return $this;
+    }
+
+    public function getPermissions(): array
+    {
+        return $this->permissions;
+    }
+
+    public function setPermissions(array $permissions): self
+    {
+        $this->permissions = $permissions;
+        return $this;
+    }
+
+    public function addPermission(CyclePermission $permission): void
+    {
+        $this->permissions[] = $permission;
+    }
+
+    public function removePermission(CyclePermission $permission): void
+    {
+        $this->permissions = array_filter($this->permissions, static fn(CyclePermission $p) => $p !== $post);
     }
 }

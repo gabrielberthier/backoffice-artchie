@@ -98,23 +98,45 @@ class CycleRole
         return $this;
     }
 
-    /**
-     * 
-     * @return array
-     */
     public function getExtendedRoles(): array
     {
         return $this->extendedRoles;
     }
 
-    /**
-     * 
-     * @param array $extendedRoles 
-     * @return self
-     */
     public function setExtendedRoles(array $extendedRoles): self
     {
         $this->extendedRoles = $extendedRoles;
         return $this;
+    }
+
+    public function extendRole(CycleRole $role): void
+    {
+        $this->extendedRoles[] = $role;
+    }
+
+    public function removeRole(CycleRole $permission): void
+    {
+        $this->extendedRoles = array_filter($this->extendedRoles, static fn(CycleRole $p) => $p !== $post);
+    }
+
+    public function getPermissions(): array
+    {
+        return $this->permissions;
+    }
+
+    public function setPermissions(array $permissions): self
+    {
+        $this->permissions = $permissions;
+        return $this;
+    }
+
+    public function addPermission(CyclePermission $permission): void
+    {
+        $this->permissions[] = $permission;
+    }
+
+    public function removePermission(CyclePermission $permission): void
+    {
+        $this->permissions = array_filter($this->permissions, static fn(CyclePermission $p) => $p !== $post);
     }
 }

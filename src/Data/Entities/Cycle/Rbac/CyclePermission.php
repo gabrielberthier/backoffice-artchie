@@ -6,6 +6,7 @@ use App\Data\Entities\Cycle\Traits\TimestampsTrait;
 use App\Data\Entities\Cycle\Traits\UuidTrait;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Column;
+use Cycle\Annotated\Annotation\Relation\BelongsTo;
 use Cycle\Annotated\Annotation\Table\Index;
 use Cycle\ORM\Entity\Behavior\{CreatedAt, UpdatedAt};
 use Cycle\ORM\Entity\Behavior\Uuid\Uuid4;
@@ -31,6 +32,11 @@ class CyclePermission
     private string $name;
     #[Column(type: 'string', nullable: false)]
     private string $context;
+    #[BelongsTo(target: CycleRole::class)]
+    private CycleRole $role;
+
+    #[BelongsTo(target: CycleResource::class)]
+    private CycleResource $resource;
 
     public function getContext(): string
     {
@@ -66,6 +72,28 @@ class CyclePermission
     {
         $this->id = $id;
 
+        return $this;
+    }
+
+    public function getRole(): CycleRole
+    {
+        return $this->role;
+    }
+
+    public function setRole(CycleRole $role): self
+    {
+        $this->role = $role;
+        return $this;
+    }
+
+    public function getResource(): CycleResource
+    {
+        return $this->resource;
+    }
+
+    public function setResource(CycleResource $resource): self
+    {
+        $this->resource = $resource;
         return $this;
     }
 }
